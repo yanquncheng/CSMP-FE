@@ -1,0 +1,66 @@
+.task-panel {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+.task-item {
+    //background-color: #689F38;
+    // height: 30px;
+    // margin-top: 3px;
+    // text-align: left;
+    // line-height: 2.25;
+    display: block;
+}
+
+.add-item {
+    background-color: #03A9F4;
+    height: 30px;
+    margin-top: 3px;
+    text-align: left;
+    line-height: 2.25;
+}
+
+.my-tasks-list,
+.view-task-list {
+    min-height: 100px;
+}
+
+.tsk-btn {
+    float: right;
+    margin-top: 1.5%;
+}
+
+.intern-list {
+    max-height: 60vh;
+    height: 60vh;
+    min-height: 60vh;
+}
+
+.intern-list-item {
+    background: #fff;
+    color: #7d7d7d;
+    display: inline-block;
+    width: 100%;
+    padding: 14px 22px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    cursor: hand;
+
+}
+
+.intern-list-item p{
+  margin-bottom: 3px !important;
+  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px !important;
+
+}
+
+.intern-list-item p:hover{
+  color:#1b867b;
+}
+
+.intern-comments textarea{
+  background-color: #fff !important;
+  color: #7d7d7d !important;
+  border: 1px solid #cbcbcb;
+}

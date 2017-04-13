@@ -1,0 +1,68 @@
+<div class="horizontal-scroll">
+  <div class="form-group select-page-size-wrap ">
+
+  </div>
+
+  <table class="table" st-table="smartTableData" st-safe-src="DataArrayList" >
+
+      
+    <thead>
+		<tr> 
+		    <th>    
+		    	<label>显示行数
+				      <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker
+				              ng-model="smartTablePageSize" ng-options="i for i in [5,10,15,20,25]">
+				      </select>
+    			</label>
+    		</th>
+		    <th></th>
+		    <th></th>
+			<th></th>
+			<th colspan="6"> 
+				<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+			</th>
+		</tr>
+    <tr class="sortable ">
+            <th st-sort="device">序列号</th>
+            <th st-sort="model">型号</th>
+            <th st-sort="vendor">厂商</th>
+            <th st-sort="TotalDisk">磁盘数量</th>
+            <th st-sort="TotalMemory">Cache(MB)</th>
+            <th st-sort="TotalLun">LUN数量</th>
+            <th st-sort="sstype">设备类型</th> 
+            <th>吞吐量(MB/s)</th>
+            <th st-sort="UsedPercent">使用容量占比(%)</th> 
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in smartTableData">
+            <td>{{row.device}}</td>
+            <td>{{row.model}}</td>
+            <td>{{row.vendor}}</td>
+            <td>{{row.TotalDisk}}</td>
+            <td>{{row.TotalMemory}}</td>
+            <td>{{row.TotalLun}}</td>
+            <td>{{row.sstype}}</td>
+             <td>
+                <div > 
+                    <nvd3 options="options" data="row.perfDisplay"></nvd3> 
+                </div>
+            </td>
+           <td>  
+                <div class="progress"> <div class="progress-bar {{row.CapacityUsedPercentStyle}} progress-bar-striped active" role="progressbar" title="{{row.CapacityUsedPercentTitle}}" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{row.UsedPercent}}%">
+                    {{row.CapacityUsedPercentDisplay}}
+                </div>
+                </div>
+            </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="6" class="text-center">
+        <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="5"></div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>

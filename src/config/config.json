@@ -1,0 +1,12 @@
+{
+    "Backend": {
+        "URL": "/api",
+        "USER": "admin",
+        "PASSWORD": "changeme"
+    },
+    "SERVER": {
+        "PORT": 8080
+    },
+    "aa": "aatest"
+}
+
