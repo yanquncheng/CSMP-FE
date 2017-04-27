@@ -46,6 +46,7 @@
         };
 */
 
+
       console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -74,10 +75,18 @@
                   var perfItem = perfItems[j];
                   if ( perfItem.properties.name == 'WriteRequests') {
                     item['perfDisplay'] = perfItem.points;
-                    console.log(perfItem.points);
+                    //console.log(perfItem.points);
                     break;
                   }
                 }
+
+                var eventItems = item.event;
+                if ( eventItems.length == 0 ) 
+                  item['Events'] = '-';
+                else 
+                  item['Events'] = eventItems.length;
+ 
+
               }
 				      $scope.smartTablePageSize = 15;
 

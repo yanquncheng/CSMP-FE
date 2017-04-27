@@ -32,7 +32,7 @@
             <th st-sort="sstype">设备类型</th> 
             <th>吞吐量(MB/s)</th>
             <th st-sort="UsedPercent">使用容量占比(%)</th> 
-
+            <th st-sort="Events">Events</th> 
     </tr>
     </thead>
     <tbody>
@@ -55,12 +55,14 @@
                 </div>
                 </div>
             </td>
+            <td>{{row.Events}}
+            </td>
     </tr>
     </tbody>
     <tfoot>
     <tr>
       <td colspan="6" class="text-center">
-        <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="5"></div>
+        <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
       </td>
     </tr>
     </tfoot>
