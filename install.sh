@@ -1,4 +1,3 @@
-cd ~/CSMP_FE
 . /etc/profile
 
 echo "sass_binary_site=https://npm.taobao.org/mirrors/node-sass/" > ~/.npmrc

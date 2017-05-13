@@ -19,7 +19,8 @@
             'BlurAdmin.pages.tables',
             'BlurAdmin.pages.form',
             'BlurAdmin.pages.components',
-            'BlurAdmin.pages.EquipmentManagement'
+            'BlurAdmin.pages.EquipmentManagement',
+            'BlurAdmin.pages.Topology'
 
         ])
         .config(routeConfig);
