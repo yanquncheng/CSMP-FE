@@ -134,11 +134,17 @@
             // for each Node destination for the Node, set Node.isHighlighted
             node.findNodesOutOf().each(function(n) { n.isHighlighted = true; });
 
-            var node1 = diagram.findNodeForKey("fourC");
-            node1.isHighlighted = true;
-            node1 = diagram.findNodeForKey("oneA");
-            node1.isHighlighted = true;
-   
+            // TODO: 
+
+            console.log(node.data);
+            if ( node.data.relationship !== undefined ) {
+                for ( var i in node.data.relationship ) {
+                   var item = node.data.relationship[i];
+                  var node1 = diagram.findNodeForKey(item);
+                  node1.isHighlighted = true;
+                }
+            }
+ 
 
             diagram.commitTransaction("highlight");
           }
@@ -180,7 +186,7 @@
 
             // the "simple" template just shows the key string and the color in the background,
             // but it also includes a tooltip that shows the description
-            var simpletemplate =
+            var sampletemplate =
               $(go.Node, "Auto",
                             { // when the user clicks on a Node, highlight all Links coming out of the node
                     // and all of the Nodes at the other ends of those Links.
@@ -193,7 +199,7 @@
                 new go.Binding("stroke", "isHighlighted", function(h) { return h ? "red" : "blue"; })
                     .ofObject()),
                 $(go.TextBlock,
-                  new go.Binding("text", "key")),
+                  new go.Binding("text", "displayName")),
                 {
                   toolTip:
                     $(go.Adornment, "Auto",
@@ -205,7 +211,7 @@
               );
 
             // the "detailed" template shows all of the information in a Table Panel
-            var detailtemplate =
+            var array_template =
               $(go.Node, "Auto",
                   { // when the user clicks on a Node, highlight all Links coming out of the node
                     // and all of the Nodes at the other ends of those Links.
@@ -223,20 +229,63 @@
                 $(go.Panel, "Table",
                   { defaultAlignment: go.Spot.Left },
                   $(go.TextBlock, { row: 0, column: 0, columnSpan: 2, font: "bold 12pt sans-serif" },
-                    new go.Binding("text", "key")),
-                  $(go.TextBlock, { row: 1, column: 0 }, "Description:"),
-                  $(go.TextBlock, { row: 1, column: 1 }, new go.Binding("text", "desc")),
-                  $(go.TextBlock, { row: 2, column: 0 }, "Color:"),
-                  $(go.TextBlock, { row: 2, column: 1 }, new go.Binding("text", "color"))
-                )
+                    new go.Binding("text", "displayName")),
+                  $(go.TextBlock, { row: 1, column: 0 }, "vendor:"),
+                  $(go.TextBlock, { row: 1, column: 1 }, new go.Binding("text", "vendor")),
+                  $(go.TextBlock, { row: 2, column: 0 }, " model:"),
+                  $(go.TextBlock, { row: 2, column: 1 }, new go.Binding("text", "arrayModel")),
+                  $(go.TextBlock, { row: 3, column: 0 }, "  type:"),
+                  $(go.TextBlock, { row: 3, column: 1 }, new go.Binding("text", "arrayType"))
+                ), 
+                {
+                  toolTip:
+                    $(go.Adornment, "Auto",
+                      $(go.Shape, { fill: "#FFFFCC" }),
+                      $(go.TextBlock, { margin: 4 },
+                        new go.Binding("text", "softwareVersion"))
+                    )
+                }
               );
 
+            var switch_template =
+              $(go.Node, "Auto",
+                  { // when the user clicks on a Node, highlight all Links coming out of the node
+                    // and all of the Nodes at the other ends of those Links.
+                    click: function(e, node) { showConnections(node); }  // defined below
+                  },
+                  { selectionAdorned: false,  // don't bother with any selection adornment
+                  selectionChanged: onSelectionChanged },  // executed when Part.isSelected has changed
+
+                $(go.Shape, "RoundedRectangle",
+                    //new go.Binding("fill", "color")  
+                    { name: "Icon", fill: "lightgray", strokeWidth: 2,   portId: "", cursor: "pointer", fromLinkable: true, toLinkable: true },
+                    // the Shape.stroke color depends on whether Node.isHighlighted is true
+                    new go.Binding("stroke", "isHighlighted", function(h) { return h ? "red" : "yellow"; }).ofObject()
+                    ),
+                $(go.Panel, "Table",
+                  { defaultAlignment: go.Spot.Left },
+                  $(go.TextBlock, { row: 0, column: 0, columnSpan: 2, font: "bold 12pt sans-serif" },
+                    new go.Binding("text", "displayName")),
+                  $(go.TextBlock, { row: 1, column: 0 }, "vendor:"),
+                  $(go.TextBlock, { row: 1, column: 1 }, new go.Binding("text", "vendor")),
+                  $(go.TextBlock, { row: 2, column: 0 }, " model:"),
+                  $(go.TextBlock, { row: 2, column: 1 }, new go.Binding("text", "model"))
+                ), 
+                {
+                  toolTip:
+                    $(go.Adornment, "Auto",
+                      $(go.Shape, { fill: "#FFFFCC" }),
+                      $(go.TextBlock, { margin: 4 },
+                        new go.Binding("text", "softwareVersion"))
+                    )
+                }
+              );
 
             // create the nodeTemplateMap, holding three node templates:
             var templmap = new go.Map("string", go.Node);
             // for each of the node categories, specify which template to use
-            templmap.add("simple", simpletemplate);
-            templmap.add("NodeDetail", detailtemplate);
+            templmap.add("PhysicalSwitch", switch_template);
+            templmap.add("StorageEntity", array_template);
             // for the default category, "", use the same template that Diagrams use by default;
             // this just shows the key value as a simple TextBlock
             templmap.add("", diagram.nodeTemplate);
@@ -254,7 +303,7 @@
           //             Swimlane Template
           // -----------------------------------------------------
            // These parameters need to be set before defining the templates.
-            var MINLENGTH = 300;  // this controls the minimum length of any swimlane
+            var MINLENGTH = 600;  // this controls the minimum length of any swimlane
             var MINBREADTH = 80;  // this controls the minimum breadth of any non-collapsed swimlane
 
             function groupStyle() {  // common settings for both Lane and Pool Groups
@@ -503,29 +552,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          // notice when the value of "model" changes: update the Diagram.model
           scope.$watch("model", function(newmodel) {
             var oldmodel = diagram.model;
             if (oldmodel !== newmodel) {
@@ -534,6 +560,30 @@
               diagram.addDiagramListener("ChangedSelection", updateSelection);
             }
           });
+
+
+          // notice when the value of "model" changes: update the Diagram.model
+          /*
+          scope.$watch("model", function(newmodel) {
+            var oldmodel = diagram.model;
+            if (oldmodel !== newmodel) {
+              diagram.removeDiagramListener("ChangedSelection", updateSelection);
+              diagram.model = newmodel;
+              diagram.addDiagramListener("ChangedSelection", updateSelection);
+            }
+          });
+          */
+
+
+
+
+
+
+
+
+
+
+
 
         }  // link: function(scope, element, attrs) End
  

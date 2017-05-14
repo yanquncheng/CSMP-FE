@@ -8,8 +8,28 @@
 
   /** @ngInject */
   function TopologyL1CtrlFunc($scope, $filter, $http, $localStorage ) {
+
+      console.log($localStorage.authKey);
+      var config = { headers: {
+          "Authorization": $localStorage.authKey
+      }}
+
+      $http.get(IG.api + '/topology/level1' , config )
+          .success(function (response) { 
+
+              var nodeDataArray = response.entity;  
+              var linkDataArray = response.linkByGroup; 
+              $scope.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+ 
+          }) 
+          .error(function (err) {
+                console.log(err);   
+      });
+
+
+
       // Create the Diagram's Model:
-      var nodeDataArray = [ // node data
+      var nodeDataArray1 = [ // node data
               { key: "Pool1", text: "数据中心", isGroup: true, category: "Pool" , color: "lightblue"}, 
               { key: "Lane1", text: "主机", isGroup: true, group: "Pool1", color: "lightblue" },
               { key: "Lane2", text: "交换机1", isGroup: true, group: "Pool1", color: "lightgreen" },
@@ -37,18 +57,14 @@
               { key: "four4", group: "Lane4" },
               { key: "fourD", group: "Lane4" } 
             ];
-      var linkDataArray =   [ // link data 
-              { from: "twoA", to: "twoB" },
-              { from: "threeA", to: "twoG"},
-              { from: "twoG", to: "oneC" }, 
-              { from: "fourA", to: "twoG" , routing: go.Link.Normal},
-              { from: "fourB", to: "fourC" },
-              { from: "fourC", to: "fourD" }
-            ];
-
-
-
-      $scope.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+             var linkDataArray1 =   [ // link data 
+                    { from: "topo:srm.StorageEntity:000296800706", to: "topo:srm.PhysicalSwitch:100050EB1A90B3B7" },
+                    { from: "topo:srm.StorageEntity:VNX5600", to: "topo:srm.PhysicalSwitch:100050EB1A90B3B7"},
+                    { from: "topo:srm.StorageEntity:VNX5600", to: "topo:srm.PhysicalSwitch:100050EB1AA83CD3" }, 
+                    { from: "fourA", to: "twoG" , routing: go.Link.Normal},
+                    { from: "fourB", to: "fourC" },
+                    { from: "fourC", to: "fourD" }
+                  ];
 
   } 
  
