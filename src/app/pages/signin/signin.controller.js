@@ -208,11 +208,18 @@
                         AuthenticationService.setUser($scope.username);
                         AuthenticationService.setLoggedIn(true);
 
-
-                        if ( response.user.role.toUpperCase() === 'ADMIN' ) 
-                            AuthenticationService.setAdmin(true);
-                        else 
-                            AuthenticationService.setAdmin(false);
+                        for ( var i in response.user.roleList ) {
+                            var roleItem = response.user.roleList[i];
+                            var isFind = false;
+                            if ( roleItem.toUpperCase() === 'ADMIN' ) {
+                                isFind = true;
+                                AuthenticationService.setAdmin(true);
+                                break;
+                            }
+                           
+                        }
+                        if ( ! isFind  )  
+                           AuthenticationService.setAdmin(false);
                         
                         AuthenticationService.setMenuItems([]);
                         printService.print("go to url = dashboard.maindashboard" );             

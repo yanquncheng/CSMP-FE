@@ -242,7 +242,7 @@
                     $(go.Adornment, "Auto",
                       $(go.Shape, { fill: "#FFFFCC" }),
                       $(go.TextBlock, { margin: 4 },
-                        new go.Binding("text", "softwareVersion"))
+                        new go.Binding("text", "description"))
                     )
                 }
               );
