@@ -1,0 +1,152 @@
+<div class="row" ng-hide="editPanel">
+  <div class="col-md-12 col-sm-12 col-lg-12">
+	<div class="horizontal-scroll">
+		<table class="table table-hover" st-table="smartTableData" st-safe-src="userList">
+			<thead>
+				<tr> 
+				    <th colspan="5">
+				    	<div class="row">
+				    		 	<div class="col-lg-1 co2-sm-2 col-xlg-2 control-label" style="padding-top: 7px;">显示行数：</div>
+									<div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
+									<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="smartTablePageSize"
+										ng-options="i for i in [5,10,15,20,25]"></select>
+								</div>
+								<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
+								<div class="col-xs-5 clo-lg-5 col-sm-5">	
+									<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+				    		 </div>
+				    	</div>
+		    			
+		    		</th>
+					</th>
+				</tr>	
+				<tr>
+			      <th colspan="5" style="text-align: right">
+			        <div class="col-xs-6" style="text-align: left">
+			          <button type="button" ng-click="addUser();" class="btn btn-primary btn-with-icon">
+				        	<i class="glyphicon glyphicon-plus"></i>用户新增
+				        </button>
+			        </div>
+			      </th>
+			      </tr>
+			      
+					<tr class="black-muted-bg">
+						<th style="text-align: center;width: 80px;">序号</th>
+						<th style="text-align: center;" st-sort="username">用户名称</th>
+						<th style="text-align: center;" st-sort="email">用户email</th>
+						<th style="text-align: center;">分配角色</th>
+						<th style="text-align: center;" >操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in smartTableData">
+						<td style="text-align: center;width: 80px;vertical-align: middle;">{{$index + 1 }}</td>
+						<td style="vertical-align: middle;">{{row.username}}</td>
+						<td style="vertical-align: middle;">{{row.email}}</td>
+						<td style="vertical-align: middle;">
+							<div class="bootstrap-tagsinput" ng-if="row.roleList.length>0"><!--white-space: normal;-->
+								<span class="tag label label-warning" ng-repeat="roleName in row.roleList" style="float: left;margin-top: 3px;" >{{roleName}}</span>
+								<!--<span data-role="remove"></span>-->
+							</div>
+						</td>
+						<td style="width: 190px;vertical-align: middle;">
+							<button type="button" ng-click="editUser(row);" class="btn btn-primary btn-with-icon btn-xs">
+					        	<i class="glyphicon glyphicon-pencil"></i>修改
+					    </button>
+							<button type="button" ng-click="delUser(row);" class="btn btn-danger btn-with-icon editable-table-button btn-xs">
+				          		<i class="glyphicon glyphicon-remove"></i>删除
+				      </button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="6" class="text-center">
+							<div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+	
+	
+<!--编辑 新增-->
+<div class="row" ng-show="editPanel">
+	<div class="col-lg-12 col-xs-12 col-sm-12" style="padding-bottom: 20px;">
+		<button class="btn btn-default btn-with-icon pull-right" ng-click="panelBack();" style="margin-left: 10px;">
+        	<i class="glyphicon glyphicon-menu-left"></i>返回
+        </button>
+        
+        <button class="btn btn-primary btn-with-icon pull-right" ng-click="userSave();" style="margin-left: 10px;">
+        	<i class="glyphicon glyphicon-save"></i>保存
+        </button>
+        
+	</div>
+	
+  	<div class="col-lg-5 col-xs-5 col-sm-5">
+		<div ba-panel ba-panel-title="{{panelTtile}}"  ba-panel-class="with-scroll"><!--panel  start-->
+			<div style="min-height: 350px;height: auto;">
+				
+				<div class="form-group">
+				    <label for="username"><fond style="color:red;" ng-if="!readStatus">* </fond>用户名称</label>
+				    <input type="text" class="form-control" id="username" placeholder="用户名称" ng-readonly="readStatus"/>
+				    <input type="hidden" id="_id"/>
+				</div>
+				
+				<div class="form-group" ng-show="!readStatus">
+				    <label for="password"><fond style="color:red;">* </fond>登陆密码</label>
+				    <input type="password" class="form-control" id="password" placeholder="登陆密码">
+				</div>
+				
+				<div class="form-group">
+				    <label for="email"><fond style="color:red;">* </fond>email</label>
+				    <input type="email" class="form-control" id="email" placeholder="email"/>
+				</div>
+					
+			</div>
+		</div><!--panel  start-->
+	</div>
+	
+	<div class="col-lg-7 col-lg-7 col-sm-7">
+		<div ba-panel ba-panel-title="角色列表"  ba-panel-class="with-scroll"><!--panel  start-->
+			<div style="min-height: 360px;height: auto;margin-right: 40px;margin-left: 40px;">
+				<table class="table table-hover" st-table="tableRoleData" st-safe-src="roleData">
+					<thead>
+						<tr>
+							<th colspan="2"></th>
+						</tr>
+						<tr class="black-muted-bg">
+							<th>
+								<label class="checkbox-inline custom-checkbox nowrap">
+						      <input type="checkbox" id="checkAll" ng-click="checkAll($event);"><span></span>
+						    </label>
+							</th>
+							<!--<th st-sort="_id">角色ID</th>-->
+							<th st-sort="username">角色名称</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="row in tableRoleData">
+							<td>
+								<label class="checkbox-inline custom-checkbox nowrap">
+				        	<input type="checkbox" id="row._id" ng-checked="row.selected" ng-click="addCheck($event,row)">
+				        	<span></span>
+				      	</label>
+		          </td>
+							<!--<td>{{row._id}}</td>-->
+							<td>{{row.roleName}}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2"></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div><!--操作panel  start-->
+		
+	</div>
+</div>

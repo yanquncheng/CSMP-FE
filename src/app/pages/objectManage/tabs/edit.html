@@ -1,0 +1,194 @@
+<div class="row" id="orderEditController">
+    <div class="col-sm-12">
+        <div class="well text-center">
+            <h2>{{catalog.name}}</h2>
+            <p class="small">{{catalog.description}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="header smaller lighter blue">主机列表</h3>
+        <form class="form-horizontal" role="form" ng-if="catalog.operationType=='nas_assign' && catalog.targetType=='cluster_share' ">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="cluster" ><b>集群名称</b></label>
+                <div class="col-sm-9">
+                    <input type="text" id="cluster" class="col-xs-10 col-sm-5"  ng-model="order.cluster" >
+                </div>
+            </div>
+        </form>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th width="15%"><b>应用名</b></th>
+                <th width="15%"><b>主机名</b></th>
+                <th width="15%"><b>IP</b></th>
+                <th width="10%"><b>物理位置</b></th>
+                <th width="10%" ng-if="catalog.operationType.split('_')[0]=='nas'"><b>安全级别</b></th>
+                <th width="10%" ng-if="catalog.operationType.split('_')[0]=='nas'"><b>权限级别</b></th>
+                <th width="8%" class="text-center"><b>操作</b></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="record in order.applicationHost">
+                <td >
+                    <span ng-if="!record.isEditing">{{record.application}}</span>
+                    <select class="col-sm-10" search-contains="true" no-results-text="'找不到相关应用'" placeholder-text-single="'请选择应用'"
+                            ng-model="record.selectApp"
+                            chosen="directiveOptions" ng-if="record.isEditing"
+                            ng-options="item as item.name for item in applications" ng-change="selectApplication('edit',record)">
+                    </select>
+                </td>
+                <td>
+                    <span ng-if="!record.isEditing">{{record.server}}</span>
+                    <select class="col-sm-10" search-contains="true" no-results-text="'找不到相关主机'"
+                            placeholder-text-single="'请选择主机'" ng-if="record.isEditing"
+                            ng-model="record.selectHost"
+                            chosen="directiveOptions"
+                            ng-options="item as item.hostName for item in record.selectApp.hostList" ng-change="selectServer('edit',record)">
+                        <option value=""></option>
+                    </select>
+                </td>
+                <td>{{record.hostIp}}</td>
+                <td>{{record.hostLocation}}</td>
+                <td ng-if="catalog.operationType.split('_')[0]=='nas'">
+                    <span ng-if="!record.isEditing">{{record.nfsSecurityType}}</span>
+                    <select class="col-sm-10"  ng-if="record.isEditing"
+                            ng-model="record.nfsSecurityTypeModel"
+                            ng-options="item as item.displayName for item in order.nfsSecurityType" >
+                    </select>
+                </td>
+                <td ng-if="catalog.operationType.split('_')[0]=='nas'">
+                    <span ng-if="!record.isEditing">{{record.nfsPermission}}</span>
+                    <select class="col-sm-10" ng-if="record.isEditing"
+                            ng-model="record.nfsPermissionModel"
+                            ng-options="item as item.displayName for item in order.nfsPermission" >
+                    </select>
+                </td>
+                <td class="text-center">
+                    <a ng-if="!record.isEditing" href="javascript:void (0)" ng-click="editApp(record)"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
+                    <a ng-if="record.isEditing" href="javascript:void (0)" ng-click="saveApp(record)">保存</a>
+                    <a ng-if="record.isEditing" href="javascript:void (0)" ng-click="record.isEditing=false">取消</a>
+                    <a ng-if="!record.isEditing"  href="javascript:void (0)" ng-click="removeApp($index)" style="color: red"><i class="ace-icon fa fa-minus-circle bigger-130"></i></a>
+                </td>
+            </tr>
+            <tr ng-if="!(catalog.targetType=='single_exclusive'&& order.applicationHost.length>0)">
+                <td>
+                    <select class="col-sm-10" search-contains="true" no-results-text="'找不到相关应用'" placeholder-text-single="'请选择应用'"
+                            ng-model="entity.app"
+                            chosen="directiveOptions"
+                            ng-options="item as item.name for item in applications" ng-change="selectApplication('add',null)">
+                        <option value=""></option>
+                    </select>
+                </td>
+                <td>
+                    <select class="col-sm-10" search-contains="true" no-results-text="'找不到相关主机'"
+                            placeholder-text-single="'请选择主机'"
+                            ng-model="entity.host"
+                            chosen="directiveOptions"
+                            ng-options="item as item.hostName for item in hostList" ng-change="selectServer('add',null)">
+                        <option value=""></option>
+                    </select>
+                </td>
+                <td>{{entity.hostIp}}</td>
+                <td>{{entity.hostLocation}}</td>
+                <td ng-if="catalog.operationType.split('_')[0]=='nas'">
+                    <select class="col-sm-10" ng-model="entity.nfsSecurityType"
+                            ng-options="item as item.displayName for item in order.nfsSecurityType" >
+                    </select>
+                </td>
+                <td ng-if="catalog.operationType.split('_')[0]=='nas'">
+                    <select class="col-sm-10" ng-model="entity.nfsPermission"
+                            ng-options="item as item.displayName for item in order.nfsPermission" >
+                    </select>
+                </td>
+                <td  class="text-center">
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="addApp()">
+                        <i class="ace-icon fa fa-plus"></i>
+                        新增
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <h3 class="header smaller lighter blue">存储资源</h3>
+        <form class="form-horizontal" role="form">
+            <div class="form-group" ng-if="catalog.operationType.split('_')[0]=='san'">
+                <label class="col-sm-3 control-label no-padding-right" for="volumeType" ><b>卷类型</b></label>
+                <div class="col-sm-9">
+                    <input type="text" id="volumeType" value="{{catalog.volumeTypeName}}" class="col-xs-10 col-sm-5" readonly  >
+                </div>
+            </div>
+            <div class="space-4" ng-if="catalog.operationType.split('_')[0]=='san'"></div>
+            <div class="form-group" ng-if="catalog.operationType.split('_')[0]=='san'">
+                <label class="col-sm-3 control-label no-padding-right" for="volumeSize" ><b>卷大小</b></label>
+                <div class="col-sm-9">
+                    <input type="text" id="volumeSize" value="{{catalog.volumeSize}}" class="col-xs-10 col-sm-5" readonly  >
+                </div>
+            </div>
+            <div class="space-4" ng-if="catalog.operationType.split('_')[0]=='san'"></div>
+            <div  ng-repeat="item in catalog.catalogRules">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"  ><b>{{item.ruleDisplayName}}</b></label>
+                <div class="col-sm-9">
+                    <input type="text"  value="{{item.ruleValueDisplayName}}" class="col-xs-10 col-sm-5" readonly >
+                </div>
+            </div>
+            <div class="space-4"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="capacity" ><b>容量（GB)</b></label>
+                <div class="col-sm-9">
+                    <input type="text" id="capacity" placeholder="请输入容量" class="col-xs-10 col-sm-5" ng-model="order.size"   />
+                    <span title="说明：容量大小只能是卷大小的整数倍" ng-if="catalog.operationType.split('_')[0]=='san'"
+                             data-placement="right" data-trigger="hover" data-toggle="tooltip"  tooltip1 class="help-button" >?</span>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="slider" ><b>使用期限（月）</b></label>
+                <div class="col-sm-9" >
+                    <div id="slider" ui-jq="slider" ui-options="{
+                          min: 0,
+                          max: 37,
+                          step: 1,
+                          value: order.periodMonth
+                        }" class="slider slider-horizontal form-control" type="text">
+                    </div>
+                    <span style="margin-left: 10px">{{getDisplayPeriodMonth()}}</span>
+                </div>
+            </div>
+            <div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="order_remark"> <b>申请原由</b></label>
+                <div class="col-sm-7">
+        <textarea class="form-control limited" id="order_remark" maxlength="50" ng-model="order.remark"
+                  style="height: 100px"></textarea>
+                </div>
+            </div>
+            <div class="space-4"></div>
+
+            <div class="hr hr-dotted"></div>
+            <div class="space-4"></div>
+            <p style="text-align: center;">
+                <button ng-click="save('save')" class="btn btn-info" >
+                    仅保存，我要以后发布
+                </button>
+                <button ng-click="save('saveAndPublish')" class="btn btn-info" >
+                    保存并发布
+                </button>
+                <button ng-click="back()" class="btn btn-info">
+                    返回
+                </button>
+            </p>
+        </form>
+    </div>
+</div>
+<script>
+    $("#slider").on('slideStop', function (data) {
+        var scope = angular.element(document.getElementById("orderEditController")).scope();
+        scope.$apply(function () {
+            scope.order.periodMonth = data.value;
+        });
+    });
+</script>

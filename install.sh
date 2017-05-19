@@ -1,5 +1,4 @@
-cd ~/CSMP_FE
-. /etc/profile
+
 
 echo "sass_binary_site=https://npm.taobao.org/mirrors/node-sass/" > ~/.npmrc
 echo "phantomjs_cdnurl=https://npm.taobao.org/mirrors/phantomjs/" >> ~/.npmrc
@@ -10,9 +9,9 @@ echo "registry=https://registry.npm.taobao.org" >> ~/.npmrc
 
 npm install gulp -g
 npm install bower -g
-npm install --unsafe-perm node-sass
-npm install --unsafe-perm gulp-sass
-bower install --allow-root
+#npm install --unsafe-perm node-sass
+#npm install --unsafe-perm gulp-sass
+#bower install
 npm install
 
 

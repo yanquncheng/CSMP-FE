@@ -21,6 +21,7 @@ angular.module('BlurAdmin', [
         'BlurAdmin.printService',
         //'BlurAdmin.S3UploadService',
         'BlurAdmin.commonservice',
+        'BlurAdmin.service',
         'BlurAdmin.signin',
         'BlurAdmin.theme',
         'BlurAdmin.pages',
@@ -32,6 +33,14 @@ angular.module('BlurAdmin', [
     ]).config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
     }])
+    .filter('fixed', function () {
+      return function (value, count) {
+        var number = parseFloat(value);
+
+        if (isNaN(number)) return value;
+        return number.toFixed(count);
+      }
+    })
     .run(function($rootScope, $state, $localStorage, PermRoleStore, AuthenticationService, printService) {
         AuthenticationService.setLoggedIn(false);
         printService.print("Test-A1:" + AuthenticationService.isLoggedIn() );

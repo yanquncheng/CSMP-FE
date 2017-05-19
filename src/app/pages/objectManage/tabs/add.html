@@ -1,0 +1,553 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+      <em class="ion-ios-close-empty sn-link-close"></em>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
+  </div>
+  <div class="modal-body">
+   <!-- modal-body  start ------------ -->
+    <!--<script type="text/ng-template" id="edit">-->
+    <form class="form-inline" role="form">
+		  <div class="ngdialog-message">
+		    <h4>存储信息</h4>
+		
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  col-lg-2 col-sm-2 text-right">序列号 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.serialNumber" placeholder="序列号"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">别名 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.name" placeholder="别名"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">数据中心 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <select class="form-control"  ng-model="entity.dataCenterId"
+		                  ng-options="item.id as item.name for item in dataCenters" ng-change="getRoomsAndPools(entity.dataCenterId)">
+		          </select>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">机房 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <select class="form-control"  ng-model="entity.machineRoomId"
+		                  ng-options="item.id as item.name for item in machineRooms">
+		          </select>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">逻辑池 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <select class="form-control" ng-model="entity.resourcePoolId"
+		                  ng-options="item.id as item.name for item in resourcePools">
+		          </select>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">存储类型 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		         <!-- <select class="form-control" ng-model="entity.storageType"
+		                  ng-options="item.name as item.displayName for item in storageCatalogs">
+		          </select>-->
+		          <select class="form-control"  ng-model="entity.storageType">
+		            <option value="SAN">SAN</option>
+		            <option value="NAS">NAS</option>
+		          </select>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">设备类型 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <select class="form-control"  ng-model="entity.schedule.deviceType" disabled="disabled">
+		                  <!--ng-if="entity.id"-->
+		            <option value="vnx">vnx</option>
+		            <option value="vnx_nas">vnx_nas</option>
+		            <option value="netapp-7mode">netapp-7mode</option>
+		            <option value="netapp-cmode">netapp-cmode</option>
+		            <option value="v7000">V7000</option>
+		            <option value="vmax">vmax</option>
+		            <option value="dmx">dmx</option>
+		            <option value="ds8000">ds8000</option>
+		          </select>
+		          
+		         <!-- <select class="form-control" ng-model="entity.schedule.deviceType"
+		                  ng-options="item.name as item.name for item in storageTypes">
+		          </select>-->
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">采集节点 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <!--<select class="form-control" ng-model="entity.schedule.nodeName"
+		                  ng-options="item.name as item.name for item in etlNodes">
+		          </select>-->
+		          <select class="form-control"  ng-model="entity.schedule.deviceType" ng-if="!entity.id">
+		            <option value="vnx">vnx</option>
+		            <option value="vnx_nas">vnx_nas</option>
+		            <option value="netapp-7mode">netapp-7mode</option>
+		            <option value="netapp-cmode">netapp-cmode</option>
+		            <option value="v7000">V7000</option>
+		            <option value="vmax">vmax</option>
+		            <option value="dmx">dmx</option>
+		            <option value="ds8000">ds8000</option>
+		          </select>
+		        </div>
+		        
+		      </div>
+		    </div>
+		    <hr>
+		    <div ng-if="entity.schedule.deviceType=='vnx'||entity.schedule.deviceType=='vnx_nas'">
+		      <h4>
+		        VNX登录信息
+		      </h4>
+		
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">管理IP :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.deviceIp" placeholder="管理IP"/>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">用户名 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.deviceUser" placeholder="用户名"/>
+		          </div>
+		
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">密码 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="password" class="form-control" ng-model="entity.schedule.devicePassword" placeholder="密码"/>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">SPA IP :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.spa.ip"
+		                   placeholder="SPA IP"/>
+		          </div>
+		
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">SPB IP :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.spb.ip"
+		                   placeholder="SPB IP"/>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">用户名 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.spa.user"
+		                   placeholder="用户名"/>
+		          </div>
+		
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">密码 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="password" class="form-control" ng-model="entity.schedule.deviceLogonExtend.spa.password"
+		                   placeholder="密码"/>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大缓存 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.maxCache" placeholder="最大缓存"/>
+		          </div>
+		
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大磁盘数 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.maxDiskCount" placeholder="最大磁盘数"/>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大前端口数 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.maxPortCount" placeholder="最大前端口数"/>
+		          </div>
+		
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大扩展柜数 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.maxCabinetCount" placeholder="最大扩展柜数"/>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		    <div ng-if="entity.schedule.deviceType=='netapp-7mode'||entity.schedule.deviceType=='netapp-cmode'">
+		      <h4>
+		        NETAPP登录信息
+		      </h4>
+		
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">IP地址 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.deviceIp" placeholder="IP地址"/>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="row">
+		        <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">用户名 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.deviceUser" placeholder="用户名"/>
+		          </div>
+		
+		          <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">密码 :</label>
+		
+		          <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <input type="text" class="form-control" ng-model="entity.schedule.devicePassword" placeholder="密码"/>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div ng-if="entity.schedule.deviceType=='v7000'">
+		    <h4>
+		      V7000登录信息
+		    </h4>
+		
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">IP地址 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceIp" placeholder="IP地址"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">用户名 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceUser" placeholder="用户名"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">密码 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="password" class="form-control" ng-model="entity.schedule.devicePassword" placeholder="密码"/>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div ng-if="entity.schedule.deviceType=='vmax'">
+		    <h4>
+		      VMAX登录信息
+		    </h4>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Symmetrix :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.symmetrix"
+		                 placeholder="Symmetrix"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Solution Enable主机 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.solutionEnableHost"
+		                 placeholder="Solution Enable主机"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Solution Enable IP :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.solutionEnableIP"
+		                 placeholder="Solution Enable IP"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Unisphere主机 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.unisphereHost" placeholder="Unisphere主机"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Unisphere IP :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.unisphereIP" placeholder="Unisphere IP"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大缓存 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxCache" placeholder="最大缓存"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大磁盘数 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxDiskCount" placeholder="最大磁盘数"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大前端口数 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxPortCount" placeholder="最大前端口数"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大扩展柜数 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxCabinetCount" placeholder="最大扩展柜数"/>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div ng-if="entity.schedule.deviceType=='dmx'">
+		    <h4>
+		      DMX登录信息
+		    </h4>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Symmetrix :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.symmetrix"
+		                 placeholder="Symmetrix"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Solution Enable主机 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.solutionEnableHost"
+		                 placeholder="Solution Enable主机"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Solution Enable IP :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.solutionEnableIP"
+		                 placeholder="Solution Enable IP"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Unisphere主机 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.unisphereHost" placeholder="Unisphere主机"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">Unisphere IP :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceLogonExtend.unisphereIP" placeholder="Unisphere IP"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大缓存 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxCache" placeholder="最大缓存"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大磁盘数 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxDiskCount" placeholder="最大磁盘数"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大前端口数 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxPortCount" placeholder="最大前端口数"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">最大扩展柜数 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maxCabinetCount" placeholder="最大扩展柜数"/>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div ng-if="entity.schedule.deviceType=='ds8000'">
+		    <h4>
+		      DS8000登录信息
+		    </h4>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">管理IP :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceIp" placeholder="管理IP"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">用户名 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.schedule.deviceUser" placeholder="用户名"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">密码 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="password" class="form-control" ng-model="entity.schedule.devicePassword" placeholder="密码"/>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <hr>
+		  <div>
+		    <h4>资产信息</h4>
+		
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">资产编号 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.assetId" placeholder="资产编号"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">用途 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		            <select class="form-control"  ng-model="entity.purpose">
+		              <option value="product" selected="selected">生产中心</option>
+		              <option value="test">测试中心</option>
+		            </select>
+		          <!--<input type="text" class="form-control" ng-model="entity.purpose" placeholder="用途"/>-->
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">使用部门 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.departmentOfUser" placeholder="使用部门"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">负责人 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.owner" placeholder="负责人"/>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <hr>
+		  <div>
+		    <h4>维保信息</h4>
+		
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">供应商 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.supplier" placeholder="供应商"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">维保起始时间 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maintainBeginDate" placeholder="维保起始时间"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">供应商联系人 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.supplierContact" placeholder="供应商联系人"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">维保结束时间 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maintainEndDate" placeholder="维保起始时间"/>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div class="col-xs-11 col-lg-11 col-sm-11 form-group-aaa">
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">采购时间 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.purchaseTime" placeholder="采购时间"/>
+		        </div>
+		
+		        <label style="padding-top:5px;padding-right:0px;" class="col-xs-2 col-lg-2 col-sm-2  control-label text-right">维保年限 :</label>
+		
+		        <div class="col-xs-4 col-lg-4 col-sm-4 ">
+		          <input type="text" class="form-control" ng-model="entity.maintainDuration" placeholder="维保年限"/>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</form>
+		 <!-- <p class="pull-right row" style="padding-right: 20px">
+		    <button class="btn btn-primary" type="button" ng-click="save()">提交</button>
+		  </p>
+		  <div style="clear: both"></div>
+		</script>
+    modal-body  end ------------ -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="$dismiss()">Save changes</button>
+  </div>
+</div>

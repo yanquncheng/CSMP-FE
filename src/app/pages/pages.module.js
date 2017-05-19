@@ -19,7 +19,10 @@
             'BlurAdmin.pages.tables',
             'BlurAdmin.pages.form',
             'BlurAdmin.pages.components',
-            'BlurAdmin.pages.EquipmentManagement'
+            'BlurAdmin.pages.EquipmentManagement',
+            'BlurAdmin.pages.objectManage',
+            'BlurAdmin.pages.sysManage',
+            'BlurAdmin.pages.performance'
 
         ])
         .config(routeConfig);

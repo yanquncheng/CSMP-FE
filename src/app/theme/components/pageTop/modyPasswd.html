@@ -1,0 +1,52 @@
+<div class="modal-content">
+  <div class="modal-header bg-info">
+    <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+      <em class="ion-ios-close-empty sn-link-close"></em>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+  </div>
+  <div class="modal-body">
+   <!-- modal-body  start ------------ -->
+   
+   
+   		<div class="row">
+		      <div style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">
+		      	<fond style="color:red;">* </fond>原始密码 :
+		      </div>
+		      <div class="col-xs-8 col-lg-8 col-sm-8" style="padding-left:0px;">
+		      	  <input type="password" class="form-control" ng-model="modyPass.oldPpasswd" placeholder="原始密码">
+				      <div style="padding-top:5px;">
+				      	<fond style="color:red;" ng-if="modyPass.oldPpasswd && modyPass.oldPpasswd!=oldpassword">提示：原始密码错误！</fond>
+				      </div>
+		      </div>
+		      
+		  </div>
+		  
+   		<div class="row" style="margin-top: 10px;">
+		      <div style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">
+		      	<fond style="color:red;">* </fond>新密码 :
+		      </div>
+		      <div class="col-xs-8 col-lg-8 col-sm-8" style="padding-left:0px;">
+		      	 	<input type="password" class="form-control" ng-model="modyPass.passwd1" id="passwd1" placeholder="新密码">
+		      		<div style="padding-top:5px;"> </div>
+		      </div>
+		  </div>
+		  
+		  <div class="row" style="margin-top: 10px;">
+		      <div style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">
+		      	<fond style="color:red;">* </fond>确认密码 :
+		      </div>
+		      <div class="col-xs-8 col-lg-8 col-sm-8" style="padding-left:0px;">
+		      	  <input type="password" class="form-control" ng-model="modyPass.passwd2" id="passwd2" placeholder="确认密码">
+			      	<div style="padding-top:5px;">
+				      	<fond style="color:red;" ng-if="modyPass.passwd2 && modyPass.passwd1 !=modyPass.passwd2">提示：两次密码输入不一致！</fond>
+				      </div>
+		      </div>
+		  </div>
+		    
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="modifyPasswd();">保存</button>
+  	<button type="button" class="btn btn-warning" ng-click="$dismiss()">取消</button>
+  </div>
+</div>

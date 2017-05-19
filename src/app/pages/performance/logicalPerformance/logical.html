@@ -1,0 +1,114 @@
+<ui-view  autoscroll="true" autoscroll-body-top>
+	<div class="row">
+		<div class="form-group col-lg-4 col-md-4 col-sm-4">
+	        <select class="form-control selectpicker show-tick" ng-model="filter.selectValue" ng-change="selectChange()">  
+			        <option value="">请选择</option>  
+			    <option ng-repeat="detectUnit in serialNumbers" value="{{detectUnit.device}}">{{detectUnit.device}}</option>  
+			</select> 
+    	</div>
+	</div>
+	
+	<div class="row" align="center">
+		<label>{{filter.selectValue}}</label>
+	</div>
+	<div class="row">
+		<div class="horizontal-scroll">
+			<table class="table" st-table="logicalDataList" st-safe-src="LogicalDataArrayList" style="table-layout:fixed">
+				<thead>
+					<tr>
+						<th colspan="3">
+							<div class="row form-group no-padding" style="margin: 0px;">
+								<div class="col-lg-4 col-sm-4 col-xlg-4 control-label" style="padding-top: 7px;">显示行数：</div>
+								<div class="col-lg-8 col-sm-8 col-xlg-8">
+									<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="logicalTablePageSize" ng-options="i for i in [5,10,15,20,25]">
+							      </select>
+								</div>
+							</div>
+						</th>
+						<th colspan="9"><input st-search placeholder="搜索" class="input-sm form-control" type="search" /></th>
+					</tr>
+					<tr>
+						<th st-sort="part">Device名称</th>
+						<th st-sort="alias">Devcie别名</th>
+						<th st-sort="config">类型</th>
+						<th st-sort="poolemul">Emulation</th>
+						<th st-sort="purpose">用途</th>
+						<th st-sort="dgstype">Thin?</th>
+						<th st-sort="poolname">所属Pool名称</th>
+						<th st-sort="Capacity">可用容量(GB)</th>
+						<th st-sort="UsedCapacity">使用容量(GB)</th>
+						<th>IOPS</th>
+						<th>Throughput</th>
+						<th>Response Time</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="logical in logicalDataList">
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.part}}">{{logical.part}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.alias}}">{{logical.alias}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.config}}">{{logical.config}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.poolemul}}">{{logical.poolemul}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.purpose}}">{{logical.purpose}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.dgstype}}">{{logical.dgstype}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.poolname}}">{{logical.poolname}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.Capacity}}">{{logical.Capacity}}</td>
+						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{logical.UsedCapacity}}">{{logical.UsedCapacity}}</td>
+						<td>{{logical.iops}}</td>
+						<td>{{logical.Throughput}}</td>
+						<td>{{logical.ResponseTime}}</td>
+					</tr>				
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="12" class="text-center">
+							<div st-pagination="" st-items-by-page="logicalTablePageSize" st-displayed-pages="15"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<!-- 图形信息 -->
+	<div class="row" style="padding-top: 30px;">
+		<div class="col-xs-10">
+          <div class="chat" style="float: left;">
+            <div ng-repeat="host in hosts" style="display: inline;">
+              <div style="height: {{host.height}}px;width: 80px;background-color: #DADADA; overflow: hidden;float: left; margin: 1px 1px 1px 1px;"
+                   class="cell tooltip-toggle">
+                <a href="javascript:void(0)" data-toggle="tooltip" onMouseOver="$(this).tooltip('show')"
+                   data-placement="top" title="{{host.host_name}}">
+                  {{host.host_name}}
+                </a>
+              </div>
+              <div ng-repeat="lun in host.Devices" class="cell tooltip-toggle" style="background-color: {{lun.color}};width: 40px;float: left; margin: 1px 1px 1px 1px;"
+                   ng-click="clickLun(lun)">
+                <a href="javascript:void(0)" data-toggle="tooltip" onMouseOver="$(this).tooltip('show')"
+                   data-placement="top" title="{{lun.name+':'+lun.displayPart+'%'}}">
+                  {{lun.displayPart}}
+                </a>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+      </div>
+      <div class="col-xs-2">
+      	<div class="color" style="float: left;">
+            <div>
+              <div ng-repeat="color in colors1" style="display: inline;">
+                <div class="value" style="background-color: {{color}}; height: 25px; width: 15px;float: left"></div>
+                <div class="text" style="float: left;"><span class="color_area"></span><span class="color_text">{{100-$index*5}}%</span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div>
+                <div class="value" style="background-color: transparent;border: none"></div>
+                <div class="text"><span class="color_area" style="border: solid 0 transparent"></span>
+                	<span class="color_text" ng-if="colors1.length>0">0%</span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+      </div>
+	</div>
+</ui-view>

@@ -1,0 +1,143 @@
+<!--<div class="horizontal-scroll">-->
+	
+	<div class="row">
+		
+		<div class="col-lg-4 col-xs-4 col-sm-4">
+			<div ba-panel ba-panel-title="菜单"  ba-panel-class="with-scroll"><!--panel  start-->
+  
+			 	<div id="menuTree" style="min-height: 380px;height: auto;"></div>
+			</div><!--panel  start-->
+			
+		</div>
+		
+		<div class="col-lg-8 col-lg-8 col-sm-8">
+			<div ba-panel ba-panel-title="操作"  ba-panel-class="with-scroll"><!--panel  start-->
+				<div style="min-height: 380px;height: auto;">
+					
+					<div class="row" style="padding-top: 5px;padding-bottom: 20px;">
+						<div class="col-xs-11 col-lg-11 col-sm-11" align="center" ng-if="!showSave">
+							
+							<button class="btn btn-primary btn-with-icon" ng-click="addMenu(true)">
+								<i class="glyphicon glyphicon-plus"></i>新增一级
+							</button>
+							
+							<button class="btn btn-primary btn-with-icon" ng-click="addMenu(false)">
+								<i class="glyphicon glyphicon-plus"></i>新增子菜单
+							</button>
+							
+							<button class="btn btn-primary btn-with-icon" ng-click="modyMenu()" ng-disabled="buttonState">
+								<i class="glyphicon glyphicon-pencil"></i>修改菜单
+							</button>
+							
+							<button class="btn btn-danger btn-with-icon" ng-click="deleteMenu()" ng-disabled="buttonState">
+								<i class="glyphicon glyphicon-remove"></i>删除菜单
+							</button>
+						</div>
+						
+						<div class="col-lg-11 col-xs-11 col-sm-11" align="right" ng-if="showSave">
+							<button class="btn btn-default btn-with-icon pull-right" ng-click="cancelMenu();" style="margin-left: 10px;">
+					        	<i class="glyphicon glyphicon-menu-left"></i>取消
+					        </button>
+					        
+					        <button class="btn btn-primary btn-with-icon pull-right" ng-click="saveMenu();" style="margin-left: 10px;">
+					        	<i class="glyphicon glyphicon-ok"></i>保存
+					        </button>
+						</div>
+						<label class="col-xs-1 col-lg-1 col-sm-1"></label>
+				    </div>
+					
+					<div class="row" style="padding-top:10px;">
+				      <div class="form-group">
+				        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3  control-label text-right">父级菜单 :</label>
+				        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
+				        	<input type="text" class="form-control" ng-model="menuItem.parentMenuId" placeholder="父级菜单" readonly="readonly"/>
+				        </div>
+				        <!--<label ng-show="showSave" class="col-xs-2 col-lg-2 col-sm-2 text-left"><fond style="color:red;">* 必填</fond></label>-->
+				      </div>
+				    </div>
+				    
+				    <div class="row" style="padding-top:10px;">
+				      <div class="form-group">
+				        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3  control-label text-right">菜单ID :</label>
+				        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
+				        	 <input type="text" class="form-control" ng-model="menuItem.menuId" placeholder="菜单ID" ng-readonly="read.menuId"/>
+				        </div>
+				        <label ng-show="showSave&&!read.menuId" class="col-xs-2 col-lg-2 col-sm-2 text-left"><fond style="color:red;">* 必填</fond></label>
+				      </div>
+				    </div>
+				    
+				     <div class="row" style="padding-top:10px;">
+				      <div class="form-group">
+				        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3  control-label text-right">菜单名称 :</label>
+				        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
+				        	 <input type="text" class="form-control" ng-model="menuItem.title" placeholder="菜单名称" ng-readonly="read.others"/>
+				        </div>
+				        <label ng-show="showSave" class="col-xs-2 col-lg-2 col-sm-2 text-left"><fond style="color:red;">* 必填</fond></label>
+				      </div>
+				    </div>
+				    
+				    <!--<div class="row" style="padding-top:10px;">
+				      <div class="form-group" >
+				        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">菜单级别 :</label>
+				        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
+					          <ui-select ng-model="menuItem.level"
+					               class="btn-group bootstrap-select form-control"
+					               ng-disabled="true"
+					               append-to-body="true"
+					               search-enabled="false">
+							      <ui-select-match placeholder="菜单级别">
+							        <span> {{$select.selected.text}}</span>
+							      </ui-select-match>
+							      <ui-select-choices repeat="standardItem in levelList">
+							        <span ng-bind-html="standardItem.text"></span>
+							      </ui-select-choices>
+							    </ui-select>
+		
+				        </div>
+				        <label ng-show="showSave" class="col-xs-2 col-lg-2 col-sm-2 text-left"><fond style="color:red;">* 必填</fond></label>
+				      </div>
+				    </div>-->
+				    
+				    <div class="row" style="padding-top:10px;">
+				      <div class="form-group" >
+				
+				        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">菜单排序 :</label>
+				        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
+				        	 <input type="number" class="form-control" ng-model="menuItem.order" placeholder="菜单排序" ng-readonly="read.others"/>
+				        </div>
+				        <label ng-show="showSave" class="col-xs-2 col-lg-2 col-sm-2 text-left"><fond style="color:red;">* 必填</fond></label>
+				        
+				      </div>
+				    </div>
+				    
+				     <div class="row" style="padding-top:10px;">
+				      <div class="form-group" >
+				
+				        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">菜单图标 :</label>
+				        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
+				        	 <input type="text" class="form-control" ng-model="menuItem.icon" placeholder="菜单图标" ng-readonly="read.others"/>
+				        </div>
+				        <label ng-show="showSave" class="col-xs-2 col-lg-2 col-sm-2 text-left"><fond style="color:red;">* 必填</fond></label>
+				        
+				      </div>
+				    </div>
+				    
+				    <div class="row" style="padding-top:10px;">
+				      <div class="form-group">
+				        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">菜单URL :</label>
+				        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
+				        	 <input type="text" class="form-control" ng-model="menuItem.stateRef" placeholder="菜单URL" ng-readonly="read.others"/>
+				        </div>
+				        <label ng-show="showSave" class="col-xs-2 col-lg-2 col-sm-2 text-left"><fond style="color:red;">* 必填</fond></label>
+				        
+				      </div>
+				    </div>
+				    
+				</div>
+			</div><!--操作panel  start-->
+			
+		</div>
+		
+		
+	</div><!--row end-->
+<!--</div>-->

@@ -193,8 +193,8 @@
                 var config = {headers: { 'Access-Control-Allow-Origin': '*' } };
    
                 var loginreq = {"username": $scope.username, "password": $scope.password };
-               $http.post(IG.api + '/login' , loginreq )
-                  .success(function (response) {
+                
+                $http.post(IG.api + '/login' , loginreq ).success(function (response) {
                        console.log("response string="+JSON.stringify(response));
                        $scope.users = response;
 
@@ -208,24 +208,75 @@
                         AuthenticationService.setUser($scope.username);
                         AuthenticationService.setLoggedIn(true);
 
-
+                        /*
                         if ( response.user.role.toUpperCase() === 'ADMIN' ) 
                             AuthenticationService.setAdmin(true);
                         else 
                             AuthenticationService.setAdmin(false);
+                        */
+                        //AuthenticationService.setMenuItems(response.menuItems);
+                        //printService.print("go to url = dashboard.maindashboard" );  
                         
-                        AuthenticationService.setMenuItems([]);
-                        printService.print("go to url = dashboard.maindashboard" );             
-                        $state.go('dashboard.maindashboard');  }, 1000)
-
-                  .error(function (err) {
-                        console.log(err); 
-                        AuthenticationService.setAdmin(false); 
-                        toastr.error(err.message, '验证失败'); 
+                      AuthenticationService.setMenuItems([]);
+                      var userMenu = response.menuItems ;
+                   	  
+                       if(userMenu.length>0){
+                    	   var config = { headers: {
+                               "Authorization": $localStorage.authKey
+                           }}
+                    	   $scope.menuItems = [];
+                    	   $http.get(IG.api + '/menu/list' , config ).success(function (response) {
+                               var menuList = response;
+                               angular.forEach(menuList, function (menu) {
+                                   angular.forEach(userMenu, function (menuId) {
+                                       if (menuId === menu.menuId) {
+                                           $scope.menuItems.push(menu)
+                                           return;
+                                       }
+                                   })
+                               })
+                               
+                              AuthenticationService.setMenuItems($scope.menuItems);
+                               
+                              $state.go('dashboard.maindashboard');
+                              
+                           }, 1000).error(function (err) {
+                                console.log(err); 
+                                toastr.error(err.message, '获取菜单失败'); 
+                          });
+                       }
+                        
+                        
+                        /*
+                        var config = { headers: {
+                            "Authorization": $localStorage.authKey
+                        }}
+                       $http.get(IG.api + '/menueJson' , config ).success(function (response) {
+                            console.log("response string，menueJson="+JSON.stringify(response));
+                            var menueJson = response;
+                             
+                             AuthenticationService.setMenuItems(menueJson);
+                             printService.print("go to url = dashboard.maindashboard" );    
+                             
+                             $state.go('dashboard.maindashboard');
+                             
+                        }, 1000).error(function (err) {
+                             console.log(err); 
+                             AuthenticationService.setAdmin(false); 
+                             toastr.error(err.message, '验证失败'); 
+                       });
+                        */
+                        
+                        
+                        }, 1000 ).error(function (err) {
+	                        console.log(err); 
+	                        AuthenticationService.setAdmin(false); 
+	                        toastr.error(err.message, '验证失败'); 
                   });
+                
+                
 
-
-                });
+           });
 
                 
 
