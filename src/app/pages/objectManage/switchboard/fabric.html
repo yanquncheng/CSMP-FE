@@ -1,0 +1,129 @@
+ <ui-view>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-lg-12">
+  	<div ba-panel ba-panel-class="with-scroll" style="border-top: 1px solid rgba(0, 0, 0, 0.12);box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12);"><!--panel  start-->
+		<div class="horizontal-scroll">
+		<table class="table" st-table="smartTableData" st-safe-src="fabricsList">
+			<thead>
+				<tr> 
+				    <th colspan="2">
+				    	<div class="row">
+			    		 	<div class="col-lg-3 col-sm-3 col-xlg-3 control-label text-right" style="width: 80px;padding-top: 7px;">显示行数：</div>
+							<div class="col-lg-7 col-sm-7 col-xlg-7" style="width: 170px;">
+								<select class="form-control selectpicker show-tick pull-left" title="Rows on page" selectpicker ng-model="smartTablePageSize"
+									ng-options="i for i in [5,10,15,20,25]"></select>
+							</div>
+						</div>
+		    		</th>
+		    		<th colspan="3"style="text-align: right">
+			     		<div class="row">
+							<div class="col-lg-12 col-sm-12 col-xlg-12 pull-right" style="width: 400px;">
+								<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+							</div>
+			    		</div>
+		    		</th>
+				</tr>	
+			      
+				<tr class="black-muted-bg">
+					<th style="text-align: center;width: 80px;">序号</th>
+					<th style="text-align: center;" st-sort="fabwwn">Fabic WWN</th>
+					<th style="text-align: center;" st-sort="psname">Fabric名称</th>
+					<th style="text-align: center;" st-sort="lsname">交换机名称</th>
+					<th style="text-align: center;" st-sort="lswwn">交换机WWN</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in smartTableData" style="cursor: pointer;" ng-class="{'warning':row.selected}" ng-click="selectRow(row);">
+					<td style="text-align: center;width: 80px;vertical-align: middle;">{{$index + 1 }}</td>
+					<td>			
+						<!--<a style="text-decoration: none;" href="javascript:void(0);" 
+							ng-click="switchDetail(row ,'fabric');">{{row.fabwwn}}
+						</a>-->
+						{{row.fabwwn}}
+					</td>
+					<td>{{row.psname}} </td>
+					<td>
+						<a style="text-decoration: none;" href="javascript:void(0);" 
+							ng-click="switchDetail(row ,'switch');">{{row.lsname}}
+						</a>
+					</td>
+					<td>{{row.lswwn}}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+						<div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		</div>
+		
+  	</div>
+   </div>
+</div>
+	
+	
+<div class="row">
+  	<div class="col-lg-12 col-xs-12 col-sm-12">
+		<div ba-panel ba-panel-title="Zone信息"  ba-panel-class="with-scroll" style="border-top: 1px solid rgba(0, 0, 0, 0.12);box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12);"><!--panel  start-->
+				<div class="horizontal-scroll">
+				<table class="table table-hover" st-table="zoneTableData" st-safe-src="zoneList">
+					<thead>
+						<tr> 
+					    	<th colspan="3">
+					    		<div class="row">
+					    		 	<div class="col-lg-3 col-sm-3 col-xlg-3 control-label" style="width: 80px;padding-top: 7px;">显示行数：</div>
+										<div class="col-lg-7 col-sm-7 col-xlg-7" style="width: 170px;">
+										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="zoneTablePageSize"
+											ng-options="i for i in [5,10,15,20,25]"></select>
+									</div>
+					    		</div>
+			    		 	</th>
+					     	<th colspan="5" style="text-align: right">
+					     		<div class="row">
+									<div class="col-lg-12 col-sm-12 col-xlg-12 pull-right" style="width: 400px;">
+										<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+									</div>
+					    		</div>
+					      	</th>
+				        </tr>
+				    	<tr class="black-muted-bg">
+							<th style="text-align: center;" st-sort="fabricname">Fabric名称</th>
+							<th style="text-align: center;" st-sort="zsetname">ZoneSet名称</th>
+							<th style="text-align: center;" st-sort="zname">Zone名称</th>
+							<th style="text-align: center;" st-sort="zmemid">Zone成员</th>
+							<th style="text-align: center;" st-sort="zmemtype">Zone类型</th>
+							<th style="text-align: center;" st-sort="alias">别名</th>
+							<th style="text-align: center;" st-sort="switch">连接交换机名称</th>
+							<th style="text-align: center;" st-sort="switchport">连接交换机端口</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="row in zoneTableData">
+							<td>{{row.fabricname}}</td>
+							<td>{{row.zsetname}}</td>
+							<td>{{row.zname}}</td>
+							<td>{{row.zmemid}}</td>
+							<td>{{row.zmemtype}}</td>
+							<td>{{row.alias}}</td>
+							<td>{{row.switch}}</td>
+							<td>{{row.switchport}}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="8" class="text-center">
+								<div st-pagination="" st-items-by-page="zoneTablePageSize" st-displayed-pages="15"></div>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				</div>
+			
+		</div><!--panel  start-->
+	</div>
+</div>
+</ui-view>

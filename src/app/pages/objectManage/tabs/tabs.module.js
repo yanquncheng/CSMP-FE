@@ -22,6 +22,12 @@
             controller: 'detailCtrl',
             title: '存储',
             params: {param: null}
+          }).state('dashboard.objectManage.tabs.details', {
+            url :"",
+            templateUrl: 'app/pages/objectManage/tabs/details.html',
+            controller: 'detailsCtrl',
+            title: '存储',
+            params: {param: null}
           });
   }
 

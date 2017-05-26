@@ -119,6 +119,12 @@
  			return;
  		 }
  		
+ 		var regex = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g ;
+ 		if(!regex.test(email)){
+ 			commonService.showMsg("error","请输入正确email格式！");
+ 			return;
+ 		 }
+ 		
  		if( $scope.checkedRows.length == 0){
  			commonService.showMsg("error","请选择用户分配的角色！");
  			return;

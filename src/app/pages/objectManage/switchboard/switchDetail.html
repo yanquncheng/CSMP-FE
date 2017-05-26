@@ -1,0 +1,33 @@
+<ui-view ng-controller="switchDetialCtrl">
+	
+ 	<div class="row">
+	    <div class="col-md-12 col-sm-12 col-lg-12">
+	    	<span class="pull-left" style="padding-left: 5px;">
+	    		<span class="glyphicon glyphicon-oil"></span>
+	    		{{parmsInfo.title}}：[ {{parmsInfo.num}} ]
+	    	</span>
+	    	<button ng-click="back();" type="button" class="back-button btn btn-default btn-with-icon pull-right">
+	    	 	<i class="ion-chevron-left"></i>Back
+	      	</button>
+	    </div>
+  	</div>
+  
+  	<div class="row" style="margin-top: 10px;">
+	    <div class="col-md-12 col-sm-12 col-lg-12">
+			    <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel">
+			        
+					<uib-tabset active="$this.$tabSetStatus.activeTab">
+		        	
+						  <uib-tab heading="{{tab.name}}" ng-repeat="tab in tabs" ng-click="swithTabs(tab);">
+						      <div ng-include="tab.url"></div>
+						  </uib-tab>
+					  
+					</uib-tabset>
+					
+			    </div>
+	        </div>
+	    </div>
+  	<div>
+  
+  
+</ui-view>

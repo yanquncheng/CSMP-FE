@@ -22,8 +22,8 @@
             'BlurAdmin.pages.EquipmentManagement',
             'BlurAdmin.pages.objectManage',
             'BlurAdmin.pages.sysManage',
-            'BlurAdmin.pages.performance',
-            'BlurAdmin.pages.Topology'
+            'BlurAdmin.pages.EventManagement',
+            'BlurAdmin.pages.performance'
 
         ])
         .config(routeConfig);

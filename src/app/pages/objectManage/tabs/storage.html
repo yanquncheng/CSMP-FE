@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-xs-12">
   	<div class="horizontal-scroll">
     <table id="sample-table-1" st-table="smartTableData" st-safe-src="list" class="table table-striped table-bordered table-hover">
@@ -24,12 +23,12 @@
 			<tr>
 	      <th colspan="13" style="text-align: right">
 	        <div class="col-xs-6" style="text-align: left">
-	          <button type="button" class="btn btn-primary" ng-click="add()">
+	          <!--<button type="button" class="btn btn-primary" ng-click="add()">
 	            <i class="ace-icon fa fa-plus"></i>新增设备
-	          </button>
+	          </button>-->
 	          
 	          <button type="button" class="btn btn-primary" ng-click="panelAdd()">
-	            <i class="ace-icon fa fa-plus"></i>新增设备1
+	            <i class="ace-icon fa fa-plus"></i>新增设备
 	          </button>
 	        </div>
 	        <!--<div class="col-xs-6" style="text-align: right">
@@ -44,7 +43,7 @@
       <tbody>
 	      <tr ng-repeat="storage in smartTableData" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
 		        <td>
-		        	 	<a style="text-decoration: none;" ng-href="javascript:void(0);" ng-click="storageDetail(storage);">{{storage.name}}</a>
+		        	 	<a style="text-decoration: none;" ng-href="javascript:void(0);" ng-click="storageDetail(storage);">{{storage.info.basicInfo.alias}}</a>
 		        </td>
 		        <td>
 		        	 	<a style="text-decoration: none;" ng-href="javascript:void(0);" ng-click="storageDetail(storage);">{{storage.device}}</a>
@@ -57,15 +56,15 @@
 		        <td>{{storage.TotalDisk}}</td>
 		        <td>{{storage.TotalLun}}</td>
 		        <td>{{storage.TotalMemory}}</td>
-		        <td width="240px">
+		        <td>
 		          <div class="progress progress-mini progress-striped active pos-rel" style="margin-top: 10px;"
 		               data-percent="{{storage.usedCapacityPercent *100| fixed : 2}}%">
-		            <div class="progress-bar" style="width:{{storage.usedCapacityPercent|fixed : 2}}px"> {{storage.usedCapacityPercent}}% </div>
+		            <div class="progress-bar" style="width:{{storage.usedCapacityPercent}}%"> {{storage.usedCapacityPercent}}% </div>
 		          </div>
 		        </td>
-		        <td>{{storage.name}}</td>
+		        <td>{{storage.info.basicInfo.UnitID}}</td>
 		        <td class="center">
-		          <a href="javascript:void (0)" ng-click="edit(storage)"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
+		          <a href="javascript:void (0)" ng-click="panelAdd(storage)"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
 		        </td>
 	      </tr>
       </tbody>

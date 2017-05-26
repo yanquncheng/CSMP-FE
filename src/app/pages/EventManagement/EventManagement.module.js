@@ -5,24 +5,23 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages.objectManage', [
-      'BlurAdmin.pages.objectManage.tabs','BlurAdmin.pages.objectManage.switchboard',
-      'BlurAdmin.pages.objectManage.apply'
+  angular.module('BlurAdmin.pages.EventManagement', [
+      'BlurAdmin.pages.EventManagement.event',
+      'BlurAdmin.pages.EventManagement.repository'
     ])
     .config(routeConfig);
 
   /** @ngInject */
   function routeConfig($stateProvider) {
     $stateProvider
-        .state('dashboard.objectManage', {
-          url: '/objectManage',
+        .state('dashboard.EventManagement', {
+          url: '/EventManagement',
           template : '<ui-view  autoscroll="true" autoscroll-body-top></ui-view>',
           abstract: true, 
-          show : true,
-          title: '对象管理',
+          title: '事件管理',
           sidebarMeta: {
             icon: 'ion-grid',
-            order: 11,
+            order: 20,
           },
         });
 

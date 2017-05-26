@@ -1,0 +1,151 @@
+<div class="tabbable">
+	<div class="row">
+		<!-- PAGE CONTENT BEGINS -->
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			<div class="cleanfix" style="border: 1px solid #E6EBEE;padding-top: 5px;">
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88" style="width: 100%;height: 25px; text-align: center"><h4>交换机信息</h4></div>
+				</div>
+				
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">交换机名称 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.device}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">交换机别名 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.alias}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">序列号 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.devicesn}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">厂商 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.vendor}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">型号 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.model}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">管理IP地址 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.ip}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">设备描述 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.devdesc}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">位置 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.Localtion}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">最后数据采集时间 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.LastTS}}</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			
+			<div class="cleanfix" style="border: 1px solid #E6EBEE;padding-top: 5px;"">
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88" style="width: 100%;height: 25px; text-align: center"><h4>端口占用信息</h4></div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">端口总数量 :</div>
+					<div class="div-table-value pull-left">{{baseInfo["#TotalPort"]}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">空闲端口数量 :</div>
+					<div class="div-table-value pull-left">{{baseInfo["#FreePort"]}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">连接HBA端口数量 :</div>
+					<div class="div-table-value pull-left">{{baseInfo["#ConnHBAPort"]}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">连接存储端口数量 :</div>
+					<div class="div-table-value pull-left">{{baseInfo["#ConnStoragePort"]}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">ILS连接端口数量 :</div>
+					<div class="div-table-value pull-left">{{baseInfo["#ILSPort"]}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">其他端口数量 :</div>
+					<div class="div-table-value pull-left">{{baseInfo["#OtherPort"]}}</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="row" style="margin-top: 10px;padding-top: 20px;">
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			<div class="cleanfix" style="border: 1px solid #E6EBEE;">
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88" style="width: 100%;height: 25px; text-align: center"><h4>配置信息</h4></div>
+				</div>
+				
+				<div class="row"style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">维保厂商 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.maintenance.vendor}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">联系人 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.maintenance.contact}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">维保起始时间 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.maintenance.purchaseDate}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">维保期限（年） :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.maintenance.period}}</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			<div class="cleanfix" style="border: 1px solid #E6EBEE;">
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88" style="width: 100%;height: 25px; text-align: center"><h4>资产信息</h4></div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">资产编号 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.assets.no}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">用途 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.assets.purpose}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">所属部门 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.assets.department}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">管理者 :</div>
+					<div class="div-table-value pull-left">{{baseInfo.info.assets.manager}}</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="row" style="margin-top: 10px;padding-top: 20px;">
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			<div class="cleanfix" style="border: 1px solid #E6EBEE;">
+	    	
+		    	<div ba-panel ba-panel-title="扩容能力" ba-panel-class="with-scroll ">
+			       
+			       <div class="ct-chart" style="width: 95%;"></div>
+			       
+		        </div>
+	    	
+	    	 </div>
+	    </div>
+  	</div>
+  	
+</div>

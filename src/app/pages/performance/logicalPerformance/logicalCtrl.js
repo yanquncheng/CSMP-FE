@@ -21,6 +21,14 @@
         $http.get(IG.api + '/arrays' , config )
           .success(function (response) { 
               $scope.serialNumbers = response;  
+              $scope.filter.selectValue=$scope.serialNumbers[0].device;
+              $scope.selectChange();
+              
+              for (var index = 19; index >= 0; index--) {
+				        var color = colors[index];
+				        $scope.colors1.push(angular.copy(color));
+				      }
+              
 	      }).error(function (err) {
 	          console.log(err);   
 	      });
@@ -135,10 +143,6 @@
 		            }
 		          }
            });
-       for (var index = 19; index >= 0; index--) {
-	        var color = colors[index];
-	        $scope.colors1.push(color);
-	      }
   	};
   	
     function getHeight(totalCount, count, perHeight) {

@@ -122,7 +122,7 @@
     			 	"menuId" : $scope.menuItem.menuId ,
     			    "parentMenuId": $scope.menuItem.parentMenuId,
     			    "title": $scope.menuItem.title,
-    			    "level": $scope.menuItem.level.value,
+    			    "level": $scope.menuItem.level,
     			    "order": $scope.menuItem.order,
     			    "icon": $scope.menuItem.icon,
     			    "stateRef": $scope.menuItem.stateRef

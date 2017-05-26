@@ -6,11 +6,14 @@
   angular.module('BlurAdmin.pages.objectManage.tabs')
      .controller('tabsCtrl', tabsCtrlFun);
   
-  function tabsCtrlFun ($scope, fixedNumber, $http, $localStorage, $filter, $state,$uibModal) {
+  function tabsCtrlFun ($scope, fixedNumber, $http, $localStorage, $filter, $state,$uibModal, commonService) {
  	 
  	 var config = { headers: {
           "Authorization": $localStorage.authKey
-      }}
+      },
+ 	 params:{
+ 	 	
+ 	 }}
  	
  	 $scope.editPanel = false ;
  	 
@@ -95,6 +98,7 @@
  	 
  	 //tabs页切换
  	 $scope.swithTabs = function (tab){
+ 	 	$scope.selectTab = tab;
  		 if(!tab){
  			tab = $scope.tabs[0];
  		 }
@@ -133,7 +137,7 @@
          	item.usedCapacityPercent = 0 ;
          	var usedCapacity =  item.ConfiguredRawCapacity -  item.UnconfiguredCapacity;
          	item.usedCapacity = usedCapacity ;
-         	if(item.ConfiguredRawCapacity==0 || !item.ConfiguredRawCapacity){
+         	if(!item.ConfiguredRawCapacity || item.ConfiguredRawCapacity==0){
          		item.usedCapacityPercent = 0 ;
          	}else{
          		item.usedCapacityPercent = fixedNumber(item.usedCapacity / item.ConfiguredRawCapacity, 2) * 100;
@@ -159,7 +163,27 @@
       
     //点击查看详情
  	 $scope.storageDetail = function (storage){
- 		    $state.go('dashboard.objectManage.tabs.detail', {param: storage});
+ 	 	config.params.arraytype = storage.model;
+	    $http.get(IG.api + '/menu/ObjectManage/Array', config).success(function (response) {
+	    	if(typeof response == 'string'){
+	          commonService.showMsg("error", response);
+	    	}else{
+		    	var tabs = response;
+		    	var id = 1;
+		    	angular.forEach(tabs, function(item, index){
+	    			item.id = id++;
+		    		if(!item.hasDetail){
+		    			item.page = "app/pages/objectManage/tabs/template_"+item.template+".html";
+		    		}else{
+		    			angular.forEach(item.tabDetail, function(det, idx){
+		    				det.id = id++;
+		    				det.page = "app/pages/objectManage/tabs/template_"+det.template+".html";
+		    			});
+		    		}
+		    	});
+	 		    $state.go('dashboard.objectManage.tabs.details', {param: {storage: storage, tabs: tabs}});
+	    	}
+	    });
  	 };
  	 
  	 //新增
@@ -177,10 +201,63 @@
 	     });
       };
       
-      $scope.panelAdd = function (){
+      $scope.panelAdd = function (storage){
+      	$scope.entity = {};
    		$scope.editPanel = true ;
    		$scope.panelTtile = '新增设备' ;
-   		
+   		if(storage){
+   			$scope.panelTtile = '修改设备' ;
+   			$scope.entity = storage.info;
+   		}else{
+   			$scope.entity = {};
+			$scope.entity.basicInfo = {},
+			$scope.entity.maintenance = {},
+			$scope.entity.assets = {},
+			$scope.entity.ability = {};
+   		}
+   		if(!$scope.deviceLevels){
+   			$scope.deviceLevels = [{name: 'high'}, {name: 'middle'}, {name: 'low'}];
+   			$scope.equipmentTypes = [{name: 'Array Block'}, {name: 'Array File'}, {name: 'Array Unity'}, {name: 'Array Object'}, {name: 'Array ServerSAN'}, {name: 'Switch Core'}, {name: 'Switch Edge'}];
+   			//初始化加载Datacenter列表
+		  	  $scope.UnitIDs = []; 
+		    	  
+		      	$http.get(IG.api + '/matadata/datacenter' , config )
+		      	.success(function (response) {
+		      		
+		      		if(!response || response.length==0){
+		      			$scope.treeData = [{"isDefault":true,"Name":"测试数据中心2","Type":"生产数据中心2","City":"北京","Address":"海淀区数据中心",
+		  					"Building":[{"Name":"楼栋201","Description":"楼栋201的说明","_id":"592255c8fc97ed701b00001d",
+		  					"Floor":[{"Name":"楼层1","Description":"楼层1的说明","_id":"592255c8fc97ed701b000021",
+		  					"Unit":[{"Name":"机房1","UnitID":"111f0915-1032-465c-b6ee-913ffbbac913",
+		  					"Description":"机房1的说明","_id":"592255c8fc97ed701b000023","MaxCabinet":150,"MaxPowerLoad":100},
+		  					{"Name":"机房2","UnitID":"222f0915-1032-465c-b6ee-943ffbbac933","Description":"机房2的说明","_id":"592255c8fc97ed701b000022","MaxCabinet":250,"MaxPowerLoad":200}]},
+		  					{"Name":"楼层2","Description":"楼层2的说明","_id":"592255c8fc97ed701b00001e",
+		  					"Unit":[{"Name":"机房1","UnitID":"333f0915-1032-465c-b6ee-943ffbbac567","Description":"机房1的说明",
+		  					"_id":"592255c8fc97ed701b000020","MaxCabinet":150,"MaxPowerLoad":100},
+		  					{"Name":"机房2","UnitID":"444f0915-1032-465c-b6ee-94345bbac9c1","Description":"机房2的说明","_id":"592255c8fc97ed701b00001f","MaxCabinet":250,"MaxPowerLoad":200}
+		  					]}]}]}];
+		      			
+		      			response = $scope.treeData;
+		      		}
+		      		
+		      		angular.forEach(response, function (item) {
+		  				angular.forEach(item.Building, function (build) {
+		  					angular.forEach(build.Floor, function (floor) {
+		  						angular.forEach(floor.Unit, function (unit) {
+		  							var obj = {};
+		  							obj.id = unit.UnitID
+		  							obj.name = item.Name+" - "+build.Name+" - "+floor.Name+" - "+unit.Name
+		  	  	  					$scope.UnitIDs.push(obj);
+		  							
+		  	  	  				});
+		  	  	            });
+		  	            });
+		            });
+		      		 
+			      }).error(function (err) {
+			          commonService.showMsg("error",err.message);
+			      });
+   		}
    	  };
    	  
    	  $scope.panelBack = function (){
@@ -189,13 +266,50 @@
    	  };
    	  
    	 $scope.panelSave = function (){
-		$scope.editPanel = false ;
+		var basicInfo = {},
+		maintenance = {},
+		assets = {},
+		ability = {};
 		
+		basicInfo.device = $scope.entity.basicInfo.serialnb;
+		basicInfo.alias = $scope.entity.basicInfo.alias;
+		basicInfo.UnitID = $scope.entity.basicInfo.UnitID;
+		basicInfo.deviceLevel = $scope.entity.basicInfo.deviceLevel;
+		basicInfo.equipmentType = $scope.entity.basicInfo.equipmentType;
+		if(!basicInfo.device){
+	          commonService.showMsg("error","请填写设备序列号");
+	          return false;
+		}else if(!basicInfo.alias){
+	          commonService.showMsg("error","请填写设备别名");
+	          return false;
+		}else if(!basicInfo.deviceLevel){
+	          commonService.showMsg("error","请填写设备级别");
+	          return false;
+		}else if(!basicInfo.equipmentType){
+	          commonService.showMsg("error","请填写设备类型");
+	          return false;
+		}
+		
+		maintenance.vendor = $scope.entity.maintenance.vendor;
+		maintenance.contact = $scope.entity.maintenance.contact;
+		maintenance.purchaseDate = $scope.entity.maintenance.purchaseDate;
+		maintenance.period = $scope.entity.maintenance.period;
+		
+		assets.no = $scope.entity.assets.no;
+		assets.purpose = $scope.entity.assets.purpose;
+		assets.department = $scope.entity.assets.department;
+		assets.manager = $scope.entity.assets.manager;
+		
+		ability.maxMemory = $scope.entity.ability.maxMemory;
+		ability.maxDisks = $scope.entity.ability.maxDisks;
+		ability.maxFEs = $scope.entity.ability.maxFEs;
+		ability.maxCabinets = $scope.entity.ability.maxCabinets;
+		
+		$http.post(IG.api + '/arrays', {'basicInfo': basicInfo, 'maintenance': maintenance, 'assets': assets, 'ability': ability}, config).success(function (response) {
+			$scope.editPanel = false ;
+			$scope.swithTabs($scope.selectTab);
+		});
 	  };
-      
-      
- 	 
- 	 
  	 
  	 $scope.key = "";
       $scope.getArrayCapacityPercent = function (originalUseCapacity, originalAllocateCapacity, originalCapacity) {
@@ -254,11 +368,6 @@
       };
 
       
-
-      $scope.edit = function (item) {
-        loadAndOpen(item);
-      };
-
       var dataCenterLoaded = false;
       var machineRoomLoaded = false;
       var resourcePoolLoaded = false;

@@ -6,7 +6,7 @@
   'use strict';
 
   angular.module('BlurAdmin.pages.sysManage', [
-      'BlurAdmin.pages.sysManage.user',
+      'BlurAdmin.pages.sysManage.user','BlurAdmin.pages.sysManage.matadata',
       'BlurAdmin.pages.sysManage.menu','BlurAdmin.pages.sysManage.role'
     ]).config(routeConfig);
 

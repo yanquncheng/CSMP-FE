@@ -1,0 +1,113 @@
+<div class="row" ng-hide="editPanel || editKpanel">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+	      <div ba-panel
+	          ba-panel-class="with-scroll horizontal-tabs tabs-panel large-panel">
+	        <!--large medium -->
+	        <uib-tabset active="$tabSetStatus.activeTab">
+	        	
+					  <uib-tab heading="{{tab.name}}" ng-repeat="tab in tabs" ng-click="swithTabs(tab);">
+					      <div ng-include="tab.url"></div>
+					  </uib-tab>
+				</uib-tabset>
+	      </div>
+    </div>
+</div>
+<!--自定义事件 新增 编辑 开始-->
+	<div class="row" ng-show="editPanel">
+	  <div class="col-md-12 col-sm-12 col-lg-12">
+	  		<div class="widgets">
+				<div class="row" style="padding-top:10px;">
+					<div class="col-md-12" ba-panel ba-panel-title="{{panelTtile}}"
+		         	ba-panel-class="with-scroll">
+		         		<form style="padding-right: 50px;">
+		         			<div class="row" style="padding-top:10px;">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件等级 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="1" placeholder="事件等级"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件等级别名:</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="1" placeholder="事件等级别名"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件等级描述 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="1" placeholder="事件等级描述"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件等级Level:</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="1" placeholder="事件等级Level"/>
+						        </div>
+						      </div>
+						    </div>
+						    
+						    <div class="clearfix" style="margin-top:50px;">
+							    <button class="btn btn-default pull-right" type="button" ng-click="panelBack();" style="margin-left:35px;">返回</button>
+							    <button class="btn btn-primary pull-right" type="button" ng-click="panelSave();" style="margin-left:35px;">提交</button>
+					      	</div>
+		         		</form>
+		         	</div>
+				</div>
+  			</div>
+  		</div>
+  	</div>
+  	<!--自定义事件 新增 编辑 结束-->
+  		
+  		
+  <!--事件知识库 新增 编辑 开始-->
+	<div class="row" ng-show="editKpanel">
+	  <div class="col-md-12 col-sm-12 col-lg-12">
+	  		<div class="widgets">
+				<div class="row" style="padding-top:10px;">
+					<div class="col-md-12" ba-panel ba-panel-title="{{panelKTtile}}"
+		         	ba-panel-class="with-scroll">
+		         		<form style="padding-right: 50px;">
+		         			<div class="row" style="padding-top:10px;">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">设备类型 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="1" placeholder="设备类型"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件描述关键字:</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="" placeholder="事件描述关键字"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">处理类型 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="1" placeholder="处理类型"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件自定义等级:</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="1" placeholder="事件自定义等级"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件处理方法:</label>
+						        <div class="col-md-10 col-sm-10 col-lg-10">
+						          <input type="text" class="form-control" ng-model="1" placeholder="事件处理方法"/>
+						        </div>
+						      </div>
+						    </div>
+						    
+						    <div class="clearfix" style="margin-top:50px;">
+							    <button class="btn btn-default pull-right" type="button" ng-click="knowledgeBack();" style="margin-left:35px;">返回</button>
+							    <button class="btn btn-primary pull-right" type="button" ng-click="knowledgeSave();" style="margin-left:35px;">提交</button>
+					      	</div>
+		         		</form>
+		         	</div>
+				</div>
+  			</div>
+  		</div>
+  	</div>
+  	<!--事件知识库 新增 编辑 结束-->
+  	
