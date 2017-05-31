@@ -23,22 +23,37 @@
  	               ];
  	 
  	 //tabs页切换
+ 	 $scope.selectTab = 0 ;
  	 $scope.swithTabs = function (tab){
- 		if(!tab){
- 			tab = $scope.tabs[0];
- 		 }
- 		 
- 		 if(tab.id === 1){	//交换机列表
- 			$scope.initSwitchs() ;
- 			
- 		 }if(tab.id === 2){//Fabric列表
- 			$scope.initFabric();
- 		 }
- 		 
- 		//$tabSetStatus.activeTab = tab.id ;
+ 		 $timeout(function () {
+ 			if(!tab){
+ 	 			if($scope.parmsInfo && $scope.parmsInfo.selectTab){
+ 	 				 angular.forEach($scope.tabs, function (item,i) {
+ 	 	            	  if(item.id == $scope.parmsInfo.selectTab){
+ 	 	            		 tab = item ;
+ 	 	            		 return ;
+ 	 	            	  }
+ 	 	  			  });
+ 	 	 		 }else{
+ 	 	 			tab = $scope.tabs[0];
+ 	 	 		 }
+ 	 		 }
+ 	 		
+ 	 		 $scope.selectTab = tab.id ;
+ 	 		 
+ 	 		 if(tab.id === 1){	//交换机列表
+ 	 			$scope.initSwitchs() ;
+ 	 			
+ 	 		 }if(tab.id === 2){//Fabric列表
+ 	 			$scope.initFabric();
+ 	 		 }
+ 			 
+ 		 });
+ 		
  	 };
 	 
 	  //交换机列表查询
+ 	  $scope.smartTablePageSize = 15;
       $scope.initSwitchs = function (){
       	
       	$http.get(IG.api + '/switchs' , config )
@@ -46,7 +61,7 @@
         	  
               $scope.DataList = response;
               angular.forEach($scope.DataList, function (item,i) {
-            	  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD");
+            	  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD HH:mm:ss");
             	  
   			  });
               
@@ -58,7 +73,7 @@
 	      });
       };
       
-      
+      $scope.fabricTablePageSize = 5;
      //Fabric列表查询
       $scope.initFabric = function (){
 	  		$scope.fabricsList = [];
@@ -77,7 +92,7 @@
       			
       			$scope.zoneData ($scope.fabricsList[0]);
       			$scope.fabricsList[0].selected = true ;
-                $scope.smartTablePageSize = 15;
+      			$scope.fabricTablePageSize = 5;
                 
 	      }).error(function (err) {
 	          console.log(err);   
@@ -128,6 +143,8 @@
   	 $scope.switchDetail = function (switchBoard , type ){
   		  var param = angular.copy(switchBoard);
   		  param.type = type ;
+  		  param.selectTab = $scope.selectTab ;
+  		
   		  $state.go('dashboard.objectManage.switchboard.switchDetial', {param: param });
   	 };
   	 
@@ -152,15 +169,18 @@
         	$http.get(IG.api + '/switch?device='+row.device , config )
             .success(function (response) {
           	  
-	          	  var baseInfo = response ;
-	          	  //baseInfo = {"device":"DS_6520B-10000027F84A8E9A","alias":"xxx","devicesn":"AMS14520158","vendor":"Brocade","model":"Brocade 6520","ip":"172.8.188.80","devdesc":"Fibre Channel Switch","Localtion":"xxxx","LastTS":"1467373748","#TotalPort":100,"#FreePort":10,"#ConnHBAPort":20,"#ConnStoragePort":20,"#ILSPort":20,"#OtherPort":10,"#UsedPort":101,"info":{"ability":{"maxSlot":"111","maxPorts":"1000"},"assets":{"no":"asset0001","purpose":"SAP System","department":"Marketing","manager":"zhangsan"},"maintenance":{"vendor":"EMC","contact":"az@emc.com","purchaseDate":"2010/1/1","period":3}}};
+	          	var baseInfo = response ;
+	          	//baseInfo = {"device":"DS_6520B-10000027F84A8E9A","UnitID":"444f0915-1032-465c-b6ee-94345bbac9c1","alias":"aaaaaa","devicesn":"AMS14520158","vendor":"Brocade","model":"Brocade 6520","ip":"172.8.188.80","devdesc":"Fibre Channel Switch","Localtion":"xxxx","LastTS":"1467373748","#TotalPort":100,"#FreePort":10,"#ConnHBAPort":20,"#ConnStoragePort":20,"#ILSPort":20,"#OtherPort":10,"#UsedPort":101,"info":{"ability":{"maxSlot":"111","maxPorts":"1000"},"assets":{"no":"asset0001","purpose":"SAP System","department":"Marketing","manager":"zhangsan"},"maintenance":{"vendor":"EMC","contact":"az@emc.com","purchaseDate":"2010/1/1","period":3}}};
 	          	  
 	          	baseInfo.info = baseInfo.info ? baseInfo.info : {} ;
+	          	baseInfo.maintenance = baseInfo.maintenance ? baseInfo.maintenance : {} ;
 	          	baseInfo.info.assets = baseInfo.info.assets ? baseInfo.info.assets : {} ;
 	          	baseInfo.info.ability = baseInfo.info.ability ? baseInfo.info.ability : {} ;
 	          	baseInfo.info.maintenance = baseInfo.info.maintenance ? baseInfo.info.maintenance : {} ;
 	          	baseInfo.info.ability.maxSlot = baseInfo.info.ability.maxSlot ? baseInfo.info.ability.maxSlot : 0 ;
 	          	baseInfo.info.ability.maxPorts = baseInfo.info.ability.maxPorts ? baseInfo.info.ability.maxPorts : 0 ;
+	          	baseInfo.maintenance.period = baseInfo.maintenance.period ? parseInt(baseInfo.maintenance.period) : 0 ;
+	          	
 	          	baseInfo.info.maintenance.purchaseDate = baseInfo.info.maintenance.purchaseDate ?baseInfo.info.maintenance.purchaseDate : "";
 	          	$("#purchaseDate").val(baseInfo.info.maintenance.purchaseDate);
 	          	

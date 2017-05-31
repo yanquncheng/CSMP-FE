@@ -34,6 +34,7 @@
       $scope.entity={};
       $scope.editPanel=false;
 	    $scope.changeAll = function(all) {
+	    			$("#btnEditall").attr({"disabled":"disabled"});
 						$scope.count=0;
 						$scope.selectData=[];
 						$("input[name='check1']:checkbox").each(function(index,item){
@@ -41,6 +42,7 @@
 							if(all.selectAll){
 								$scope.selectData.push(JSON.parse(item.value));
 								$scope.count= $("input[name='check1']:checkbox").length;
+								$("#btnEditall").removeAttr("disabled");
 							}
 						});
 //						angular.forEach($("input[name='check1']:checkbox"), function(item) {
@@ -69,6 +71,11 @@
 							$scope.selectData.push(JSON.parse(item.value));
 						}
 					});
+					if($scope.count>0){
+						$("#btnEditall").removeAttr("disabled");
+					}else{
+						$("#btnEditall").attr({"disabled":"disabled"});
+					}
 //					$event.stopPropagation();//阻止冒泡
         };
         

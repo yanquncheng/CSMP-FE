@@ -1,0 +1,211 @@
+<!--
+	虚拟网关容量视图html
+-->
+<ui-view autoscroll="true" autoscroll-body-top>
+	<div class="row" ba-panel ba-panel-title="可用容量统计信息" ba-panel-class="with-scroll">
+		<div class="col-lg-5">
+			<div id="simple-bar" class="ct-chart"></div>
+		</div>
+		
+		<div class="col-lg-7">
+			<table class="table table-hover" st-table="coreDataList" st-safe-src="coreDataArrayList">
+				<thead>
+					<tr>
+						<th>北京数据中心-资源池</th>
+						<th>虚拟化接管存储数量(GB)</th>
+						<th>拟化接管可用容量(GB)</th>
+						<th>拟化接管已用容量(GB)</th>
+						<th>拟化接管剩余容量(GB)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>总计(GB)</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+				</tbody>
+			</table>			
+		</div>
+	</div>
+	<div class="row" ba-panel ba-panel-title="虚拟化网关汇总信息" ba-panel-class="with-scroll">
+		<div class="col-lg-12">
+			<table id="sample-table-1" st-table="gatewayTableData" st-safe-src="list" class="table table-hover">
+		       <thead>
+			      <tr> 
+					    <th colspan="8">
+					    	<div class="row">
+					    		 	<div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px;">显示行数：</div>
+										<div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
+										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="gatewayTablePageSize"
+											 ng-options="i for i in [5,10,15,20,25]"></select>
+									</div>
+									<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
+									<div class="col-xs-5 clo-lg-5 col-sm-5">	
+										<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+					    		 </div>
+					    	</div>
+			    		</th>
+					</tr>	
+					<tr>
+						<th>数据中心</th>
+						<th>环境</th>
+						<th>逻辑池</th>
+						<th>网关类型</th>
+						<th>网关数量</th>
+						<th>管理存储型号</th>
+						<th>已接管容量(GB)</th>
+						<th>分配给主机容量(GB)</th>
+					</tr>
+		      </thead>
+		      <tbody>
+			      <tr ng-click="trDetails('aa')" id="aa" class="bbb">
+			      	<td>数据中心</td>
+			      	<td>环境</td>
+			      	<td>逻辑池</td>
+			      	<td>网关类型</td>
+			      	<td>网关数量</td>
+			      	<td>AAA</td>
+			      	<td>200</td>
+			      	<td>50</td>
+			      </tr>
+			      <tr ng-click="trDetails('bb')" id="bb" class="bbb">
+			      	<td>数据中心</td>
+			      	<td>环境</td>
+			      	<td>逻辑池</td>
+			      	<td>存储类型</td>
+			      	<td>存储数量</td>
+			      	<td>BBB</td>
+			      	<td>100</td>
+			      	<td>70</td>
+			      </tr>
+		      </tbody>
+		      <tfoot>
+			    <tr>
+			      <td colspan="8" class="text-center">
+			        <div st-pagination="" st-items-by-page="gatewayTablePageSize" st-displayed-pages="15"></div>
+			      </td>
+			    </tr>
+		      </tfoot>
+		    </table>
+		</div>
+	</div>
+	<!-- 虚拟网关详细信息 -->
+	<div class="row" ba-panel ba-panel-title="虚拟网关详细信息" ba-panel-class="with-scroll" ng-hide="gatewayDivDetail">
+		<div class="col-lg-12">
+			<table id="sample-table-2" st-table="gateway1TableData" st-safe-src="detailsList" class="table table-hover">
+		       <thead>
+			      <tr> 
+						<th colspan="10">
+					    	<div class="row">
+					    		 	<div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px;">显示行数：</div>
+										<div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
+										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="gatewayDTablePageSize"
+											 ng-options="i for i in [5,10,15,20,25]"></select>
+									</div>
+									<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
+									<div class="col-xs-5 clo-lg-5 col-sm-5">	
+											<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+					    		 </div>
+					    	</div>
+				    	</th>
+					</tr>	
+					<tr>
+						<th>虚拟网关名称</th>
+						<th>虚拟网关序列号</th>
+						<th>虚拟网关型号</th>
+						<th>HA</th>
+						<th>接管存储型号</th>
+						<th>接管存储类型</th>
+						<th>接管存储数量</th>
+						<th>接管LUN数量</th>
+						<th>接管存储容量(GB)</th>
+						<th>分配给主机容量(GB)</th>
+					</tr>
+		      </thead>
+		      <tbody>
+			      <tr>
+			      	<td>存储别名</td>
+					<td>存储序列号</td>
+					<td>存储型号</td>
+					<td>A</td>
+					<td>已分配容量(GB)</td>
+					<td>未分配容量(GB)</td>
+					<td>分配比例%</td>
+					<td>裸容量(GB)</td>
+					<td>500</td>
+					<td>200</td>
+			      </tr>
+		      </tbody>
+		      <tfoot>
+			    <tr>
+			      <td colspan="10" class="text-center">
+			        <div st-pagination="" st-items-by-page="gatewayDTablePageSize" st-displayed-pages="15"></div>
+			      </td>
+			    </tr>
+		      </tfoot>
+		    </table>
+		</div>
+	</div>
+	<!-- 存储容量详细信息 -->
+	<div class="row" ba-panel ba-panel-title="存储容量详细信息" ba-panel-class="with-scroll" ng-hide="divDetail">
+		<div class="col-lg-12">
+			<table id="sample-table-2" st-table="coreview1TableData" st-safe-src="list1" class="table table-hover">
+		       <thead>
+			      <tr> 
+					    <th colspan="11">
+					    	<div class="row">
+					    		 	<div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px;">显示行数：</div>
+										<div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
+										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="coreview1TablePageSize"
+											 ng-options="i for i in [5,10,15,20,25]"></select>
+									</div>
+									<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
+									<div class="col-xs-5 clo-lg-5 col-sm-5">	
+											<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+					    		 </div>
+					    	</div>
+			    		</th>
+					</tr>	
+					<tr>
+						<th>存储别名</th>
+						<th>存储序列号</th>
+						<th>存储型号</th>
+						<th>初始化(可分配)-裸容量(GB)</th>
+						<th>已分配容量(GB)</th>
+						<th>未分配容量(GB)</th>
+						<th>分配比例%</th>
+						<th>裸容量(GB)</th>
+						<th>初始化损耗-裸容量(GB)</th>
+						<th>未初始化-裸容量(GB)</th>
+						<th>热备盘-裸容量(GB)</th>
+					</tr>
+		      </thead>
+		      <tbody>
+			      <tr>
+			      	<td>存储别名</td>
+					<td>存储序列号</td>
+					<td>存储型号</td>
+					<td>初始化(可分配)-裸容量(GB)</td>
+					<td>已分配容量(GB)</td>
+					<td>未分配容量(GB)</td>
+					<td>分配比例%</td>
+					<td>裸容量(GB)</td>
+					<td>初始化损耗-裸容量(GB)</td>
+					<td>未初始化-裸容量(GB)</td>
+					<td>热备盘-裸容量(GB)</td>
+			      </tr>
+		      </tbody>
+		      <tfoot>
+			    <tr>
+			      <td colspan="11" class="text-center">
+			        <div st-pagination="" st-items-by-page="coreview1TablePageSize" st-displayed-pages="15"></div>
+			      </td>
+			    </tr>
+		      </tfoot>
+		    </table>
+		</div>
+	</div>
+</ui-view>

@@ -1,0 +1,7 @@
+1、日期框样式
+bower_components/angular-bootstrap/ui-bootstrap-tpls.js
+7089行class添加 datepickerPopupStyle
+
+2、amchart免注册
+bower_components\amcharts\dist\amcharts\amcharts.js
+126行if(c!=a||!0===this.inIframe())改成if(c==a||!0===this.inIframe())

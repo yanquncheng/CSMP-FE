@@ -15,7 +15,7 @@
             .state('dashboard', {
                 url: '/dashboard',
                 templateUrl: 'app/pages/sides/sides.html',
-                redirectTo: 'dashboard.maindashboard', 
+                redirectTo: 'dashboard.dashboards', 
                 data: {
                     permissions: {
                         only: ['AUTHORIZED'],

@@ -21,6 +21,7 @@ angular.module('BlurAdmin', [
         'BlurAdmin.printService',
         //'BlurAdmin.S3UploadService',
         'BlurAdmin.commonservice',
+        'BlurAdmin.httpService',
         'BlurAdmin.service',
         'BlurAdmin.signin',
         'BlurAdmin.theme',

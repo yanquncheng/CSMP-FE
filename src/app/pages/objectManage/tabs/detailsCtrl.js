@@ -6,7 +6,7 @@
   angular.module('BlurAdmin.pages.objectManage.tabs')
      .controller('detailsCtrl', detailsCtrlFunc);
     
-    function detailsCtrlFunc($scope, fixedNumber, $http, $localStorage, $filter, $stateParams) {
+    function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams) {
     	 
     	 console.log($stateParams);
     	 
@@ -26,7 +26,7 @@
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
     		
-		    $http.get(IG.api + tab['url'], cfg).success(function (response) {
+		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.summary = response;
 				$scope.infos = [];
 				angular.forEach($scope.summary, function(item, index){
@@ -76,7 +76,7 @@
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
     		
-		    $http.get(IG.api + tab['url'], cfg).success(function (response) {
+		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
 								"chartType":"pie",
@@ -142,7 +142,7 @@
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
     		
-		    $http.get(IG.api + tab['url'], cfg).success(function (response) {
+		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
 							    "tableBody": [
@@ -246,7 +246,7 @@
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
     		
-		    $http.get(IG.api + tab['url'], cfg).success(function (response) {
+		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.capacity = response;
 		    	var t = {
 								    "left": {
@@ -404,7 +404,7 @@
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
     		
-		    $http.get(IG.api + tab['url'], cfg).success(function (response) {
+		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
 						    "left": {

@@ -238,7 +238,7 @@
                                
                               AuthenticationService.setMenuItems($scope.menuItems);
                                
-                              $state.go('dashboard.maindashboard');
+                              $state.go('dashboard.dashboards');
                               
                            }, 1000).error(function (err) {
                                 console.log(err); 
@@ -258,7 +258,7 @@
                              AuthenticationService.setMenuItems(menueJson);
                              printService.print("go to url = dashboard.maindashboard" );    
                              
-                             $state.go('dashboard.maindashboard');
+                             $state.go('dashboard.dashboards');
                              
                         }, 1000).error(function (err) {
                              console.log(err); 

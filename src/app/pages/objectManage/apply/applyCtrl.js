@@ -12,11 +12,9 @@
           "Authorization": $localStorage.authKey
       }}
 	  
-	  
-	  $scope.app_levelList = [{"id":"1","name":"A级应用"},{"id":"2","name":"B级应用"}];
-	  $scope.product_typeList = [{"id":"1","name":"测试用"},{"id":"2","name":"生产用"}];
-	  $scope.busi_typeList = [{"id":"1","name":"测试用"},{"id":"2","name":"生产用"}];
-	  $scope.statusList = [{"id":"1","name":"测试"},{"id":"2","name":"生产"}];
+	  $scope.statusList = [{"id":"Product","name":"Product"},{"id":"Test","name":"Test"},{"id":"Development","name":"Development"}];
+  	$scope.smartTablePageSize = 15;
+  	$scope.readStatus = false ;
 	  //应用列表查询
       $scope.initApply = function (){
       	
@@ -29,7 +27,6 @@
             	  
   			 // });
               
-              $scope.smartTablePageSize = 15;
 
 	      }).error(function (err) {
 	          console.log(err);   
@@ -48,6 +45,7 @@
     	  $scope.apply = angular.copy(apply);
     	  $scope.editPanel = true ;
    		  $scope.panelTtile = '应用编辑' ;
+				$scope.readStatus = true ;
    		  
       };
       
@@ -55,10 +53,11 @@
        * 应用新增
        */
       $scope.addApply = function (){
-    	$scope.apply = {};
-		$scope.editPanel = true ;
-		$scope.panelTtile = '应用新增' ;
-		$scope.readStatus = false ;
+    		$scope.apply = {};
+    		$scope.apply.status = $scope.statusList[0].id;
+				$scope.editPanel = true ;
+				$scope.panelTtile = '应用新增' ;
+				$scope.readStatus = false ;
       };
       
       /**
@@ -72,6 +71,11 @@
        * 新增/编辑 保存
        */
  	 $scope.panelSave = function (){
+ 	 	
+ 		if(!$scope.apply.name){
+ 			commonService.showMsg("error","请输入应用名称！");
+ 			return;
+ 		 }
  		 
  		$http.post(IG.api + "/application" ,  $scope.apply , config )
         .success(function (response) {

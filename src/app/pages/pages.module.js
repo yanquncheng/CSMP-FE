@@ -22,9 +22,11 @@
             'BlurAdmin.pages.EquipmentManagement',
             'BlurAdmin.pages.objectManage',
             'BlurAdmin.pages.sysManage',
-            'BlurAdmin.pages.EventManagement',
-            'BlurAdmin.pages.performance'
-
+			'BlurAdmin.pages.performance',
+			'BlurAdmin.pages.EventManagement',
+			'BlurAdmin.pages.CapacityManagement',
+			'BlurAdmin.pages.dashboards',
+			'BlurAdmin.pages.objectManage'
         ])
         .config(routeConfig);
 

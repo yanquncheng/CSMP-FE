@@ -7,7 +7,7 @@
 				<table class="table table-hover" st-table="smartTableData" st-safe-src="DataList">
 					<thead>
 						<tr> 
-						    <th colspan="3">
+						    <th colspan="5">
 						    	<div class="row">
 					    		 	<div class="col-lg-3 col-sm-5 col-xlg-5 control-label text-right" style="padding-top: 7px;">显示行数：</div>
 									<div class="col-lg-7 col-sm-7 col-xlg-7" style="padding-left:0px;">
@@ -17,41 +17,46 @@
 								</div>
 				    		</th>
 				    		<th></th>
-				    		<th colspan="5">
+				    		<th colspan="6">
 								<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
 				    		</th>
 						</tr>	
 						<tr>
-					      <th colspan="8" style="text-align: right">
+					      <th colspan="11" style="text-align: right">
 					        <div class="col-xs-6" style="text-align: left">
 					           <button type="button" ng-click="addApply();" class="btn btn-primary btn-with-icon">
 						        	<i class="glyphicon glyphicon-plus"></i>新增应用
 						        </button>
 					        </div>
 					      </th>
-					  </tr>
-					      
+					  	</tr>
 						<tr class="black-muted-bg">
 							<!--<th style="text-align: center;width: 80px;">序号</th>-->
-							<th style="text-align: center;" st-sort="name">应用名称</th>
-							<th style="text-align: center;" st-sort="product_type">业务类型</th>
-							<th style="text-align: center;" st-sort="oper_depart">生产系统类型</th>
-							<th style="text-align: center;" st-sort="status">应用状态</th>
-							<th style="text-align: center;" st-sort="app_depart">运维支持部门</th>
-							<th style="text-align: center;" st-sort="oper_owner">运维支持负责人</th>
-							<th style="text-align: center;" st-sort="description">应用所属部门</th>
-							<th style="text-align: center;">操作</th>
+							<th st-sort="name">应用名称</th>
+							<th st-sort="alias">应用别名</th>
+							<th st-sort="status">应用状态</th>
+							<th st-sort="busi_type">业务类型</th>
+							<th st-sort="product_type">系统类型</th>
+							<th st-sort="oper_depart">运维部门</th>
+							<th st-sort="oper_owner">运维负责人</th>
+							<th st-sort="app_depart">应用所属部门</th>
+							<th st-sort="app_level">应用等级</th>
+							<th st-sort="description">应用描述</th>
+							<th >操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="row in smartTableData">
 							<!--<td style="text-align: center;width: 80px;vertical-align: middle;">{{$index + 1 }}</td>-->
 							<td>{{row.name}}</td>
+							<td>{{row.alias}}</td>
+							<td>{{row.status}}</td>
+							<td>{{row.busi_type}}</td>
 							<td>{{row.product_type}}</td>
 							<td>{{row.oper_depart}}</td>
-							<td>{{row.status}}</td>
-							<td>{{row.app_depart}}</td>
 							<td>{{row.oper_owner}}</td>
+							<td>{{row.app_depart}}</td>
+							<td>{{row.app_level}}</td>
 							<td>{{row.description}}</td>
 							<td>
 								<button type="button" ng-click="editApply(row);" class="btn btn-primary btn-with-icon btn-xs">
@@ -62,7 +67,7 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="8" class="text-center">
+							<td colspan="11" class="text-center">
 								<div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
 							</td>
 						</tr>
@@ -91,10 +96,10 @@
 		<div ba-panel ba-panel-title="{{panelTtile}}"  ba-panel-class="with-scroll"><!--panel  start-->
 			    <div class="row" style="padding-right: 60px;padding-bottom: 5px;">
 			      <div class="form-group">
-			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">应用名称 :</label>
+			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;"><fond style="color:red;">* </fond>应用名称 :</label>
 			
 			        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
-			          <input type="text" class="form-control" ng-model="apply.name" placeholder="应用名称" readonly="readonly"/>
+			          <input type="text" class="form-control" ng-model="apply.name" placeholder="应用名称" ng-readonly="readStatus"/>
 			        </div>
 			
 			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">应用别名 :</label>
@@ -118,9 +123,7 @@
 			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">业务类型 :</label>
 			
 			        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
-			          <select class="form-control"  ng-model="apply.busi_type"
-			                  ng-options="item.id as item.name for item in busi_typeList">
-			          </select>
+			          <input type="text" class="form-control" ng-model="apply.busi_type" placeholder="业务类型 "/>
 			        </div>
 			      </div>
 			    </div>
@@ -130,9 +133,7 @@
 			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">生产系统类型 :</label>
 			
 			        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
-			          	<select class="form-control"  ng-model="apply.product_type"
-			                  ng-options="item.id as item.name for item in product_typeList">
-			          	</select>
+			          <input type="text" class="form-control" ng-model="apply.product_type" placeholder="生产系统类型 "/>
 			        </div>
 			
 			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">运维支持部门 :</label>
@@ -148,7 +149,7 @@
 			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">运维支持负责人 :</label>
 			
 			        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
-			          <input type="text" class="form-control" ng-model="apply.oper_owne" placeholder="运维支持负责人"/>
+			          <input type="text" class="form-control" ng-model="apply.oper_owner" placeholder="运维支持负责人"/>
 			        </div>
 			        
 			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">应用所属部门 :</label>
@@ -162,18 +163,10 @@
 			    
 				<div class="row" style="padding-right: 60px;padding-bottom: 5px;">
 			      <div class="form-group">
-			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">其他 :</label>
-			
-			        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
-			          <input type="text" class="form-control" ng-model="apply.other" placeholder="其他"/>
-			        </div>
-			
 			        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">应用等级 :</label>
 			
 			        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
-			         	<select class="form-control"  ng-model="apply.app_level"
-			                  ng-options="item.id as item.name for item in app_levelList">
-			          	</select>
+			          <input type="text" class="form-control" ng-model="apply.app_level" placeholder="应用等级"/>
 			        </div>
 			      </div>
 			    </div>

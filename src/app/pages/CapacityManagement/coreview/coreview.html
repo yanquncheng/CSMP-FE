@@ -1,0 +1,159 @@
+<!--
+	数据中心容量视图html
+-->
+<ui-view autoscroll="true" autoscroll-body-top>
+	<div class="row" ba-panel ba-panel-title="可用容量统计信息" ba-panel-class="with-scroll">
+		<div class="col-lg-5">
+			<div id="simple-bar" class="ct-chart"></div>
+		</div>
+		
+		<div class="col-lg-7">
+			<table class="table table-hover" st-table="coreDataList" st-safe-src="coreDataArrayList">
+				<thead>
+					<tr>
+						<th></th>
+						<th>SAN存储(GB)</th>
+						<th>NAS存储(GB)</th>
+						<th>分布式存储(GB)</th>
+						<th>对象存储(GB)</th>
+						<th>总计(GB)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>北京中心</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+				</tbody>
+			</table>			
+		</div>
+	</div>
+	<div class="row" ba-panel ba-panel-title="逻辑池容量信息" ba-panel-class="with-scroll">
+		<div class="col-lg-12">
+			<table id="sample-table-1" st-table="coreviewTableData" st-safe-src="list" class="table table-hover">
+		       <thead>
+			      <tr> 
+					    <th colspan="9">
+					    	<div class="row">
+					    		 	<div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px;">显示行数：</div>
+										<div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
+										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="coreviewTablePageSize"
+											 ng-options="i for i in [5,10,15,20,25]"></select>
+									</div>
+									<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
+									<div class="col-xs-5 clo-lg-5 col-sm-5">	
+											<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+					    		 </div>
+					    	</div>
+			    		</th>
+					</tr>	
+					<tr>
+						<th>数据中心</th>
+						<th>环境</th>
+						<th>逻辑池</th>
+						<th>存储类型</th>
+						<th>存储数量</th>
+						<th>可分配容量(GB)</th>
+						<th>已分配容量(GB)</th>
+						<th>剩余容量(GB)</th>
+						<th>分配比例%</th>
+					</tr>
+		      </thead>
+		      <tbody>
+			      <tr ng-click="trDetails('aa')" id="aa" class="bbb">
+			      	<td>数据中心</td>
+			      	<td>环境</td>
+			      	<td>逻辑池</td>
+			      	<td>存储类型</td>
+			      	<td>存储数量</td>
+			      	<td>可分配容量(GB)</td>
+			      	<td>已分配容量(GB)</td>
+			      	<td>剩余容量(GB)</td>
+			      	<td>分配比例%</td>
+			      </tr>
+			      <tr ng-click="trDetails('bb')" id="bb" class="bbb">
+			      	<td>数据中心</td>
+			      	<td>环境</td>
+			      	<td>逻辑池</td>
+			      	<td>存储类型</td>
+			      	<td>存储数量</td>
+			      	<td>可分配容量(GB)</td>
+			      	<td>已分配容量(GB)</td>
+			      	<td>剩余容量(GB)</td>
+			      	<td>分配比例%</td>
+			      </tr>
+		      </tbody>
+		      <tfoot>
+			    <tr>
+			      <td colspan="9" class="text-center">
+			        <div st-pagination="" st-items-by-page="coreviewTablePageSize" st-displayed-pages="15"></div>
+			      </td>
+			    </tr>
+		      </tfoot>
+		    </table>
+		</div>
+	</div>
+	<!-- 存储容量详细信息 -->
+	<div class="row" ba-panel ba-panel-title="存储容量详细信息" ba-panel-class="with-scroll" ng-hide="divDetail">
+		<div class="col-lg-12">
+			<table id="sample-table-2" st-table="coreview1TableData" st-safe-src="list1" class="table table-hover">
+		       <thead>
+			      <tr> 
+					    <th colspan="11">
+					    	<div class="row">
+					    		 	<div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px;">显示行数：</div>
+										<div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
+										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="coreview1TablePageSize"
+											 ng-options="i for i in [5,10,15,20,25]"></select>
+									</div>
+									<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
+									<div class="col-xs-5 clo-lg-5 col-sm-5">	
+											<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+					    		 </div>
+					    	</div>
+			    		</th>
+					</tr>	
+					<tr>
+						<th>存储别名</th>
+						<th>存储序列号</th>
+						<th>存储型号</th>
+						<th>初始化(可分配)-裸容量(GB)</th>
+						<th>已分配容量(GB)</th>
+						<th>未分配容量(GB)</th>
+						<th>分配比例%</th>
+						<th>裸容量(GB)</th>
+						<th>初始化损耗-裸容量(GB)</th>
+						<th>未初始化-裸容量(GB)</th>
+						<th>热备盘-裸容量(GB)</th>
+					</tr>
+		      </thead>
+		      <tbody>
+			      <tr>
+			      	<td>存储别名</td>
+					<td>存储序列号</td>
+					<td>存储型号</td>
+					<td>初始化(可分配)-裸容量(GB)</td>
+					<td>已分配容量(GB)</td>
+					<td>未分配容量(GB)</td>
+					<td>分配比例%</td>
+					<td>裸容量(GB)</td>
+					<td>初始化损耗-裸容量(GB)</td>
+					<td>未初始化-裸容量(GB)</td>
+					<td>热备盘-裸容量(GB)</td>
+			      </tr>
+		      </tbody>
+		      <tfoot>
+			    <tr>
+			      <td colspan="11" class="text-center">
+			        <div st-pagination="" st-items-by-page="coreview1TablePageSize" st-displayed-pages="15"></div>
+			      </td>
+			    </tr>
+		      </tfoot>
+		    </table>
+		</div>
+	</div>
+</ui-view>

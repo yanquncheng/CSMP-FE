@@ -12,7 +12,7 @@
 									 ng-options="i for i in [5,10,15,20,25]"></select>
 							</div>
 							<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
-							<div class="col-xs-5 clo-lg-5 col-sm-5">	
+							<div class="col-xs-5 clo-lg-5 col-sm-5 pull-right">	
 									<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
 			    		 </div>
 			    	</div>
@@ -20,22 +20,6 @@
 	    		</th>
 				</th>
 			</tr>	
-			<tr>
-	      <th colspan="13" style="text-align: right">
-	        <div class="col-xs-6" style="text-align: left">
-	          <!--<button type="button" class="btn btn-primary" ng-click="add()">
-	            <i class="ace-icon fa fa-plus"></i>新增设备
-	          </button>-->
-	          
-	          <button type="button" class="btn btn-primary" ng-click="panelAdd()">
-	            <i class="ace-icon fa fa-plus"></i>新增设备
-	          </button>
-	        </div>
-	        <!--<div class="col-xs-6" style="text-align: right">
-	          <table-searcher source-list="sourceList" filter-list="filterList"></table-searcher>
-	        </div>-->
-	      </th>
-	      </tr>
 	      <tr>
 		        <th style="text-align: center;" ng-repeat="thead in theadList" st-sort="{{thead.sort}}" st-sort-default="{{thead.default}}"> {{thead.text}}</th>
 	      </tr>
@@ -64,7 +48,9 @@
 		        </td>
 		        <td>{{storage.info.basicInfo.UnitID}}</td>
 		        <td class="center">
-		          <a href="javascript:void (0)" ng-click="panelAdd(storage)"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
+		        	<button type="button" ng-click="panelAdd(storage);" class="btn btn-primary btn-with-icon btn-xs">
+				        	<i class="glyphicon glyphicon-pencil"></i>修改
+				    	</button>
 		        </td>
 	      </tr>
       </tbody>

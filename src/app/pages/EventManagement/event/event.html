@@ -6,7 +6,14 @@
 			      <label class="col-sm-1 control-label" for="ds_username">开始时间</label>
 			      <div class="col-sm-3" ng-controller="datepickerpopupCtrl">
 			        <p class="input-group">
-			            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" datepicker-options="options" id="startdt" ng-model="params.startdt" is-open="opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" />
+			            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" datepicker-options="options" 
+			            	id="startdt" 
+			            	ng-model="params.startdt" 
+			            	is-open="opened" 
+			            	ng-required="true" 
+			            	close-text="Close" 
+			            	alt-input-formats="altInputFormats" 
+			            	show-button-bar="true" />
 				        <span class="input-group-btn">
 				            <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
 				        </span>
@@ -15,7 +22,7 @@
 			      <label class="col-sm-1 control-label" for="ds_password">结束时间</label>
 			      <div class="col-sm-3" ng-controller="datepickerpopupCtrl">
 			        <p class="input-group">
-			            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" datepicker-options="options" id="enddt" ng-model="params.enddt" is-open="opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" />
+			            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" datepicker-options="options" id="enddt" ng-model="params.enddt" is-open="opened" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="true" />
 				        <span class="input-group-btn">
 				            <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
 				        </span>
@@ -36,7 +43,7 @@
 					<th colspan="19">
 						<div class="row">
 							<div class="col-lg-2 co2-sm-2 col-xlg-2">
-								<button type="button" class="btn btn-info" ng-click="editAll(2)">批量处理</button>
+								<button type="button" class="btn btn-info" id="btnEditall" ng-click="editAll(2)" disabled="true">批量处理</button>
 							</div>	
 							<div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px; text-align: right;">显示行数：</div>
 							<div class="col-lg-1 col-sm-1 col-xlg-1" style="padding-left: 1px;">
@@ -114,7 +121,7 @@
 					<td>{{row.alias}}</td>
 					<td>{{row.device}}</td>
 					<td>{{row.devtype}}</td>
-					<td>{{row.part}}</td>
+					<td title="{{row.part}}">{{row.part | truncate:8}}</td>
 					<td>{{row.parttype}}</td>
 					<td>{{row.eventdisplayname}}</td>
 					<td>{{row.timestamp}}</td>
@@ -122,13 +129,18 @@
 					<td>{{row.customerSeverity}}</td>
 					<td>{{row.eventstate}}</td>
 					<td>{{row.sourceip}}</td>
-					<td style="text-overflow:ellipsis;" title="{{row.fullmsg}}">{{row.fullmsg| truncate:20}}</td>
+					<td style="text-overflow:ellipsis;" title="{{row.fullmsg}}">{{row.fullmsg| truncate:8}}</td>
 					<td>{{row.eventtype}}</td>
 					<td>{{row.category}}</td>
 					<td>{{row.state}}</td>
 					<td  title="{{row.relationPart}}">{{row.relationPart | truncate:20}}</td>
 					<td  title="{{row.ProcessMethod}}">{{row.ProcessMethod | truncate:20}}</td>
-					<td class="center"><a href="javascript:void (0)" ng-click="edit(row, 1)"><i class="ace-icon fa fa-pencil bigger-130"></i></a></td>
+					<td class="center">
+						<button type="button" ng-click="edit(row, 1)" class="btn btn-primary btn-with-icon btn-xs">
+				        	<i class="glyphicon glyphicon-pencil"></i>修改
+				    	</button>
+						<!--<a href="javascript:void (0)" ng-click="edit(row, 1)"><i class="ace-icon fa fa-pencil bigger-130"></i></a>-->
+					</td>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -156,6 +168,88 @@
 		         					<h3>{{entity.eventdisplayname}}</h3>
 		         				</div>
 		         			</div>
+		         			
+		         			<div class="row" style="padding-top:10px;" ng-show="eventdisplaynameDiv">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">设备名称 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.alias" placeholder="{{entity.alias}}" readonly="readonly"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">设备序列号 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						        	<input type="text" class="form-control" ng-model="entity.device" placeholder="{{entity.device}}" readonly="readonly"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;" ng-show="eventdisplaynameDiv">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">设备类型 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.devtype" placeholder="{{entity.devtype}}" readonly="readonly"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">部件名称 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.part" placeholder="{{entity.part}}" readonly="readonly"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;" ng-show="eventdisplaynameDiv">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">部件类型 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.parttype" placeholder="{{entity.parttype}}" readonly="readonly"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">发生时间 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.timestamp" placeholder="{{entity.timestamp}}" readonly="readonly"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;" ng-show="eventdisplaynameDiv">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件级别 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.severity" placeholder="{{entity.severity}}" readonly="readonly"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件状态:</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.eventstate" placeholder="{{entity.eventstate}}" readonly="readonly"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;" ng-show="eventdisplaynameDiv">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件类型 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.eventtype" placeholder="{{entity.eventtype}}" readonly="readonly"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件类别 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.category" placeholder="{{entity.category}}" readonly="readonly"/>
+						        </div>
+						      </div>
+						    </div>
+						    <div class="row" style="padding-top:10px;" ng-show="eventdisplaynameDiv">
+						      <div class="form-group">
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件来源 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.sourceip" placeholder="{{entity.sourceip}}" readonly="readonly"/>
+						        </div>
+						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">关联部件 :</label>
+						        <div class="col-md-4 col-sm-4 col-lg-4">
+						          <input type="text" class="form-control" ng-model="entity.eventtype" placeholder="{{entity.eventtype}}" readonly="readonly"/>
+						        </div>
+						      </div>
+						    </div>
+		         			<div class="row" style="padding-top:10px;" ng-show="eventdisplaynameDiv">
+						    	<div class="form-group">
+						    		<label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">事件描述 :</label>
+							        <div class="col-md-10 col-sm-10 col-lg-10">
+							          <textarea class="form-control" ng-model="entity.fullmsg" placeholder="{{entity.fullmsg}}" readonly="readonly"></textarea>
+							        </div>
+						    	</div>
+						    </div>
+		         			
 		         			<div class="row" style="padding-top:10px;">
 						      <div class="form-group">
 						        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">自定义事件级别 :</label>
@@ -177,7 +271,7 @@
 						    	<div class="form-group">
 						    		<label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">处理方法 :</label>
 							        <div class="col-md-10 col-sm-10 col-lg-10">
-							          <input type="text" class="form-control" ng-model="entity.ProcessMethod" placeholder="{{entity.ProcessMethod}}"/>
+							          <textarea class="form-control" ng-model="entity.ProcessMethod" placeholder="{{entity.ProcessMethod}}"></textarea>
 							        </div>
 						    	</div>
 						    </div>

@@ -14,3 +14,23 @@
 .datepickerPopupStyle{
     background-color: #565a6f;
 }
+table a {
+    color: #e1f593;
+    text-decoration: none !important;
+    transition: color 0.2s ease;
+}
+.table > tbody > tr > td {
+    line-height: 25px;
+}
+.table > thead > tr > th {
+    text-align: left ;
+}
+
+input::-webkit-input-placeholder {
+        /* placeholder颜色  */
+        color: rgba(243, 241, 241, 0.3) !important; 
+         /* placeholder字体大小  */
+//       font-size: 20px;
+         /* placeholder位置  */
+//       text-align: right;
+     }

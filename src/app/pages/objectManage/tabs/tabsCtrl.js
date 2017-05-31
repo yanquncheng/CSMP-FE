@@ -6,10 +6,9 @@
   angular.module('BlurAdmin.pages.objectManage.tabs')
      .controller('tabsCtrl', tabsCtrlFun);
   
-  function tabsCtrlFun ($scope, fixedNumber, $http, $localStorage, $filter, $state,$uibModal, commonService) {
+  function tabsCtrlFun ($scope, fixedNumber, $localStorage, $filter, $state,$uibModal, commonService, httpService) {
  	 
  	 var config = { headers: {
-          "Authorization": $localStorage.authKey
       },
  	 params:{
  	 	
@@ -21,10 +20,10 @@
  	 $scope.tabs = [
  	                {"id":1,"name":"SAN存储","url":"app/pages/objectManage/tabs/storage.html",
  	                	"apiUrl":"/arrays"},
- 	                {"id":2,"name":"NAS存储","url":"app/pages/objectManage/tabs/storage.html",
- 	                	"apiUrl":"/arrays"},
- 	                {"id":3,"name":"对象存储","url":"app/pages/objectManage/tabs/storage.html",
- 	                	"apiUrl":"/arrays"},
+// 	                {"id":2,"name":"NAS存储","url":"app/pages/objectManage/tabs/storage.html",
+// 	                	"apiUrl":"/arrays"},
+// 	                {"id":3,"name":"对象存储","url":"app/pages/objectManage/tabs/storage.html",
+// 	                	"apiUrl":"/arrays"},
  	                {"id":4,"name":"虚拟存储","url":"app/pages/objectManage/tabs/storage.html",
  	                	"apiUrl":"/arrays"}
  	               ];
@@ -125,8 +124,7 @@
        * 存储列表
        */
       function query(apiUrl) {
-    	  
-    	 $http.get(IG.api + apiUrl , config ).success(function (response) { 
+    	 httpService.get(apiUrl, null, config, function (response) { 
     		  
           //$scope.sourceList = response;
           //$scope.filterList = $scope.sourceList;
@@ -156,15 +154,12 @@
           
           $scope.smartTablePageSize = 15;
 
-	      }).error(function (err) {
-	          console.log(err);   
 	      });
       };
       
     //点击查看详情
  	 $scope.storageDetail = function (storage){
- 	 	config.params.arraytype = storage.model;
-	    $http.get(IG.api + '/menu/ObjectManage/Array', config).success(function (response) {
+	    httpService.get('/menu/ObjectManage/Array', {arraytype: storage.model}, config, function (response) {
 	    	if(typeof response == 'string'){
 	          commonService.showMsg("error", response);
 	    	}else{
@@ -221,8 +216,7 @@
    			//初始化加载Datacenter列表
 		  	  $scope.UnitIDs = []; 
 		    	  
-		      	$http.get(IG.api + '/matadata/datacenter' , config )
-		      	.success(function (response) {
+		      	httpService.get('/matadata/datacenter', null, config, function (response) {
 		      		
 		      		if(!response || response.length==0){
 		      			$scope.treeData = [{"isDefault":true,"Name":"测试数据中心2","Type":"生产数据中心2","City":"北京","Address":"海淀区数据中心",
@@ -254,8 +248,6 @@
 		  	            });
 		            });
 		      		 
-			      }).error(function (err) {
-			          commonService.showMsg("error",err.message);
 			      });
    		}
    	  };
@@ -305,7 +297,7 @@
 		ability.maxFEs = $scope.entity.ability.maxFEs;
 		ability.maxCabinets = $scope.entity.ability.maxCabinets;
 		
-		$http.post(IG.api + '/arrays', {'basicInfo': basicInfo, 'maintenance': maintenance, 'assets': assets, 'ability': ability}, config).success(function (response) {
+		httpService.post('/arrays', {'basicInfo': basicInfo, 'maintenance': maintenance, 'assets': assets, 'ability': ability}, config, function (response) {
 			$scope.editPanel = false ;
 			$scope.swithTabs($scope.selectTab);
 		});
