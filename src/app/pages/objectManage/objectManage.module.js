@@ -7,7 +7,7 @@
 
   angular.module('BlurAdmin.pages.objectManage', [
       'BlurAdmin.pages.objectManage.tabs','BlurAdmin.pages.objectManage.switchboard',
-      'BlurAdmin.pages.objectManage.apply'
+      'BlurAdmin.pages.objectManage.apply','BlurAdmin.pages.objectManage.host'
     ])
     .config(routeConfig);
 

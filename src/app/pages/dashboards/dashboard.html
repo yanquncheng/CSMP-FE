@@ -109,8 +109,8 @@
 					</div>
 				</div>-->
 				<div class="ddd" align="left">
-					<div title="可用容量:{{chart.CapacityDist.Available/chart.CapacityDist.TotalRaw*100}}%" class="divl_left_radius demo" style="background-color: rgb(236,236,4); float: left; width: {{chart.CapacityDist.Available/chart.CapacityDist.TotalRaw*100}}%; z-index: {{chart.CapacityDist.Available>chart.CapacityDist.Used?chart.CapacityDist.Used:chart.CapacityDist.Available}};"></div>
-					<div title="已用容量:{{chart.CapacityDist.Used/chart.CapacityDist.TotalRaw*100}}%" class="divl_left_radius demo" style="background-color: rgb(120,156,14);float: left;width: {{chart.CapacityDist.Used/chart.CapacityDist.TotalRaw*100}}%; height: 100%; color: #000000; padding: 5px; text-align: center; z-index: {{chart.CapacityDist.Used>chart.CapacityDist.Available?chart.CapacityDist.Available:chart.CapacityDist.Used}};"></div>
+					<div title="可用容量:{{chart.CapacityDist.Availables}}%" class="divl_left_radius demo" style="background-color: rgb(236,236,4); float: left; width: {{chart.CapacityDist.Availables}}%; z-index: {{chart.CapacityDist.Available>chart.CapacityDist.Used?chart.CapacityDist.Used:chart.CapacityDist.Available}};"></div>
+					<div title="已用容量:{{chart.CapacityDist.Useds}}%" class="divl_left_radius demo" style="background-color: rgb(120,156,14);float: left;width: {{chart.CapacityDist.Useds}}%; height: 100%; color: #000000; padding: 5px; text-align: center; z-index: {{chart.CapacityDist.Used>chart.CapacityDist.Available?chart.CapacityDist.Available:chart.CapacityDist.Used}};"></div>
 					<div class="divl_rigth_radius demo" style="background-color: rgb(222,222,222);float: left;width: 100%; z-index: 1;"></div>
 				</div>
 				<div style="padding-left: 10px; width: 94%;">

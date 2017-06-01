@@ -6,7 +6,7 @@
       .controller('logicalCtrl', logicalCtrl);
 
   /** @ngInject */
-  function logicalCtrl($scope, $filter, $http, $localStorage,toastr, $uibModal) {
+  function logicalCtrl($scope, $filter, $http, $localStorage,toastr, $uibModal,httpService) {
   	var config = { headers: {
           "Authorization": $localStorage.authKey
       }}
@@ -18,28 +18,39 @@
   	//TODO 调用be项目里面的 performance配置的路径方法
   	$scope.query=function() {
         //调用后台请求下拉列表数据
-        $http.get(IG.api + '/arrays' , config )
-          .success(function (response) { 
-              $scope.serialNumbers = response;  
-              $scope.filter.selectValue=$scope.serialNumbers[0].device;
-              $scope.selectChange();
-              
-              for (var index = 19; index >= 0; index--) {
-				        var color = colors[index];
-				        $scope.colors1.push(angular.copy(color));
-				      }
-              
-	      }).error(function (err) {
-	          console.log(err);   
-	      });
+//      $http.get(IG.api + '/arrays' , config )
+//        .success(function (response) { 
+//            $scope.serialNumbers = response;  
+//            $scope.filter.selectValue=$scope.serialNumbers[0].device;
+//            $scope.selectChange();
+//            
+//            for (var index = 19; index >= 0; index--) {
+//				        var color = colors[index];
+//				        $scope.colors1.push(angular.copy(color));
+//				      }              
+//	      }).error(function (err) {
+//	          console.log(err);   
+//	      });
+	      
+	      httpService.get("/arrays", null, config, function (response){
+      	 	$scope.serialNumbers = response;  
+          $scope.filter.selectValue=$scope.serialNumbers[0].device;
+          $scope.selectChange();
+          
+          for (var index = 19; index >= 0; index--) {
+		        var color = colors[index];
+		        $scope.colors1.push(angular.copy(color));
+		      }   
+      	});
       }
 		$scope.filter={};
   	$scope.selectChange=function() {
 //		alert($scope.filter.selectValue);
   		//选择select的时候查询列表数据
   		$scope.LogicalDataArrayList={};
-  		 $http.get(IG.api + '/array/luns?device='+$scope.filter.selectValue, config )
-          .success(function (response) { 
+  		httpService.get("/array/luns", {'device':$scope.filter.selectValue}, config, function (response){
+//		 $http.get(IG.api + '/array/luns?device='+$scope.filter.selectValue, config )
+//        .success(function (response) { 
               $scope.LogicalDataArrayList = response;
               
               for ( var i in response ) {  //循环计算
@@ -123,12 +134,14 @@
            				response[i].ResponseTime=parseInt(readResponseTimeMax)+parseInt(writeResponseTimeMax);  //TResponseTime最大值
 //         			}
            		}
-	      }).error(function (err) {
-	          console.log(err);   
-	      });
+          });
+//	      }).error(function (err) {
+//	          console.log(err);   
+//	      });
 	      //图形数据查询
-	      $http.get(IG.api + '/array/hosts?device='+$scope.filter.selectValue, config )
-          .success(function (response) { 
+	      httpService.get("/array/hosts", {'device':$scope.filter.selectValue}, config, function (response){
+//	      $http.get(IG.api + '/array/hosts?device='+$scope.filter.selectValue, config )
+//        .success(function (response) { 
               $scope.hosts = response;
               for (var i = 0; i < response.length; i++) {
 		            var host = response[i];

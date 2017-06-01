@@ -5,16 +5,16 @@
 		<div class="col-lg-4 col-xs-4 col-sm-4">
 			<div ba-panel ba-panel-title="Datacenter信息"  ba-panel-class="with-scroll"><!--panel  start-->
   
-			 	<div id="dataTree" style="min-height: 380px;height: auto;"></div>
+			 	<div id="dataTree" style="min-height: 530px;height: auto;"></div>
 			</div><!--panel  start-->
 			
 		</div>
 		
 		<div class="col-lg-8 col-lg-8 col-sm-8">
 			<div ba-panel ba-panel-title="操作"  ba-panel-class="with-scroll"><!--panel  start-->
-				<div style="min-height: 380px;height: auto;">
+				<div style="min-height: 530px;height: auto;">
 					
-					<div class="row" style="padding-top: 5px;padding-bottom: 20px;">
+					<div class="row" style="padding-top: 5px;padding-bottom: 10px;">
 						<div class="col-xs-11 col-lg-11 col-sm-11" align="center" ng-if="!showSave">
 							
 							<button class="btn btn-primary btn-with-icon" ng-click="addMenu(true)">
@@ -49,126 +49,131 @@
 				    
 					<div ng-if="!addItem && menuItem.leval==0">
 					    		
-						<div class="row" style="padding-top:5px;">
+						<div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">数据中心名称 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
 					        	<input type="text" class="form-control" ng-model="menuItem.Name" placeholder="数据中心名称" readonly="readonly"/>
 					        </div>
-					        <!--<label ng-show="showSave" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>-->
+					        <label ng-show="!menuItem.Name" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">数据中心类型 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	<input type="text" class="form-control" ng-model="menuItem.Type" placeholder="数据中心类型" readonly="readonly"/>
+					        	<input type="text" class="form-control" ng-model="menuItem.Type" placeholder="数据中心类型" ng-readonly="read.others"/>
 					        </div>
-					        <!--<label ng-show="showSave" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>-->
+					        <label ng-show="!menuItem.Type" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">城市 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	<input type="text" class="form-control" ng-model="menuItem.City" placeholder="城市" readonly="readonly"/>
+					        	<input type="text" class="form-control" ng-model="menuItem.City" placeholder="城市" ng-readonly="read.others"/>
 					        </div>
-					        <!--<label ng-show="showSave" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>-->
+					        <label ng-show="!menuItem.City" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">地址 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	<input type="text" class="form-control" ng-model="menuItem.Address" placeholder="地址" readonly="readonly"/>
+					        	<input type="text" class="form-control" ng-model="menuItem.Address" placeholder="地址" ng-readonly="read.others"/>
 					        </div>
-					        <!--<label ng-show="showSave" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>-->
+					        <label ng-show="!menuItem.Address" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
 					</div>
 					<div ng-if="!addItem && menuItem.leval==1">
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼栋名 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
 					        	 <input type="text" class="form-control" ng-model="menuItem.Name" placeholder="楼栋名" ng-readonly="read.menuId"/>
 					        </div>
+					        <label ng-show="!menuItem.Name" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼栋说明 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	<input type="text" class="form-control" ng-model="menuItem.Description" placeholder="楼栋说明" readonly="readonly"/>
+					        	<input type="text" class="form-control" ng-model="menuItem.Description" placeholder="楼栋说明" ng-readonly="read.others"/>
 					        </div>
-					        
+					        <label ng-show="!menuItem.Description" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
 					</div>
 					<div ng-if="!addItem && menuItem.leval==2">
 					
-					     <div class="row" style="padding-top:5px;">
+					     <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼层名 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
 					        	 <input type="text" class="form-control" ng-model="menuItem.Name" placeholder="楼层名" ng-readonly="read.menuId"/>
 					        </div>
+					        <label ng-show="!menuItem.Name" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼层说明 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	<input type="text" class="form-control" ng-model="menuItem.Description" placeholder="楼层说明" readonly="readonly"/>
+					        	<input type="text" class="form-control" ng-model="menuItem.Description" placeholder="楼层说明" ng-readonly="read.others"/>
 					        </div>
-					        
+					        <label ng-show="!menuItem.Description" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
 					</div>
 					<div ng-if="!addItem && menuItem.leval==3">   
 						
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">机房名 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
 					        	 <input type="text" class="form-control" ng-model="menuItem.Name" placeholder="机房名" ng-readonly="read.menuId"/>
 					        </div>
+					        <label ng-show="!menuItem.Name" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">机房说明 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	<input type="text" class="form-control" ng-model="menuItem.Description" placeholder="机房说明" readonly="readonly"/>
+					        	<input type="text" class="form-control" ng-model="menuItem.Description" placeholder="机房说明" ng-readonly="read.others"/>
 					        </div>
-					        
+					        <label ng-show="!menuItem.Description" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3  control-label text-right">最大电力负荷 :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	 <input type="text" class="form-control" ng-model="menuItem.MaxPowerLoad" placeholder="最大电力负荷" ng-readonly="read.menuId"/>
+					        	 <input type="number" class="form-control" ng-model="menuItem.MaxPowerLoad" placeholder="最大电力负荷" ng-readonly="read.others"/>
 					        </div>
+					        <label ng-show="!menuItem.MaxPowerLoad" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
-					    <div class="row" style="padding-top:5px;">
+					    <div class="row" style="padding-top:3px;">
 					      <div class="form-group">
 					        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">MaxCabinet :</label>
 					        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-					        	<input type="text" class="form-control" ng-model="menuItem.MaxCabinet" placeholder="MaxCabinet" readonly="readonly"/>
+					        	<input type="number" class="form-control" ng-model="menuItem.MaxCabinet" placeholder="MaxCabinet" ng-readonly="read.others"/>
 					        </div>
+					        <label ng-show="!menuItem.MaxCabinet" class="col-xs-3 col-lg-3 col-sm-3text-left"><fond style="color:red;">* 必填</fond></label>
 					      </div>
 					    </div>
 					    
@@ -177,151 +182,178 @@
 					<!--//新增用-->
 					<div class="row" ng-show="addItem">
 				        <div class="col-xs-12 col-lg-12 col-sm-12">
-				        	<form name="centerInfoForm">
+				        	<form name="centerInfoForm" id="centerInfoForm">
 			                        	
-	                        	<div class="row" style="padding-top:5px;">
+	                        	<div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': centerInfoForm.Name.$invalid && (centerInfoForm.Name.$dirty || centerInfoForm.Name.$submitted)}">
+                                 	ng-class="{'has-error': centerInfoForm.Name.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">数据中心名称 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" name="Name" ng-model="centerInfo.Name" placeholder="数据中心名称" required/>
+							        	<input type="text" error="{{centerInfoForm.Name.$invalid}}" class="form-control" name="Name" ng-model="centerInfo.Name" placeholder="数据中心名称" required ng-readonly="centerInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 							    
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 		ng-class="{'has-error': centerInfoForm.Type.$invalid && (centerInfoForm.Type.$dirty || centerInfoForm.Type.$submitted)}">
+                                 		ng-class="{'has-error': centerInfoForm.Type.$invalid }">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">数据中心类型 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" name="Type" ng-model="centerInfo.Type" placeholder="数据中心类型" required/>
+							        	<input type="text" error="{{centerInfoForm.Type.$invalid}}" class="form-control" name="Type" ng-model="centerInfo.Type" placeholder="数据中心类型" required ng-readonly="centerInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 							    
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 		ng-class="{'has-error': centerInfoForm.City.$invalid && (centerInfoForm.City.$dirty || centerInfoForm.City.$submitted)}">
+                                 		ng-class="{'has-error': centerInfoForm.City.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">城市 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" name="City" ng-model="centerInfo.City" placeholder="城市" required/>
+							        	<input type="text" error="{{centerInfoForm.City.$invalid}}" class="form-control" name="City" ng-model="centerInfo.City" placeholder="城市" required ng-readonly="centerInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 							    
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 		ng-class="{'has-error': centerInfoForm.Address.$invalid && (centerInfoForm.Address.$dirty || centerInfoForm.Address.$submitted)}">
+                                 		ng-class="{'has-error': centerInfoForm.Address.$invalid}">
 
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">地址 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" name="Address" ng-model="centerInfo.Address" placeholder="地址" required/>
+							        	<input type="text" error="{{centerInfoForm.Address.$invalid}}" class="form-control" name="Address" ng-model="centerInfo.Address" placeholder="地址" required ng-readonly="centerInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 	                            
 	                        </form>
-				        	<form name="buildInfoForm" >
+	                        
+	                        <div class="row" style="margin-top:4px;margin-bottom:4px;">
+	                        	<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+						        <div class="col-xs-10 col-lg-10 col-sm-10" style="padding-left:0px;border-bottom: 1px solid rgba(0, 0, 0, 0.12);box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12);"></div>
+								<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+	                        </div>
+	                            
+				        	<form name="buildInfoForm" id="buildInfoForm" >
 			                        	
-	                            <div class="row" style="padding-top:5px;">
+	                            <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': buildInfoForm.Name.$invalid && (buildInfoForm.Name.$dirty || buildInfoForm.Name.$submitted)}">
+                                 	ng-class="{'has-error': buildInfoForm.Name.$invalid }">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼栋名 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	 <input type="text" class="form-control" name="Name" ng-model="buildInfo.Name" placeholder="楼栋名" required/>
+							        	 <input type="text" error="{{buildInfoForm.Name.$invalid}}" class="form-control" name="Name" ng-model="buildInfo.Name" placeholder="楼栋名" required ng-readonly="buildInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 							    
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': buildInfoForm.Description.$invalid && (buildInfoForm.Description.$dirty || buildInfoForm.Description.$submitted)}">
+                                 	ng-class="{'has-error': buildInfoForm.Description.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼栋说明 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" name="Description" ng-model="buildInfo.Description" placeholder="楼栋说明" required/>
+							        	<input type="text" error="{{buildInfoForm.Description.$invalid}}" class="form-control" name="Description" ng-model="buildInfo.Description" placeholder="楼栋说明" required ng-readonly="buildInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 	                            
 	                        </form>
-				        	<form name="floorInfoForm" >
+	                        
+	                        <div class="row" style="margin-top:4px;margin-bottom:4px;">
+	                        	<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+						        <div class="col-xs-10 col-lg-10 col-sm-10" style="padding-left:0px;border-bottom: 1px solid rgba(0, 0, 0, 0.12);box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12);"></div>
+								<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+	                        </div>
+							
+				        	<form name="floorInfoForm" id="floorInfoForm" >
 			                            
-	                            <div class="row" style="padding-top:5px;">
+	                            <div class="row" style="padding-top:3px;">
 							       <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': floorInfoForm.Name.$invalid && (floorInfoForm.Name.$dirty || floorInfoForm.Name.$submitted)}">
+                                 	ng-class="{'has-error': floorInfoForm.Name.$invalid}">
 
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼层名 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	 <input type="text" class="form-control" name="Name" ng-model="floorInfo.Name" placeholder="楼层名" required/>
+							        	 <input type="text" error="{{floorInfoForm.Name.$invalid}}" class="form-control" name="Name" ng-model="floorInfo.Name" placeholder="楼层名" required ng-readonly="floorInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': floorInfoForm.Description.$invalid && (floorInfoForm.Description.$dirty || floorInfoForm.Description.$submitted)}">
+                                 	ng-class="{'has-error': floorInfoForm.Description.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">楼层说明 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" ng-model="floorInfo.Description" placeholder="楼层说明" required/>
+							        	<input type="text" error="{{floorInfoForm.Description.$invalid}}" class="form-control" name="Description" ng-model="floorInfo.Description" placeholder="楼层说明" required ng-readonly="floorInfo.read"/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 	                            
 	                        </form>
-				        	<form name="unitInfoForm"> <!--class="form-horizontal"-->
+	                        
+	                        <div class="row" style="margin-top:4px;margin-bottom:4px;">
+	                        	<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+						        <div class="col-xs-10 col-lg-10 col-sm-10" style="padding-left:0px;border-bottom: 1px solid rgba(0, 0, 0, 0.12);box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12);"></div>
+								<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+	                        </div>
+							
+				        	<form name="unitInfoForm" id="unitInfoForm"> <!--class="form-horizontal"-->
 			                            
-	                            <div class="row" style="padding-top:5px;">
+	                            <div class="row" style="padding-top:3px;">
 							       <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': unitInfoForm.Name.$invalid && (unitInfoForm.Name.$dirty || unitInfoForm.Name.$submitted)}">
+                                 	ng-class="{'has-error': unitInfoForm.Name.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">机房名 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	 <input type="text" class="form-control" name="Name" ng-model="unitInfo.Name" placeholder="机房名" required/>
+							        	 <input type="text" error="{{unitInfoForm.Name.$invalid}}" class="form-control" name="Name" ng-model="unitInfo.Name" placeholder="机房名" required/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 							    
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': unitInfoForm.Description.$invalid && (unitInfoForm.Description.$dirty || unitInfoForm.Description.$submitted)}">
+                                 	ng-class="{'has-error': unitInfoForm.Description.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">机房说明 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" name="Description" ng-model="unitInfo.Description" placeholder="机房说明" required/>
+							        	<input type="text" error="{{unitInfoForm.Description.$invalid}}" class="form-control" name="Description" ng-model="unitInfo.Description" placeholder="机房说明" required/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 							    
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': unitInfoForm.MaxPowerLoad.$invalid && (unitInfoForm.MaxPowerLoad.$dirty || unitInfoForm.MaxPowerLoad.$submitted)}">
+                                 	ng-class="{'has-error': unitInfoForm.MaxPowerLoad.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3  control-label text-right">最大电力负荷 :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	 <input type="text" class="form-control" name="MaxPowerLoad" ng-model="unitInfo.MaxPowerLoad" placeholder="最大电力负荷" required/>
+							        	 <input type="number" error="{{unitInfoForm.MaxPowerLoad.$invalid}}" class="form-control" name="MaxPowerLoad" ng-model="unitInfo.MaxPowerLoad" placeholder="最大电力负荷" required/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 							    
-							    <div class="row" style="padding-top:5px;">
+							    <div class="row" style="padding-top:3px;">
 							      <div class="form-group has-feedback"
-                                 	ng-class="{'has-error': unitInfoForm.MaxCabinet.$invalid && (unitInfoForm.MaxCabinet.$dirty || unitInfoForm.MaxCabinet.$submitted)}">
+                                 	ng-class="{'has-error': unitInfoForm.MaxCabinet.$invalid}">
 							        <label style="padding-top:5px;" class="col-xs-3 col-lg-3 col-sm-3 control-label text-right">MaxCabinet :</label>
 							        <div class="col-xs-6 col-lg-6 col-sm-6" style="padding-left:0px;">
-							        	<input type="text" class="form-control" name="MaxCabinet" ng-model="unitInfo.MaxCabinet" placeholder="MaxCabinet" required/>
+							        	<input type="number" error="{{unitInfoForm.MaxCabinet.$invalid}}" class="form-control" name="MaxCabinet" ng-model="unitInfo.MaxCabinet" placeholder="MaxCabinet" required/>
 							        </div>
 							        <label class="col-xs-3 col-lg-3 col-sm-3 text-left help-block error-block basic-block">* 必填</label>
 							      </div>
 							    </div>
 	                            
 	                        </form>
+	                        
+	                        <div class="row" style="margin-top:4px;margin-bottom:4px;">
+	                        	<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+						        <div class="col-xs-10 col-lg-10 col-sm-10" style="padding-left:0px;border-bottom: 1px solid rgba(0, 0, 0, 0.12);box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.12);"></div>
+								<div class="col-xs-1 col-lg-1 col-sm-1" style="padding-left:0px;"></div>
+	                        </div>
 			             
 			            </div>
 				    </div>

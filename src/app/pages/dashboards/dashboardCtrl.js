@@ -6,7 +6,7 @@
       .controller('dashboardCtrl', dashboardCtrlFunc);
 	
   /** @ngInject */
-  function dashboardCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService,baUtil,baConfig,$timeout,$element,layoutPaths) {
+  function dashboardCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService,baUtil,baConfig,$timeout,$element,layoutPaths,httpService) {
       var config = { headers: {
           "Authorization": $localStorage.authKey
       }}
@@ -149,7 +149,10 @@
 	      "legend": {  //顶部显示图标格式
 	        "useGraphSettings": true,
 	        "position": "top",
-	        "color": layoutColors.defaultText
+	        "color": layoutColors.defaultText,
+	        "align":"left",
+	        "horizootalGap":5,
+	        "valueWidth":80
 	      },
 	      "balloon": {
 	        "borderThickness": 1,
@@ -170,18 +173,24 @@
 			$scope.charts =[];  //资源池数据信息
 			$scope.tabsValue=""; //默认数据中心查询值
 		  $scope.initData = function (params){
-			config.params=params;
-			$http.get(IG.api + '/dashboard/EquipmentSummary', config )
-          .success(function (response) { 
+//			config.params=params;
+			httpService.get("/dashboard/EquipmentSummary", params, config, function (response){
+//			$http.get(IG.api + '/dashboard/EquipmentSummary', config )
+//        .success(function (response) { 
               $scope.dataList = response.Datacenter;  
               $scope.tabs1 = $scope.dataList;
               $scope.tabsValue = $scope.tabs1[0].ResourcePool;
+//            $scope.tabsValue.CapacityDist={};
               for(var i in $scope.tabsValue){
               	var item = $scope.tabsValue[i];
+              	var Availables = parseFloat((item.CapacityDist.Available / item.CapacityDist.TotalRaw)*100).toFixed(1);  //可用容量
+              	var Useds = parseFloat((item.CapacityDist.Used / item.CapacityDist.TotalRaw)*100).toFixed(1);  //已用容量
+              	$scope.tabsValue[i].CapacityDist.Availables=Availables;
+              	$scope.tabsValue[i].CapacityDist.Useds=Useds;
               	trendCharts(item.Name,item.CapacityTrend);
               }
-	      }).error(function (err) {
-	          console.log(err);   
+//	      }).error(function (err) {
+//	          console.log(err);   
 	      });
 		};
     

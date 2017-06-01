@@ -1,0 +1,46 @@
+<ui-view ng-controller="hostDetailCtrl">
+	<div class="row">
+	    <div class="col-md-12 col-sm-12 col-lg-12">
+	    	<span class="pull-left" style="padding-left: 5px;">
+	    		<span class="glyphicon glyphicon-oil"></span>
+	    		主机名称：[ {{parmsInfo.baseinfo.name}} ]
+	    	</span>
+	    	<button ng-click="back();" type="button" class="back-button btn btn-default btn-with-icon pull-right">
+	    	 	<i class="ion-chevron-left"></i>Back
+	      	</button>
+	    </div>
+  	</div>
+  	<!-- tab标签信息 -->
+  	<div class="row" style="margin-top: 10px;">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel large-panel">
+		        <uib-tabset active="$tabSetStatus.activeTab">
+				  <uib-tab heading="{{tab.tabName}}" ng-repeat="tab in tabs" ng-if="!tab.dropdown" ng-click="swithTabs(tab);" index="tab.id">
+				      <div ng-include="tab.page"></div>
+				  </uib-tab>
+				  
+				   <uib-tab ng-init="$dropdownTabActive = tab.children[0].id" class="with-dropdown" ng-if="tab.dropdown" 
+				   		ng-repeat="tab in tabs" index="tab.id">
+						<uib-tab-heading uib-dropdown>
+
+					      <a uib-dropdown-toggle ng-click="$event.stopPropagation()">
+					        {{tab.tabName}}<i class="caret"></i>
+					      </a>
+					      <ul class="dropdown-menu" uib-dropdown-menu>
+					        <li ng-repeat="child in tab.children"><a ng-click="$dropdownTabActive = child.id; $tabSetStatus.activeTab = tab.id">{{child.name}}</a></li>
+					      </ul>
+				      </uib-tab-heading>
+				      <div ng-repeat="child in tab.children" ng-show="$dropdownTabActive == child.id">
+						      <p>
+						        Success is ... knowing your purpose in life, growing to reach your maximum potential, and sowing seeds that
+						        benefit others.
+						      </p>
+						
+						      <p>Failure is the condiment that gives success its flavor.</p>
+				   	  	</div>
+				  		</uib-tab>
+					</uib-tabset>
+		      </div>
+        </div>
+    </div>
+</ui-view>

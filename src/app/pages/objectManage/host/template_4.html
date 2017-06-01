@@ -1,0 +1,111 @@
+<style>
+  .chat {
+    width: 1502px;
+    float: left;
+    margin: 20px;
+  }
+
+  .chat a:link, .chat a:visited, .chat a:active, .chat a:hover {
+    text-decoration: none;
+  }
+
+  .chat a {
+    color: inherit;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .cell {
+    border: solid 1px white;
+    text-align: center;
+    line-height: 60px;
+    float: left;
+    height: 60px;
+  !important;
+    border-radius: 2px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0px;
+  !important;
+  }
+
+  .blank {
+    border: solid 0px transparent !important;
+    color: transparent;
+  }
+
+  .dash {
+    border: dashed white 2px;
+    color: #58666e;
+  }
+
+  .hide {
+    display: none;
+  }
+</style>
+
+<div id="faq-tab-1" class="tab-pane fade in active">
+    <div class="col-xs-6">
+      <div class="col-xs-12" id="luo" style="height: 300px;">
+      </div>
+      <div class="col-xs-12" style="padding: 0px; border:1.5px solid #E6EBEE;">
+				<div class="div-table-name col-xs-12" style="text-align: center;">
+					裸容量视图
+				</div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">总容量（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{capacity.Raw.ConfiguredRawCapacity}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">未建立Raid（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{capacity.Raw.ConfiguredRawCapacity-capacity.Raw.RAIDOverheadCapacity}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">已建立Raid（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{capacity.Raw.RAIDOverheadCapacity}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">EFD（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{efdCapacity|fixed:2}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">SAS（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{sasCapacity|fixed:2}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">NL SAS（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{nlsasCapacity|fixed:2}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">Fibre Channel（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{fibreChannelCapacity|fixed:2}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">SATA（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{sataCapacity|fixed:2}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="col-xs-12" id="ke" style="height: 300px;">
+      </div>
+      <div class="col-xs-12" style="padding: 0px; border:1.5px solid #E6EBEE;">
+				<div class="div-table-name col-xs-12" style="text-align: center;">
+					可分配容量视图
+				</div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">总容量（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{capacity.Raw.ConfiguredUsableCapacity}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">Pool已分配（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{capacity.Raw.ConfiguredUsableCapacity-capacity.Raw.ConfiguredUsableCapacityDetail.PoolFreeCapacity}}</div>
+        </div>
+        <div class="row" style="margin: 0px; border-top:1.5px solid #F7F7F7;">
+          <div class="div-table-name pull-left col-xs-4" style="text-align: right;">Pool未分配（GB）</div>
+          <div class="div-table-value pull-left col-xs-8">{{capacity.Raw.ConfiguredUsableCapacityDetail.PoolFreeCapacity}}</div>
+        </div>
+      </div>
+    </div>
+</div>

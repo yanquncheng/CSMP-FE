@@ -173,13 +173,13 @@
 	          	//baseInfo = {"device":"DS_6520B-10000027F84A8E9A","UnitID":"444f0915-1032-465c-b6ee-94345bbac9c1","alias":"aaaaaa","devicesn":"AMS14520158","vendor":"Brocade","model":"Brocade 6520","ip":"172.8.188.80","devdesc":"Fibre Channel Switch","Localtion":"xxxx","LastTS":"1467373748","#TotalPort":100,"#FreePort":10,"#ConnHBAPort":20,"#ConnStoragePort":20,"#ILSPort":20,"#OtherPort":10,"#UsedPort":101,"info":{"ability":{"maxSlot":"111","maxPorts":"1000"},"assets":{"no":"asset0001","purpose":"SAP System","department":"Marketing","manager":"zhangsan"},"maintenance":{"vendor":"EMC","contact":"az@emc.com","purchaseDate":"2010/1/1","period":3}}};
 	          	  
 	          	baseInfo.info = baseInfo.info ? baseInfo.info : {} ;
-	          	baseInfo.maintenance = baseInfo.maintenance ? baseInfo.maintenance : {} ;
+//	          	baseInfo.maintenance = baseInfo.maintenance ? baseInfo.maintenance : {} ;
 	          	baseInfo.info.assets = baseInfo.info.assets ? baseInfo.info.assets : {} ;
 	          	baseInfo.info.ability = baseInfo.info.ability ? baseInfo.info.ability : {} ;
 	          	baseInfo.info.maintenance = baseInfo.info.maintenance ? baseInfo.info.maintenance : {} ;
 	          	baseInfo.info.ability.maxSlot = baseInfo.info.ability.maxSlot ? baseInfo.info.ability.maxSlot : 0 ;
 	          	baseInfo.info.ability.maxPorts = baseInfo.info.ability.maxPorts ? baseInfo.info.ability.maxPorts : 0 ;
-	          	baseInfo.maintenance.period = baseInfo.maintenance.period ? parseInt(baseInfo.maintenance.period) : 0 ;
+	          	baseInfo.info.maintenance.period = baseInfo.info.maintenance.period ? parseInt(baseInfo.info.maintenance.period) : 0 ;
 	          	
 	          	baseInfo.info.maintenance.purchaseDate = baseInfo.info.maintenance.purchaseDate ?baseInfo.info.maintenance.purchaseDate : "";
 	          	$("#purchaseDate").val(baseInfo.info.maintenance.purchaseDate);
@@ -187,8 +187,8 @@
 	          	  $scope.switchs =  {
 	        		    "basicInfo":{
 	        		        "device": baseInfo.device,　　　　　　　　　　
-	        		        "alias": baseInfo.alias,
-	        		        "UnitID": baseInfo.UnitID
+	        		        "alias": baseInfo.info.basicInfo.alias,
+	        		        "UnitID": baseInfo.info.basicInfo.UnitID
 	        		     },
 	        		    "maintenance": baseInfo.info.maintenance ,
 	        		    "assets": baseInfo.info.assets ,

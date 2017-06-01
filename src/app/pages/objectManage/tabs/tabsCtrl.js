@@ -31,8 +31,8 @@
  	$scope.theads1 = [
  	                 {"text": "存储别名","sort": "name","default": false},
  	                 {"text": "序列号","sort": "serialnb", "default": false},
- 	                 {"text": "数据中心", "sort": "","default": false},
- 	                 {"text": "资源池","sort": "", "default": false},
+// 	                 {"text": "数据中心", "sort": "","default": false},
+// 	                 {"text": "资源池","sort": "", "default": false},
  	                 {"text": "类型","sort": "", "default": false},
  	                 {"text": "型号", "sort": "", "default": false},
  	                 {"text": "端口数量","sort": "","default": false},
@@ -46,8 +46,8 @@
  	$scope.theads2 = [
   	                 {"text": "2存储别名","sort": "name","default": false},
   	                 {"text": "序列号","sort": "serialnb", "default": false},
-  	                 {"text": "数据中心", "sort": "","default": false},
-  	                 {"text": "资源池","sort": "", "default": false},
+//	                 {"text": "数据中心", "sort": "","default": false},
+//	                 {"text": "资源池","sort": "", "default": false},
   	                 {"text": "类型","sort": "", "default": false},
   	                 {"text": "型号", "sort": "", "default": false},
   	                 {"text": "端口数量","sort": "","default": false},
@@ -61,8 +61,8 @@
  	$scope.theads3 = [
   	                 {"text": "3存储别名","sort": "name","default": false},
   	                 {"text": "序列号","sort": "serialnb", "default": false},
-  	                 {"text": "数据中心", "sort": "","default": false},
-  	                 {"text": "资源池","sort": "", "default": false},
+//	                 {"text": "数据中心", "sort": "","default": false},
+//	                 {"text": "资源池","sort": "", "default": false},
   	                 {"text": "类型","sort": "", "default": false},
   	                 {"text": "型号", "sort": "", "default": false},
   	                 {"text": "端口数量","sort": "","default": false},
@@ -76,8 +76,8 @@
  	$scope.theads4 = [
   	                 {"text": "4存储别名","sort": "name","default": false},
   	                 {"text": "序列号","sort": "serialnb", "default": false},
-  	                 {"text": "数据中心", "sort": "","default": false},
-  	                 {"text": "资源池","sort": "", "default": false},
+//	                 {"text": "数据中心", "sort": "","default": false},
+//	                 {"text": "资源池","sort": "", "default": false},
   	                 {"text": "类型","sort": "", "default": false},
   	                 {"text": "型号", "sort": "", "default": false},
   	                 {"text": "端口数量","sort": "","default": false},

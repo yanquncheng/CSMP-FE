@@ -6,26 +6,35 @@
       .controller('eventCtrl', eventCtrlFunc);
 	
   /** @ngInject */
-  function eventCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService) {
+  function eventCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService,httpService) {
   	 console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
       }}
       $scope.smartTablePageSize = 15;
       $scope.initData = function (params){
-      	config.params=params;
-      	$http.get(IG.api + '/events', config )
-          .success(function (response) { 
-              $scope.DataArrayList = response;  
-           for ( var i in response ) {
+//    	config.params=params;
+      	 httpService.get("/events", params, config, function (response){
+      	 		$scope.DataArrayList = response;  
+      	 		for ( var i in response ) {
            		var item = response[i];
            		if(item.timestamp){  //格式化列表日期格式
            			item.timestamp= moment(item.timestamp*1000).format("YYYY-MM-DD HH:mm:ss");
            		}
            }
-	      }).error(function (err) {
-	          console.log(err);   
-	      });
+      	 });
+//    	$http.get(IG.api + '', config )
+//        .success(function (response) { 
+//            $scope.DataArrayList = response;  
+//         for ( var i in response ) {
+//         		var item = response[i];
+//         		if(item.timestamp){  //格式化列表日期格式
+//         			item.timestamp= moment(item.timestamp*1000).format("YYYY-MM-DD HH:mm:ss");
+//         		}
+//         }
+//	      }).error(function (err) {
+//	          console.log(err);   
+//	      });
 	      $scope.cancelPage();
       };
       //全选（取消全选
@@ -145,14 +154,18 @@
 							 "state":$scope.entity.state,
 							 "ProcessMethod":$scope.entity.ProcessMethod
 			 		 }];
-					$http.post(IG.api + "/events" , params , config )
-		        .success(function (response) {
-		        	console.log("response:--->"+response);
-		        	commonService.showMsg("success","修改成功!");
-		        }).error(function (err) {
-			        console.log(err);
-			        commonService.showMsg("error",err.message);
-			      });
+			 		 httpService.post('/events', params, config, function (response){
+			 		 	commonService.showMsg("success","修改成功!");
+			 		 });
+			 		 
+//					$http.post(IG.api + "/events" , params , config )
+//		        .success(function (response) {
+//		        	console.log("response:--->"+response);
+//		        	commonService.showMsg("success","修改成功!");
+//		        }).error(function (err) {
+//			        console.log(err);
+//			        commonService.showMsg("error",err.message);
+//			      });
 				}else{//批量处理数据
 					if($scope.selectData.length<1){
 						commonService.showMsg("提示","请选择要修改的数据");
@@ -166,14 +179,17 @@
 							 "ProcessMethod":$scope.entity.ProcessMethod};
 							 params.push(selData);
 						});
-						$http.post(IG.api + "/events" , params , config )
-		        .success(function (response) {
-		        	console.log("response:--->"+response);
-		        	commonService.showMsg("success","修改成功!");
-		        }).error(function (err) {
-			        console.log(err);
-			        commonService.showMsg("error",err.message);
-			      });
+						httpService.post('/events', params, config, function (response){
+				 		 	commonService.showMsg("success","修改成功!");
+				 		});
+//						$http.post(IG.api + "/events" , params , config )
+//		        .success(function (response) {
+//		        	console.log("response:--->"+response);
+//		        	commonService.showMsg("success","修改成功!");
+//		        }).error(function (err) {
+//			        console.log(err);
+//			        commonService.showMsg("error",err.message);
+//			      });
 					}
 					console.log("====="+params);
 				}

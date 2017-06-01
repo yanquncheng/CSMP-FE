@@ -1,0 +1,119 @@
+<div class="tabbable">
+	<div class="row">
+		<!-- PAGE CONTENT BEGINS -->
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			<div class="cleanfix" style="border: 1px solid #E6EBEE;padding-top: 5px;">
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88" style="width: 100%;height: 25px; text-align: center">
+						<h4>主机基本信息</h4></div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">类型 :</div>
+					<div class="div-table-value pull-left">{{host.baseinfo.type}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">物理位置 :</div>
+					<div class="div-table-value pull-left">{{host.baseInfo.UnitID}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">状态 :</div>
+					<div class="div-table-value pull-left">{{host.baseinfo.status}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">管理IP地址 :</div>
+					<div class="div-table-value pull-left">{{host.baseinfo.management_ip}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">主机类别 :</div>
+					<div class="div-table-value pull-left">{{host.baseinfo.catalog}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">服务IP地址 :</div>
+					<div class="div-table-value pull-left">{{host.baseinfo.service_ip}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">描述 :</div>
+					<div class="div-table-value pull-left">{{host.baseinfo.description}}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			<div class="cleanfix" style="border: 1px solid #E6EBEE;padding-top: 5px;" ">
+				<div class="row " style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7; ">
+					<div class="div-table-name-88 " style="width: 100%;height: 25px; text-align: center "><h4>运维信息</h4></div>
+				</div>
+				<div class="row " style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7; ">
+					<div class="div-table-name-88 pull-left " style="width: 40%; text-align: right; padding: 5px 5px 5px 5px; ">运维厂商 :</div>
+					<div class="div-table-value pull-left ">{{host.maintenance.vendor}}</div>
+				</div>
+				<div class="row " style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7; ">
+					<div class="div-table-name-88 pull-left " style="width: 40%; text-align: right; padding: 5px 5px 5px 5px; ">运维部门 :</div>
+					<div class="div-table-value pull-left ">{{host.maintenance.maintenance_department}}</div>
+				</div>
+				<div class="row " style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7; ">
+					<div class="div-table-name-88 pull-left " style="width: 40%; text-align: right; padding: 5px 5px 5px 5px; ">运维负责人 :</div>
+					<div class="div-table-value pull-left ">{{host.maintenance.maintenance_owner}}</div>
+				</div>
+				
+				<div class="row " style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7; ">
+					<div class="div-table-name-88 pull-left " style="width: 40%; text-align: right; padding: 5px 5px 5px 5px; ">联系人 :</div>
+					<div class="div-table-value pull-left ">{{host.maintenance.contact}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-lg-6 ">
+			<div class="cleanfix " style="border: 1px solid #E6EBEE;padding-top: 5px; "">
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88" style="width: 100%;height: 25px; text-align: center">
+						<h4>资产信息</h4></div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">资产编号 :</div>
+					<div class="div-table-value pull-left">{{host.assets.no}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">用途 :</div>
+					<div class="div-table-value pull-left">{{host.assets.purpose}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">所属部门 :</div>
+					<div class="div-table-value pull-left">{{host.assets.department}}</div>
+				</div>
+
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">资产管理员 :</div>
+					<div class="div-table-value pull-left">{{host.assets.manager}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-lg-6 ">
+			<div class="cleanfix " style="border: 1px solid #E6EBEE;padding-top: 5px; "">
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88" style="width: 100%;height: 25px; text-align: center">
+						<h4>配置信息</h4></div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:1px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">操作系统 :</div>
+					<div class="div-table-value pull-left">{{host.configuration.OS}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">版本:</div>
+					<div class="div-table-value pull-left">{{host.configuration.OSVersion}}</div>
+				</div>
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">内存(GB):</div>
+					<div class="div-table-value pull-left">{{host.configuration.memory}}</div>
+				</div>
+
+				<div class="row" style="margin: 0px;padding-top: 5px; border-top:0px solid #F7F7F7;">
+					<div class="div-table-name-88 pull-left" style="width: 40%; text-align: right; padding: 5px 5px 5px 5px;">其他配置 :</div>
+					<div class="div-table-value pull-left">{{host.configuration.other}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

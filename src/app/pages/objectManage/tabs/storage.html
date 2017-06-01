@@ -21,7 +21,7 @@
 				</th>
 			</tr>	
 	      <tr>
-		        <th style="text-align: center;" ng-repeat="thead in theadList" st-sort="{{thead.sort}}" st-sort-default="{{thead.default}}"> {{thead.text}}</th>
+		        <th ng-repeat="thead in theadList" st-sort="{{thead.sort}}" st-sort-default="{{thead.default}}"> {{thead.text}}</th>
 	      </tr>
       </thead>
       <tbody>
@@ -32,8 +32,8 @@
 		        <td>
 		        	 	<a style="text-decoration: none;" ng-href="javascript:void(0);" ng-click="storageDetail(storage);">{{storage.device}}</a>
 		        </td>
-		        <td>{{storage.RawCapacity}}</td>
-		        <td>{{storage.RawCapacity}}</td>
+		        <!--<td>{{storage.RawCapacity}}</td>
+		        <td>{{storage.RawCapacity}}</td>-->
 		        <td>{{storage.sstype}}</td>
 		        <td>{{storage.model}}</td>
 		        <td>{{storage.LastTS}}</td>

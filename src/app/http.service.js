@@ -51,7 +51,7 @@
 		    }, function(err){
 				console.log('err is :');
 				console.log(err);
-		        commonService.showMsg("error", err);
+		        commonService.showMsg("error", err.data);
 		        if(err.data && err.data.message && err.data.message==='Your authKey is invalid.'){
 		            printService.print('Logout code : signOut');
 		            AuthenticationService.setLoggedIn(false);
@@ -61,9 +61,9 @@
 		    });
 	    };
 
-        service.post = function(url, param, isMask, callBack, serv) {
-	    	config = this.getConfig(config, param, 'post');
-		    return $http.get(IG.api + url, config).then(function(response){
+        service.post = function(url, param, config, callBack) {
+//	    	config = this.getConfig(config, param, 'post');
+		    return $http.post(IG.api + url, param, config).then(function(response){
 				console.log('response.status :' + response.status);
 				console.log('response.statusText :' + response.statusText);
 				console.log('response is :');
