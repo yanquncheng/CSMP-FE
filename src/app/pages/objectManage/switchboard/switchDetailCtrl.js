@@ -7,7 +7,7 @@
       .controller('switchDetialCtrl', switchDetialCtrlFunc);
 
   /** @ngInject */
-  function switchDetialCtrlFunc($scope, $timeout , $filter, $http, $localStorage,toastr, $state, commonService, $stateParams) {
+  function switchDetialCtrlFunc($scope, $timeout , $filter, $http, $localStorage,toastr, $state, commonService, $stateParams, httpService) {
       
 	var config = { headers: {
        "Authorization": $localStorage.authKey
@@ -75,17 +75,13 @@
  	  $scope.baseInfo = {};
       $scope.baseData = function (){
       	
-      	$http.get(IG.api + '/switch?device='+$scope.parmsInfo.device , config )
-          .success(function (response) {
-        	  
-        	  $scope.baseInfo = response ;
-        	 // $scope.baseInfo.LastTS = moment($scope.baseInfo.LastTS * 1000).format("YYYY-MM-DD");
-        	  //$scope.baseInfo = {"device":"DS_6520B-10000027F84A8E9A","alias":"xxx","devicesn":"AMS14520158","vendor":"Brocade","model":"Brocade 6520","ip":"172.8.188.80","devdesc":"Fibre Channel Switch","Localtion":"xxxx","LastTS":"1467373748","#TotalPort":100,"#FreePort":10,"#ConnHBAPort":20,"#ConnStoragePort":20,"#ILSPort":20,"#OtherPort":10,"#UsedPort":101,"info":{"ability":{"maxSlot":"111","maxPorts":"1000"},"assets":{"no":"asset0001","purpose":"SAP System","department":"Marketing","manager":"zhangsan"},"maintenance":{"vendor":"EMC","contact":"az@emc.com","purchaseDate":"2010/1/1","period":3}}};
-        	  $scope.initChar();
-        	  
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
+      	httpService.get('/switch?device='+$scope.parmsInfo.device , null,config ,function (response) {
+      	  
+      	  $scope.baseInfo = response ;
+      	 // $scope.baseInfo.LastTS = moment($scope.baseInfo.LastTS * 1000).format("YYYY-MM-DD");
+      	  //$scope.baseInfo = {"device":"DS_6520B-10000027F84A8E9A","alias":"xxx","devicesn":"AMS14520158","vendor":"Brocade","model":"Brocade 6520","ip":"172.8.188.80","devdesc":"Fibre Channel Switch","Localtion":"xxxx","LastTS":"1467373748","#TotalPort":100,"#FreePort":10,"#ConnHBAPort":20,"#ConnStoragePort":20,"#ILSPort":20,"#OtherPort":10,"#UsedPort":101,"info":{"ability":{"maxSlot":"111","maxPorts":"1000"},"assets":{"no":"asset0001","purpose":"SAP System","department":"Marketing","manager":"zhangsan"},"maintenance":{"vendor":"EMC","contact":"az@emc.com","purchaseDate":"2010/1/1","period":3}}};
+      	  $scope.initChar();
+      	  
 	      });
       };
       
@@ -94,20 +90,16 @@
       $scope.portList = [];
       $scope.portData = function (){
       	
-      	$http.get(IG.api + '/switch/ports?device='+$scope.parmsInfo.device , config )
-          .success(function (response) {
-        	   
-        	  $scope.portList = response ;
-        	  angular.forEach($scope.portList, function (item) {
-        		  if(item.relaZones){
-        			  var relaZoneList = item.relaZones.split(",");
-        			  tem.relaZoneList = relaZoneList ;
-        		  }
-    			});
-        	  //
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
+      	httpService.get('/switch/ports?device='+$scope.parmsInfo.device ,null, config ,function (response) {
+     	   
+      	  $scope.portList = response ;
+      	  angular.forEach($scope.portList, function (item) {
+      		  if(item.relaZones){
+      			  var relaZoneList = item.relaZones.split(",");
+      			  tem.relaZoneList = relaZoneList ;
+      		  }
+  			});
+      	  //
 	      });
       };
       
@@ -115,22 +107,18 @@
       $scope.zoneList = [];
       $scope.zoneData = function (){
       	
-      	$http.get(IG.api + '/fabric/zone?fabwwn='+$scope.parmsInfo.fabwwn , config )
-          .success(function (response) {
-        	  
-        	  angular.forEach(response, function (item,i) {
-    				angular.forEach(item.zonemembers, function (zone) {
-    					zone.device = item.device ;
-    					zone.zsetname = item.zsetname ;
-    					zone.fabricname = item.fabricname ;
-    					zone.zname = item.zname ;
-    					$scope.zoneList.push(zone);
-        			});
-    			});
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
-	      });
+      	httpService.get('/fabric/zone?fabwwn='+$scope.parmsInfo.fabwwn ,null, config,function (response) {
+      	  
+      	  angular.forEach(response, function (item,i) {
+  				angular.forEach(item.zonemembers, function (zone) {
+  					zone.device = item.device ;
+  					zone.zsetname = item.zsetname ;
+  					zone.fabricname = item.fabricname ;
+  					zone.zname = item.zname ;
+  					$scope.zoneList.push(zone);
+      			});
+  			});
+	      } );
       };
       
       

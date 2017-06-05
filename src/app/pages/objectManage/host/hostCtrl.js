@@ -24,7 +24,7 @@
 //	  	var param = angular.copy(host);
 //		  param.type = type ;
 //		  $state.go('dashboard.objectManage.host.hostDetail', {param: param });
-				httpService.get('/menu/ObjectManage/Array', {arraytype: 'VMAX100K'}, config, function (response) {
+				httpService.get('/menu/ObjectManage/Host', null, config, function (response) {
 	    	if(typeof response == 'string'){
 	          commonService.showMsg("error", response);
 	    	}else{
@@ -157,7 +157,17 @@
         	console.log("response:--->"+response);
         	commonService.showMsg("success","主机操作成功!");
         	$scope.panelBack();
+        	$scope.initApply();
 	      });
+//				$http.post(IG.api + "/host" ,  $scope.host , config )
+//      .success(function (response) {
+//      	console.log("response:--->"+response);
+//      	commonService.showMsg("success","主机操作成功!");
+//      	$scope.panelBack();
+//      }).error(function (err) {
+//	          console.log(err);
+//	          commonService.showMsg("error",err.message);
+//	      });
  	 };
  	 /**
  	  * 主机编辑

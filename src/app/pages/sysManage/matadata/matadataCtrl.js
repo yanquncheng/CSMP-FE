@@ -6,7 +6,7 @@
       .controller('matadataCtrl', matadataCtrlFunc);
 
   /** @ngInject */
-  function matadataCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService) {
+  function matadataCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService, httpService) {
       //console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -18,15 +18,14 @@
       $scope.menuItem = {};
       $scope.selectMenuItem = {};
       
-      $scope.buttonState = true ;
+      $scope.buttonState = {"update":true ,"delete":true };
       $scope.read = {"menuId":true ,"others":true };
       
       
       //初始化加载Datacenter列表
       $scope.initData = function (){
     	  
-      	$http.get(IG.api + '/matadata/datacenter' , config )
-      	.success(function (response) {
+      	httpService.get('/matadata/datacenter' ,null, config,function (response) {
       		$scope.treeData = [];
       		$scope.treeDataCopy = [];
       		
@@ -39,11 +38,13 @@
   				item.state = {"opened":true }
   				item.children = item.Building
   				item.leval = 0 ;
+  				item.childSize = item.Building.length ;
   				angular.forEach(item.Building, function (build) {
   					build.id = build._id;
   					build.text = build.Name;
   					build.children = build.Floor
   					build.leval = 1 ;
+  					build.childSize = build.Floor.length ;
   					build.parentData =  angular.copy(item);
   					delete build.parentData.Building ;
   					delete build.parentData.children ;
@@ -54,6 +55,7 @@
   						floor.text = floor.Name;
   						floor.children = floor.Unit
   						floor.leval = 2 ;
+  						floor.childSize = floor.Unit.length ;
   						
   						floor.parentData =  angular.copy(build);
   	  					delete floor.parentData.Floor ;
@@ -71,7 +73,7 @@
   	            });
             });
       		
-      		//$scope.treeData.sort(function(a,b){return a.order-b.order});
+      		//$scope.treeData.sort(function(a,b){return a.charCodeAt(1)-b.charCodeAt(1)});
       		
       		 $('#dataTree').jstree({
       			'core' : {
@@ -97,15 +99,20 @@
       		        		$scope.menuItem = angular.copy(data.node.original);
       		        		$scope.selectMenuItem = angular.copy(data.node.original);
       		        		
-      		        		$scope.buttonState = false ;
+      		        		$scope.buttonState = {"update":false ,"delete":false };
+	  		        		var leval = $scope.selectMenuItem.leval ;
+	      		         	if(leval!=0 ){
+	      		         		if($scope.selectMenuItem.parentData.childSize > 1){ //可以删除
+	      		         			$scope.buttonState.delete = false ;
+		      		         	}else{//不可以删除，至少有一个
+		      		         		$scope.buttonState.delete = true ;
+		      		         	}
+	      		         	}
+      		        		//$scope.buttonState = false ;
       		        	}); 
       		        	//console.log($scope.menuItem);   
       		        }
-      		);
-      		 
-	      }).error(function (err) {
-	          //console.log(err);  
-	          commonService.showMsg("error",err.message);
+      		 );
 	      });
       };
       
@@ -222,6 +229,7 @@
     	  $scope.addItem = false;
     	  $scope.root = false ;
     	  $scope.read = { "menuId":true ,"others":true };
+    	  $scope.buttonState = {"update":true ,"delete":true };
     	  $scope.menuItem = angular.copy($scope.selectMenuItem);
       };
       
@@ -321,8 +329,7 @@
 				return;
 			}
 			
-    	 $http.post(IG.api + '/matadata/datacenter' ,params, config )
-         .success(function (response) {
+    	 httpService.post('/matadata/datacenter' ,params, config , function (response) {
         	 console.log("response:--->"+response);
         	 commonService.showMsg("success","Datacenter保存成功！");
         	 
@@ -335,10 +342,7 @@
         	 $scope.treeDataCopy = [];
         	 $scope.initData();
         	 
-         }).error(function (err) {
-            //console.log(err);
-            commonService.showMsg("error",err.message);
-        });
+         });
       };
         
       /**
@@ -426,8 +430,7 @@
 				return;
 			}
 			
-			$http.post(IG.api + '/matadata/datacenter' ,params, config )
-	        .success(function (response) {
+			httpService.post('/matadata/datacenter' ,params, config ,function (response) {
 		       	 console.log("response:--->"+response);
 		       	 commonService.showMsg("success","Datacenter保存成功！");
 		       	 
@@ -440,12 +443,7 @@
 		       	 $scope.treeDataCopy = [];
 		       	 $scope.initData();
 	       	 
-	        }).error(function (err) {
-		           //console.log(err);
-		           commonService.showMsg("error",err.message);
-	       });			
- 
-    	  
+	        });
       };
       
       /**
@@ -537,6 +535,137 @@
   	   	
     	 return flag;
       };
+      
+      //删除
+      $scope.deleteMenu = function (){
+
+    	  $scope.centerInfo = {};
+          $scope.buildInfo = {};
+          $scope.floorInfo = {};
+          $scope.unitInfo = {};
+    	  var leval = $scope.selectMenuItem.leval ;
+    	  
+    	  if(leval==0){ //选中的是数据中心
+    		  $scope.centerInfo = $scope.selectMenuItem ;
+    	  }else if(leval==1){ //选中的是楼栋
+    		  $scope.centerInfo = $scope.selectMenuItem.parentData ;
+    		  $scope.buildInfo = $scope.selectMenuItem ;
+    		  
+    	  }else if(leval==2){ //选中的是楼层
+    		  $scope.centerInfo = $scope.selectMenuItem.parentData.parentData ;
+    		  $scope.buildInfo = $scope.selectMenuItem.parentData ;
+    		  $scope.floorInfo = $scope.selectMenuItem ;
+    	  }else if(leval==3){ //选中的是机房
+    		  $scope.centerInfo = $scope.selectMenuItem.parentData.parentData.parentData ;
+    		  $scope.buildInfo = $scope.selectMenuItem.parentData.parentData ;
+    		  $scope.floorInfo = $scope.selectMenuItem.parentData ;
+    		  $scope.unitInfo = $scope.selectMenuItem ;
+    	  }else{
+    		  commonService.showMsg("error","请先选择要操作的数据!");
+    		  return;
+    	  }
+    	  
+			var params = {};
+			if(leval==0 ){ //删除数据中心
+				
+				angular.forEach($scope.treeDataCopy, function (item) {
+		  	    	if(item.Name == $scope.menuItem.Name){
+		  	    		params = angular.copy(item);
+		  	    		return false;
+		  	    	}
+		  	     });
+				
+				httpService.post('/matadata/deldatacenter' ,params, config ,function (response) {
+			       	 console.log("response:--->"+response);
+			       	 commonService.showMsg("success","Datacenter操作成功！");
+			       	 
+			       	 $scope.cancelMenu();
+			       	 $scope.menuItem ={};
+			       	 $scope.selectMenuItem = {};
+			       	 
+			       	 $('#dataTree').jstree("destroy");
+			       	 $scope.treeData = [];
+			       	 $scope.treeDataCopy = [];
+			       	 $scope.initData();
+		       	 
+		        });
+				
+				return;
+			}else if ( leval==1 ){//删除楼栋
+				
+				angular.forEach($scope.treeDataCopy, function (item) {
+		  	    	if(item.Name == $scope.centerInfo.Name){
+		  	    		angular.forEach(item.Building, function (build,index) {
+		  	    			if(build._id == $scope.buildInfo._id){
+		  	    				item.Building.splice(index,1)
+				  	    		params = angular.copy(item);
+		  	    				return false;
+		  	    			}
+		  	    		});
+		  	    	}
+		  	     });
+				
+			}else if (leval==2 ){//删除楼层
+				
+				angular.forEach($scope.treeDataCopy, function (item) {
+		  	    	if(item.Name == $scope.centerInfo.Name){
+		  	    		angular.forEach(item.Building, function (build) {
+		  	    			if(build._id == $scope.buildInfo._id){
+		  	    				angular.forEach(build.Floor, function (floor,index) {
+				  	    			if(floor._id == $scope.floorInfo._id){
+				  	    				build.Floor.splice(index,1)
+						  	    		params = angular.copy(item);
+				  	    				return false;
+				  	    			}
+				  	    		});
+		  	    			}
+		  	    		});
+		  	    	}
+		  	     });
+				
+			}else if ( leval==3 ){//删除机房
+				
+		       		angular.forEach($scope.treeDataCopy, function (item) {
+			  	    	if(item.Name == $scope.centerInfo.Name){
+			  	    		angular.forEach(item.Building, function (build) {
+			  	    			if(build._id == $scope.buildInfo._id){
+			  	    				angular.forEach(build.Floor, function (floor) {
+					  	    			if(floor._id == $scope.floorInfo._id){
+					  	    				angular.forEach(floor.Unit, function (unit,index) {
+							  	    			if(unit._id == $scope.unitInfo._id){
+							  	    				floor.Unit.splice(index,1)
+									  	    		params = angular.copy(item);
+							  	    				return false;
+							  	    			}
+							  	    		});
+					  	    			}
+					  	    		});
+			  	    			}
+			  	    		});
+			  	    	}
+			  	     });
+		       		
+			}else{
+				commonService.showMsg("error","数据格式错误，请重试!");
+				return;
+			}
+			
+			httpService.post('/matadata/datacenter' ,params, config ,function (response) {
+		       	 console.log("response:--->"+response);
+		       	 commonService.showMsg("success","Datacenter操作成功！");
+		       	 
+		       	 $scope.cancelMenu();
+		       	 $scope.menuItem ={};
+		       	 $scope.selectMenuItem = {};
+		       	 
+		       	 $('#dataTree').jstree("destroy");
+		       	 $scope.treeData = [];
+		       	 $scope.treeDataCopy = [];
+		       	 $scope.initData();
+	       	 
+	        });
+      }
+      
       
       //用于生成uuid
       function S4() {

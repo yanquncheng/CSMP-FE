@@ -6,7 +6,7 @@
       .controller('menuCtrl', menuCtrlFunc);
 
   /** @ngInject */
-  function menuCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService) {
+  function menuCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService, httpService) {
       //console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -24,8 +24,7 @@
       //初始化加载菜单列表
       $scope.initData = function (){
     	 // menuTree
-      	$http.get(IG.api + '/menu/list' , config )
-      	.success(function (response) {
+      	httpService.get('/menu/list' ,null, config ,function (response) {
       		$scope.buttonState = true ;
       		if(response){
       			angular.forEach(response, function (menu,index) {
@@ -73,9 +72,6 @@
       		        }
       		);
       		
-	      }).error(function (err) {
-	          //console.log(err);  
-	          commonService.showMsg("error",err.message);
 	      });
       };
       
@@ -128,8 +124,7 @@
     			    "stateRef": $scope.menuItem.stateRef
     			  }
     	  
-    	 $http.post(IG.api + '/menu/add' ,params, config )
-         .success(function (response) {
+    	 httpService.post('/menu/add' ,params, config ,function (response) {
         	 console.log("response:--->"+response);
         	 commonService.showMsg("success","菜单保存成功！");
         	 
@@ -140,10 +135,7 @@
         	 $scope.treeData = [];
         	 $scope.initData();
         	 
-         }).error(function (err) {
-            //console.log(err);
-            commonService.showMsg("error",err.message);
-        });
+         });
       };
         
       /**
@@ -163,8 +155,7 @@
           modalInstance.result.then(function (result) {    
               //console.log(result); //result关闭是回传的值   
               //alert("ok");
-              $http.post(IG.api + '/menu/del' , $scope.menuItem , config )
-              .success(function (response) {
+              httpService.post('/menu/del' , $scope.menuItem , config, function (response) {
             	 console.log("response:--->"+response);
             	 $scope.menuItem ={};
            		 $scope.selectMenuItem = {};
@@ -172,10 +163,7 @@
      	       	 $scope.treeData = [];
      	       	 $scope.initData();
               	 commonService.showMsg("success","菜单删除成功！");
-              }).error(function (err) {
-    	          console.log(err);  
-    	          commonService.showMsg("error",err.message);
-    	      });
+              });
               
            }, function (reason) {    
                console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    

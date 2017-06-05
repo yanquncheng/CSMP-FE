@@ -6,7 +6,7 @@
       .controller('applyCtrl', applyCtrlFunc);
 
   /** @ngInject */
-  function applyCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService) {
+  function applyCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, httpService) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -18,20 +18,12 @@
 	  //应用列表查询
       $scope.initApply = function (){
       	
-      	$http.get(IG.api + '/application' , config )
-          .success(function (response) {
-        	  
-              $scope.DataList = response;
-             // angular.forEach($scope.DataList, function (item,i) {
-            	//  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD");
-            	  
-  			 // });
-              
-
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
-	          $scope.DataList = err ;
+      	httpService.get('/application' , null,config ,function (response) {
+            $scope.DataList = response;
+           // angular.forEach($scope.DataList, function (item,i) {
+          	//  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD");
+          	  
+			 // });
 	      });
       };
       
@@ -77,18 +69,14 @@
  			return;
  		 }
  		 
- 		$http.post(IG.api + "/application" ,  $scope.apply , config )
-        .success(function (response) {
+ 		httpService.post("/application" ,  $scope.apply , config ,function (response) {
         	console.log("response:--->"+response);
         	commonService.showMsg("success","应用操作成功!");
         	
         	 $scope.panelBack();
         	 $scope.initApply();
         	 
-        }).error(function (err) {
-	          console.log(err);
-	          commonService.showMsg("error",err.message);
-	      });
+        });
   	  };
   	  
   	  

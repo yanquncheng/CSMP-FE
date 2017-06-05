@@ -6,7 +6,7 @@
       .controller('switchboardCtrl', switchboardCtrlFunc);
 
   /** @ngInject */
-  function switchboardCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, $stateParams) {
+  function switchboardCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, $stateParams, httpService) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -56,20 +56,16 @@
  	  $scope.smartTablePageSize = 15;
       $scope.initSwitchs = function (){
       	
-      	$http.get(IG.api + '/switchs' , config )
-          .success(function (response) {
-        	  
-              $scope.DataList = response;
-              angular.forEach($scope.DataList, function (item,i) {
-            	  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD HH:mm:ss");
-            	  
-  			  });
-              
-              $scope.smartTablePageSize = 15;
+      	httpService.get('/switchs' , null,config ,function (response) {
+      	  
+            $scope.DataList = response;
+            angular.forEach($scope.DataList, function (item,i) {
+          	  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD HH:mm:ss");
+          	  
+			  });
+            
+            $scope.smartTablePageSize = 15;
 
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
 	      });
       };
       
@@ -77,49 +73,41 @@
      //Fabric列表查询
       $scope.initFabric = function (){
 	  		$scope.fabricsList = [];
-	  		$http.get(IG.api + '/fabrics' , config )
-	  		.success(function (response) {
-        	  var row_id = 1 ;
-      			angular.forEach(response, function (item,i) {
-      				angular.forEach(item.switchs, function (switchs) {
-      					switchs.fabwwn = item.fabwwn ;
-      					switchs.psname = item.psname ;
-      					switchs.row_id = row_id ;
-      					$scope.fabricsList.push(switchs);
-      					row_id ++ ;
-          			});
-      			});
-      			
-      			$scope.zoneData ($scope.fabricsList[0]);
-      			$scope.fabricsList[0].selected = true ;
-      			$scope.fabricTablePageSize = 5;
-                
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
-	      });
+	  		httpService.get('/fabrics' ,null, config ,function (response) {
+	        	  var row_id = 1 ;
+	      			angular.forEach(response, function (item,i) {
+	      				angular.forEach(item.switchs, function (switchs) {
+	      					switchs.fabwwn = item.fabwwn ;
+	      					switchs.psname = item.psname ;
+	      					switchs.row_id = row_id ;
+	      					$scope.fabricsList.push(switchs);
+	      					row_id ++ ;
+	          			});
+	      			});
+	      			
+	      			$scope.zoneData ($scope.fabricsList[0]);
+	      			$scope.fabricsList[0].selected = true ;
+	      			$scope.fabricTablePageSize = 5;
+	                
+		      });
       };
       
       // Zone信息
       $scope.zoneList = [];
       $scope.zoneData = function (fabwwn){
     	$scope.zoneList = [];
-      	$http.get(IG.api + '/fabric/zone?fabwwn='+fabwwn.fabwwn , config )
-          .success(function (response) {
-        	  
-        	  angular.forEach(response, function (item,i) {
-    				angular.forEach(item.zonemembers, function (zone) {
-    					zone.device = item.device ;
-    					zone.zsetname = item.zsetname ;
-    					zone.fabricname = item.fabricname ;
-    					zone.zname = item.zname ;
-    					$scope.zoneList.push(zone);
-        			});
-    			});
-        	  $scope.zoneTablePageSize = 15;
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
+      	httpService.get('/fabric/zone?fabwwn='+fabwwn.fabwwn ,null, config ,function (response) {
+      	  
+      	  angular.forEach(response, function (item,i) {
+  				angular.forEach(item.zonemembers, function (zone) {
+  					zone.device = item.device ;
+  					zone.zsetname = item.zsetname ;
+  					zone.fabricname = item.fabricname ;
+  					zone.zname = item.zname ;
+  					$scope.zoneList.push(zone);
+      			});
+  			});
+      	  $scope.zoneTablePageSize = 15;
 	      });
       };
       
@@ -166,8 +154,7 @@
   	  $scope.switchs = {};
       $scope.editSwitch = function (row){
         	
-        	$http.get(IG.api + '/switch?device='+row.device , config )
-            .success(function (response) {
+    	  httpService.get('/switch?device='+row.device , null , config ,function (response) {
           	  
 	          	var baseInfo = response ;
 	          	//baseInfo = {"device":"DS_6520B-10000027F84A8E9A","UnitID":"444f0915-1032-465c-b6ee-94345bbac9c1","alias":"aaaaaa","devicesn":"AMS14520158","vendor":"Brocade","model":"Brocade 6520","ip":"172.8.188.80","devdesc":"Fibre Channel Switch","Localtion":"xxxx","LastTS":"1467373748","#TotalPort":100,"#FreePort":10,"#ConnHBAPort":20,"#ConnStoragePort":20,"#ILSPort":20,"#OtherPort":10,"#UsedPort":101,"info":{"ability":{"maxSlot":"111","maxPorts":"1000"},"assets":{"no":"asset0001","purpose":"SAP System","department":"Marketing","manager":"zhangsan"},"maintenance":{"vendor":"EMC","contact":"az@emc.com","purchaseDate":"2010/1/1","period":3}}};
@@ -201,11 +188,7 @@
 	          	 $scope.editPanel = true ;
 	      		 $scope.panelTtile = '交换机编辑' ;
           	  
-  	      }).error(function (err) {
-  	          console.log(err);   
-  	          commonService.showMsg("error",err.message);
   	      });
-   		  
       };
       
       /**
@@ -235,18 +218,14 @@
  			$scope.switchs.maintenance.purchaseDate = purchaseDate ;
  		 }
  		
- 		$http.post(IG.api + "/switch" ,  $scope.switchs , config )
-        .success(function (response) {
+ 		httpService.post("/switch" ,  $scope.switchs , config ,function (response) {
         	console.log("response:--->"+response);
         	commonService.showMsg("success","交换机操作成功!");
         	
         	 $scope.panelBack();
         	 $scope.swithTabs();
         	 
-        }).error(function (err) {
-	          console.log(err);
-	          commonService.showMsg("error",err.message);
-	      });
+        });
   	  };
   	  
   	  
@@ -254,8 +233,7 @@
   	  $scope.datacenter = []; 
       $scope.initDatacenter = function (){
     	  
-      	$http.get(IG.api + '/matadata/datacenter' , config )
-      	.success(function (response) {
+      	httpService.get('/matadata/datacenter' ,null, config ,function (response) {
       		
       		if(!response || response.length==0){
       			$scope.treeData = [{"isDefault":true,"Name":"测试数据中心2","Type":"生产数据中心2","City":"北京","Address":"海淀区数据中心",
@@ -287,8 +265,6 @@
   	            });
             });
       		 
-	      }).error(function (err) {
-	          commonService.showMsg("error",err.message);
 	      });
       };
   	  

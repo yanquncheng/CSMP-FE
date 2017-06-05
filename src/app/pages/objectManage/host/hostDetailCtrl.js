@@ -29,10 +29,18 @@
 	 	 $scope.initTemplate_1 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f = 0;
 	    	angular.forEach(tab.param, function(item, index){
-//	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		if($scope.parmsInfo.baseinfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.parmsInfo.baseinfo[item.findName];
 	    	});
-    		
+    		if(f>0){
+    			return;
+    		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.summary = response;
 				$scope.infos = [];
@@ -89,11 +97,20 @@
 		$scope.initTemplate_2 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
-//	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		if($scope.parmsInfo.baseinfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.parmsInfo.baseinfo[item.findName];
 	    	});
+    		if(f>0){
+    			return;
+    		}
     		
-		    httpService.get(tab['url'], null, cfg, function (response) {
+		    httpService.get(tab['url'], cfg.params, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
 								"chartType":"pie",
@@ -155,11 +172,20 @@
 	    $scope.initTemplate_3 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
-//	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    	if($scope.parmsInfo.baseinfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.parmsInfo.baseinfo[item.findName];
 	    	});
+    		if(f>0){
+    			return;
+    		}
     		
-		    httpService.get(tab['url'], null, cfg, function (response) {
+		    httpService.get(tab['url'], cfg.params, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
 							    "tableBody": [
@@ -259,11 +285,20 @@
 	    $scope.initTemplate_4 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
-//	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		if($scope.parmsInfo.baseinfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.parmsInfo.baseinfo[item.findName];
 	    	});
+    		if(f>0){
+    			return;
+    		}
     		
-		    httpService.get(tab['url'], null, cfg, function (response) {
+		    httpService.get(tab['url'], cfg.params, cfg, function (response) {
 		    	$scope.capacity = response;
 		    	var t = {
 								    "left": {
@@ -417,11 +452,20 @@
 	    $scope.initTemplate_5 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
-//	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		if($scope.parmsInfo.baseinfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.parmsInfo.baseinfo[item.findName];
 	    	});
+    		if(f>0){
+    			return;
+    		}
     		
-		    httpService.get(tab['url'], null, cfg, function (response) {
+		    httpService.get(tab['url'], cfg.params, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
 						    "left": {
@@ -544,30 +588,30 @@
 	 	};
 	 	
 	 	//基本信息
- 	  $scope.host = {};
-	  $scope.baseData = function (){  
-	  	httpService.get("/hosts",{'device':$scope.parmsInfo.baseinfo.name}, config, function (response){
-	    	  $scope.host = response ;
-	      });
-	  };
-      
-    //HBA信息
-  	$scope.hbaList = [];
-  	$scope.hbaData = function (){  	
-  	$scope.smartTablePageSize = 15;
-  	httpService.get("/hosts",{'device':$scope.parmsInfo.baseinfo.name}, config, function (response){
-    	  $scope.hbaList = response.HBAs ;
-      });
-  	};
-  	
-  	//存储LUN信息
-  	$scope.lunList = [];
-  	$scope.lunData = function (){  	
-  	$scope.lunTablePageSize=15;
-  	httpService.get("/array/hosts",{'device':$scope.parmsInfo.baseinfo.name}, config, function (response){
-    	  $scope.lunList = response ;
-      });
-  	};
+// 	  $scope.host = {};
+//	  $scope.baseData = function (){  
+//	  	httpService.get("/hosts",{'device':$scope.parmsInfo.baseinfo.name}, config, function (response){
+//	    	  $scope.host = response ;
+//	      });
+//	  };
+//    
+//  //HBA信息
+//	$scope.hbaList = [];
+//	$scope.hbaData = function (){  	
+//	$scope.smartTablePageSize = 15;
+//	httpService.get("/hosts",{'device':$scope.parmsInfo.baseinfo.name}, config, function (response){
+//  	  $scope.hbaList = response.HBAs ;
+//    });
+//	};
+//	
+//	//存储LUN信息
+//	$scope.lunList = [];
+//	$scope.lunData = function (){  	
+//	$scope.lunTablePageSize=15;
+//	httpService.get("/array/hosts",{'device':$scope.parmsInfo.baseinfo.name}, config, function (response){
+//  	  $scope.lunList = response ;
+//    });
+//	};
 //	$scope.hostTabs();
   }
 })();

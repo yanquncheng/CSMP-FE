@@ -19,10 +19,14 @@
 				config.headers['Authorization'] = $localStorage.authKey;
 				config.headers['Content-Type'] = 'application/json;charset=utf-8';
 			}
-			if(method==='get'){
-	    		config.params = param;
-			}else{
-				config.data = param;
+			
+			if(param){
+				if(!config.params){
+					config.params = {};
+				}
+				for(var name in param){
+					config.params[name] = param[name];
+				}
 			}
 			
 			console.log('config is :');
@@ -31,6 +35,7 @@
 		};
 		
 	    service.get = function(url, param, config, callBack){
+			console.log('http get : ' + url);
 	    	config = this.getConfig(config, param, 'get');
 		    return $http.get(IG.api + url, config).then(function(response){
 				console.log('response.status :' + response.status);
@@ -62,7 +67,9 @@
 	    };
 
         service.post = function(url, param, config, callBack) {
-//	    	config = this.getConfig(config, param, 'post');
+        	console.log('http post : ' + url);
+	    	config = this.getConfig(config, null, 'post');
+	    	console.log('param is : ' + param);
 		    return $http.post(IG.api + url, param, config).then(function(response){
 				console.log('response.status :' + response.status);
 				console.log('response.statusText :' + response.statusText);

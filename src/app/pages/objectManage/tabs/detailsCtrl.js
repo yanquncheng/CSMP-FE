@@ -22,10 +22,18 @@
 	    $scope.initTemplate_1 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
-    		
+    		if(f>0){
+    			return;
+    		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.summary = response;
 				$scope.infos = [];
@@ -72,10 +80,18 @@
 	    $scope.initTemplate_2 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
-    		
+    		if(f>0){
+    			return;
+    		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
@@ -138,10 +154,18 @@
 	    $scope.initTemplate_3 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
-    		
+    		if(f>0){
+    			return;
+    		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {
@@ -242,10 +266,18 @@
 	    $scope.initTemplate_4 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
-    		
+    		if(f>0){
+    			return;
+    		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.capacity = response;
 		    	var t = {
@@ -400,10 +432,18 @@
 	    $scope.initTemplate_5 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
+	    	var f=0;
 	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			return;
+	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    	});
-    		
+    		if(f>0){
+    			return;
+    		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
 		    	var t = {

@@ -6,7 +6,7 @@
       .controller('roleCtrl', roleCtrlFunc);
 
   /** @ngInject */
-  function roleCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal , commonService) {
+  function roleCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal , commonService, httpService) {
       //console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -20,16 +20,13 @@
       
       
       $scope.initData = function (){
-        	$http.get(IG.api + '/role/list' , config )
-            .success(function (response) { 
+        	httpService.get('/role/list' ,null, config ,function (response) { 
                 $scope.roleList = response;
                 angular.forEach($scope.roleList, function (item,i) {
                 	delete item._id;
     			});
                 $scope.smartTablePageSize = 15;
 
-  	      }).error(function (err) {
-  	          console.log(err);   
   	      });
         };
         
@@ -41,13 +38,10 @@
         	modalInstance.result.then(function (result) {    
                 //console.log(result); //result关闭是回传的值   
                 //alert("ok");
-        		$http.post(IG.api + '/role/del' , role , config )
-                .success(function (response) {
-                	 console.log("response:--->"+response);
-                	commonService.showMsg("success","角色删除成功!");
-                }).error(function (err) {
-      	          console.log(err);   
-      	        });
+        		httpService.post('/role/del' , role , config , function (response) {
+               	 	console.log("response:--->"+response);
+               	 	commonService.showMsg("success","角色删除成功!");
+        		});
                 
              }, function (reason) {    
                  console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
@@ -74,17 +68,14 @@
  		  $('#menuTree').jstree("destroy");
     	  $scope.treeData = [];
  		  
- 		  $http.get(IG.api + '/role/menulist?rolename='+row.roleName , config )
-          .success(function (response) {
+ 		  httpService.get('/role/menulist?rolename='+row.roleName ,null, config ,function (response) {
         	 var roleMenu = [];
          	 if(response && response.length>0){
          		roleMenu = response;
          	 }
          	 $scope.initTreeData(roleMenu);
         	  
-          }).error(function (err) {
-            console.log(err);   
-   	      });
+          });
         };
         
         
@@ -155,8 +146,7 @@
   				 "menuList": nodes
    		 }
    		 
-   		$http.post(IG.api + "/role/add" , params , config )
-          .success(function (response) {
+   		httpService.post("/role/add" , params , config ,function (response) {
         	  
           	console.log("response:--->"+response);
           	commonService.showMsg("success","角色操作成功!");
@@ -165,9 +155,7 @@
           	$scope.panelBack();
           	$scope.initData();
           	
-          }).error(function (err) {
-  	          console.log(err);   
-  	      });
+          });
        };
        
        
@@ -177,8 +165,7 @@
     	    $scope.treeData = [];
     	    $('#menuTree').jstree("destroy");
 	     	 // menuTree
-	       	$http.get(IG.api + '/menu/list' , config )
-	       	.success(function (response) {
+	       	httpService.get('/menu/list' , null,config ,function (response) {
 	       		if(response){
 	       			angular.forEach(response, function (menu,index) {
 	       				menu.id = menu.menuId;
@@ -221,8 +208,6 @@
 	       		 });
 	       		
 	       		
-	 	      }).error(function (err) {
-	 	          console.log(err);   
 	 	      });
        };
         

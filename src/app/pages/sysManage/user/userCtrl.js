@@ -6,7 +6,7 @@
       .controller('userCtrl', userCtrlFunc);
 
   /** @ngInject */
-  function userCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService) {
+  function userCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService, httpService) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -15,19 +15,14 @@
 	  
       $scope.initData = function (){
       	
-      	$http.get(IG.api + '/user/list' , config )
-          .success(function (response) {
-        	  
+    	  httpService.get('/user/list' , null,config ,function (response) {
               $scope.userList = response;
               angular.forEach($scope.userList, function (item,i) {
-              	 delete item._id;
+              	 //delete item._id;
               	 delete item.password;
   			  });
               $scope.smartTablePageSize = 15;
 
-	      }).error(function (err) {
-	          console.log(err);   
-	          commonService.showMsg("error",err.message);
 	      });
       };
       
@@ -37,20 +32,15 @@
       $scope.delUser = function (user){
     	  
     		var modalInstance = commonService.confirm("确认要删除所选用户？");
-        	modalInstance.result.then(function (result) {    
+        	modalInstance.result.then(function (result) {
                 //console.log(result); //result关闭是回传的值   
                 //alert("ok");
-        		$http.post(IG.api + '/user/del' , user , config )
-                .success(function (response) {
-                	 console.log("response:--->"+response);
-                	commonService.showMsg("success","用户删除成功!");
-                	$scope.initData();
-                	
-                }).error(function (err) {
-      	          console.log(err);   
-      	          commonService.showMsg("error",err.message);
-      	      	});
-                
+        		httpService.post('/user/del' , user , config,function (response) {
+               	 console.log("response:--->"+response);
+             	commonService.showMsg("success","用户删除成功!");
+             	$scope.initData();
+             	
+        		});
              }, function (reason) {    
                  console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
                  //alert("cancel");
@@ -142,18 +132,13 @@
  			delete params.password ;
  		 }
  		 
- 		$http.post(IG.api + "/user/add" , params , config )
-        .success(function (response) {
+ 		httpService.post("/user/add" , params , config,function (response) {
         	console.log("response:--->"+response);
         	commonService.showMsg("success","用户操作成功!");
         	
         	 $scope.panelBack();
         	 $scope.initData();
-        	 
-        }).error(function (err) {
-	          console.log(err);
-	          commonService.showMsg("error",err.message);
-	      });
+        });
   	  };
   	  
   	  //角色列表初始化
@@ -163,8 +148,7 @@
   		 $scope.checkedCount = 0 ;
   	  	 $scope.checkedRows = [] ;
   		  
-  		$http.get(IG.api + '/role/list' , config )
-        .success(function (response) {
+  	  	httpService.get('/role/list' ,null, config ,function (response) {
             angular.forEach( response , function(role,index){
             	role.selected = false ;
             	if(userRoleList && userRoleList.length>0){
@@ -187,9 +171,6 @@
      			allcheckbox.prop("checked", false);
      		 }
             
-	      }).error(function (err) {
-	          console.log(err);
-	          commonService.showMsg("error",err.message);
 	      });
   	  }
   	  
