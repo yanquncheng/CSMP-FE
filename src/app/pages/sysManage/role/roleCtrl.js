@@ -67,7 +67,8 @@
  		  $("#roleName").val(row.roleName);
  		  $('#menuTree').jstree("destroy");
     	  $scope.treeData = [];
- 		  
+    	  $scope.editStatu = false ;
+    	  
  		  httpService.get('/role/menulist?rolename='+row.roleName ,null, config ,function (response) {
         	 var roleMenu = [];
          	 if(response && response.length>0){

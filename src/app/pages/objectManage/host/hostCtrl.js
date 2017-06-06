@@ -6,7 +6,7 @@
       .controller('hostCtrl', hostCtrlFunc);
 
   /** @ngInject */
-  function hostCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, $stateParams,httpService) {
+  function hostCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, $stateParams,httpService,$uibModal) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -115,6 +115,14 @@
  	 $scope.host={};
  	 //新增，编辑保存的方法
  	 $scope.hostSave= function(){
+ 	 	if(!$scope.host.baseinfo){
+ 			commonService.showMsg("error","请输入主机名称！");
+			return;
+ 		 }
+ 	 	if( $scope.host.baseinfo && !$scope.host.baseinfo.name){
+ 	 		commonService.showMsg("error","请输入主机名称！");
+			return;
+ 	 	}
  	 	//获取HBAs信息
  	 	var name = "";  
     var wwn = "";  
@@ -173,6 +181,7 @@
  	  * 主机编辑
  	  */
  	 $scope.editHost=function(row){
+ 	 	$scope.host={};
  	 	$scope.host=row;
  	 	$scope.editPanel=true;
 	 	$scope.panelTtile = '主机编辑' ;
@@ -196,7 +205,39 @@
         "<i class='glyphicon glyphicon-remove'></i>删除"+"</button></td></tr>");
     table.append(tr); 
  	 };
-	 
+ 	 
+ 	 //删除主机的方法
+ 	 $scope.delHost = function(name){
+ 	 	var modalInstance = commonService.confirm("确认要删除该主机吗？");
+	  modalInstance.result.then(function (result) {    
+			httpService.delete('/host?device='+name, null, config, function (response){
+	        	console.log("response:--->"+response);
+	        	commonService.showMsg("success","删除主机成功!");
+	        	$scope.initApply();
+		      });
+     }, function (reason) {    
+         console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
+     });  
+ 	 }
+ 	 
+ 	 //批量添加主键弹出页面
+// 	 $scope.addAllHost=function(){
+// 	 	var modalInstance = $uibModal.open({
+//	    animation: true,
+//	    template: "<div class='modal-content'>" +
+//	    		"<div class='modal-header bg-primary'>" +
+//	    		"<i class='glyphicon glyphicon-info-sign'></i><span> 批量添加主机</span>" +
+//	    		"</div>" +
+//	    		"<div class='modal-body text-center'>主机文件上传.CSV<input id='csvInput' class='btn btn-default col-xs-6' type='file' accept='.csv'></div>" +
+//	    		"<div class='modal-footer'>" +
+//	    		"<button type='button' class='btn btn-primary' ng-click='csv2arr()'>确认</button>" +
+//	    		"<button type='button' class='btn btn-warning' ng-click='$dismiss()'>取消</button>" +
+//	    		"</div></div>",
+//		size: 'md',//md lg sm
+//	    resolve: {items: function () {}  }
+//	   });
+// 	 }
+ 	 
   $scope.initApply();
   $scope.initDatacenter();
   $scope.initApps();

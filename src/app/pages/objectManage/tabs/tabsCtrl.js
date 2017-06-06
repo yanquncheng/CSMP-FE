@@ -198,11 +198,34 @@
       
       $scope.panelAdd = function (storage){
       	$scope.entity = {};
+      	$scope.entity.basicInfo = {},
+		$scope.entity.maintenance = {},
+		$scope.entity.assets = {},
+		$scope.entity.ability = {};
+      	
    		$scope.editPanel = true ;
    		$scope.panelTtile = '新增设备' ;
    		if(storage){
    			$scope.panelTtile = '修改设备' ;
-   			$scope.entity = storage.info;
+   			if(storage.info){
+   				$scope.entity = storage.info;
+   			}else{
+   				
+   				$scope.entity.basicInfo = {
+	 		        "device": storage.device,　　　　　　　　　　
+	 		        "alias": storage.alias,
+	 		        "UnitID": storage.UnitID
+	 		     }
+   			 	 httpService.get('/arrays?device='+storage.device , null , config ,function (response) {
+   					var baseInfo = response ;
+   					if(baseInfo[0].info.basicInfo){
+   						$scope.entity=baseInfo[0].info;
+   						baseInfo[0].info.maintenance.purchaseDate = baseInfo.info.maintenance.purchaseDate ?baseInfo.info.maintenance.purchaseDate : "";
+			          	$("#purchaseDate").val(baseInfo.info.maintenance.purchaseDate);
+   					}
+   			  	});
+   			}
+   			
    		}else{
    			$scope.entity = {};
 			$scope.entity.basicInfo = {},
@@ -217,22 +240,6 @@
 		  	  $scope.UnitIDs = []; 
 		    	  
 		      	httpService.get('/matadata/datacenter', null, config, function (response) {
-		      		
-		      		if(!response || response.length==0){
-		      			$scope.treeData = [{"isDefault":true,"Name":"测试数据中心2","Type":"生产数据中心2","City":"北京","Address":"海淀区数据中心",
-		  					"Building":[{"Name":"楼栋201","Description":"楼栋201的说明","_id":"592255c8fc97ed701b00001d",
-		  					"Floor":[{"Name":"楼层1","Description":"楼层1的说明","_id":"592255c8fc97ed701b000021",
-		  					"Unit":[{"Name":"机房1","UnitID":"111f0915-1032-465c-b6ee-913ffbbac913",
-		  					"Description":"机房1的说明","_id":"592255c8fc97ed701b000023","MaxCabinet":150,"MaxPowerLoad":100},
-		  					{"Name":"机房2","UnitID":"222f0915-1032-465c-b6ee-943ffbbac933","Description":"机房2的说明","_id":"592255c8fc97ed701b000022","MaxCabinet":250,"MaxPowerLoad":200}]},
-		  					{"Name":"楼层2","Description":"楼层2的说明","_id":"592255c8fc97ed701b00001e",
-		  					"Unit":[{"Name":"机房1","UnitID":"333f0915-1032-465c-b6ee-943ffbbac567","Description":"机房1的说明",
-		  					"_id":"592255c8fc97ed701b000020","MaxCabinet":150,"MaxPowerLoad":100},
-		  					{"Name":"机房2","UnitID":"444f0915-1032-465c-b6ee-94345bbac9c1","Description":"机房2的说明","_id":"592255c8fc97ed701b00001f","MaxCabinet":250,"MaxPowerLoad":200}
-		  					]}]}]}];
-		      			
-		      			response = $scope.treeData;
-		      		}
 		      		
 		      		angular.forEach(response, function (item) {
 		  				angular.forEach(item.Building, function (build) {
@@ -263,7 +270,7 @@
 		assets = {},
 		ability = {};
 		
-		basicInfo.device = $scope.entity.basicInfo.serialnb;
+		basicInfo.device = $scope.entity.basicInfo.device;
 		basicInfo.alias = $scope.entity.basicInfo.alias;
 		basicInfo.UnitID = $scope.entity.basicInfo.UnitID;
 		basicInfo.deviceLevel = $scope.entity.basicInfo.deviceLevel;
@@ -284,6 +291,10 @@
 		
 		maintenance.vendor = $scope.entity.maintenance.vendor;
 		maintenance.contact = $scope.entity.maintenance.contact;
+		var purchaseDate = $("#purchaseDate").val();
+ 		if($scope.entity.maintenance){
+ 			$scope.entity.maintenance.purchaseDate = purchaseDate ;
+ 		}
 		maintenance.purchaseDate = $scope.entity.maintenance.purchaseDate;
 		maintenance.period = $scope.entity.maintenance.period;
 		

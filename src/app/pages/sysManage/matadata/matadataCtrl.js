@@ -18,7 +18,7 @@
       $scope.menuItem = {};
       $scope.selectMenuItem = {};
       
-      $scope.buttonState = {"update":true ,"delete":true };
+      $scope.buttonState = {"update":true ,"delete":true,"add":true };
       $scope.read = {"menuId":true ,"others":true };
       
       
@@ -99,7 +99,7 @@
       		        		$scope.menuItem = angular.copy(data.node.original);
       		        		$scope.selectMenuItem = angular.copy(data.node.original);
       		        		
-      		        		$scope.buttonState = {"update":false ,"delete":false };
+      		        		$scope.buttonState = {"update":false ,"delete":false,"add":false };
 	  		        		var leval = $scope.selectMenuItem.leval ;
 	      		         	if(leval!=0 ){
 	      		         		if($scope.selectMenuItem.parentData.childSize > 1){ //可以删除
@@ -179,8 +179,16 @@
     		  $scope.floorInfo.read = true ;
     		  
     	  }else{
-    		  commonService.showMsg("error","请先选择要操作的数据!");
-    		  return;
+    		 // $scope.centerInfo = $scope.selectMenuItem ;
+    		  if(root){//新增同级
+    			  $scope.centerInfo.read = false ;
+    			  ///整个数据中心新增
+        	  }else{//新增下级
+        		  //$scope.centerInfo.read = true ;
+        		  commonService.showMsg("error","请先选择要操作的数据!");
+        		  return;
+        	  }
+    		  
     	  }
     	  
     	  $scope.addItem = true ;
@@ -325,8 +333,13 @@
 			  	     });
 		       		
 			}else{
-				commonService.showMsg("error","数据格式错误，请重试!");
-				return;
+				if($scope.root){//新增同级
+					params = center ; //整个数据中心新增
+	    			 
+	        	  }else{//新增下级
+	        		  commonService.showMsg("error","数据格式错误，请重试!");
+	  				return;
+	        	  }
 			}
 			
     	 httpService.post('/matadata/datacenter' ,params, config , function (response) {
@@ -650,20 +663,25 @@
 				return;
 			}
 			
-			httpService.post('/matadata/datacenter' ,params, config ,function (response) {
-		       	 console.log("response:--->"+response);
-		       	 commonService.showMsg("success","Datacenter操作成功！");
-		       	 
-		       	 $scope.cancelMenu();
-		       	 $scope.menuItem ={};
-		       	 $scope.selectMenuItem = {};
-		       	 
-		       	 $('#dataTree').jstree("destroy");
-		       	 $scope.treeData = [];
-		       	 $scope.treeDataCopy = [];
-		       	 $scope.initData();
-	       	 
-	        });
+			var modalInstance = commonService.confirm("确认要删除所选Datacenter数据？");
+        	modalInstance.result.then(function (result) {
+        		httpService.post('/matadata/datacenter' ,params, config ,function (response) {
+	   		       	 console.log("response:--->"+response);
+	   		       	 commonService.showMsg("success","Datacenter删除成功！");
+	   		       	 
+	   		       	 $scope.cancelMenu();
+	   		       	 $scope.menuItem ={};
+	   		       	 $scope.selectMenuItem = {};
+	   		       	 
+	   		       	 $('#dataTree').jstree("destroy");
+	   		       	 $scope.treeData = [];
+	   		       	 $scope.treeDataCopy = [];
+	   		       	 $scope.initData();
+        		});
+        	}, function (reason) {    
+                 console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
+                 //alert("cancel");
+             });  
       }
       
       

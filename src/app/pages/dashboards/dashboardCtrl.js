@@ -6,7 +6,7 @@
       .controller('dashboardCtrl', dashboardCtrlFunc);
 	
   /** @ngInject */
-  function dashboardCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService,baUtil,baConfig,$timeout,$element,layoutPaths,httpService) {
+  function dashboardCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService,baUtil,baConfig,$timeout,$element,layoutPaths,httpService,$state) {
       var config = { headers: {
           "Authorization": $localStorage.authKey
       }}
@@ -202,6 +202,10 @@
       	var item = $scope.tabsValue[i];
       	trendCharts(item.Name,item.CapacityTrend);
       }
+ 	  }
+ 	  
+ 	  $scope.server=function(url){
+ 	  	$state.go(url);
  	  }
  	  $scope.initData();
   }

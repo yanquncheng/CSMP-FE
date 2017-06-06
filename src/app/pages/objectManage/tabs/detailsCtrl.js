@@ -26,7 +26,7 @@
 	    	angular.forEach(tab.param, function(item, index){
 	    		if($scope.baseInfo[item.findName]==undefined){
 	    			f++;
-	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
 	    			return;
 	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
@@ -84,7 +84,7 @@
 	    	angular.forEach(tab.param, function(item, index){
 	    		if($scope.baseInfo[item.findName]==undefined){
 	    			f++;
-	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
 	    			return;
 	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
@@ -158,7 +158,7 @@
 	    	angular.forEach(tab.param, function(item, index){
 	    		if($scope.baseInfo[item.findName]==undefined){
 	    			f++;
-	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
 	    			return;
 	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
@@ -270,7 +270,7 @@
 	    	angular.forEach(tab.param, function(item, index){
 	    		if($scope.baseInfo[item.findName]==undefined){
 	    			f++;
-	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
 	    			return;
 	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
@@ -436,7 +436,7 @@
 	    	angular.forEach(tab.param, function(item, index){
 	    		if($scope.baseInfo[item.findName]==undefined){
 	    			f++;
-	    			commonService.showMsg("error","获取不到"+item.findName+"的值,"+item.findName+"是findName参数值");
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
 	    			return;
 	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];

@@ -21,15 +21,15 @@
 								<i class="glyphicon glyphicon-plus"></i>新增一级
 							</button>
 							
-							<button class="btn btn-primary btn-with-icon" ng-click="addMenu(false)">
+							<button class="btn btn-primary btn-with-icon" ng-click="addMenu(false)" ng-disabled="buttonState.add">
 								<i class="glyphicon glyphicon-plus"></i>新增子菜单
 							</button>
 							
-							<button class="btn btn-primary btn-with-icon" ng-click="modyMenu()" ng-disabled="buttonState">
+							<button class="btn btn-primary btn-with-icon" ng-click="modyMenu()" ng-disabled="buttonState.update">
 								<i class="glyphicon glyphicon-pencil"></i>修改菜单
 							</button>
 							
-							<button class="btn btn-danger btn-with-icon" ng-click="deleteMenu()" ng-disabled="buttonState">
+							<button class="btn btn-danger btn-with-icon" ng-click="deleteMenu()" ng-disabled="buttonState.del">
 								<i class="glyphicon glyphicon-remove"></i>删除菜单
 							</button>
 						</div>

@@ -99,6 +99,36 @@
 		    });
         };
         
+        service.delete = function(url, param, config, callBack){
+	    	config = this.getConfig(config, param, 'delete');
+		    return $http.delete(IG.api + url, config).then(function(response){
+				console.log('response.status :' + response.status);
+				console.log('response.statusText :' + response.statusText);
+				console.log('response is :');
+				console.log(response);
+	    		if(typeof response == "string"){
+	          		commonService.showMsg("success", response);
+	    		}
+	    		
+	    		if(response.status==200){
+	                if(callBack && typeof callBack != "undefined") {
+	                   callBack(response.data);
+	                }
+	    		}else{
+			        commonService.showMsg("error", response.statusText);
+	    		}
+		    }, function(err){
+				console.log('err is :');
+				console.log(err);
+		        commonService.showMsg("error", err.data);
+		        if(err.data && err.data.message && err.data.message==='Your authKey is invalid.'){
+		            printService.print('Logout code : signOut');
+		            AuthenticationService.setLoggedIn(false);
+		            AuthenticationService.signOut();
+        			$state.go('signin');
+		        }
+		    });
+	    };
         return service;
     };
 })();

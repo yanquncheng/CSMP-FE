@@ -19,13 +19,13 @@
       $scope.menuItem = {};
       $scope.selectMenuItem = {};
       
-      $scope.buttonState = true ;
+      $scope.buttonState = {"add":true, "del":true ,"update":true };
       $scope.read = {"parentMenuId":true, "menuId":true ,"others":true };
       //初始化加载菜单列表
       $scope.initData = function (){
     	 // menuTree
       	httpService.get('/menu/list' ,null, config ,function (response) {
-      		$scope.buttonState = true ;
+      		$scope.buttonState = {"add":true, "del":true ,"update":true };
       		if(response){
       			angular.forEach(response, function (menu,index) {
       				menu.id = menu.menuId;
@@ -34,8 +34,6 @@
       				menu.state = {"opened":true }
       				$scope.treeData.push(menu);
                 });
-      		}else{
-      			$scope.treeData = [{"id": "n1", "parent": "#","type": "folder","text": "Node 1","state": {"opened": true} }];
       		}
       		
       		$scope.treeData.sort(function(a,b){return a.order-b.order});
@@ -66,7 +64,10 @@
       		        		//$scope.selectMenuItem.level = $scope.levelList[data.node.original.level]
       		        		//$scope.menuItem.level =  $scope.levelList[data.node.original.level]
       		        		//$("#level").val($scope.menuItem.level);
-      		        		$scope.buttonState = false ;
+      		        		$scope.buttonState = {"add":false, "del":false ,"update":false };
+      		        		if($scope.menuItem.level == 1){
+      		        			$scope.buttonState.add = true ;
+      		        		}
       		        	}); 
       		        	//console.log($scope.menuItem);   
       		        }

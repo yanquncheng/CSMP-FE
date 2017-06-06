@@ -13,8 +13,8 @@
       }}
 	  
 	  $scope.statusList = [{"id":"Product","name":"Product"},{"id":"Test","name":"Test"},{"id":"Development","name":"Development"}];
-  	$scope.smartTablePageSize = 15;
-  	$scope.readStatus = false ;
+  	  $scope.smartTablePageSize = 15;
+  	  $scope.readStatus = false ;
 	  //应用列表查询
       $scope.initApply = function (){
       	
@@ -78,6 +78,36 @@
         	 
         });
   	  };
+  	  
+  	  
+  	 /**
+       * 应用删除
+       */
+      $scope.delApply = function (apply){
+    	  
+    		var modalInstance = commonService.confirm("确认要删除所选应用？");
+        	modalInstance.result.then(function (result) {
+                //console.log(result); //result关闭是回传的值   
+                //alert("ok");
+        		/*$http.delete(IG.api +'/application?device='+apply.name , config )
+        		.success(function (response) {
+        			commonService.showMsg("success","应用删除成功!");
+    				$scope.initApply();
+                     
+                }, 1000).error(function (err) {
+                	
+               });*/
+        		httpService.delete("/application?device="+apply.name , null , config ,function (response) {
+                	console.log("response:--->"+response);
+                	commonService.showMsg("success","应用删除成功!");
+                	$scope.initApply();
+                });
+        		
+             }, function (reason) {    
+                 console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
+                 //alert("cancel");
+             });  
+      };
   	  
   	  
 		/***************************************/

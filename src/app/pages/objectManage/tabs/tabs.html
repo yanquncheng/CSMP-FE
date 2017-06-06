@@ -2,7 +2,7 @@
  	
   <div class="row" ng-hide="editPanel">
     <div class="col-md-12 col-sm-12 col-lg-12">
-		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel large-panel">
+		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel">
 		        <!--large medium -->
 		        <uib-tabset active="$tabSetStatus.activeTab">
 		        	
@@ -38,8 +38,8 @@
 				      <div class="form-group">
 				        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">序列号 :</label>
 				        <div class="col-md-4 col-sm-4 col-lg-4">
-				          <input type="text" class="form-control" ng-if="entity.basicInfo.serialnb" disabled="true" ng-model="entity.basicInfo.serialnb" placeholder="序列号"/>
-				          <input type="text" class="form-control" ng-if="!entity.basicInfo.serialnb" ng-model="entity.basicInfo.serialnb" placeholder="序列号"/>
+				          <!--<input type="text" class="form-control" ng-if="entity.basicInfo.serialnb" disabled="true" ng-model="entity.basicInfo.serialnb" placeholder="序列号"/>-->
+				          <input type="text" class="form-control" ng-model="entity.basicInfo.device" placeholder="序列号" readonly="readonly"/>
 				        </div>
 				        <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">别名 :</label>
 				        <div class="col-md-4 col-sm-4 col-lg-4">
@@ -54,7 +54,7 @@
 				
 				        <div class="col-md-4 col-sm-4 col-lg-4">
 				          <select class="form-control" ng-model="entity.basicInfo.UnitID"
-				                  ng-options="item.id as item.name for item in UnitIDs" ng-change="getRoomsAndPools(entity.dataCenterId)">
+				                  ng-options="item.id as item.name for item in UnitIDs">
 				          </select>
 				        </div>
 				

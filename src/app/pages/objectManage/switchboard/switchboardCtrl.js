@@ -234,7 +234,7 @@
       $scope.initDatacenter = function (){
     	  
       	httpService.get('/matadata/datacenter' ,null, config ,function (response) {
-      		
+      		/*
       		if(!response || response.length==0){
       			$scope.treeData = [{"isDefault":true,"Name":"测试数据中心2","Type":"生产数据中心2","City":"北京","Address":"海淀区数据中心",
   					"Building":[{"Name":"楼栋201","Description":"楼栋201的说明","_id":"592255c8fc97ed701b00001d",
@@ -249,7 +249,7 @@
   					]}]}]}];
       			
       			response = $scope.treeData;
-      		}
+      		}*/
       		
       		angular.forEach(response, function (item) {
   				angular.forEach(item.Building, function (build) {

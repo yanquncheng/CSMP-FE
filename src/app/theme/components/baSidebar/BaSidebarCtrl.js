@@ -8,40 +8,69 @@ angular.module('BlurAdmin.theme.components')
   .controller('BaSidebarCtrl', BaSidebarCtrl);
 
 /** @ngInject */
-function BaSidebarCtrl($scope, $http, baSidebarService, $window, baConfig, AuthenticationService, printService, $localStorage) {
+function BaSidebarCtrl($scope, httpService, baSidebarService, $window, baConfig, AuthenticationService, printService, $localStorage) {
  
-    //$scope.menuItems = baSidebarService.getMenuItems();
-    //$scope.menuItemsAccess = [];
-	//从缓存读取菜单
-    //var jsonMenu = JSON.parse($window.sessionStorage.menus); // JSON from Service
-	
 	var jsonMenu = AuthenticationService.getMenuItems(); // JSON from Service
-	//排序
-	jsonMenu.sort(function(a,b){return a.order-b.order});
-	
-	 var parentMenu = [];
-	 angular.forEach(jsonMenu, function (menu) {
-         if (menu.parentMenuId =="#"||null==menu.parentMenuId ||menu.parentMenuId =="") {
-        	 angular.forEach(jsonMenu, function (child) {
-                 if (child.parentMenuId == menu.menuId) {
-                	 if (!menu.subMenu) {
-                		 menu.subMenu = [];
-                	 }
-                	 menu.subMenu.push(child)
-                 }
-             });
-        	 parentMenu.push(menu)
-         }
-     });
+	 //$scope.menuItems = [];
+	 var config = { headers: {
+         "Authorization": $localStorage.authKey
+     }}
 	 
-    $scope.menuItems = parentMenu ;
-     
-    // printService.print("999999menuItems---->" + JSON.stringify($scope.menuItems) );  
-    // printService.print("999999parentMenu---->" + JSON.stringify(parentMenu) );  
-     
+	 
+	 var menuMap = {};
+	 var userMenu = [];
+	 
+	 if (jsonMenu != null && jsonMenu.length > 0) {
 
-   if ( $scope.menuItems.length > 0  )
-        $scope.defaultSidebarState = $scope.menuItems[0].stateRef;
+    	 // menuTree
+      	httpService.get('/menu/list' ,null, config ,function (response) {
+
+			 var menuList = []
+	         var menuList = response;
+			 if (menuList != null && menuList.length > 0) {
+					// 循环菜单列表
+					for (var i in jsonMenu) {
+						var menu = jsonMenu[i];
+						if(menu.parentMenuId == "#" ){
+							menu.parentMenuId = menu.menuId ;
+							menuMap[menu.parentMenuId] = null;
+							continue;
+						}
+
+						// 判断菜单map 是否存在 key 为 parentMenuId 的 list
+						if (menuMap[menu.parentMenuId] != null && menuMap[menu.parentMenuId] != null) {
+							// 如果存在 往list 放入 menu 信息
+							var list = menuMap[menu.parentMenuId] ;
+							list.push(menu);
+							menuMap[menu.parentMenuId] = list;
+						} else {
+							// 如果不存在 往list 放入 menu 信息
+							var list = [] ;
+							list.push(menu);
+							menuMap[menu.parentMenuId] = list;
+						}
+					}
+					
+					for(var key in menuMap){
+					    //console.log("属性：" + key + ",值："+ menuMap[key]);
+						 angular.forEach( menuList , function (menu) {
+							if(key == menu.menuId ){
+								var tempMenu = angular.copy(menu);
+								tempMenu.subMenu = [];
+								tempMenu.subMenu = menuMap[key] ;
+								userMenu.push(tempMenu);
+							}
+					     });
+					}  
+					
+					$scope.menuItems = userMenu ;
+					//排序
+					$scope.menuItems.sort(function(a,b){return a.order-b.order});
+				   if ( $scope.menuItems.length > 0  )
+				        $scope.defaultSidebarState = $scope.menuItems[0].stateRef;
+			 }
+      	});
+	 }
 
     $scope.hoverItem = function ($event) {
         $scope.showHoverElem = true;
