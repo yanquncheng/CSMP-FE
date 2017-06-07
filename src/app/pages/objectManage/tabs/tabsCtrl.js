@@ -207,7 +207,7 @@
    		$scope.panelTtile = '新增设备' ;
    		if(storage){
    			$scope.panelTtile = '修改设备' ;
-   			if(storage.info){
+   			if(storage.info && storage.info.length>0){
    				$scope.entity = storage.info;
    			}else{
    				
