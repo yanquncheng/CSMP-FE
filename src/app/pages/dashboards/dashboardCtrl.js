@@ -171,7 +171,7 @@
       $scope.dataList =[] ;  //初始化数据源
 			$scope.tabs1=[];  // 数据中心信息
 			$scope.charts =[];  //资源池数据信息
-			$scope.tabsValue=""; //默认数据中心查询值
+			$scope.tabsValue=[]; //默认数据中心查询值
 		  $scope.initData = function (params){
 //			config.params=params;
 			httpService.get("/dashboard/EquipmentSummary", params, config, function (response){
@@ -204,8 +204,10 @@
       }
  	  }
  	  
- 	  $scope.server=function(url){
- 	  	$state.go(url);
+ 	  $scope.server=function(url,datacenter){
+ 	  	var params = {};
+ 	  	params.param = datacenter;
+ 	  	$state.go(url,params);
  	  }
  	  $scope.initData();
   }

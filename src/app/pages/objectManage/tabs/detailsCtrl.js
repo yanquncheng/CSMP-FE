@@ -73,6 +73,12 @@
 	    		case 5:
 	    			$scope.initTemplate_5(tab);
 	    			return ;
+	    		case 6:
+	    			$scope.initTemplate_6(tab);
+	    			return ;
+	    		case 7:
+	    			$scope.initTemplate_7(tab);
+	    			return ;
 	    		default:
 	    	}
 	    }
@@ -94,46 +100,6 @@
     		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
-		    	var t = {
-								"chartType":"pie",
-							    "chartData": [
-							        {
-							            "name": "a",	
-							            "value": 505.9
-							        },
-							        {
-							            "name": "T",
-							            "value": 50
-							        },
-							        {
-							            "name": "T",
-							            "value": 50
-							        }
-							    ],
-							    "tableBody": [
-							        {
-							            "number": "000296800706",
-							            "type": "block"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        }
-							    ],
-							    "tableHead": [
-							        {
-							            "name": "编号",
-							            "value": "number",
-							            "sort": "true"				// 是否可排序
-							        },
-							        {
-							            "name": "类型",
-							            "value": "type",
-							            "sort": "false"
-							        }
-							    ]
-							};
-		    	
 			    var chart = AmCharts.makeChart( "disk", {
 				  "type": $scope.data.chartType,
 				  "theme": "none",
@@ -144,9 +110,18 @@
 				   	"fixedPosition":true
 				  },
 				  "pullOutRadius": 10,
-				  "labelRadius": 5,
+				  "labelRadius": 30,
 				  "labelText": "[[name]]",
-				  "percentPrecision": 1
+				  "percentPrecision": 1,
+				  "maxLabelWidth": 10,
+				  "labelFunction": function(label){
+				  	var str = label.title;
+				  	while (str.indexOf("-") >= 0){
+                       str = str.replace("-", " ");
+                    }
+				  	return str;
+				  },
+				  "color": '#fff'
 				});
 		    });
 	    };
@@ -168,98 +143,6 @@
     		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
-		    	var t = {
-							    "tableBody": [
-							        {
-							            "number": "000296800706",
-							            "type": "block"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        },
-							        {
-							            "number": "000296800707",
-							            "type": "vmax"
-							        }
-							    ],
-							    "tableHead": [
-							        {
-							            "name": "编号",
-							            "sort": "true",
-							            "value": "number"
-							        },
-							        {
-							            "name": "类型",
-							            "sort": "false",
-							            "value": "type"
-							        }
-							    ]
-							};
 		    });
 	    };
 	    
@@ -280,92 +163,6 @@
     		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.capacity = response;
-		    	var t = {
-								    "left": {
-								        "chartData": [
-								            {
-								                "color": "#80B3E8",
-								                "name": "总容量（GB）",
-								                "value": 100
-								            },
-								            {
-								                "color": "#444348",
-								                "name": "未建立Raid（GB）",
-								                "value": 200
-								            },
-								            {
-								                "color": "#91EC7E",
-								                "name": "已建立Raid（GB）",
-								                "value": 300
-								            }
-								        ],
-								        "chartType": "serial",
-								        "tableBody": [
-								            {
-								                "number": "000296800706",
-								                "type": "block"
-								            },
-								            {
-								                "number": "000296800707",
-								                "type": "vmax"
-								            }
-								        ],
-								        "tableHead": [
-								            {
-								                "name": "编号",
-								                "sort": "false",
-								                "value": "number"
-								            },
-								            {
-								                "name": "类型",
-								                "sort": "false",
-								                "value": "type"
-								            }
-								        ]
-								    },
-								    "right": {
-								        "chartData": [
-								            {
-								                "color": "#80B3E8",
-								                "name": "总容量（GB）",
-								                "value": 100
-								            },
-								            {
-								                "color": "#444348",
-								                "name": "未建立Raid（GB）",
-								                "value": 200
-								            },
-								            {
-								                "color": "#91EC7E",
-								                "name": "已建立Raid（GB）",
-								                "value": 300
-								            }
-								        ],
-								        "chartType": "serial",
-								        "tableBody": [
-								            {
-								                "number": "000296800706",
-								                "type": "block"
-								            },
-								            {
-								                "number": "000296800707",
-								                "type": "vmax"
-								            }
-								        ],
-								        "tableHead": [
-								            {
-								                "name": "编号",
-								                "sort": "false",
-								                "value": "number"
-								            },
-								            {
-								                "name": "类型",
-								                "sort": "false",
-								                "value": "type"
-								            }
-								        ]
-								    }
-								};
 		    
 	            var chart = AmCharts.makeChart("luo", {
 				    "theme": "none",
@@ -446,45 +243,6 @@
     		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.data = response;
-		    	var t = {
-						    "left": {
-						        "chartData": [
-							        {
-							            "name": "a",	
-							            "value": 505.9
-							        },
-							        {
-							            "name": "T",
-							            "value": 50
-							        },
-							        {
-							            "name": "T",
-							            "value": 50
-							        }
-						        ],
-						        "chartType": "pie"
-						    },
-						    "right": {
-						        "chartData": [
-						            {
-						                "color": "#80B3E8",
-						                "name": "总容量（GB）",
-						                "value": 100
-						            },
-						            {
-						                "color": "#444348",
-						                "name": "未建立Raid（GB）",
-						                "value": 200
-						            },
-						            {
-						                "color": "#91EC7E",
-						                "name": "已建立Raid（GB）",
-						                "value": 300
-						            }
-						        ],
-						        "chartType": "serial"
-						    }
-						};
 						
 				var chart = AmCharts.makeChart("right", {
 				    "theme": "none",
@@ -531,5 +289,74 @@
 				});
 		    });
 	    };
+	    
+	    $scope.initTemplate_6 = function(tab){
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	var f=0;
+	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    	});
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get(tab['url'], null, cfg, function (response) {
+				$scope.infos = response;
+		    });
+	    };
+	    
+	    $scope.initTemplate_7 = function(tab){
+	    	if(!$scope.event_table){
+	    		$scope.event_table = [];
+	    	}
+	    	
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	var f=0;
+	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    	});
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get(tab['url'], null, cfg, function (response) {
+		    	$scope.data = response;
+		    	$scope.event_table.push($scope.data);
+		    });
+	    };
+	    
+	    $scope.click7Event = function(index, data){
+	    	if($scope.event_table.length-1>index){
+	    		$scope.event_table.splice(index+1, $scope.event_table.length-1-index);
+	    	}
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	var f=0;
+	    	angular.forEach($scope.event_table[index].tableEvent.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    	});
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get($scope.event_table[index].tableEvent['url'], null, cfg, function (response) {
+		    	$scope.data = response;
+		    	$scope.event_table.push($scope.data);
+		    });
+	    }
     }
 })();

@@ -13,9 +13,14 @@
       }}
 	  $scope.smartTablePageSize = 15;
 	  $scope.status=[{"name":"Product"},{"name":"Test"},{"name":"Development"}];  //主机基本信息状态
+	  var device = $stateParams.param;
 	  //主机列表查询
   	$scope.initApply = function (){
-  		httpService.get("/hosts", null, config, function (response){
+  		var params ={};
+  		if(device!=null && device!=''){
+  			params.device=device;
+  		}
+  		httpService.get("/hosts", params, config, function (response){
           $scope.DataList = response;
       });
   	};
@@ -52,21 +57,7 @@
   $scope.initDatacenter = function (){
 	  
 	  httpService.get("/matadata/datacenter", null, config, function (response){
-  		if(!response || response.length==0){
-  			$scope.treeData = [{"isDefault":true,"Name":"测试数据中心2","Type":"生产数据中心2","City":"北京","Address":"海淀区数据中心",
-				"Building":[{"Name":"楼栋201","Description":"楼栋201的说明","_id":"592255c8fc97ed701b00001d",
-				"Floor":[{"Name":"楼层1","Description":"楼层1的说明","_id":"592255c8fc97ed701b000021",
-				"Unit":[{"Name":"机房1","UnitID":"111f0915-1032-465c-b6ee-913ffbbac913",
-				"Description":"机房1的说明","_id":"592255c8fc97ed701b000023","MaxCabinet":150,"MaxPowerLoad":100},
-				{"Name":"机房2","UnitID":"222f0915-1032-465c-b6ee-943ffbbac933","Description":"机房2的说明","_id":"592255c8fc97ed701b000022","MaxCabinet":250,"MaxPowerLoad":200}]},
-				{"Name":"楼层2","Description":"楼层2的说明","_id":"592255c8fc97ed701b00001e",
-				"Unit":[{"Name":"机房1","UnitID":"333f0915-1032-465c-b6ee-943ffbbac567","Description":"机房1的说明",
-				"_id":"592255c8fc97ed701b000020","MaxCabinet":150,"MaxPowerLoad":100},
-				{"Name":"机房2","UnitID":"444f0915-1032-465c-b6ee-94345bbac9c1","Description":"机房2的说明","_id":"592255c8fc97ed701b00001f","MaxCabinet":250,"MaxPowerLoad":200}
-				]}]}]}];
-  			response = $scope.treeData;
-  		}
-  		
+//			response = $scope.treeData;  		
   		angular.forEach(response, function (item) {
 			angular.forEach(item.Building, function (build) {
 				angular.forEach(build.Floor, function (floor) {
@@ -221,22 +212,111 @@
  	 }
  	 
  	 //批量添加主键弹出页面
-// 	 $scope.addAllHost=function(){
-// 	 	var modalInstance = $uibModal.open({
-//	    animation: true,
-//	    template: "<div class='modal-content'>" +
-//	    		"<div class='modal-header bg-primary'>" +
-//	    		"<i class='glyphicon glyphicon-info-sign'></i><span> 批量添加主机</span>" +
-//	    		"</div>" +
-//	    		"<div class='modal-body text-center'>主机文件上传.CSV<input id='csvInput' class='btn btn-default col-xs-6' type='file' accept='.csv'></div>" +
-//	    		"<div class='modal-footer'>" +
-//	    		"<button type='button' class='btn btn-primary' ng-click='csv2arr()'>确认</button>" +
-//	    		"<button type='button' class='btn btn-warning' ng-click='$dismiss()'>取消</button>" +
-//	    		"</div></div>",
-//		size: 'md',//md lg sm
-//	    resolve: {items: function () {}  }
-//	   });
-// 	 }
+   	 $scope.addAllHost=function(){
+	   	 	var modalInstance = $uibModal.open({
+		    animation: true,
+		    template: "<div class='modal-content'>" +
+		    		"<div class='modal-header bg-primary'>" +
+		    		"<i class='glyphicon glyphicon-info-sign'></i><span> 批量添加主机</span>" +
+		    		"</div>" +
+		    		"<div class='modal-body text-center'><div class='row'>"+
+		    		"<span class='col-lg-7 col-sm-7 col-xlg-7 '><input style='margin-left:30px' id='csvInput' class='btn-default btn' type='file' accept='.csv'></span>" +
+		    		"<span class='col-lg-3 col-sm-3 col-xlg-3 ' style='margin-top:15px'>主机文件上传.CSV</span></div></div>" +
+		    		"<div class='modal-footer'>" +
+		    		"<button type='button' class='btn btn-primary' ng-click='$close()'>确认</button>" +
+		    		"<button type='button' class='btn btn-warning' ng-click='$dismiss()'>取消</button>" +
+		    		"</div></div>",
+				size: 'md',//md lg sm
+//				controller: '',
+		    resolve: {items: function () {}  }
+		   });
+		  modalInstance.result.then(function (result) {  
+		  	$scope.csv2arr();
+//		  	$scope.initApply();
+     }, function (reason) {    
+         console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
+     }); 
+   	 }
+   	 
+   	 
+   	 
+   	 $scope.addAllHostData={
+		    "baseinfo":{
+		        "name":"",                     
+		        "type":"Physical",                       
+		        "catalog": "",                        
+		        "status": "Test",                         
+		        "management_ip": "",           
+		        "service_ip": "",     
+		        "UnitID": "",                      
+		        "description":"" 
+		    },
+		    "maintenance":{
+		        "vendor":"",                             
+		        "contact":"",                    
+		        "maintenance_department" : "",      
+		        "maintenance_owner": ""                 
+		    },
+		    "assets": {
+		      "no": "",                          
+		      "purpose": "",                      
+		      "department": "",                    
+		      "manager": ""                      
+		    },
+		    "configuration" : {
+		      "OS": "",                               
+		      "OSVersion": "",	
+		      "memory": "",                           
+		      "other": ""     
+				},
+		    "HBAs": [
+//		    	{  "name" : "",                      
+//					"wwn":"", 	        
+//					"AB": ""                            
+//					} 
+		    ],
+			  "APPs": []                 
+	};
+
+   	 
+   	 $scope.csv2arr = function(){
+   	 	if( typeof(FileReader) !== 'undefined' ){    //H5
+        var reader = new FileReader();
+        reader.readAsText( $("#csvInput")[0].files[0] );            //以文本格式读取
+        reader.onload = function(evt){
+            var data = evt.target.result;        //读到的数据
+            var b = data.split("\r\n");
+            b.shift();
+            for(var i in b){
+            	if(b[i].length<1){
+            			$scope.initApply();
+            		return;
+            	}
+            	$scope.addAllHostData.baseinfo.name = b[i].split(",")[0];
+            	$scope.addAllHostData.baseinfo.service_ip = b[i].split(",")[1];
+            	var wwn = b[i].split(",")[2].split("|");
+            	$scope.addAllHostData.HBAs=[];
+            	for(var j in wwn){
+            		var hbas={"name":"","AB":""};
+            		hbas.wwn=wwn[j];
+            		$scope.addAllHostData.HBAs.push(hbas);
+            	}
+            	 var params = angular.copy($scope.addAllHostData);
+            	 httpService.post('/host',params, config, function (response){
+			        	console.log("response:--->"+response);
+			        	commonService.showMsg("success","主机操作成功!");
+			        	if(i==b.length-1){
+	            		$scope.initApply();
+			        	}
+				      });
+//          	 console.log(angular.toJson($scope.addAllHostData,2)+"----");
+            }
+        }
+	    }else{
+	        alert("IE9及以下浏览器不支持，请使用Chrome或Firefox浏览器");
+	    }
+// 	 	$scope.$close('cancel');
+   	 }
  	 
   $scope.initApply();
   $scope.initDatacenter();

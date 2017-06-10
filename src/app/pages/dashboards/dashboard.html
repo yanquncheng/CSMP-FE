@@ -8,21 +8,21 @@
 					  <uib-tab heading="{{tab1.datacenter}}" ng-repeat="tab1 in tabs1" ng-click="swithTabs(tab1);">
 					      <div class="horizontal-scroll">
 					      <div class="topo">
-					        <a class="server" href="javascript:void(0)" ng-click="server('dashboard.objectManage.host')">
+					        <a class="server" href="javascript:void(0)" ng-click="server('dashboard.objectManage.host',tab1.datacenter)">
 					          <div class="device"></div>
 					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>服务器({{tab1.Host}})</span>
 					        </a>
-					        <a class="hypervisor" href="#/dashboard/objectManage/apply">
+					        <a class="hypervisor" href="javascript:void(0)" ng-click="server('dashboard.objectManage.apply',tab1.datacenter)">
 					          <div class="device"></div>
 					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>应用系统({{tab1.Application}})</span>
 					        </a>
-					        <a class="fabric" href="#/config/virtual_gateway_list">
+					        <a class="fabric" href="#/config/virtual_gateway_list" ng-click="server('config.virtual_gateway_list',tab1.datacenter)">
 					          <div class="device"></div>
 					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>虚拟化网关({{tab1.VirtualStorage}})</span> </a>
-					        <a class="switch" href="#/dashboard/objectManage/switchboard">
+					        <a class="switch" href="javascript:void(0)" ng-click="server('dashboard.objectManage.switchboard',tab1.datacenter)">
 					          <div class="device"></div>
 					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>交换机({{tab1.FabricSwitch}})</span> </a>
-					        <a class="storage" href="#/dashboard/objectManage/tabsCtrl">
+					        <a class="storage" href="javascript:void(0)" ng-click="server('dashboard.objectManage.tabsCtrl',tab1.datacenter)">
 					          <div class="device"></div>
 					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>存储({{tab1.Array}})</span> </a>
 					      </div>
@@ -91,14 +91,21 @@
 		}
 		
 		.demo:hover{
-			border: 2px red solid;
 			width:120%;
+			-webkit-box-shadow: 5px 5px 5px;  
+		    -moz-box-shadow: 5px 5px 5px;  
+		    box-shadow: 5px 5px 5px;  
 		}
+		.domes1:hover{  
+			position:relative;
+			cursor:pointer;
+		  	box-shadow: -8px 5px 5px #000000,5px 5px 5px #000000,5px -8px 5px #000000,5px 5px 5px #000000;  
+		} 
 	</style>
 	<div class="row" style="padding-top: 1px; height: 1px; background-color: rgb(125, 125, 125);"></div>
 	<!--  最新第二部分  -->
 	<div class="row">
-		<div class="divborder col-md-4 col-sm-4 col-lg-4" ng-repeat="chart in tabsValue" style="height: 630px;margin: 10px;">
+		<div class="domes1 divborder col-md-4 col-sm-4 col-lg-4" ng-repeat="chart in tabsValue" style="height: 630px;margin: 10px;">
 			<h3 style="text-align: center; padding-top: 5px;">{{chart.Name}}</h3>
 			<!--<div id="stacked-bar" class="ct-chart stacked-bar"></div>-->
 			<div style="background-color: rgba(127, 190, 255, 0.14); height: 150px;">

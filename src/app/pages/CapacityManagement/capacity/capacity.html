@@ -1,0 +1,241 @@
+<!--
+	容量管理首页html
+-->
+<ui-view autoscroll="true" autoscroll-body-top>
+	<!-- 第一部分 -->
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6">
+			<div style="margin-left: 10px; width: 100%; margin-top: 25px;">
+				<div style="width: 5%; height: 10px; background-color: yellow; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;已使用&nbsp;&nbsp;{{CapacityOverview.Used}}TB</div>
+				<div style="width: 5%; height: 10px; background-color: green; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;剩余物理可用&nbsp;&nbsp;{{CapacityOverview.PhysicalFree-CapacityOverview.Used}}TB</div>
+			</div>
+			<br/>
+			<div style="margin-left: 10px; width: 100%;">
+				<div style="width: 5%; height: 10px; background-color: #D03E3E; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;未使用&nbsp;&nbsp;{{CapacityOverview.Assigned-CapacityOverview.Used}}TB</div>
+				<div style="width: 5%; height: 10px; background-color: #0093FA; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;未分配&nbsp;&nbsp;{{CapacityOverview.Available-CapacityOverview.Assigned}}TB</div>
+			</div>
+			<br /><br /><br />
+			
+			<div style="width: 100%; margin-left: 10px; padding-top: 20px; border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;">
+				<div style="width: 100%; height: 20px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 35%; padding-top: 8px;"></div>
+					<div style="width: 30%; float: left; text-align: center;">可用容量:{{CapacityOverview.Available}}TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 35%; padding-top: 8px;"></div>
+				</div>
+				<div style="width: {{CapacityOverview.PhysicalFree / CapacityOverview.Available * 100}}%; border-right: 1px solid #FFFFFF; height: 20px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 30%; padding-top: 8px;"></div>
+					<div style="width: 40%; float: left; text-align: center;">物理可用:{{CapacityOverview.PhysicalFree}}TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 30%; padding-top: 8px;"></div>
+				</div>
+			</div>
+			<!-- 顶部柱形 -->
+			<div style="margin-left: 10px;width: 100%;">
+				<div title="{{CapacityOverview.NoAvailable}}%" style="background-color:#666666; width: 100%; height: 30px; border-bottom: 2px #bbbbb3;">
+					<div class="domes" title="{{CapacityOverview.Used1}}%" style="background: yellow; width: {{CapacityOverview.Used / CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+					<div class="domes" title="{{CapacityOverview.PhysicalFree1}}%" style="background-color: green; width: {{(CapacityOverview.PhysicalFree-CapacityOverview.Used) / CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+				</div>
+			</div>
+			<div style="height: 2px; width: 103%; background-color: #000000;"></div>
+			<!-- 底部柱形 -->
+			<div style="margin-left: 10px; width: 100%;">
+				<div class="domes" title="{{CapacityOverview.Used1}}%" style="background: yellow; width: {{CapacityOverview.Used / CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+				<div class="domes" title="{{CapacityOverview.NoUsed}}%" style="background-color:#D03E3E; width: {{(CapacityOverview.Assigned-CapacityOverview.Used)/ CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+				<div class="domes" title="{{CapacityOverview.Available1}}%" style="background-color: #0093FA; width:{{(CapacityOverview.Available - CapacityOverview.Assigned)/ CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+			</div>
+			<!-- 已分配容量 -->
+			<div style="width: 100%; margin-left: 10px; padding-top: 30px;">
+				<div style="width: {{CapacityOverview.Assigned / CapacityOverview.Available * 100}}%; border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF; height: 25px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 25%; padding-top: 12px;"></div>
+					<div style="width: 50%; float: left; text-align: center; padding-top: 8px;">已分配:{{CapacityOverview.Assigned}}TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 25%; padding-top: 12px;"></div>
+				</div>
+			</div>
+			<div style="width: 100%; margin-left: 10px; padding-top: 20px;" align="center">
+				<span class="title1">容量分布</span>
+			</div>
+		</div>
+		
+		
+		<div class="col-lg-3 col-md-3 col-sm-3">
+			<a style="color: #FFFFFF; text-decoration: none;" href="javascript:void(0)" ng-click="server('dashboard.CapacityManagement.capacity.overview','')">
+			<div style="height: 260px; width:100%;" id="resourcesDiv" class="admin-chart" ng-controller="capacityCtrl">
+			</div>
+			<span class="title1">资源池可用容量分布</span>
+			</a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-3">
+			<div style="height: 260px; width:100%;" id="dataDiv" class="admin-chart" ng-controller="capacityCtrl">
+			</div>
+			<span class="title1">数据中心可用容量分布</span>
+		</div>
+	</div>
+	<div class="row" style="padding-top: 1px; height: 2px; background-color: rgb(125, 125, 125);"></div>
+	<!-- 第二部分 -->
+	<div class="row">
+		<div class="domes1 divborder col-md-4 col-sm-4 col-lg-4" ng-repeat="group in GroupByDatacenter" style="margin: 10px 0px 5px 2px;">
+			<h3 style="text-align: center; padding-top: 10px;">{{group.DatacenterName}}数据中心</h3>
+			<hr />
+			<span style="padding-top: 5px; padding-bottom: 10px;"><font size="4">存储设备数量&nbsp;&nbsp;&nbsp;&nbsp;</font><font size="6" style="padding-left: 30px;">{{group.NumberOfArray}}</font></span>
+			<br />
+			<div style="background-color: rgba(127, 190, 255, 0.14); height: 150px;">
+				<h5 style="text-align: center; padding-top: 10px;">容量分布</h5>
+				<div class="ddd" align="left">
+					<div title="可用容量:{{group.CapacityDist.Availables}}%" class="divl_left_radius demo" style="background-color: rgb(236,236,4); float: left; width: {{group.CapacityDist.Availables}}%; z-index: {{group.CapacityDist.Available>group.CapacityDist.Used?group.CapacityDist.Used:group.CapacityDist.Available}};"></div>
+					<div title="已用容量:{{group.CapacityDist.Useds}}%" class="divl_left_radius demo" style="background-color: rgb(120,156,14);float: left;width: {{group.CapacityDist.Useds}}%; height: 100%; color: #000000; padding: 5px; text-align: center; z-index: {{group.CapacityDist.Used>group.CapacityDist.Available?group.CapacityDist.Available:group.CapacityDist.Used}};"></div>
+					<div class="divl_rigth_radius demo" style="background-color: rgb(222,222,222);float: left;width: 100%; z-index: 1;"></div>
+				</div>
+				<div style="padding-left: 10px; width: 94%;">
+					<div style="width: 10%; height: 10px; background-color: rgb(236,236,4); float: left;"></div>
+					<div style="width: 90%;float: left;">&nbsp;&nbsp;可用容量:&nbsp;&nbsp;{{group.CapacityDist.Available}}</div>
+				</div><br />
+				<div style="padding-left: 10px; width: 94%;">
+					<div style="width: 10%; height: 10px; background-color: rgb(120,156,14); float: left;"></div>
+					<div style="width: 90%; float: left;">&nbsp;&nbsp;已用容量:&nbsp;&nbsp;{{group.CapacityDist.Used}}</div>
+				</div>
+				<div style="width: 94%; padding-left: 10px; padding-top: 20px;">
+					<div style="width: 100%; border-left: 2px solid #FFFFFF; border-right: 2px solid #FFFFFF; height: 20px;">
+						<div style="height: 2px; border-bottom: 2px solid #FFFFFF; float: left; width: 25%; padding-top: 8px;"></div>
+						<div style="width: 50%; float: left; text-align: center;">裸容量:{{group.CapacityDist.TotalRaw}}TB</div>
+						<div style="height: 2px; border-bottom: 2px solid #FFFFFF; float: left; width: 25%; padding-top: 8px;"></div>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="divborder">
+				<span class="title">保护类型数据容量</span>
+				<table style="padding-left: 10px;">
+					<tr><td align="right" style="padding-left: 20px;">主机数据:</td><td style="padding-left: 10px;">{{group.CapacityByPurpose.Primary}}</td></tr>
+					<tr><td align="right"style="padding-left: 20px;">本地复制:</td><td style="padding-left: 10px;">{{group.CapacityByPurpose.LocalRep}}</td></tr>
+					<tr><td align="right"style="padding-left: 20px;">本地远程复制:</td><td style="padding-left: 10px;">{{group.CapacityByPurpose.LocalRemoteRep}}</td></tr>
+					<tr><td align="right"style="padding-left: 20px;">本地Clone:</td><td style="padding-left: 10px;">{{group.CapacityByPurpose.LocalTragetClone}}</td></tr>
+					<tr><td align="right"style="padding-left: 20px;">远程复制:</td><td style="padding-left: 10px;">{{group.CapacityByPurpose.RemoteRep}}</td></tr>
+				</table>
+			</div>
+			<br/>
+			<!-- 混合图形 -->
+			<div class="divborder">
+				<span class="title">数据中心容量趋势</span>
+				<div style="height: 260px; width:100%;" id="zoomAxisChart{{$index}}" class="admin-chart" ng-controller="capacityCtrl">
+				</div>
+			</div>
+			<br />
+			<a style="color: #FFFFFF; text-decoration: none;" href="javascript:void(0)" ng-click="server('dashboard.CapacityManagement.capacity.overview',group.DatacenterName)">
+				<span style="text-align: center; margin-left: 120px;">资源池容量</span>
+				<div style="height: 260px; width:100%;" id="dataDivs{{$index}}" class="admin-chart" ng-controller="capacityCtrl">
+				</div>
+			</a>
+		</div>
+	</div>
+	<script>
+		var div1 =0;
+		var div2 = 0;
+		function aa(id){
+			div1= $("#div1").css("z-index");
+			div2= $("#div2").css("z-index");
+			$("#"+id).css("z-index",9999);
+		}
+		function bb(){
+			$("#div1").css("z-index",div1);
+			$("#div2").css("z-index",div2);
+		}
+	</script>
+	
+	
+	<style>
+		span.title1{
+		    display:block;
+		    width:200px;
+		    height:25px;
+		    top:-8px;
+		    text-align: center;
+		    margin-left: 50px;
+		}
+		
+		.divborder{
+			border: 2px solid #FFFFFF;
+			border-top-left-radius: 1em;
+		    border-top-right-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    border-bottom-right-radius: 1em;
+		    padding-bottom: 10px;
+		}
+		
+		.ddd{
+			border: 1px solid #FFFFFF;
+		    height: 30px;
+		    width: 94%;
+		    /*background-color: red;*/
+		    /*padding-left: 150px;*/
+		    border-top-left-radius: 1em;
+		    border-top-right-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    border-bottom-right-radius: 1em;
+		    margin: 10px;
+		    position:relative;
+		}
+		.divl_left_radius{
+			height: 100%;
+		    border-top-left-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    color: #000000;
+		    text-align: center;
+		    padding: 5px;
+		    position:absolute;
+		}
+		.divl_rigth_radius{
+			height: 100%;
+			border-top-left-radius: 1em;
+		    border-bottom-left-radius: 1em;
+			border-top-right-radius: 1em;
+			border-bottom-right-radius: 1em;
+			color: #000000;
+			text-align: center;
+			padding: 5px;
+			position:absolute;
+		}
+		.div2{
+			float: left;
+		}
+		span.title{
+		    display:block;
+		    width:130px;
+		    height:12px;
+		    position:relative;
+		    top:-8px;
+		    text-align: center;
+		    background: rgb(53,77,81);
+		    color: #FFFFFF;
+		    margin-left: 25px;
+		}
+		
+		.demo:hover{
+			/*border: 2px red solid;*/
+			width:120%;
+			/*position: absolute;*/
+			 -webkit-box-shadow: 5px 5px 5px;  
+		     -moz-box-shadow: 5px 5px 5px;  
+		     box-shadow: 5px 5px 5px;  
+		     /*z-index: 2000;*/
+		}
+		
+		.domes:hover{  
+			position:relative;
+			cursor:pointer;
+		   -webkit-box-shadow: 5px 5px 5px #000000;  
+		  -moz-box-shadow: 5px 5px 5px #000000;  
+		  box-shadow: 5px 5px 5px #000000;  
+		} 
+		.domes1:hover{  
+			/*position:relative;
+			cursor:pointer;
+		  	box-shadow: -8px 5px 5px #000000,5px 5px 5px #000000,5px -8px 5px #000000,5px 5px 5px #000000;  */
+		  	-webkit-box-shadow:inset 0 0 15px #FFFFFF;  
+		    -moz-box-shadow:inset 0 0 15px #FFFFFF;  
+		    box-shadow:inset -10 0 15px #FFFFFF;  
+		} 
+	</style>
+</ui-view>

@@ -1,14 +1,9 @@
 <div class="row">
-
-    <div class="col-xs-4" style="padding: 0px; margin: 0px; ">
-        <div id="disk" style="height: 500px; width: 100%;">
-        </div>
-    </div>
-	    <div class="col-xs-8">
-		  	<div class="horizontal-scroll">
-		    <table id="sample-table-1" st-table="smartTableData" st-safe-src="data.tableBody" class="table table-striped table-bordered table-hover">
+	    <div class="col-xs-12" ng-repeat="datas in event_table" ng-init="outerIndex = $index">
+		  	<div class="horizontal-scroll" ng-repeat="tableData in datas.tableData">
+		    <table id="sample-table-1" st-table="smartTableData" st-safe-src="tableData.tableBody" class="table table-striped table-bordered table-hover">
 		       <thead>
-			      <tr> 
+			      <!--<tr> 
 					    <th colspan="13">
 					    	<div class="row">
 					    		 	<div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px;">显示行数：</div>
@@ -24,23 +19,26 @@
 			    			
 			    		</th>
 						</th>
-					</tr>	
+					</tr>	-->
 			      <tr>
-				        <th ng-repeat="thead in data.tableHead" st-sort="{{thead.sort}}" st-sort-default="{{thead.default}}"> {{thead.name}}</th>
+				        <th ng-repeat="thead in tableData.tableHead" st-sort="{{thead.sort}}" st-sort-default="{{thead.default}}"> {{thead.name}}</th>
 			      </tr>
 		      </thead>
 		      <tbody>
-			      <tr ng-repeat="disk in smartTableData" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
-                        <td ng-repeat="thead in data.tableHead">{{disk[thead.value]}}</td>
+			      <tr ng-repeat="d in smartTableData" ng-if="!datas.tableEvent" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
+                        <td ng-repeat="thead in tableData.tableHead">{{d[thead.value]}}</td>
+			      </tr>
+			      <tr ng-repeat="d in smartTableData" ng-if="datas.tableEvent" ng-click="click7Event(outerIndex, d)" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
+                        <td ng-repeat="thead in tableData.tableHead">{{d[thead.value]}}</td>
 			      </tr>
 		      </tbody>
-		      <tfoot>
+		      <!--<tfoot>
 			    <tr>
 				      <td colspan="13" class="text-center">
 				        <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
 				      </td>
 			    </tr>
-		    </tfoot>
+		    	</tfoot>-->
 		    </table>
 		    </div>
 	  </div>

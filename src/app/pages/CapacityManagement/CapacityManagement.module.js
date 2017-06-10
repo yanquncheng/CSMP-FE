@@ -6,8 +6,9 @@
   'use strict';
 
   angular.module('BlurAdmin.pages.CapacityManagement', [
-      'BlurAdmin.pages.CapacityManagement.coreview',
-      'BlurAdmin.pages.CapacityManagement.gateway'
+//    'BlurAdmin.pages.CapacityManagement.coreview',
+//    'BlurAdmin.pages.CapacityManagement.gateway',
+      'BlurAdmin.pages.CapacityManagement.capacity'
     ])
     .config(routeConfig);
 

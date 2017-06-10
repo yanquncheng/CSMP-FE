@@ -1,0 +1,112 @@
+<!--
+	容量管理 资源池容量概览
+-->
+<ui-view autoscroll="true" autoscroll-body-top>
+	<div class="row">
+	    <div class="col-md-12 col-sm-12 col-lg-12">
+	    	<button ng-click="back();" type="button" class="back-button btn btn-default btn-with-icon pull-right">
+	    	 	<i class="ion-chevron-left"></i>Back
+	      	</button>
+	    </div>
+  	</div>
+	<div class="row">
+		<div class="domes1 divborder col-lg-6 col-md-6 col-sm-6" ng-repeat="pool in poolData">
+			<a style="color: #FFFFFF; text-decoration: none;" href="javascript:void(0)" ng-click="server1('dashboard.CapacityManagement.capacity.detail',pool.PoolOverview.PoolName)">
+				<h3 style="text-align: center; padding-top: 10px;">资源池-{{pool.PoolOverview.PoolName}}</h3>
+			</a>
+			<div class="divborder">
+				<table style="margin-left: 30px; margin-top:10px;border-collapse: separate; border-spacing: 5px;">
+					<tr><td align="right" style="padding-left: 20px;">存储池等级:</td><td style="padding-left: 10px;">{{pool.PoolOverview.Level}}</td></tr>
+					<tr><td align="right"style="padding-left: 20px;">磁盘类型:</td><td style="padding-left: 10px;">{{pool.PoolOverview.DiskType}}</td></tr>
+					<tr><td align="right"style="padding-left: 20px;">保护类型:</td><td style="padding-left: 10px;">{{pool.PoolOverview.RAIDType}}</td></tr>
+					<tr><td align="right"style="padding-left: 20px;">成本:</td><td style="padding-left: 10px;">{{pool.PoolOverview.Cost}}</td></tr>
+				</table>
+			</div>
+			<!-- 容量分布图 -->
+			<div style="margin-left: 10px; width: 100%; margin-top: 25px;">
+				<div style="width: 5%; height: 10px; background-color: yellow; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;已使用&nbsp;&nbsp;{{pool.CapacityOverview.Used}}TB</div>
+				<div style="width: 5%; height: 10px; background-color: green; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;剩余物理可用 &nbsp;&nbsp;{{pool.CapacityOverview.PhysicalFree-pool.CapacityOverview.Used}}TB</div>
+			</div>
+			<br/>
+			<div style="margin-left: 10px; width: 100%;">
+				<div style="width: 5%; height: 10px; background-color: #D03E3E; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;未使用&nbsp;&nbsp;{{pool.CapacityOverview.Assigned-pool.CapacityOverview.Used}}TB</div>
+				<div style="width: 5%; height: 10px; background-color: #0093FA; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;未分配&nbsp;&nbsp;{{pool.CapacityOverview.Available-pool.CapacityOverview.Assigned}}TB</div>
+			</div>
+			<br />
+			
+			<div style="width: 100%; margin-left: 10px; padding-top: 20px; border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;">
+				<div style="width: 100%; height: 20px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 35%; padding-top: 8px;"></div>
+					<div style="width: 30%; float: left; text-align: center;">可用容量:{{pool.CapacityOverview.Available}}TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 35%; padding-top: 8px;"></div>
+				</div>
+				<div style="width: {{pool.CapacityOverview.PhysicalFree / pool.CapacityOverview.Available * 100}}%; border-right: 1px solid #FFFFFF; height: 20px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 30%; padding-top: 8px;"></div>
+					<div style="width: 40%; float: left; text-align: center;">物理可用:{{pool.CapacityOverview.PhysicalFree}}TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 30%; padding-top: 8px;"></div>
+				</div>
+			</div>
+			<!-- 顶部柱形 -->
+			<div style="margin-left: 10px;width: 100%;">
+				<div title="{{pool.CapacityOverview.NoAvailable}}%" style="background-color:#666666; width: 100%; height: 30px; border-bottom: 2px #bbbbb3;">
+					<div class="domes" title="{{pool.CapacityOverview.Used1}}%" style="background: yellow; width: {{pool.CapacityOverview.Used / pool.CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+					<div class="domes" title="{{pool.CapacityOverview.PhysicalFree1}}%" style="background-color: green; width: {{(pool.CapacityOverview.PhysicalFree-pool.CapacityOverview.Used) / pool.CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+				</div>
+			</div>
+			<div style="height: 2px; width: 103%; background-color: #000000;"></div>
+			<!-- 底部柱形 -->
+			<div style="margin-left: 10px; width: 100%;">
+				<div class="domes" title="{{pool.CapacityOverview.Used1}}%" style="background: yellow; width: {{pool.CapacityOverview.Used / pool.CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+				<div class="domes" title="{{pool.CapacityOverview.NoUsed}}%" style="background-color:#D03E3E; width: {{(pool.CapacityOverview.Assigned-pool.CapacityOverview.Used)/ pool.CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+				<div class="domes" title="{{pool.CapacityOverview.Available1}}%" style="background-color: #0093FA; width:{{(pool.CapacityOverview.Available - pool.CapacityOverview.Assigned)/ pool.CapacityOverview.Available * 100}}%; height: 30px; float: left;"></div>
+			</div>
+			<!-- 已分配容量 -->
+			<div style="width: 100%; margin-left: 10px; padding-top: 30px;">
+				<div style="width: {{pool.CapacityOverview.Assigned / pool.CapacityOverview.Available * 100}}%; border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF; height: 25px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 25%; padding-top: 12px;"></div>
+					<div style="width: 50%; float: left; text-align: center; padding-top: 8px;">已分配:{{pool.CapacityOverview.Assigned}}TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 25%; padding-top: 12px;"></div>
+				</div>
+			</div>
+			<div style="width: 100%; margin-left: 10px; padding-top: 10px;" align="center">
+				<h4>容量分布</h4>
+			</div>
+			<div class="row" style="margin-top: 10px; height: 1px; background-color: rgb(125, 125, 125);"></div>
+			<div style="height: 260px; width:100%;" id="zoomAxisChart{{$index}}" class="admin-chart" ng-controller="overviewCtrl">
+			</div>
+			<h4 style="text-align: center;">容量趋势</h4>
+		</div>
+	</div>
+	<style>
+		.divborder{
+			border: 2px solid #FFFFFF;
+			border-top-left-radius: 1em;
+		    border-top-right-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    border-bottom-right-radius: 1em;
+		    padding-bottom: 10px;
+		}
+		.domes:hover{  
+			position:relative;
+			cursor:pointer;
+		   -webkit-box-shadow: 5px 5px 5px #000000;  
+		  -moz-box-shadow: 5px 5px 5px #000000;  
+		  box-shadow: 5px 5px 5px #000000;  
+		 /*-webkit-box-shadow:0 0 10px #0CC;  
+		  -moz-box-shadow:0 0 10px #0CC;  
+		  box-shadow:0 0 10px #0CC; */
+		} 
+		.domes1:hover{  
+			/*position:relative;
+			cursor:pointer;
+		  	box-shadow: -8px 5px 5px #000000,5px 5px 5px #000000,5px -8px 5px #000000,5px 5px 5px #000000;  */
+		  -webkit-box-shadow:inset 0 0 15px #FFFFFF;  
+		  -moz-box-shadow:inset 0 0 15px #FFFFFF;  
+		  box-shadow:inset -5 0 15px #FFFFFF;  
+		} 
+	</style>
+</ui-view>

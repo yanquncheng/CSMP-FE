@@ -19,20 +19,15 @@
  	 //tabs页
  	 $scope.tabs = [
  	                {"id":1,"name":"SAN存储","url":"app/pages/objectManage/tabs/storage.html",
- 	                	"apiUrl":"/arrays"},
-// 	                {"id":2,"name":"NAS存储","url":"app/pages/objectManage/tabs/storage.html",
-// 	                	"apiUrl":"/arrays"},
-// 	                {"id":3,"name":"对象存储","url":"app/pages/objectManage/tabs/storage.html",
-// 	                	"apiUrl":"/arrays"},
- 	                {"id":4,"name":"虚拟存储","url":"app/pages/objectManage/tabs/storage.html",
- 	                	"apiUrl":"/arrays"}
+ 	                	"apiUrl":"/arrays", 'detailUrl': '/menu/ObjectManage/Array'},
+ 	                {"id":2,"name":"虚拟存储","url":"app/pages/objectManage/tabs/storage_fictitious.html",
+ 	                	"apiUrl":"/virtualarrays", 'detailUrl': '/menu/ObjectManage/VirtualArray'}
  	               ];
+	$scope.selectTab = $scope.tabs[0];
     	 
- 	$scope.theads1 = [
+ 	$scope.theads = [
  	                 {"text": "存储别名","sort": "name","default": false},
  	                 {"text": "序列号","sort": "serialnb", "default": false},
-// 	                 {"text": "数据中心", "sort": "","default": false},
-// 	                 {"text": "资源池","sort": "", "default": false},
  	                 {"text": "类型","sort": "", "default": false},
  	                 {"text": "型号", "sort": "", "default": false},
  	                 {"text": "端口数量","sort": "","default": false},
@@ -43,123 +38,71 @@
  	                 {"text": "位置信息", "sort": "","default": false},
  	                 {"text": "操作"}
  	                 ];
- 	$scope.theads2 = [
-  	                 {"text": "2存储别名","sort": "name","default": false},
+ 	$scope.theads_fictitious = [
+  	                 {"text": "虚拟存储别名","sort": "name","default": false},
   	                 {"text": "序列号","sort": "serialnb", "default": false},
-//	                 {"text": "数据中心", "sort": "","default": false},
-//	                 {"text": "资源池","sort": "", "default": false},
   	                 {"text": "类型","sort": "", "default": false},
-  	                 {"text": "型号", "sort": "", "default": false},
-  	                 {"text": "端口数量","sort": "","default": false},
-  	                 {"text": "磁盘数量", "sort": "","default": false},
-  	                 {"text": "LUN数量","sort": "","default": false},
-  	                 {"text": "Cache(MB)","sort": "","default": false},
-  	                 {"text": "已使用容量(百分比)","sort": "","default": false},
-  	                 {"text": "位置信息", "sort": "","default": false},
-  	                 {"text": "操作"}
-  	                 ];
- 	$scope.theads3 = [
-  	                 {"text": "3存储别名","sort": "name","default": false},
-  	                 {"text": "序列号","sort": "serialnb", "default": false},
-//	                 {"text": "数据中心", "sort": "","default": false},
-//	                 {"text": "资源池","sort": "", "default": false},
-  	                 {"text": "类型","sort": "", "default": false},
-  	                 {"text": "型号", "sort": "", "default": false},
-  	                 {"text": "端口数量","sort": "","default": false},
-  	                 {"text": "磁盘数量", "sort": "","default": false},
-  	                 {"text": "LUN数量","sort": "","default": false},
-  	                 {"text": "Cache(MB)","sort": "","default": false},
-  	                 {"text": "已使用容量(百分比)","sort": "","default": false},
-  	                 {"text": "位置信息", "sort": "","default": false},
-  	                 {"text": "操作"}
-  	                 ];
- 	$scope.theads4 = [
-  	                 {"text": "4存储别名","sort": "name","default": false},
-  	                 {"text": "序列号","sort": "serialnb", "default": false},
-//	                 {"text": "数据中心", "sort": "","default": false},
-//	                 {"text": "资源池","sort": "", "default": false},
-  	                 {"text": "类型","sort": "", "default": false},
-  	                 {"text": "型号", "sort": "", "default": false},
-  	                 {"text": "端口数量","sort": "","default": false},
-  	                 {"text": "磁盘数量", "sort": "","default": false},
-  	                 {"text": "LUN数量","sort": "","default": false},
-  	                 {"text": "Cache(MB)","sort": "","default": false},
-  	                 {"text": "已使用容量(百分比)","sort": "","default": false},
-  	                 {"text": "位置信息", "sort": "","default": false},
+ 	                 {"text": "型号", "sort": "", "default": false},
+  	                 {"text": "Cluster名称", "sort": "", "default": false},
+  	                 {"text": "微码版本","sort": "","default": false},
+  	                 {"text": "位置", "sort": "","default": false},
+  	                 {"text": "数据采集时间","sort": "","default": false},
   	                 {"text": "操作"}
   	                 ];
  	 
- 	 /*
- 	 $scope.theadList = [];
- 	 $scope.sourceList = [];
-     $scope.filterList = [];*/
      $scope.list = [];
  	 
  	 //tabs页切换
  	 $scope.swithTabs = function (tab){
- 	 	$scope.selectTab = tab;
+ 	 	if(tab){
+	 	 	$scope.selectTab = tab;
+ 	 	}
  		 if(!tab){
  			tab = $scope.tabs[0];
  		 }
  		 
- 		 if(tab.id === 1){		//SAN存储
- 			$scope.theadList = $scope.theads1 ;
- 			
- 		 }else if(tab.id === 2){//NAS存储
- 			 $scope.theadList = $scope.theads2 ;
- 			 
- 		 }else if(tab.id === 3){//对象存储
- 			 $scope.theadList = $scope.theads3 ;
- 			 
- 		 }else{					//虚拟存储
- 			 $scope.theadList = $scope.theads4 ;
- 		 }
  		 var apiUrl = "";
  		 apiUrl = tab.apiUrl ;
  		 //查询数据
  		 query(apiUrl);
  	 };
+     
+     $scope.qwe = function(){
+		$scope.selectTab = $scope.tabs[0];
+     }
  	 
  	 /**
        * 存储列表
        */
       function query(apiUrl) {
+      	if($scope.selectTab.id == 2){
+	    	 httpService.get(apiUrl, null, config, function (response) { 
+	    	     for ( var i in response ) {
+	           		var item = response[i];
+	           		if(item.LastTS){  //格式化列表日期格式
+	           			item.LastTS= moment(item.LastTS*1000).format("YYYY-MM-DD HH:mm:ss");
+	           		}
+           		}
+	    	     $scope.list_fictitious =response ;
+	      	});
+	      	return;
+      	}
     	 httpService.get(apiUrl, null, config, function (response) { 
-    		  
-          //$scope.sourceList = response;
-          //$scope.filterList = $scope.sourceList;
           $scope.list =response ;
-          
-          for ( var i in response ) {
-         	var item = response[i];
-         	item.usedCapacityPercent = 0 ;
-         	var usedCapacity =  item.ConfiguredRawCapacity -  item.UnconfiguredCapacity;
-         	item.usedCapacity = usedCapacity ;
-         	if(!item.ConfiguredRawCapacity || item.ConfiguredRawCapacity==0){
-         		item.usedCapacityPercent = 0 ;
-         	}else{
-         		item.usedCapacityPercent = fixedNumber(item.usedCapacity / item.ConfiguredRawCapacity, 2) * 100;
-         	}
-         		 
-            var perfItems = item.perf;
-            for ( var j in perfItems ) {
-              var perfItem = perfItems[j];
-              if ( perfItem.properties.name == 'WriteRequests') {
-                item['perfDisplay'] = perfItem.points;
-                //console.log(perfItem.points);
-                break;
-              }
-            }
-          }
-          
-          $scope.smartTablePageSize = 15;
+//        $scope.smartTablePageSize = 15;
 
 	      });
       };
       
     //点击查看详情
- 	 $scope.storageDetail = function (storage){
-	    httpService.get('/menu/ObjectManage/Array', {arraytype: storage.model}, config, function (response) {
+ 	 $scope.storageDetail = function (storage, type){
+ 	 	var prm = {};
+ 	 	prm.arraytype = storage.model;
+ 	 	if(type && type==='vplex'){
+ 	 		prm.arraytype = storage.vstgtype;
+ 	 		prm.device = storage.device;
+ 	 	}
+	    httpService.get($scope.selectTab.detailUrl, prm, config, function (response) {
 	    	if(typeof response == 'string'){
 	          commonService.showMsg("error", response);
 	    	}else{
@@ -169,6 +112,11 @@
 	    			item.id = id++;
 		    		if(!item.hasDetail){
 		    			item.page = "app/pages/objectManage/tabs/template_"+item.template+".html";
+//		    			if(index == 4){
+//		    				item.template = 7;
+//		    				item.url = '/arrays';
+//		    				item.page = "app/pages/objectManage/tabs/template_"+item.template+".html";
+//		    			}
 		    		}else{
 		    			angular.forEach(item.tabDetail, function(det, idx){
 		    				det.id = id++;
@@ -288,6 +236,15 @@
 	          commonService.showMsg("error","请填写设备类型");
 	          return false;
 		}
+		
+		// 初始值,防止undefind
+		if(!$scope.entity.assets){
+			$scope.entity.assets = {};
+		}
+		if(!$scope.entity.ability){
+			$scope.entity.ability = {};
+		}
+		
 		
 		maintenance.vendor = $scope.entity.maintenance.vendor;
 		maintenance.contact = $scope.entity.maintenance.contact;

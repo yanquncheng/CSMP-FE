@@ -4,12 +4,10 @@
     <div class="col-md-12 col-sm-12 col-lg-12">
 		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel">
 		        <!--large medium -->
-		        <uib-tabset active="$tabSetStatus.activeTab">
-		        	
+		        <uib-tabset active="$tabSetStatus.activeTab" ng-init="qwe()">
 						  <uib-tab heading="{{tab.name}}" ng-repeat="tab in tabs" ng-click="swithTabs(tab);">
 						      <div ng-include="tab.url"></div>
 						  </uib-tab>
-					  
 					</uib-tabset>
 		      </div>
         </div>

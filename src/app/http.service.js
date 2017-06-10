@@ -35,9 +35,10 @@
 		};
 		
 	    service.get = function(url, param, config, callBack){
-			console.log('http get : ' + url);
-	    	config = this.getConfig(config, param, 'get');
-		    return $http.get(IG.api + url, config).then(function(response){
+	    	console.log('http get : ' + url);
+	    	var cfg = angular.copy(config);
+	    	cfg = this.getConfig(cfg, param, 'get');
+		    return $http.get(IG.api + url, cfg).then(function(response){
 				console.log('response.status :' + response.status);
 				console.log('response.statusText :' + response.statusText);
 				console.log('response is :');
@@ -68,9 +69,9 @@
 
         service.post = function(url, param, config, callBack) {
         	console.log('http post : ' + url);
-	    	config = this.getConfig(config, null, 'post');
-	    	console.log('param is : ' + param);
-		    return $http.post(IG.api + url, param, config).then(function(response){
+	    	var cfg = angular.copy(config);
+	    	cfg = this.getConfig(cfg, null, 'post');
+		    return $http.post(IG.api + url, param, cfg).then(function(response){
 				console.log('response.status :' + response.status);
 				console.log('response.statusText :' + response.statusText);
 				console.log('response is :');
@@ -100,8 +101,9 @@
         };
         
         service.delete = function(url, param, config, callBack){
-	    	config = this.getConfig(config, param, 'delete');
-		    return $http.delete(IG.api + url, config).then(function(response){
+	    	var cfg = angular.copy(config);
+	    	cfg = this.getConfig(cfg, param, 'delete');
+		    return $http.delete(IG.api + url, cfg).then(function(response){
 				console.log('response.status :' + response.status);
 				console.log('response.statusText :' + response.statusText);
 				console.log('response is :');
