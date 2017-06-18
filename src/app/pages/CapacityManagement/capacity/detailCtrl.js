@@ -11,6 +11,7 @@
       var config = { headers: {
           "Authorization": $localStorage.authKey
       }}
+      $scope.smartTablePageSize=15;
       var pool = $stateParams.pool;
       var poolName = $stateParams.poolName;
       $scope.params={};

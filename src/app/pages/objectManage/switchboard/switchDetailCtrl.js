@@ -29,6 +29,7 @@
   	
   	 $scope.parmsInfo = {};
  	 $scope.parmsInfo = $stateParams.param;
+ 	 $scope.datacenter=$stateParams.datacenter;
  	 
   	if(!$scope.parmsInfo){
  		$scope.back();
@@ -67,7 +68,7 @@
 	 };
   	
  	 $scope.back = function (){
- 		$state.go('dashboard.objectManage.switchboard',{param: $scope.parmsInfo });
+ 		$state.go('dashboard.objectManage.switchboard',{param: $scope.parmsInfo,datacenter:$scope.datacenter });
  	 };
  	 
  	 
@@ -160,6 +161,11 @@
 		/***************************************/
 		//$scope.initData();
       $scope.swithTabs();
+      
+    //打开后返回顶部
+      $timeout(function() {
+          $(window).scrollTop(0,0);
+      }, 200);
 		
   }
 

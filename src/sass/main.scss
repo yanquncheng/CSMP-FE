@@ -33,4 +33,24 @@ input::-webkit-input-placeholder {
 //       font-size: 20px;
          /* placeholder位置  */
 //       text-align: right;
-     }
+}
+     
+//排序样式
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+
+.st-sort-descent:before {
+    content: '\25BC';
+}
+.uib-day 
+ul.uib-datepicker-popup.btn.btn-default {
+   color: #2dacd1;
+}
+small{
+    color: #2dacd1;
+}
+
+.select_table{
+    background-color: #209e91 !important;
+}

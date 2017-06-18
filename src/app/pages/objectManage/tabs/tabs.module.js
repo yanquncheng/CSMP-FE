@@ -16,6 +16,7 @@
           sidebarMeta: {
             order: 2,
           },
+            params: {datacenter: '', type:0}
         }).state('dashboard.objectManage.tabs.detail', {
             url :"",
             templateUrl: 'app/pages/objectManage/tabs/detail.html',

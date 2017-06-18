@@ -204,9 +204,10 @@
       }
  	  }
  	  
- 	  $scope.server=function(url,datacenter){
+ 	  $scope.server=function(url,datacenter,type){
  	  	var params = {};
- 	  	params.param = datacenter;
+ 	  	params.datacenter = datacenter;
+ 	  	params.type = type;
  	  	$state.go(url,params);
  	  }
  	  $scope.initData();

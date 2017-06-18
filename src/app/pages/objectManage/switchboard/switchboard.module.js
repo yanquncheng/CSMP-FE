@@ -16,13 +16,13 @@
           sidebarMeta: {
             order: 2,
           },
-          params: {param: null}
+          params: {param: null,datacenter: null}
         }).state('dashboard.objectManage.switchboard.switchDetial', {
         	url: '',
             templateUrl: 'app/pages/objectManage/switchboard/switchDetail.html',
             controller: 'switchDetialCtrl',
             title: '交换机',
-            params: {param: null}
+            params: {param: null,datacenter: null}
           });
   }
  

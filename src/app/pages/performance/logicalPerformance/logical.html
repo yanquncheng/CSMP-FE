@@ -81,7 +81,7 @@
               </div>
               <div ng-repeat="lun in host.Devices" class="cell tooltip-toggle" style="background-color: {{lun.color}};width: 40px;float: left; margin: 1px 1px 1px 1px;"
                    ng-click="clickLun(lun)">
-                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="{{lun.sgname+':'+lun.displayPart+'%'}}">
+                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="{{lun.sgname+':'+lun.displayPart}}">
                   {{lun.displayPart}}
                 </a>
               </div>

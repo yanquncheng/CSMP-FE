@@ -15,7 +15,7 @@
 		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel large-panel">
 		        <uib-tabset active="$tabSetStatus.activeTab">
 				  <uib-tab heading="{{tab.tabName}}" ng-repeat="tab in tabs" ng-if="!tab.dropdown" ng-click="swithTabs(tab);" index="tab.id">
-				      <div ng-include="tab.page"></div>
+				      <div ng-if="tab.id==activetab" ng-include="tab.page"></div>
 				  </uib-tab>
 				  
 				   <uib-tab ng-init="$dropdownTabActive = tab.children[0].id" class="with-dropdown" ng-if="tab.dropdown" 

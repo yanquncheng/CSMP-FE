@@ -16,6 +16,7 @@
           sidebarMeta: {
             order: 3,
           },
+          params: {datacenter: null}
         });
   }
  

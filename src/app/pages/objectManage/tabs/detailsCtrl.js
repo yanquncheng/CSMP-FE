@@ -6,7 +6,7 @@
   angular.module('BlurAdmin.pages.objectManage.tabs')
      .controller('detailsCtrl', detailsCtrlFunc);
     
-    function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams) {
+    function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams, $timeout) {
     	 
     	 console.log($stateParams);
     	 
@@ -18,6 +18,8 @@
 	    }};
 	    
     	$scope.tabs = $stateParams.param.tabs;
+    	$scope.activetab = $scope.tabs[0].id;
+    	$scope.tab = $scope.tabs[0];
 	    
 	    $scope.initTemplate_1 = function(tab){
 	    	var cfg = angular.copy(config);
@@ -57,6 +59,12 @@
 	    $scope.initData();
 	    
 	    $scope.swithTabs = function(tab){
+	    	$scope.activetab = tab.id;
+    		$scope.tab = tab;
+	    	$scope.data = null;
+	    	$scope.chartList = [];
+	    	$scope.selectData = null;
+    		$scope.multyDetailT8 = [];
 	    	switch(tab.template){
 	    		case 1:
 	    			$scope.initTemplate_1(tab);
@@ -78,6 +86,12 @@
 	    			return ;
 	    		case 7:
 	    			$scope.initTemplate_7(tab);
+	    			return ;
+	    		case 8:
+	    			$scope.initTemplate_8(tab);
+	    			return ;
+	    		case 9:
+	    			$scope.initTemplate_9(tab, $scope.startDate, $scope.endDate);
 	    			return ;
 	    		default:
 	    	}
@@ -113,11 +127,12 @@
 				  "labelRadius": 30,
 				  "labelText": "[[name]]",
 				  "percentPrecision": 1,
-				  "maxLabelWidth": 10,
+				  "maxLabelWidth": 100,
 				  "labelFunction": function(label){
 				  	var str = label.title;
-				  	while (str.indexOf("-") >= 0){
+				  	while (str.indexOf("-") >= 0 || str.indexOf("_") >= 0){
                        str = str.replace("-", " ");
+                       str = str.replace("_", " ");
                     }
 				  	return str;
 				  },
@@ -344,6 +359,34 @@
 	    	var f=0;
 	    	angular.forEach($scope.event_table[index].tableEvent.param, function(item, index){
 	    		if($scope.baseInfo[item.findName]==undefined){
+	    			if(data[item.findName]==undefined){
+		    			f++;
+		    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+		    			return;
+	    			}else{
+	    				cfg.params[item.postName] = data[item.findName];
+	    			}
+	    		}else{
+	    			cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		}
+	    	});
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get($scope.event_table[index].tableEvent['url'], null, cfg, function (response) {
+		    	$scope.data = response;
+		    	$scope.event_table.push($scope.data);
+		    });
+	    };
+	    
+	    $scope.initTemplate_8 = function(tab){
+
+			$scope.detail_8 = null;
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	var f=0;
+	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
 	    			f++;
 	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
 	    			return;
@@ -353,10 +396,349 @@
     		if(f>0){
     			return;
     		}
-		    httpService.get($scope.event_table[index].tableEvent['url'], null, cfg, function (response) {
+		    httpService.get(tab['url'], null, cfg, function (response) {
+			    $scope.startDate = moment(response.startDate);
+			    $scope.endDate = moment(response.endDate);
+
 		    	$scope.data = response;
-		    	$scope.event_table.push($scope.data);
+			    var chart = AmCharts.makeChart( "disk", {
+				  "type": $scope.data.chartType,
+				  "theme": "none",
+				  "dataProvider": $scope.data.chartData,
+				  "valueField": "value",
+				  "titleField": "name",
+				   "balloon":{
+				   	"fixedPosition":true
+				  },
+				  "pullOutRadius": 10,
+				  "labelRadius": 30,
+				  "labelText": "[[name]]",
+				  "percentPrecision": 1,
+				  "maxLabelWidth": 100,
+				  "labelFunction": function(label){
+				  	var str = label.title;
+				  	while (str.indexOf("-") >= 0 || str.indexOf("_") >= 0){
+                       str = str.replace("-", " ");
+                       str = str.replace("_", " ");
+                    }
+				  	return str;
+				  },
+				  "color": '#fff'
+				});
 		    });
+	    };
+	    
+	    $scope.click8Event = function(event, data, startDate, endDate, type, conf){
+	    	if(!data.selected){
+		    	if($scope.selectData){
+		    		$scope.selectData.selected = false;
+		    	}
+		    	data.selected = true;
+		    	$scope.selectData = data;
+	    	}
+	    	var cfg = angular.copy(config);
+	    	if(conf){
+	    		cfg = conf;
+	    	}
+	    	if(!cfg.params){
+		    	cfg.params = {};
+	    	}
+	    	var f=0;
+	    	angular.forEach(event.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			if(data[item.findName]==undefined){
+		    			f++;
+		    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+		    			return;
+	    			}else{
+	    				cfg.params[item.postName] = data[item.findName];
+	    			}
+	    		}else{
+	    			cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		}
+	    	});
+	    	
+	    	cfg.params.startDate = moment(startDate).format();
+	    	cfg.params.endDate = moment(endDate).format();
+	    	
+    		if(f>0){
+    			return;
+    		}
+	    	// 空，重新开始
+			$scope.chartList = [];
+		    httpService.get(event['url'], null, cfg, function (response) {
+				if(!type || type!='update'){
+					$scope.detail_8 = response;
+				}
+		    	$scope.changeChartIn8($scope.detail_8.charts);
+		    });
+	    };
+	    
+	    $scope.click8MultyDetail = function(disk){
+	    	disk.selected = !disk.selected;
+	    	var flag = false;
+	    	if(disk.selected){
+	    		angular.forEach($scope.multyDetailT8, function(item, index){
+	    			if(item==disk){
+	    				flag = true;
+	    				return false;
+	    			}
+	    		});
+	    		if(!flag){
+	    			$scope.multyDetailT8.push(disk);
+	    		}
+	    	}else{
+	    		angular.forEach($scope.multyDetailT8, function(item, index){
+	    			if(item==disk){
+	    				$scope.multyDetailT8.splice(index, 1);
+	    				return false;
+	    			}
+	    		});
+	    	}
 	    }
+	    
+	    $scope.changeChartIn8 = function(chartsData){
+	    	angular.forEach(chartsData, function(item, index){
+	    		var graphs = [];
+	    		angular.forEach(item.chartData[0], function(value, name){
+	    			if(name != item.category){
+	    				graphs.push({
+						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
+						    "bullet": "round",
+						    "lineThickness": 3,
+						    "bulletSize": 7,
+						    "bulletBorderAlpha": 1,
+						    "bulletColor": "#FFFFFF",
+						    "useLineColorForBulletBorder": true,
+						    "bulletBorderThickness": 3,
+						    "fillAlphas": 0,
+						    "lineAlpha": 1,
+						    "title": name,
+						    "valueField": name,
+						    "dashLengthField": "dashLengthLine"
+						  });
+	    			}
+	    		});
+	    		
+   				$timeout(function() {
+		    		var t = AmCharts.makeChart( "chart-"+index, {
+						  "type": "serial",
+						  "addClassNames": true,
+						  "theme": "light",
+						  "autoMargins": false,
+						  "marginLeft": 30,
+						  "marginRight": 8,
+						  "marginTop": 10,
+						  "marginBottom": 26,
+						  "balloon": {
+						    "adjustBorderColor": false,
+						    "horizontalPadding": 10,
+						    "verticalPadding": 8,
+						    "color": "#ffffff"
+						  },
+						
+						  "dataProvider": item.chartData,
+						  "valueAxes": [ {
+						    "axisAlpha": 0,
+						    "position": "left",
+						    "color": "#ffffff"
+						  } ],
+						  "startDuration": 1,
+						  "graphs": graphs,
+						  "categoryField": item.category,
+						  "categoryAxis": {
+						    "gridPosition": "start",
+						    "axisAlpha": 0,
+						    "tickLength": 0,
+						    "color": "#ffffff"
+						  },
+						  "export": {
+						    "enabled": true
+						  },
+						  "legend": {
+						    "useGraphSettings": true,
+						    "color": "#fff"
+						  },
+						  
+					    "chartScrollbar": {
+					        "oppositeAxis":false,
+					        "offset":30,
+					        "scrollbarHeight": 10,
+					        "backgroundAlpha": 0,
+					        "selectedBackgroundAlpha": 0.1,
+					        "selectedBackgroundColor": "#888888",
+					        "graphFillAlpha": 0,
+					        "graphLineAlpha": 0.5,
+					        "selectedGraphFillAlpha": 0,
+					        "selectedGraphLineAlpha": 1,
+					        "autoGridCount":true,
+					        "color":"#AAAAAA"
+					    }
+					});
+					t.addListener("zoomed", function(event){
+						console.log("zoomed");
+						
+						angular.forEach($scope.chartList, function(item, index){
+							if(event.chart.div.id != item.div.id){
+								item.zoomToCategoryValues(event.startValue, event.endValue);
+							}
+						})
+					})
+					$scope.chartList.push(t);
+   				}, 200);
+			});
+	    }
+	    
+	    $scope.search8 = function(){
+	    	var cfg = angular.copy(config);
+	    	if(!cfg.params){
+		    	cfg.params = {};
+	    	}
+	    	if($scope.multyDetailT8 && $scope.multyDetailT8.length>0){
+		    	angular.forEach($scope.detail_8.tableEvent.param, function(item, index){
+		    		angular.forEach($scope.multyDetailT8, function(data, i){
+			    		if(data[item.findName]==undefined){
+			    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+			    		}else{
+			    			if(!cfg.params[item.postName]){
+			    				cfg.params[item.postName] = [];
+			    			}
+			    			cfg.params[item.postName].push(data[item.findName]);
+			    		}
+		    		});
+		    	});
+	    	}
+	    	$scope.click8Event($scope.data.tableEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", cfg);
+	    };
+	    
+	    $scope.initTemplate_9 = function(tab, startDate, endDate){
+	    	// 空，重新开始
+			$scope.chartList = [];
+			
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	if(startDate){
+	    		cfg.params.startDate = moment(startDate).format();
+	    	}
+	    	if(endDate){
+	    		cfg.params.endDate = moment(endDate).format();
+	    	}
+	    	var f=0;
+	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    	});
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get(tab['url'], null, cfg, function (response) {
+	    		$scope.startDate = moment(response.startDate);
+	    		$scope.endDate = moment(response.endDate);
+		    	
+		    	$scope.data = response;
+		    	
+		    	angular.forEach($scope.data.charts, function(item, index){
+		    		var graphs = [];
+		    		angular.forEach(item.chartData[0], function(value, name){
+		    			if(name != item.category){
+		    				graphs.push({
+							    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
+							    "bullet": "round",
+							    "lineThickness": 3,
+							    "bulletSize": 7,
+							    "bulletBorderAlpha": 1,
+							    "bulletColor": "#FFFFFF",
+							    "useLineColorForBulletBorder": true,
+							    "bulletBorderThickness": 3,
+							    "fillAlphas": 0,
+							    "lineAlpha": 1,
+							    "title": name,
+							    "valueField": name,
+							    "dashLengthField": "dashLengthLine"
+							  });
+		    			}
+		    		});
+		    		
+	   				$timeout(function() {
+			    		var t = AmCharts.makeChart( "chart-"+index, {
+							  "type": "serial",
+							  "addClassNames": true,
+							  "theme": "light",
+							  "autoMargins": false,
+							  "marginLeft": 30,
+							  "marginRight": 8,
+							  "marginTop": 10,
+							  "marginBottom": 26,
+							  "balloon": {
+							    "adjustBorderColor": false,
+							    "horizontalPadding": 10,
+							    "verticalPadding": 8,
+							    "color": "#ffffff"
+							  },
+							
+							  "dataProvider": item.chartData,
+							  "valueAxes": [ {
+							    "axisAlpha": 0,
+							    "position": "left",
+							    "color": "#ffffff"
+							  } ],
+							  "startDuration": 1,
+							  "graphs": graphs,
+							  "categoryField": item.category,
+							  "categoryAxis": {
+							    "gridPosition": "start",
+							    "axisAlpha": 0,
+							    "tickLength": 0,
+							    "color": "#ffffff"
+							  },
+							  "export": {
+							    "enabled": true
+							  },
+							  "legend": {
+							    "useGraphSettings": true,
+							    "color": "#fff"
+							  },
+							  
+						    "chartScrollbar": {
+						        "oppositeAxis":false,
+						        "offset":30,
+						        "scrollbarHeight": 10,
+						        "backgroundAlpha": 0,
+						        "selectedBackgroundAlpha": 0.1,
+						        "selectedBackgroundColor": "#888888",
+						        "graphFillAlpha": 0,
+						        "graphLineAlpha": 0.5,
+						        "selectedGraphFillAlpha": 0,
+						        "selectedGraphLineAlpha": 1,
+						        "autoGridCount":true,
+						        "color":"#AAAAAA"
+						    }
+						});
+						t.addListener("zoomed", function(event){
+							console.log("zoomed");
+							
+							angular.forEach($scope.chartList, function(item, index){
+								if(event.chart.div.id != item.div.id){
+									item.zoomToCategoryValues(event.startValue, event.endValue);
+								}
+							})
+						})
+						$scope.chartList.push(t);
+       				}, 200);
+		    	});
+		    });
+	    };
+	    
+	    $scope.search9 = function(){
+	    	$scope.initTemplate_9($scope.tab, $("#startDate").val(), $("#endDate").val());
+	    };
+	    
+	    $timeout(function() {
+            $(window).scrollTop(0,0);
+        }, 200);
     }
 })();

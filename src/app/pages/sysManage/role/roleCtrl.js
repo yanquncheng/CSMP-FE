@@ -6,7 +6,7 @@
       .controller('roleCtrl', roleCtrlFunc);
 
   /** @ngInject */
-  function roleCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal , commonService, httpService) {
+  function roleCtrlFunc($scope, $filter, $http, $localStorage,$timeout, $uibModal , commonService, httpService) {
       //console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -18,7 +18,7 @@
       $scope.editStatu = false ;
       $scope.title = "菜单信息" ;
       
-      
+      $scope.smartTablePageSize = 15;
       $scope.initData = function (){
         	httpService.get('/role/list' ,null, config ,function (response) { 
                 $scope.roleList = response;
@@ -214,6 +214,11 @@
         
 		/***************************************/
 		$scope.initData();
+		
+		//打开后返回顶部
+        $timeout(function() {
+            $(window).scrollTop(0,0);
+        }, 200);
 		
 		
   }

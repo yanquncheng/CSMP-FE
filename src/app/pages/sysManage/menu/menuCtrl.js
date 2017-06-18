@@ -6,7 +6,7 @@
       .controller('menuCtrl', menuCtrlFunc);
 
   /** @ngInject */
-  function menuCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService, httpService) {
+  function menuCtrlFunc($scope, $filter, $http, $localStorage,$timeout, $uibModal, commonService, httpService) {
       //console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -217,6 +217,12 @@
       
 	/***************************************/
 		$scope.initData();
+		
+		
+		//打开后返回顶部
+        $timeout(function() {
+            $(window).scrollTop(0,0);
+        }, 200);
 		
   }
 

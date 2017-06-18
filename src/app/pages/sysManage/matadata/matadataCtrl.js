@@ -6,7 +6,7 @@
       .controller('matadataCtrl', matadataCtrlFunc);
 
   /** @ngInject */
-  function matadataCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService, httpService) {
+  function matadataCtrlFunc($scope, $filter, $http, $localStorage,$timeout, $uibModal, commonService, httpService) {
       //console.log($localStorage.authKey);
       var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -237,8 +237,9 @@
     	  $scope.addItem = false;
     	  $scope.root = false ;
     	  $scope.read = { "menuId":true ,"others":true };
-    	  $scope.buttonState = {"update":true ,"delete":true };
+    	  $scope.buttonState = {"update":false ,"delete":true };
     	  $scope.menuItem = angular.copy($scope.selectMenuItem);
+    	  
       };
       
       //新增修改保存
@@ -588,7 +589,7 @@
 		  	    	}
 		  	     });
 				
-				httpService.post('/matadata/deldatacenter' ,params, config ,function (response) {
+				httpService.delete('/matadata/deldatacenter' ,params, config ,function (response) {
 			       	 console.log("response:--->"+response);
 			       	 commonService.showMsg("success","Datacenter操作成功！");
 			       	 
@@ -696,6 +697,11 @@
 	/***************************************/
 		$scope.initData();
 		
+		
+		//打开后返回顶部
+        $timeout(function() {
+            $(window).scrollTop(0,0);
+        }, 200);
   }
 
 })();

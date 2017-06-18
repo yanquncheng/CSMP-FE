@@ -24,6 +24,7 @@
   	 $scope.parmsInfo = {};
 	 	 $scope.parmsInfo = $stateParams.param.host;
 	 	 $scope.tabs = $stateParams.param.tabs;
+	 	 $scope.datacenter = $stateParams.datacenter;
 	 	 
 	 	 
 	 	 $scope.initTemplate_1 = function(tab){
@@ -584,7 +585,7 @@
 	 	
 	 	//返回的方法
 	 	$scope.back = function (){
-	 		$state.go('dashboard.objectManage.host',{param: $scope.parmsInfo});
+	 		$state.go('dashboard.objectManage.host',{param: $scope.parmsInfo,datacenter:$scope.datacenter});
 	 	};
 	 	
 	 	//基本信息

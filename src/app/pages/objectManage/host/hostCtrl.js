@@ -13,12 +13,12 @@
       }}
 	  $scope.smartTablePageSize = 15;
 	  $scope.status=[{"name":"Product"},{"name":"Test"},{"name":"Development"}];  //主机基本信息状态
-	  var device = $stateParams.param;
+	  var datacenter = $stateParams.datacenter;
 	  //主机列表查询
   	$scope.initApply = function (){
   		var params ={};
-  		if(device!=null && device!=''){
-  			params.device=device;
+  		if(datacenter!=null && datacenter!=''){
+  			params.datacenter=datacenter;
   		}
   		httpService.get("/hosts", params, config, function (response){
           $scope.DataList = response;
@@ -87,6 +87,8 @@
 	  /** 主机新增*/
 	 $scope.editPanel = false;
 	 $scope.addHost=function(){
+	 	$scope.initDatacenter();
+	 	$scope.initApps();
 	 	$scope.host={};
 	 	$scope.editPanel=true;
 	 	$scope.panelTtile = '主机新增' ;
@@ -172,6 +174,8 @@
  	  * 主机编辑
  	  */
  	 $scope.editHost=function(row){
+ 	 	$scope.initDatacenter();
+ 	 	$scope.initApps();
  	 	$scope.host={};
  	 	$scope.host=row;
  	 	$scope.editPanel=true;
@@ -319,7 +323,5 @@
    	 }
  	 
   $scope.initApply();
-  $scope.initDatacenter();
-  $scope.initApps();
   }
 })();

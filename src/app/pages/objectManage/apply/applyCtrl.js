@@ -6,7 +6,7 @@
       .controller('applyCtrl', applyCtrlFunc);
 
   /** @ngInject */
-  function applyCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, httpService) {
+  function applyCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, httpService,$stateParams) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -15,10 +15,14 @@
 	  $scope.statusList = [{"id":"Product","name":"Product"},{"id":"Test","name":"Test"},{"id":"Development","name":"Development"}];
   	  $scope.smartTablePageSize = 15;
   	  $scope.readStatus = false ;
+  	  var datacenter = $stateParams.datacenter;
 	  //应用列表查询
       $scope.initApply = function (){
-      	
-      	httpService.get('/application' , null,config ,function (response) {
+      	var params ={};
+	  		if(datacenter!=null && datacenter!=''){
+	  			params.datacenter=datacenter;
+	  		}
+      	httpService.get('/application' , params,config ,function (response) {
             $scope.DataList = response;
            // angular.forEach($scope.DataList, function (item,i) {
           	//  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD");
@@ -113,7 +117,10 @@
 		/***************************************/
   	  	$scope.initApply();
 		
-		
+  	  	//打开后返回顶部
+        $timeout(function() {
+            $(window).scrollTop(0,0);
+        }, 200);
   }
 
 })();

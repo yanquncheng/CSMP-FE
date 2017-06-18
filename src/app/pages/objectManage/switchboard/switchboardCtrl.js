@@ -13,6 +13,7 @@
       }}
 	  
 	  $scope.parmsInfo = $stateParams.param;
+	  var datacenter1 = $stateParams.datacenter;
 	 	 
 	  	
 	 $scope.readStatus = false ;
@@ -55,8 +56,11 @@
 	  //交换机列表查询
  	  $scope.smartTablePageSize = 15;
       $scope.initSwitchs = function (){
-      	
-      	httpService.get('/switchs' , null,config ,function (response) {
+      	var params ={};
+	  		if(datacenter1!=null && datacenter1!=''){
+	  			params.datacenter=datacenter1;
+	  		}
+      	httpService.get('/switchs' , params,config ,function (response) {
       	  
             $scope.DataList = response;
             angular.forEach($scope.DataList, function (item,i) {
@@ -94,6 +98,7 @@
       
       // Zone信息
       $scope.zoneList = [];
+      $scope.zoneTablePageSize = 15;
       $scope.zoneData = function (fabwwn){
     	$scope.zoneList = [];
       	httpService.get('/fabric/zone?fabwwn='+fabwwn.fabwwn ,null, config ,function (response) {
@@ -239,23 +244,6 @@
       $scope.initDatacenter = function (){
     	  
       	httpService.get('/matadata/datacenter' ,null, config ,function (response) {
-      		/*
-      		if(!response || response.length==0){
-      			$scope.treeData = [{"isDefault":true,"Name":"测试数据中心2","Type":"生产数据中心2","City":"北京","Address":"海淀区数据中心",
-  					"Building":[{"Name":"楼栋201","Description":"楼栋201的说明","_id":"592255c8fc97ed701b00001d",
-  					"Floor":[{"Name":"楼层1","Description":"楼层1的说明","_id":"592255c8fc97ed701b000021",
-  					"Unit":[{"Name":"机房1","UnitID":"111f0915-1032-465c-b6ee-913ffbbac913",
-  					"Description":"机房1的说明","_id":"592255c8fc97ed701b000023","MaxCabinet":150,"MaxPowerLoad":100},
-  					{"Name":"机房2","UnitID":"222f0915-1032-465c-b6ee-943ffbbac933","Description":"机房2的说明","_id":"592255c8fc97ed701b000022","MaxCabinet":250,"MaxPowerLoad":200}]},
-  					{"Name":"楼层2","Description":"楼层2的说明","_id":"592255c8fc97ed701b00001e",
-  					"Unit":[{"Name":"机房1","UnitID":"333f0915-1032-465c-b6ee-943ffbbac567","Description":"机房1的说明",
-  					"_id":"592255c8fc97ed701b000020","MaxCabinet":150,"MaxPowerLoad":100},
-  					{"Name":"机房2","UnitID":"444f0915-1032-465c-b6ee-94345bbac9c1","Description":"机房2的说明","_id":"592255c8fc97ed701b00001f","MaxCabinet":250,"MaxPowerLoad":200}
-  					]}]}]}];
-      			
-      			response = $scope.treeData;
-      		}*/
-      		
       		angular.forEach(response, function (item) {
   				angular.forEach(item.Building, function (build) {
   					angular.forEach(build.Floor, function (floor) {
@@ -276,6 +264,11 @@
 		/***************************************/
   	  	$scope.swithTabs();
   	  	$scope.initDatacenter();
+  	  	
+  	  	//打开后返回顶部
+        $timeout(function() {
+            $(window).scrollTop(0,0);
+        }, 200);
 		
   }
 

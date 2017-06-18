@@ -7,7 +7,8 @@
 
   angular.module('BlurAdmin.pages.objectManage', [
       'BlurAdmin.pages.objectManage.tabs','BlurAdmin.pages.objectManage.switchboard',
-      'BlurAdmin.pages.objectManage.apply','BlurAdmin.pages.objectManage.host'
+      'BlurAdmin.pages.objectManage.apply','BlurAdmin.pages.objectManage.host',
+      'BlurAdmin.pages.objectManage.hostHBA'
     ])
     .config(routeConfig);
 
@@ -24,6 +25,7 @@
             icon: 'ion-grid',
             order: 11,
           },
+            params: {param: null}
         });
 
   }

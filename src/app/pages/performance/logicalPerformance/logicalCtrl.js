@@ -149,7 +149,7 @@
 		            for (var j = 0; j < host.Devices.length; j++) {
 		              var lun = host.Devices[j];
 		              lun.color = getColor(colors, lun.Availability);
-		              lun.displayPart = parseInt(lun.part).toFixed(1);
+		              lun.displayPart =lun.part;// parseInt(lun.part).toFixed(1);
 		              host.Devices[j] = lun;
 //		              calculate(array, lun);
 //		              obj[lun.host] = lun.host;

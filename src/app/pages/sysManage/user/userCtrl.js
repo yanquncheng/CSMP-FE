@@ -6,7 +6,7 @@
       .controller('userCtrl', userCtrlFunc);
 
   /** @ngInject */
-  function userCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService, httpService) {
+  function userCtrlFunc($scope, $filter, $http, $localStorage,$timeout, $uibModal, commonService, httpService) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -229,6 +229,11 @@
 		/***************************************/
 		$scope.initData();
 		
+		
+		//打开后返回顶部
+        $timeout(function() {
+            $(window).scrollTop(0,0);
+        }, 200);
 		
   }
 

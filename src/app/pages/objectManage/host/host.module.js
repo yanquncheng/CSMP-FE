@@ -16,13 +16,13 @@
           sidebarMeta: {
             order: 3,
           },
-          params: {param: null}
+          params: {params:null,datacenter: null}
         }).state('dashboard.objectManage.host.hostDetail', {
-        	url: '',
+        		url: '',
             templateUrl: 'app/pages/objectManage/host/hostDetail.html',
             controller: 'hostDetailCtrl',
             title: '主机详情',
-            params: {param: null}
+            params: {param: null,datacenter:null}
           });
   }
  
