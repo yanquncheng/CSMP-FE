@@ -589,7 +589,7 @@
 			});
 	    }
 	    
-	    $scope.search8 = function(){
+	    $scope.search8 = function(url){
 	    	var cfg = angular.copy(config);
 	    	if(!cfg.params){
 		    	cfg.params = {};
@@ -608,6 +608,7 @@
 		    		});
 		    	});
 	    	}
+	    	$scope.data.tableEvent["url"]=url;
 	    	$scope.click8Event($scope.data.tableEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", cfg);
 	    };
 	    

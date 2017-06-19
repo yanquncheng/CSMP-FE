@@ -5,7 +5,7 @@
     	<div class="col-md-12 col-sm-12 col-lg-12">
 		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel">
 		        <!--large medium -->
-		        <uib-tabset active="selectTab">
+		        <uib-tabset active="selectTabId">
 		        		
 						  <uib-tab heading="{{tab.name}}" ng-repeat="tab in tabs" index="tab.id" ng-click="swithTabs(tab);">
 						    	<div ng-include="tab.url"></div>
