@@ -500,25 +500,24 @@
 	    $scope.changeChartIn8 = function(chartsData){
 	    	angular.forEach(chartsData, function(item, index){
 	    		angular.forEach(item.chartData, function(cdata, dindex){
-	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD");
+	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD HH");
 	    		});
 	    		var graphs = [];
 	    		angular.forEach(item.chartData[0], function(value, name){
 	    			if(name != "name"){
 	    				graphs.push({
-						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
+						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> </span>",
 						    "bullet": "round",
-						    "lineThickness": 3,
-						    "bulletSize": 7,
-						    "bulletBorderAlpha": 1,
-						    "bulletColor": "#FFFFFF",
-						    "useLineColorForBulletBorder": true,
-						    "bulletBorderThickness": 3,
-						    "fillAlphas": 0,
-						    "lineAlpha": 1,
+						    "bulletSize": 1,
+//						    "lineThickness": 3,
+//						    "bulletBorderAlpha": 1,
+//						    "bulletColor": "#FFFFFF",
+//						    "useLineColorForBulletBorder": true,
+//						    "bulletBorderThickness": 3,
+//						    "fillAlphas": 0,
+//						    "lineAlpha": 1,
 						    "title": name,
-						    "valueField": name,
-						    "dashLengthField": "dashLengthLine"
+						    "valueField": name
 						  });
 	    			}
 	    		});
@@ -527,9 +526,9 @@
 		    		var t = AmCharts.makeChart( "chart-"+index, {
 						  "type": "serial",
 						  "addClassNames": true,
-						  "theme": "light",
-						  "autoMargins": false,
-						  "marginLeft": 30,
+						  "theme": "",
+						  "autoMargins": true,
+//						  "marginLeft": 30,
 						  "marginRight": 8,
 						  "marginTop": 10,
 						  "marginBottom": 26,
@@ -546,7 +545,14 @@
 						    "position": "left",
 						    "color": "#ffffff"
 						  } ],
-						  "startDuration": 1,
+						  "titles": [
+						    {
+						      "size": 15,
+						      "text": item.category,
+						      "color": "#ffffff"
+						    }
+						  ],
+						  "startDuration": 0,
 						  "graphs": graphs,
 						  "categoryField": "name",
 						  "categoryAxis": {
@@ -562,7 +568,6 @@
 						    "useGraphSettings": true,
 						    "color": "#fff"
 						  },
-						  
 					    "chartScrollbar": {
 					        "oppositeAxis":false,
 					        "offset":30,
@@ -690,7 +695,7 @@
 							    "position": "left",
 							    "color": "#ffffff"
 							  } ],
-							  "startDuration": 1,
+							  "startDuration": 0,
 							  "graphs": graphs,
 							  "categoryField": "name",
 							  "categoryAxis": {
