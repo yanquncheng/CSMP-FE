@@ -499,9 +499,12 @@
 	    
 	    $scope.changeChartIn8 = function(chartsData){
 	    	angular.forEach(chartsData, function(item, index){
+	    		angular.forEach(item.chartData, function(cdata, dindex){
+	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD");
+	    		});
 	    		var graphs = [];
 	    		angular.forEach(item.chartData[0], function(value, name){
-	    			if(name != item.category){
+	    			if(name != "name"){
 	    				graphs.push({
 						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
 						    "bullet": "round",
@@ -545,7 +548,7 @@
 						  } ],
 						  "startDuration": 1,
 						  "graphs": graphs,
-						  "categoryField": item.category,
+						  "categoryField": "name",
 						  "categoryAxis": {
 						    "gridPosition": "start",
 						    "axisAlpha": 0,
@@ -645,7 +648,7 @@
 		    	angular.forEach($scope.data.charts, function(item, index){
 		    		var graphs = [];
 		    		angular.forEach(item.chartData[0], function(value, name){
-		    			if(name != item.category){
+		    			if(name != "name"){
 		    				graphs.push({
 							    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
 							    "bullet": "round",
@@ -689,7 +692,7 @@
 							  } ],
 							  "startDuration": 1,
 							  "graphs": graphs,
-							  "categoryField": item.category,
+							  "categoryField": "name",
 							  "categoryAxis": {
 							    "gridPosition": "start",
 							    "axisAlpha": 0,
