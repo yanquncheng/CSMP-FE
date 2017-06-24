@@ -429,6 +429,11 @@
 	    };
 	    
 	    $scope.click8Event = function(event, data, startDate, endDate, type, conf){
+	    	// 空，重新开始
+			$scope.chartList.splice(0, $scope.chartList.length); 
+			if(!type || type!='update'){
+				$scope.detail_8 = [];
+			}
 	    	if(!data.selected){
 		    	if($scope.selectData){
 		    		$scope.selectData.selected = false;
@@ -464,8 +469,6 @@
     		if(f>0){
     			return;
     		}
-	    	// 空，重新开始
-			$scope.chartList = [];
 		    httpService.get(event['url'], null, cfg, function (response) {
 				if(!type || type!='update'){
 					$scope.detail_8 = response;
@@ -616,8 +619,9 @@
 		    		});
 		    	});
 	    	}
-	    	$scope.data.tableEvent["url"]=url;
-	    	$scope.click8Event($scope.data.tableEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", cfg);
+	    	var tempEvent = angular.copy($scope.data.tableEvent);
+	    	tempEvent["url"]=url;
+	    	$scope.click8Event(tempEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", cfg);
 	    };
 	    
 	    $scope.initTemplate_9 = function(tab, startDate, endDate){
