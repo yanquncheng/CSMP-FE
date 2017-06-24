@@ -472,8 +472,10 @@
 		    httpService.get(event['url'], null, cfg, function (response) {
 				if(!type || type!='update'){
 					$scope.detail_8 = response;
+				}else{
+					$scope.detail_8.charts = response.charts;
 				}
-		    	$scope.changeChartIn8($scope.detail_8.charts);
+		    	$scope.changeChartIn8(response.charts);
 		    });
 	    };
 	    
