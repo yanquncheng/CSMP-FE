@@ -6,7 +6,7 @@
   angular.module('BlurAdmin.pages.objectManage.tabs')
      .controller('detailsCtrl', detailsCtrlFunc);
     
-    function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams, $timeout) {
+    function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams, $timeout, commonService) {
     	 
     	 console.log($stateParams);
     	 
@@ -181,7 +181,7 @@
 		    
 	            var chart = AmCharts.makeChart("luo", {
 				    "theme": "none",
-				    "type": $scope.capacity.left.chartType,
+				    "type": 'serial',
 				    "dataProvider": $scope.capacity.left.chartData,
 				    "valueAxes": [{
 				        "title": "容量（GB）"
@@ -211,7 +211,7 @@
 				
 	            chart = AmCharts.makeChart("ke", {
 				    "theme": "none",
-				    "type": $scope.capacity.right.chartType,
+				    "type": 'serial',
 				    "dataProvider": $scope.capacity.right.chartData,
 				    "valueAxes": [{
 				        "title": "容量（GB）"
@@ -261,7 +261,7 @@
 						
 				var chart = AmCharts.makeChart("right", {
 				    "theme": "none",
-				    "type": $scope.data.right.chartType,
+				    "type": 'serial',
 				    "dataProvider": $scope.data.right.chartData,
 				    "valueAxes": [{
 				        "title": "容量（GB）"
@@ -328,6 +328,8 @@
 	    $scope.initTemplate_7 = function(tab){
 	    	if(!$scope.event_table){
 	    		$scope.event_table = [];
+	    	}else{
+	    		$scope.event_table.splice(0, $scope.event_table.length);
 	    	}
 	    	
 	    	var cfg = angular.copy(config);
@@ -472,6 +474,8 @@
 		    httpService.get(event['url'], null, cfg, function (response) {
 				if(!type || type!='update'){
 					$scope.detail_8 = response;
+		    		$("#startDate").val(moment(response.startDate).format('YYYY-MM-DD'));
+		    		$("#endDate").val(moment(response.endDate).format('YYYY-MM-DD'));
 				}else{
 					$scope.detail_8.charts = response.charts;
 				}
@@ -504,6 +508,11 @@
 	    
 	    $scope.changeChartIn8 = function(chartsData){
 	    	angular.forEach(chartsData, function(item, index){
+//	    		for(var t=0; t<100; t++){
+//	    			var p = angular.copy(item.chartData[0]);
+//	    			p.name = parseInt(p.name)+100000*t;
+//	    			item.chartData.push(p);
+//	    		}
 	    		angular.forEach(item.chartData, function(cdata, dindex){
 	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD HH");
 	    		});
@@ -562,9 +571,17 @@
 						  "categoryField": "name",
 						  "categoryAxis": {
 						    "gridPosition": "start",
+						    "gridCount": 3,
 						    "axisAlpha": 0,
 						    "tickLength": 0,
+						    "labelFunction": function(a, s, d){
+						    	return moment(a).format('MMDD'); 
+						    },
 						    "color": "#ffffff"
+//						    "categoryFunction": function(str){
+//						    	//str.substr(0, str.indexOf(" "))
+//						    	return moment(str).format('MMDD'); 
+//						    }
 						  },
 						  "export": {
 						    "enabled": true
@@ -679,6 +696,8 @@
 		    		});
 		    		
 	   				$timeout(function() {
+			    		$("#startDate").val(moment(response.startDate).format('YYYY-MM-DD'));
+			    		$("#endDate").val(moment(response.endDate).format('YYYY-MM-DD'));
 			    		var t = AmCharts.makeChart( "chart-"+index, {
 							  "type": "serial",
 							  "addClassNames": true,
@@ -708,6 +727,9 @@
 							    "gridPosition": "start",
 							    "axisAlpha": 0,
 							    "tickLength": 0,
+							    "labelFunction": function(a, s, d){
+							    	return moment(a).format('MMDD'); 
+							    },
 							    "color": "#ffffff"
 							  },
 							  "export": {

@@ -14,29 +14,22 @@
     <div class="col-md-12 col-sm-12 col-lg-12">
 		      <div ba-panel ba-panel-class="">
 		        <uib-tabset active="$tabSetStatus.activeTab" class="clearfix">
-				  <uib-tab heading="{{tab.tabName}}" ng-repeat="tab in tabs" ng-if="!tab.dropdown" ng-click="swithTabs(tab);" index="tab.id">
+				  <uib-tab heading="{{tab.tabName}}" ng-repeat="tab in tabs" ng-if="!tab.hasDetail" ng-click="swithTabs(tab);" index="tab.id">
 				      <div class="clearfix" ng-if="tab.id==activetab" ng-include="tab.page"></div>
 				  </uib-tab>
 				  
-				   <uib-tab ng-init="$dropdownTabActive = tab.children[0].id" class="with-dropdown" ng-if="tab.dropdown" 
-				   		ng-repeat="tab in tabs" index="tab.id">
+				   <uib-tab ng-init="$dropdownTabActive = tab.tabDetail[0].id" class="with-dropdown" ng-if="tab.hasDetail" ng-repeat="tab in tabs" index="tab.id">
 						<uib-tab-heading uib-dropdown>
-
-					      <a uib-dropdown-toggle ng-click="$event.stopPropagation()">
-					        {{tab.tabName}}<i class="caret"></i>
-					      </a>
-					      <ul class="dropdown-menu" uib-dropdown-menu>
-					        <li ng-repeat="child in tab.children"><a ng-click="$dropdownTabActive = child.id; $tabSetStatus.activeTab = tab.id">{{child.name}}</a></li>
-					      </ul>
-				      </uib-tab-heading>
-				      <div ng-repeat="child in tab.children" ng-show="$dropdownTabActive == child.id">
-						      <p>
-						        Success is ... knowing your purpose in life, growing to reach your maximum potential, and sowing seeds that
-						        benefit others.
-						      </p>
-						
-						      <p>Failure is the condiment that gives success its flavor.</p>
-				   	  	</div>
+						      <a uib-dropdown-toggle ng-click="$event.stopPropagation()">
+						        {{tab.tabName}}<i class="caret"></i>
+						      </a>
+						      <ul class="dropdown-menu" uib-dropdown-menu>
+						        <li ng-repeat="child in tab.tabDetail"><a ng-click="$dropdownTabActive = child.id; $tabSetStatus.activeTab = tab.id; swithTabs(child);">{{child.tabName}}</a></li>
+						      </ul>
+					      </uib-tab-heading>
+					      <div ng-repeat="child in tab.tabDetail" ng-show="$dropdownTabActive == child.id">
+							    <div class="clearfix" ng-if="child.id==activetab" ng-include="child.page"></div>
+					   	  	</div>
 				  		</uib-tab>
 					</uib-tabset>
 		      </div>

@@ -7,23 +7,39 @@
           <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">开始时间 :</label>
           <div class="col-md-3 col-sm-3 col-lg-3">
           	<div class="input-group" ng-controller="switchboardCtrl">
-				<input id="startDate" class="form-control"
-				       ng-model="startDate"
-				       ng-model-options="{ updateOn: 'default blur' }"
-				       placeholder="Select a date..."
-				       format="YYYY-MM-DD HH:mm:ss"
-				       moment-picker="startDate">
+	        	<input id="startDate" type="text" class="form-control" readonly="readonly"
+	        		placeholder="起始时间" ng-model="startDate"
+	        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+	        		datepicker-options="options" 
+	        		show-button-bar="true"
+	        		is-open="opened" 
+	        		ng-required="true" 
+	        		close-text="Close" 
+	        		show-button-bar="false" />
+	          	<span class="input-group-btn">
+	            	<button type="button" class="btn btn-default" ng-click="open()">
+	            		<i class="glyphicon glyphicon-calendar"></i>
+	            	</button>
+	          	</span>
 	        </div>
           </div>
           <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">结束时间 :</label>
           <div class="col-md-3 col-sm-3 col-lg-3">
           	<div class="input-group" ng-controller="switchboardCtrl">
-				<input id="endDate" class="form-control"
-				       ng-model="endDate"
-				       ng-model-options="{ updateOn: 'default blur' }"
-				       placeholder="Select a date..."
-				       format="YYYY-MM-DD HH:mm:ss"
-				       moment-picker="endDate">
+	        	<input id="endDate" type="text" class="form-control" readonly="readonly"
+	        		placeholder="结束时间" ng-model="endDate"
+	        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+	        		datepicker-options="options" 
+	        		show-button-bar="true"
+	        		is-open="opened" 
+	        		ng-required="true" 
+	        		close-text="Close" 
+	        		show-button-bar="false" />
+	          	<span class="input-group-btn">
+	            	<button type="button" class="btn btn-default" ng-click="open()">
+	            		<i class="glyphicon glyphicon-calendar"></i>
+	            	</button>
+	          	</span>
 	        </div>
           </div>
           <div class="col-md-2 col-sm-2 col-lg-2">
