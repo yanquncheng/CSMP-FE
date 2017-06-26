@@ -19,8 +19,8 @@
           params: {param: null,datacenter: null}
         }).state('dashboard.objectManage.switchboard.switchDetial', {
         	url: '',
-            templateUrl: 'app/pages/objectManage/switchboard/switchDetail.html',
-            controller: 'switchDetialCtrl',
+            templateUrl: 'app/pages/objectManage/tabs/details.html',
+            controller: 'detailsCtrl',
             title: '交换机',
             params: {param: null,datacenter: null}
           });

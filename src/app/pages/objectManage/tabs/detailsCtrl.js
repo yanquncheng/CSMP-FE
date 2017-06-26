@@ -6,7 +6,7 @@
   angular.module('BlurAdmin.pages.objectManage.tabs')
      .controller('detailsCtrl', detailsCtrlFunc);
     
-    function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams, $timeout, commonService) {
+    function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams, $timeout, commonService,$state) {
     	 
     	 console.log($stateParams);
     	 
@@ -774,6 +774,23 @@
 	    	$scope.initTemplate_9($scope.tab, $("#startDate").val(), $("#endDate").val());
 	    };
 	    
+	    //返回
+	    $scope.back = function (){
+	    	var backUrl = "dashboard.objectManage.tabs";
+	    	if($stateParams.param.backUrl){
+	    		backUrl = $stateParams.param.backUrl ;
+	    	}
+	    	if($stateParams.param.selectTab){
+	    		$scope.baseInfo.selectTab = $stateParams.param.selectTab ;
+	    	}
+	    	var datacenter = null ;
+	    	if($stateParams.datacenter){
+	    		datacenter = $stateParams.datacenter ;
+	    	}
+	    	 
+	 		$state.go(backUrl,{param: $scope.baseInfo,datacenter: datacenter });
+	 	 };
+	 	 
 	    $timeout(function() {
             $(window).scrollTop(0,0);
         }, 200);

@@ -19,8 +19,8 @@
           params: {params:null,datacenter: null}
         }).state('dashboard.objectManage.host.hostDetail', {
         		url: '',
-            templateUrl: 'app/pages/objectManage/host/hostDetail.html',
-            controller: 'hostDetailCtrl',
+            templateUrl: 'app/pages/objectManage/tabs/details.html',
+            controller: 'detailsCtrl',
             title: '主机详情',
             params: {param: null,datacenter:null}
           });

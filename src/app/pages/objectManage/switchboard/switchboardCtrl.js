@@ -141,15 +141,10 @@
   		 //switchBoard.arraytype = 'VMAX10K';
   		 //switchBoard.device = '000298700718';
   		
-  		  var param = {"switchBoard": angular.copy(switchBoard),"datacenter":datacenter1};
+  		  var param = {"storage": angular.copy(switchBoard),"datacenter":datacenter1};
   		  param.type = type ;
   		  param.selectTab = $scope.selectTab.id ;
   		  
-   	 	//prm.arraytype = storage.model;
-   	 	//if(type && type==='vplex'){
-   	 		//prm.arraytype = storage.vstgtype;
-   	 		//prm.device = storage.device;
-   	 	//}
   	    httpService.get($scope.selectTab.detailUrl, {}, config, function (response) {
   	    	if(typeof response == 'string'){
   	          commonService.showMsg("error", response);
@@ -169,7 +164,10 @@
   		    	});
   	 		    //$state.go('dashboard.objectManage.tabs.details', {param: {storage: storage, tabs: tabs}});
   		    	param.tabs = tabs ;
+  		    	param.backUrl = "dashboard.objectManage.switchboard" ;
   	 		    $state.go('dashboard.objectManage.switchboard.switchDetial', {param: param});
+  	 		    
+  	 		    //$state.go('dashboard.objectManage.tabs.details', {param: {storage: switchBoard, tabs: tabs}});
   	    	}
   	    });
   	 };

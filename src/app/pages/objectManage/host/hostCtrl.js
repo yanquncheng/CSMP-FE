@@ -46,7 +46,12 @@
 		    			});
 		    		}
 		    	});
-	 		    $state.go('dashboard.objectManage.host.hostDetail', {param: {host: host, tabs: tabs}});
+		    	$scope.storage={};
+		    	$scope.storage=host.baseinfo
+		    	$scope.storage.device=host.baseinfo.name;
+		    	var backUrl = "dashboard.objectManage.host" ;
+//	 		    $state.go('dashboard.objectManage.host.hostDetail', {param: {host: host, tabs: tabs}});
+						$state.go('dashboard.objectManage.host.hostDetail', {param: {"storage": $scope.storage, "tabs": tabs,"backUrl":backUrl}});
 	    	}
 	    });
 	  }     
