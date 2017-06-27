@@ -93,6 +93,9 @@
 	    		case 9:
 	    			$scope.initTemplate_9(tab, $scope.startDate, $scope.endDate);
 	    			return ;
+	    		case 10:
+	    			$scope.initTemplate_10(tab, $scope.startDate, $scope.endDate);
+	    			return ;
 	    		default:
 	    	}
 	    }
@@ -772,6 +775,226 @@
 	    
 	    $scope.search9 = function(){
 	    	$scope.initTemplate_9($scope.tab, $("#startDate").val(), $("#endDate").val());
+	    };
+	    
+	    $scope.initTemplate_10 = function(tab){
+			$scope.detail_10 = null;
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	var f=0;
+	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    	});
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get(tab['url'], null, cfg, function (response) {
+			    $scope.startDate = moment(response.startDate);
+			    $scope.endDate = moment(response.endDate);
+
+		    	$scope.data = response;
+		    	if($scope.data.chartData){
+				    var chart = AmCharts.makeChart( "disk", {
+					  "type": $scope.data.chartType,
+					  "theme": "none",
+					  "dataProvider": $scope.data.chartData,
+					  "valueField": "value",
+					  "titleField": "name",
+					   "balloon":{
+					   	"fixedPosition":true
+					  },
+					  "pullOutRadius": 10,
+					  "labelRadius": 30,
+					  "labelText": "[[name]]",
+					  "percentPrecision": 1,
+					  "maxLabelWidth": 100,
+					  "labelFunction": function(label){
+					  	var str = label.title;
+					  	while (str.indexOf("-") >= 0 || str.indexOf("_") >= 0){
+	                       str = str.replace("-", " ");
+	                       str = str.replace("_", " ");
+	                    }
+					  	return str;
+					  },
+					  "color": '#fff'
+					});
+				}
+		    });
+	    };
+	    
+	    $scope.click10Event = function(event, data, startDate, endDate, type, conf){
+	    	// 空，重新开始
+			$scope.chartList.splice(0, $scope.chartList.length); 
+			if(!type || type!='update'){
+				$scope.detail_10 = [];
+			}
+	    	if(!data.selected){
+		    	if($scope.selectData){
+		    		$scope.selectData.selected = false;
+		    	}
+		    	data.selected = true;
+		    	$scope.selectData = data;
+	    	}
+	    	var cfg = angular.copy(config);
+	    	if(conf){
+	    		cfg = conf;
+	    	}
+	    	if(!cfg.params){
+		    	cfg.params = {};
+	    	}
+	    	var f=0;
+	    	angular.forEach(event.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			if(data[item.findName]==undefined){
+		    			f++;
+		    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+		    			return;
+	    			}else{
+	    				cfg.params[item.postName] = data[item.findName];
+	    			}
+	    		}else{
+	    			cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		}
+	    	});
+	    	
+	    	cfg.params.startDate = moment(startDate).format();
+	    	cfg.params.endDate = moment(endDate).format();
+	    	
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get(event['url'], null, cfg, function (response) {
+				if(!type || type!='update'){
+					$scope.detail_10 = response;
+		    		$("#startDate").val(moment(response.startDate).format('YYYY-MM-DD'));
+		    		$("#endDate").val(moment(response.endDate).format('YYYY-MM-DD'));
+				}else{
+					$scope.detail_10.charts = response.charts;
+				}
+		    	$scope.changeChartIn10(response.charts);
+		    });
+	    };
+	    
+	    $scope.changeChartIn10 = function(chartsData){
+	    	angular.forEach(chartsData, function(item, index){
+//	    		for(var t=0; t<100; t++){
+//	    			var p = angular.copy(item.chartData[0]);
+//	    			p.name = parseInt(p.name)+100000*t;
+//	    			item.chartData.push(p);
+//	    		}
+	    		angular.forEach(item.chartData, function(cdata, dindex){
+	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD HH");
+	    		});
+	    		var graphs = [];
+	    		angular.forEach(item.chartData[0], function(value, name){
+	    			if(name != "name"){
+	    				graphs.push({
+						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> </span>",
+						    "bullet": "round",
+						    "bulletSize": 1,
+//						    "lineThickness": 3,
+//						    "bulletBorderAlpha": 1,
+//						    "bulletColor": "#FFFFFF",
+//						    "useLineColorForBulletBorder": true,
+//						    "bulletBorderThickness": 3,
+//						    "fillAlphas": 0,
+//						    "lineAlpha": 1,
+						    "title": name,
+						    "valueField": name
+						  });
+	    			}
+	    		});
+	    		
+   				$timeout(function() {
+		    		var t = AmCharts.makeChart( "chart-"+index, {
+						  "type": "serial",
+						  "addClassNames": true,
+						  "theme": "",
+						  "autoMargins": true,
+//						  "marginLeft": 30,
+						  "marginRight": 8,
+						  "marginTop": 10,
+						  "marginBottom": 26,
+						  "balloon": {
+						    "adjustBorderColor": false,
+						    "horizontalPadding": 10,
+						    "verticalPadding": 8,
+						    "color": "#ffffff"
+						  },
+						
+						  "dataProvider": item.chartData,
+						  "valueAxes": [ {
+						    "axisAlpha": 0,
+						    "position": "left",
+						    "color": "#ffffff"
+						  } ],
+						  "titles": [
+						    {
+						      "size": 15,
+						      "text": item.category,
+						      "color": "#ffffff"
+						    }
+						  ],
+						  "startDuration": 0,
+						  "graphs": graphs,
+						  "categoryField": "name",
+						  "categoryAxis": {
+						    "gridPosition": "start",
+						    "gridCount": 3,
+						    "axisAlpha": 0,
+						    "tickLength": 0,
+						    "labelFunction": function(a, s, d){
+						    	return moment(a).format('MMDD'); 
+						    },
+						    "color": "#ffffff"
+//						    "categoryFunction": function(str){
+//						    	//str.substr(0, str.indexOf(" "))
+//						    	return moment(str).format('MMDD'); 
+//						    }
+						  },
+						  "export": {
+						    "enabled": true
+						  },
+						  "legend": {
+						    "useGraphSettings": true,
+						    "color": "#fff"
+						  },
+					    "chartScrollbar": {
+					        "oppositeAxis":false,
+					        "offset":30,
+					        "scrollbarHeight": 10,
+					        "backgroundAlpha": 0,
+					        "selectedBackgroundAlpha": 0.1,
+					        "selectedBackgroundColor": "#888888",
+					        "graphFillAlpha": 0,
+					        "graphLineAlpha": 0.5,
+					        "selectedGraphFillAlpha": 0,
+					        "selectedGraphLineAlpha": 1,
+					        "autoGridCount":true,
+					        "color":"#AAAAAA"
+					    }
+					});
+					t.addListener("zoomed", function(event){
+						console.log("zoomed");
+						
+						angular.forEach($scope.chartList, function(item, index){
+							if(event.chart.div.id != item.div.id){
+								item.zoomToCategoryValues(event.startValue, event.endValue);
+							}
+						})
+					})
+					$scope.chartList.push(t);
+   				}, 200);
+			});
+	    }
+	    
+	    $scope.search10 = function(url){
+	    	$scope.click10Event($scope.data.tableEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", null);
 	    };
 	    
 	    //返回
