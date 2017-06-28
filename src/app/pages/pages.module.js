@@ -26,7 +26,8 @@
 			'BlurAdmin.pages.EventManagement',
 			'BlurAdmin.pages.CapacityManagement',
 			'BlurAdmin.pages.dashboards',
-			'BlurAdmin.pages.objectManage'
+			'BlurAdmin.pages.objectManage',
+			'BlurAdmin.pages.reportManage'
         ])
         .config(routeConfig);
 

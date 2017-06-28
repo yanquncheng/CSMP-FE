@@ -799,30 +799,32 @@
 
 		    	$scope.data = response;
 		    	if($scope.data.chartData){
-				    var chart = AmCharts.makeChart( "disk", {
-					  "type": $scope.data.chartType,
-					  "theme": "none",
-					  "dataProvider": $scope.data.chartData,
-					  "valueField": "value",
-					  "titleField": "name",
-					   "balloon":{
-					   	"fixedPosition":true
-					  },
-					  "pullOutRadius": 10,
-					  "labelRadius": 30,
-					  "labelText": "[[name]]",
-					  "percentPrecision": 1,
-					  "maxLabelWidth": 100,
-					  "labelFunction": function(label){
-					  	var str = label.title;
-					  	while (str.indexOf("-") >= 0 || str.indexOf("_") >= 0){
-	                       str = str.replace("-", " ");
-	                       str = str.replace("_", " ");
-	                    }
-					  	return str;
-					  },
-					  "color": '#fff'
-					});
+		    		$timeout(function() {
+					    var chart = AmCharts.makeChart( "disk", {
+						  "type": $scope.data.chartType,
+						  "theme": "none",
+						  "dataProvider": $scope.data.chartData,
+						  "valueField": "value",
+						  "titleField": "name",
+						   "balloon":{
+						   	"fixedPosition":true
+						  },
+						  "pullOutRadius": 10,
+						  "labelRadius": 30,
+						  "labelText": "[[name]]",
+						  "percentPrecision": 1,
+						  "maxLabelWidth": 100,
+						  "labelFunction": function(label){
+						  	var str = label.title;
+						  	while (str.indexOf("-") >= 0 || str.indexOf("_") >= 0){
+		                       str = str.replace("-", " ");
+		                       str = str.replace("_", " ");
+		                    }
+						  	return str;
+						  },
+						  "color": '#fff'
+						});
+	   				}, 200);
 				}
 		    });
 	    };
@@ -997,6 +999,25 @@
 	    	$scope.click10Event($scope.data.tableEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", null);
 	    };
 	    
+	    //导出cvs
+	    $scope.exports = function(tabName ,tableBody ,tableHead){
+	    	  var title = [];
+	    	  var titleForKey = [] ;
+	    	  
+	    	  for (var i = 0; i<tableHead.length ; i++ ){
+	    		  title.push(tableHead[i].name);
+	    		  titleForKey.push(tableHead[i].value);
+	    	  }
+
+	    	  var time = moment().format("YYYYMMDDHHmmss");
+	    	  commonService.exportCsv({
+	        	  fileName : tabName+"_"+time,
+	              title : title,
+	              titleForKey : titleForKey,
+	              data : tableBody
+	          });
+	     }
+	      
 	    //返回
 	    $scope.back = function (){
 	    	var backUrl = "dashboard.objectManage.tabs";

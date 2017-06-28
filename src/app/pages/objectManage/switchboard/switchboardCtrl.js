@@ -290,6 +290,17 @@
       		 
 	      });
       };
+      
+      //导出cvs
+      $scope.exports = function(){
+    	  var time = moment().format("YYYYMMDDHHmmss");
+    	  commonService.exportCsv({
+        	  fileName:"zone_"+time,
+              title:["Fabric名称","ZoneSet名称","Zone名称","Zone成员","Zone类型","别名","连接交换机名称","连接交换机端口"],
+              titleForKey:["fabricname","zsetname","zname","zmemid","zmemtype","alias","switch","switchport"],
+              data: $scope.zoneList
+          });
+     }
   	  
 		/***************************************/
   	  	$scope.swithTabs();

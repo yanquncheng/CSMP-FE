@@ -61,6 +61,41 @@
         	return modalInstance ;
         };
         
+      //导出csv
+        service.exportCsv = function (obj){
+      	  if(!obj.fileName){
+      		  obj.fileName = "export"
+      	  }
+            //title格式 ["","",""]
+            var title = obj.title;
+            //titleForKey格式 ["","",""]
+            var titleForKey = obj.titleForKey;
+            var data = obj.data;
+            var str = [];
+            str.push(obj.title.join(",")+"\n");
+            for(var i=0;i<data.length;i++){
+                var temp = [];
+                for(var j=0;j<titleForKey.length;j++){
+              	  var item = data[i][titleForKey[j]] ;
+              	  if(item){//转义正斜杠，防止打开是日期格式
+              		  var col = item.split("\/");
+                  	  if(col && col.length>1){
+                  		  item = col.join("\\");
+                  	  }
+              	  }
+                    temp.push(item);
+             }
+             str.push(temp.join(",")+"\n");
+         }
+         var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(str.join(""));  
+         var downloadLink = document.createElement("a");
+         downloadLink.href = uri;
+         downloadLink.download = obj.fileName + ".csv"; 
+         document.body.appendChild(downloadLink);
+         downloadLink.click();
+         document.body.removeChild(downloadLink); 
+      }
+        
         
         return service;
     }

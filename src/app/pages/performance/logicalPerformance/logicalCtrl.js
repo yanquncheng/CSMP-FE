@@ -51,9 +51,10 @@
   		httpService.get("/array/luns", {'device':$scope.filter.selectValue}, config, function (response){
 //		 $http.get(IG.api + '/array/luns?device='+$scope.filter.selectValue, config )
 //        .success(function (response) { 
-              $scope.LogicalDataArrayList = response;
               
               for ( var i in response ) {  //循环计算
+//            	response[i].Capacity=parseFloat(parseFloat(response[i].Capacity).toFixed(2));
+//            	response[i].UsedCapacity=parseFloat(parseFloat(response[i].UsedCapacity).toFixed(2));
            			var item = response[i].perf;
 //         			for(var j in item){
 									//ReadRequests的最大值
@@ -80,7 +81,7 @@
 	           					}
 	           				}
            				}
-           				response[i].iops=parseInt(readMax)+parseInt(writeMax);  //IOPS 最大值
+           				response[i].iops=parseFloat((parseFloat(readMax)+parseFloat(writeMax)).toFixed(2));  //IOPS 最大值
            				//ReadThroughput最大值
            				var readThroughputMax=0;
            				if(item!=null &&item.length>2 && item[2].ReadThroughput!=null && item[2].ReadThroughput!=undefined && item[2].ReadThroughput!=""){
@@ -105,7 +106,7 @@
 	           					}
 	           				}
            				}
-           				response[i].Throughput=parseInt(readThroughputMax)+parseInt(writeThroughputMax);  //Throughput最大值
+           				response[i].Throughput=parseFloat((parseFloat(readThroughputMax)+parseFloat(writeThroughputMax)).toFixed(2));  //Throughput最大值
            				
            				//ReadResponseTime最大值
            				var readResponseTimeMax=0;
@@ -131,9 +132,10 @@
 	           					}
 	           				}
            				}
-           				response[i].ResponseTime=parseInt(readResponseTimeMax)+parseInt(writeResponseTimeMax);  //TResponseTime最大值
+           				response[i].ResponseTime=parseFloat((parseFloat(readResponseTimeMax)+parseFloat(writeResponseTimeMax)).toFixed(2));  //TResponseTime最大值
 //         			}
            		}
+              $scope.LogicalDataArrayList = response;
           });
 //	      }).error(function (err) {
 //	          console.log(err);   

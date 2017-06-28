@@ -1,0 +1,66 @@
+<div class="modal-content" ba-panel ba-panel-class="with-scroll">
+  <div class="modal-header ">
+    <span>{{title}}</span>
+  </div>
+	<div class="modal-body row" >
+	  <div class="col-xs-12">
+	  		<form style="padding-right: 50px;">
+	  			<div>
+				    <div class="row" style="padding-top:10px;">
+				      <div class="form-group">
+				        <label class="col-md-4 col-sm-4 col-lg-4 control-label no-padding-right text-right">报表名称 :</label>
+				        <div class="col-md-4 col-sm-4 col-lg-4">
+				          <input type="text" class="form-control" ng-model="report.Name" placeholder="报表名称" />
+				        </div>
+				        <div class="col-md-4 col-sm-4 col-lg-4">
+				        </div>
+				      </div>
+				    </div>
+			      <hr />
+				   </div>
+				    
+				    <div class="col-md-5 col-sm-5 col-lg-5" style="padding-top:10px;">
+				      <div class="form-group" ng-repeat="param in ReportParamater">
+				        <label class="col-md-12 col-sm-12 col-lg-12 control-label no-padding-right text-right" style="margin-top: 10px;" title="{{param.Description}}" ng-click="selectParam(param)">{{param.DisplayName}}</label>
+				      </div>
+				    </div>
+				    
+				    <div class="col-md-7 col-sm-7 col-lg-7" style="padding-top:10px;">
+				      <div class="form-group">
+				
+				        <div class="col-md-12 col-sm-12 col-lg-12" ng-if="(selectedParam.Type==='String' || selectedParam.Type==='Number')">
+				          <input type="text" class="form-control " ng-model="selectedParam.Value" placeholder="参数值" />
+				        </div>
+				
+				        <div class="col-md-12 col-sm-12 col-lg-12" ng-if="selectedParam.Type==='List'">
+				          <select class="form-control" ng-model="selectedParam.Value" ng-options="item.Value as item.Name for item in selectedParam.DataList"></select>
+				        </div>
+				
+				        <div class="col-md-12 col-sm-12 col-lg-12" ng-if="selectedParam.Type==='TimeStamp'">
+				        		<div class="input-group" ng-controller="switchboardCtrl">
+						        	<input id="startDate" type="text" class="form-control" readonly="readonly"
+						        		placeholder="参数值" ng-model="selectedParam.Value"
+						        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+						        		datepicker-options="options" 
+						        		show-button-bar="true"
+						        		is-open="opened" 
+						        		ng-required="true" 
+						        		close-text="Close" 
+						        		show-button-bar="false" />
+						          	<span class="input-group-btn">
+						            	<button type="button" class="btn btn-default" ng-click="open()">
+						            		<i class="glyphicon glyphicon-calendar"></i>
+						            	</button>
+						          	</span>
+						        </div>
+				        </div>
+				      </div>
+				    </div>
+		      </form>
+	  </div>
+	</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info" ng-click="save()">提交</button>
+    <button type="button" class="btn btn-info" ng-click="$dismiss()">返回</button>
+  </div>
+</div>
