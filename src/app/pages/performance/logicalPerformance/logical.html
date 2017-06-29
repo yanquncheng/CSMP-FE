@@ -69,7 +69,7 @@
 	</div>
 	<!-- 图形信息 -->
 	<div class="row" style="padding-top: 30px;">
-		<div class="col-xs-10">
+		<div class="col-xs-10" ng-if="isSuccess">
           <div class="chat" style="float: left;">
             <div ng-repeat="host in hosts" style="display: inline;">
               <div style="height: {{host.height}}px;width: 130px;background-color: #DADADA; overflow: hidden;float: left; margin: 1px 1px 1px 1px;"

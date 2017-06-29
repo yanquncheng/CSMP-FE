@@ -44,7 +44,9 @@
       	});
       }
 		$scope.filter={};
+		$scope.isSuccess = false;
   	$scope.selectChange=function() {
+  		$scope.isSuccess = false;
 //		alert($scope.filter.selectValue);
   		//选择select的时候查询列表数据
   		$scope.LogicalDataArrayList={};
@@ -157,6 +159,7 @@
 //		              obj[lun.host] = lun.host;
 		            }
 		          }
+              $scope.isSuccess = true;
            });
   	};
   	
