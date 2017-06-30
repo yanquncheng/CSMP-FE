@@ -87,7 +87,7 @@
              }
              str.push(temp.join(",")+"\n");
          }
-         var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(str.join(""));  
+         var uri = 'data:text/csv;charset=ANSI,\ufeff,' + encodeURIComponent(str.join(""));  
          var downloadLink = document.createElement("a");
          downloadLink.href = uri;
          downloadLink.download = obj.fileName + ".csv"; 
