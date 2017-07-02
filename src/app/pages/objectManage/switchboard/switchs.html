@@ -23,7 +23,7 @@
 				</tr>	
 				<tr class="black-muted-bg">
 					<!--<th style="text-align: center;width: 80px;">序号</th>-->
-					<th style="text-align: left;" st-sort="device">交换机名称</th>
+					<th style="text-align: left;" st-sort="lsname">交换机名称</th>
 					<th style="text-align: left;" st-sort="devicesn">序列号</th>
 					<th style="text-align: left;" st-sort="vendor">厂商</th>
 					<th style="text-align: left;" st-sort="model">型号</th>
@@ -39,7 +39,7 @@
 					<!--<td style="text-align: center;width: 80px;vertical-align: middle;">{{$index + 1 }}</td>-->
 					<td style="line-height: 25px;">
 						<a style="text-decoration: none;" href="javascript:void(0);" ng-click="switchDetail(row ,'switch');">
-							{{row.device}}
+							{{row.lsname}}
 						</a>
 					</td>
 					<td style="line-height: 25px;">
