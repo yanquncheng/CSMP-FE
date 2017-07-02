@@ -1,8 +1,8 @@
-<div class="modal-content" ba-panel ba-panel-class="with-scroll">
+<div class="" ba-panel ba-panel-class="with-scroll">
   <div class="modal-header ">
     <span>{{title}}</span>
   </div>
-	<div class="modal-body row" >
+	<div class="row" >
 	  <div class="col-xs-12">
 	  		<form style="padding-right: 50px;">
 	  			<div>
@@ -10,7 +10,7 @@
 				      <div class="form-group">
 				        <label class="col-md-4 col-sm-4 col-lg-4 control-label no-padding-right text-right">报表名称 :</label>
 				        <div class="col-md-4 col-sm-4 col-lg-4">
-				          <input type="text" class="form-control" ng-model="report.Name" placeholder="报表名称" />
+				          <input type="text" class="form-control form-control1" ng-model="report.Name" placeholder="报表名称" />
 				        </div>
 				        <div class="col-md-4 col-sm-4 col-lg-4">
 				        </div>
@@ -19,27 +19,22 @@
 			      <hr />
 				   </div>
 				    
-				    <div class="col-md-5 col-sm-5 col-lg-5" style="padding-top:10px;">
-				      <div class="form-group" ng-repeat="param in ReportParamater">
-				        <label class="col-md-12 col-sm-12 col-lg-12 control-label no-padding-right text-right" style="margin-top: 10px;" title="{{param.Description}}" ng-click="selectParam(param)">{{param.DisplayName}}</label>
-				      </div>
-				    </div>
-				    
-				    <div class="col-md-7 col-sm-7 col-lg-7" style="padding-top:10px;">
-				      <div class="form-group">
+				    <div class="col-md-12 col-sm-12 col-lg-12 row" style="padding-top:10px;">
+				      <div class="form-group row" ng-repeat="param in ReportParamater">
+				        <label class="col-md-4 col-sm-4 col-lg-4 control-label no-padding-right text-right" style="margin-top: 10px;" title="{{param.Description}}">{{param.DisplayName}}</label>
 				
-				        <div class="col-md-12 col-sm-12 col-lg-12" ng-if="(selectedParam.Type==='String' || selectedParam.Type==='Number')">
-				          <input type="text" class="form-control " ng-model="selectedParam.Value" placeholder="参数值" />
+				        <div class="col-md-4 col-sm-4 col-lg-4" ng-if="(param.Type==='String' || param.Type==='Number')">
+				          <input type="text" class="form-control form-control1 " ng-model="param.Value" placeholder="参数值" />
 				        </div>
 				
-				        <div class="col-md-12 col-sm-12 col-lg-12" ng-if="selectedParam.Type==='List'">
-				          <select class="form-control" ng-model="selectedParam.Value" ng-options="item.Value as item.Name for item in selectedParam.DataList"></select>
+				        <div class="col-md-4 col-sm-4 col-lg-4" ng-if="param.Type==='List'">
+				          <select class="form-control form-control1" ng-model="param.Value" ng-options="item.Value as item.Name for item in param.DataList"></select>
 				        </div>
 				
-				        <div class="col-md-12 col-sm-12 col-lg-12" ng-if="selectedParam.Type==='TimeStamp'">
+				        <div class="col-md-4 col-sm-4 col-lg-4" ng-if="param.Type==='TimeStamp'">
 				        		<div class="input-group" ng-controller="switchboardCtrl">
-						        	<input id="startDate" type="text" class="form-control" readonly="readonly"
-						        		placeholder="参数值" ng-model="selectedParam.Value"
+						        	<input id="startDate" type="text" class="form-control form-control1" readonly="readonly"
+						        		placeholder="参数值" ng-model="param.Value"
 						        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
 						        		datepicker-options="options" 
 						        		show-button-bar="true"

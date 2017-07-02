@@ -15,6 +15,14 @@
 		$scope.GenerateURL = modalParam.GenerateURL;
 		$scope.ReportParamater = modalParam.ReportParamater;
 		
+		angular.forEach($scope.ReportParamater, function(p, pindex){
+			if(p.Type==='List'){
+				httpService.post(p.Data, {}, null, function (response) { 
+					p.DataList = response;
+		      	});
+			}
+		});
+		
      	$scope.save = function() {
      		angular.forEach($scope.ReportParamater, function(item, index){
      			var p = {Name: item.Name, Value: item.Value};
@@ -28,14 +36,5 @@
 	    	     $uibModalInstance.close();
 	      	});
       	}
-     	
-     	$scope.selectParam = function(param){
-     		$scope.selectedParam = param;
-     		if(param.Type === 'List' && !$scope.selectedParam.DataList){
-				httpService.post(param.Data, {}, null, function (response) { 
-					$scope.selectedParam.DataList = response;
-		      	});
-     		}
-     	};
     }
 })();
