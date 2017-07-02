@@ -114,8 +114,10 @@
     				<div class="form-group">
 						<label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">类型 :</label>
 				        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
-				          
-				          <input type="text" class="form-control" ng-model="host.baseinfo.type" placeholder="类型"/>
+				          <select class="form-control"  ng-model="host.baseinfo.type"
+			                  ng-options="item.name as item.name for item in baseinfoType">
+			          		</select>
+				          <!--<input type="text" class="form-control" ng-model="host.baseinfo.type" placeholder="类型"/>-->
 				        </div>
 				
 				        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">管理IP地址 :</label>

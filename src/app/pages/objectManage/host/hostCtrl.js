@@ -13,6 +13,7 @@
       }}
 	  $scope.smartTablePageSize = 15;
 	  $scope.status=[{"name":"Product"},{"name":"Test"},{"name":"Development"}];  //主机基本信息状态
+	  $scope.baseinfoType=[{"name":"Physical"},{"name":"Virtual"}];
 	  var datacenter = $stateParams.datacenter;
 	  //主机列表查询
   	$scope.initApply = function (){
