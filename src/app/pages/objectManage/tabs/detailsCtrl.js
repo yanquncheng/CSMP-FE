@@ -627,20 +627,22 @@
 	    	if(!cfg.params){
 		    	cfg.params = {};
 	    	}
-	    	if($scope.multyDetailT8 && $scope.multyDetailT8.length>0){
-		    	angular.forEach($scope.detail_8.tableEvent.param, function(item, index){
-		    		angular.forEach($scope.multyDetailT8, function(data, i){
-			    		if(data[item.findName]==undefined){
-			    			commonService.showMsg("error","获取不到"+item.findName+"的值");
-			    		}else{
-			    			if(!cfg.params[item.postName]){
-			    				cfg.params[item.postName] = [];
-			    			}
-			    			cfg.params[item.postName].push(data[item.findName]);
-			    		}
-		    		});
-		    	});
+	    	var t = $scope.multyDetailT8;
+	    	if(!$scope.multyDetailT8 || $scope.multyDetailT8.length<1){
+	    		t = $scope.detail_8.tableBody;
 	    	}
+	    	angular.forEach($scope.detail_8.tableEvent.param, function(item, index){
+	    		angular.forEach(t, function(data, i){
+		    		if(data[item.findName]==undefined){
+		    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+		    		}else{
+		    			if(!cfg.params[item.postName]){
+		    				cfg.params[item.postName] = [];
+		    			}
+		    			cfg.params[item.postName].push(data[item.findName]);
+		    		}
+	    		});
+	    	});
 	    	var tempEvent = angular.copy($scope.data.tableEvent);
 	    	tempEvent["url"]=url;
 	    	$scope.click8Event(tempEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", cfg);
