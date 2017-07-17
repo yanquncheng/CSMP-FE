@@ -143,6 +143,11 @@
   		
   		  var param = {"storage": angular.copy(switchBoard),"datacenter":datacenter1};
   		  param.type = type ;
+  		  if(type =='switch_oriname' ){
+  			  param.storage.device = switchBoard.switch_oriname;
+  			  param.type = 'switch' ;
+  		  }
+  		 
   		  param.selectTab = $scope.selectTab.id ;
   		  
   	    httpService.get($scope.selectTab.detailUrl, {}, config, function (response) {
