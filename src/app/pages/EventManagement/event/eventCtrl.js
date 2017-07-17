@@ -108,7 +108,10 @@
       	if($scope.options.state4){
       		state+="已忽略,";
       	}
-      	var params ={"state":state.substr(0,state.length-1)};      
+      	var params={};
+      	if(state!=""){
+      		params ={"state":state.substr(0,state.length-1)};  
+      	}
       	
       	$scope.initData(params);
       }

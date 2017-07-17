@@ -11,8 +11,8 @@
           "Authorization": $localStorage.authKey
       }}
   	$scope.logicalTablePageSize = 15;
-  	var count = 19;
-    var perHeight = 19;
+  	var count = 18;
+    var perHeight = 18;
     $scope.colors1=[];
   	var colors = ['#0000FF', '#0033FF', '#0066FF', '#0099FF', '#00CCFF', '#00FFFF', '#00FFCC', '#00FF99', '#00FF66', '#00FF33', '#00FF00', '#33FF00', '#66FF00', '#99FF00', '#FFFF00', '#FFCC00', '#FF9900', '#FF6600', '#FF3300', '#FF0000'];
   	//TODO 调用be项目里面的 performance配置的路径方法
@@ -35,6 +35,10 @@
 	      httpService.get("/arrays", null, config, function (response){
       	 	$scope.serialNumbers = response;  
           $scope.filter.selectValue=$scope.serialNumbers[0].device;
+          
+          $("#begindatetime").val(moment(new Date()).subtract(1,'months').format('YYYY/MM/DD'));
+			    $("#enddatetime").val(moment(new Date()).format('YYYY/MM/DD'));
+          
           $scope.selectChange();
           
           for (var index = 19; index >= 0; index--) {
@@ -47,10 +51,9 @@
 		$scope.isSuccess = false;
   	$scope.selectChange=function() {
   		$scope.isSuccess = false;
-//		alert($scope.filter.selectValue);
   		//选择select的时候查询列表数据
   		$scope.LogicalDataArrayList={};
-  		httpService.get("/array/luns", {'device':$scope.filter.selectValue}, config, function (response){
+  		httpService.get("/array/luns", {'device':$scope.filter.selectValue,'begindatetime':moment($("#begindatetime").val()).format(),'enddatetime':moment($("#enddatetime").val()).format()}, config, function (response){
 //		 $http.get(IG.api + '/array/luns?device='+$scope.filter.selectValue, config )
 //        .success(function (response) { 
               
@@ -143,7 +146,7 @@
 //	          console.log(err);   
 //	      });
 	      //图形数据查询
-	      httpService.get("/array/hosts", {'device':$scope.filter.selectValue}, config, function (response){
+	      httpService.get("/array/hosts", {'device':$scope.filter.selectValue,'begindatetime':moment($("#begindatetime").val()).format(),'enddatetime':moment($("#enddatetime").val()).format()}, config, function (response){
 //	      $http.get(IG.api + '/array/hosts?device='+$scope.filter.selectValue, config )
 //        .success(function (response) { 
               $scope.hosts = response;

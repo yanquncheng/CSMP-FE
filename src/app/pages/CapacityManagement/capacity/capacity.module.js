@@ -26,7 +26,7 @@
         		url: '',
             templateUrl: 'app/pages/CapacityManagement/capacity/detail.html',
             controller: 'detailCtrl',
-            title: '资源池容量概览',
+            title: '资源池容量概览信息详情',
             params: {pool: null,poolName:null}
           });
   }
