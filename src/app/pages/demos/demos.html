@@ -1,0 +1,48 @@
+<ui-view>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-lg-12">
+		<div class="horizontal-scroll">
+			<table class="table table-hover" st-table="smartTableData" st-safe-src="dataList">
+				<thead>
+					<tr> 
+					    <th colspan="{{theadList.length}}">
+					    	<div class="row">
+					    		 	<div class="col-lg-1 co2-sm-2 col-xlg-2 control-label" style="padding-top: 7px;">显示行数：</div>
+										<div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
+										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="smartTablePageSize"
+											ng-options="i for i in [5,10,15,20,25]"></select>
+									</div>
+									<div class="col-lg-2 col-sm-2 col-xlg-2"></div>
+									<div class="col-xs-5 clo-lg-5 col-sm-5">	
+										<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+					    		 </div>
+					    	</div>
+			    		</th>
+					</tr>	
+					<tr class="black-muted-bg">
+							<th st-sort="{{thead.text}}" ng-repeat="thead in theadList track by $index">
+								{{thead.text}}
+							</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in smartTableData">
+						<td style="vertical-align: middle;" ng-repeat="thead in theadList track by $index">
+								<a style="text-decoration: none;" href="javascript:void(0);" ng-if="thead.text=='host_name'"
+									ng-click="detail(row);">{{row[thead.text]}}</a>
+								<span ng-if="thead.text!='host_name'">{{row[thead.text]}}</span>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="{{theadList.length}}" class="text-center">
+							<div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+</ui-view>

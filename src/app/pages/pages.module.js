@@ -27,7 +27,8 @@
 			'BlurAdmin.pages.CapacityManagement',
 			'BlurAdmin.pages.dashboards',
 			'BlurAdmin.pages.objectManage',
-			'BlurAdmin.pages.reportManage'
+			'BlurAdmin.pages.reportManage',
+			'BlurAdmin.pages.demos'
         ])
         .config(routeConfig);
 
