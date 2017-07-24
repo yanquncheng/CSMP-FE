@@ -9,8 +9,8 @@
 				    <div class="row" style="padding-top:10px;">
 				      <div class="form-group">
 				        <label class="col-md-4 col-sm-4 col-lg-4 control-label no-padding-right text-right">报表名称 :</label>
-				        <div class="col-md-4 col-sm-4 col-lg-4">
-				          <input type="text" class="form-control form-control1" ng-model="report.Name" placeholder="报表名称" />
+				        <div class="col-md-4 col-sm-4 col-lg-4" style="padding-left: 5px; margin-top: -5px;">
+				          <input type="text" class="form-control form-control1" style="background-color: darkslategray;" ng-model="report.Name" placeholder="报表名称" />
 				        </div>
 				        <div class="col-md-4 col-sm-4 col-lg-4">
 				        </div>
@@ -24,16 +24,16 @@
 				        <label class="col-md-4 col-sm-4 col-lg-4 control-label no-padding-right text-right" style="margin-top: 10px;" title="{{param.Description}}">{{param.DisplayName}}</label>
 				
 				        <div class="col-md-4 col-sm-4 col-lg-4" ng-if="(param.Type==='String' || param.Type==='Number')">
-				          <input type="text" class="form-control form-control1 " ng-model="param.Value" placeholder="参数值" />
+				          <input type="text" class="form-control form-control1" style="background-color: darkslategray;" ng-model="param.Value" placeholder="参数值" />
 				        </div>
 				
 				        <div class="col-md-4 col-sm-4 col-lg-4" ng-if="param.Type==='List'">
-				          <select class="form-control form-control1" ng-model="param.Value" ng-options="item.Value as item.Name for item in param.DataList"></select>
+				          <select class="form-control form-control1" style="background-color: darkslategray;" ng-model="param.Value" ng-options="item.value as item.Display for item in param.DataList"></select>
 				        </div>
 				
 				        <div class="col-md-4 col-sm-4 col-lg-4" ng-if="param.Type==='TimeStamp'">
 				        		<div class="input-group" ng-controller="switchboardCtrl">
-						        	<input id="startDate" type="text" class="form-control form-control1" readonly="readonly"
+						        	<input id="startDate" type="text" class="form-control form-control1" style="background-color: darkslategray;" readonly="readonly"
 						        		placeholder="参数值" ng-model="param.Value"
 						        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
 						        		datepicker-options="options" 

@@ -93,6 +93,7 @@
  	 	var trs = tbody.children();  
  	 	for(var i=1;i<trs.length;i++){  
  	 	 	var tds = trs.eq(i).children(); 
+ 	 	 	Data="";
  	 	 	for(var j=0;j<tds.length;j++){  
  	 	 		if(j==0){
  	 	 			if(tds.eq(j).text()==null||tds.eq(j).text()==""){  
@@ -120,7 +121,7 @@
         }
         if(j==4 && tds.eq(3).text()=="List"){  
            if(tds.eq(3).text()=="List" && tds.eq(j).text()==null||tds.eq(j).text()==""){  
-           	commonService.showMsg("error","请输入数据API!");
+           	commonService.showMsg("error","当类型为List, 必须输入数据API列!");
             return null;  
         	}
         	Data = "Data\":\""+tds.eq(j).text();  

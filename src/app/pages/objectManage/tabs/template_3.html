@@ -26,7 +26,12 @@
 		      </thead>
 		      <tbody>
 			      <tr ng-repeat="disk in smartTableData" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
-                        <td ng-repeat="thead in data.tableHead">{{disk[thead.value]}}</td>
+                        <td ng-repeat="thead in data.tableHead">
+                        	<a style="text-decoration: none;" href="javascript:void(0);" ng-if="thead.style.type=='a'"
+									ng-click="rowClick(disk,thead);">{{disk[thead.value]}}</a>
+									
+                        	<span ng-if="!thead.style">{{disk[thead.value]}}</span>
+                        </td>
 			      </tr>
 		      </tbody>
 		      <tfoot>

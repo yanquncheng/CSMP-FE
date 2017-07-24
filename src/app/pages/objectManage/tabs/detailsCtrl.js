@@ -164,6 +164,43 @@
 		    });
 	    };
 	    
+	    $scope.rowClick = function(row,thead){
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	
+	    	var  url = thead.style.url ;
+	    	var prm = {};
+	 	 	prm[thead.style.param[0].postName] = row[thead.style.param[0].findName] ;
+	    	
+	    	//url = "/menu/ObjectManage/demos";
+	    	
+	   	    httpService.get(url, prm , cfg, function (response) {
+	   	    	if(typeof response == 'string'){
+	   	          commonService.showMsg("error", response);
+	   	    	}else{
+	   		    	var tabs = response;
+	   		    	var id = 1;
+	   		    	angular.forEach(tabs, function(item, index){
+	   	    			item.id = id++;
+	   		    		if(!item.hasDetail){
+	   		    			item.page = "app/pages/objectManage/tabs/template_"+item.template+".html";
+	   		    		}else{
+	   		    			angular.forEach(item.tabDetail, function(det, idx){
+	   		    				det.id = id++;
+	   		    				det.page = "app/pages/objectManage/tabs/template_"+det.template+".html";
+	   		    			});
+	   		    		}
+	   		    	});
+	   	 		   
+	   		     var param = {"storage": row };
+	   		     param.tabs = tabs ;
+	   		     param.backUrl = "dashboard.demos" ;
+	   		     $state.go('dashboard.objectManage.details', {param: param});
+	   	    	}
+	   	    });
+	   	    
+	    }
+	    
 	    $scope.initTemplate_4 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};

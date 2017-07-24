@@ -135,7 +135,7 @@
 		    			});
 		    		}
 		    	});
-	 		    $state.go('dashboard.objectManage.tabs.details', {param: {storage: storage, tabs: tabs}});
+	 		    $state.go('dashboard.objectManage.details', {param: {storage: storage, tabs: tabs}});
 	    	}
 	    });
  	 };

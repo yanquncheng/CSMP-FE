@@ -27,7 +27,7 @@
 						        <li ng-repeat="child in tab.tabDetail"><a ng-click="$dropdownTabActive = child.id; $tabSetStatus.activeTab = tab.id; swithTabs(child);">{{child.tabName}}</a></li>
 						      </ul>
 					      </uib-tab-heading>
-					      <div ng-repeat="child in tab.tabDetail" ng-show="$dropdownTabActive == child.id">
+					      <div ng-repeat="child in tab.tabDetail">
 							    <div class="clearfix" ng-if="child.id==activetab" ng-include="child.page"></div>
 					   	  	</div>
 				  		</uib-tab>

@@ -57,8 +57,8 @@
    	 		   
    		    	param.tabs = tabs ;
    		    	param.backUrl = "dashboard.demos" ;
-   	 		    $state.go('dashboard.demos.demoDetail', {param: param});
-   	 		    //$state.go('dashboard.objectManage.tabs.details', {param: param});
+   	 		   // $state.go('dashboard.demos.demoDetail', {param: param});
+   	 		    $state.go('dashboard.objectManage.details', {param: param});
    	    	}
    	    });
    	 };
