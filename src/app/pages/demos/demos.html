@@ -20,17 +20,17 @@
 			    		</th>
 					</tr>	
 					<tr class="black-muted-bg">
-							<th st-sort="{{thead.text}}" ng-repeat="thead in theadList track by $index">
-								{{thead.text}}
+							<th st-sort="{{thead.sort=='true'?thead.value:''}}" ng-repeat="thead in theadList track by $index">
+								{{thead.name}}
 							</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="row in smartTableData">
 						<td style="vertical-align: middle;" ng-repeat="thead in theadList track by $index">
-								<a style="text-decoration: none;" href="javascript:void(0);" ng-if="thead.text=='host_name'"
-									ng-click="detail(row);">{{row[thead.text]}}</a>
-								<span ng-if="thead.text!='host_name'">{{row[thead.text]}}</span>
+								<a style="text-decoration: none;" href="javascript:void(0);" ng-if="thead.value=='host_name'"
+									ng-click="detail(row);">{{row[thead.value]}}</a>
+								<span ng-if="thead.value!='host_name'">{{row[thead.value]}}</span>
 						</td>
 					</tr>
 				</tbody>

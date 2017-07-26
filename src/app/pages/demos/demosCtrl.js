@@ -19,13 +19,11 @@
 	  //列表初始化
       $scope.initData = function (){
     	  httpService.get('/demos' , null,config ,function (response) {
-    		  $scope.dataList = response;
-    		  if($scope.dataList && $scope.dataList.length>0){
-    			  for(var key in $scope.dataList[0] ){
-    				  var thead = {} ;
-    				  thead.text = angular.copy(key) ;
-    				  $scope.theadList.push(thead);
-    			  }
+    		  var dataMap = {};
+    		  var dataMap = response;
+    		  if(dataMap){
+    			  $scope.dataList = dataMap.tableBody ;
+    			  $scope.theadList = dataMap.tableHead ;
     		  }
 	      });
       };
