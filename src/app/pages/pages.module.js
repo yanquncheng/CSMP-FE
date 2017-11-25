@@ -28,6 +28,7 @@
 			'BlurAdmin.pages.dashboards',
 			'BlurAdmin.pages.objectManage',
 			'BlurAdmin.pages.reportManage',
+            'BlurAdmin.pages.templatedetails',
 			'BlurAdmin.pages.demos'
         ])
         .config(routeConfig);

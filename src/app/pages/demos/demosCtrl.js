@@ -44,11 +44,11 @@
    		    	angular.forEach(tabs, function(item, index){
    	    			item.id = id++;
    		    		if(!item.hasDetail){
-   		    			item.page = "app/pages/objectManage/tabs/template_"+item.template+".html";
+   		    			item.page = "app/pages/templates/template_"+item.template+".html";
    		    		}else{
    		    			angular.forEach(item.tabDetail, function(det, idx){
    		    				det.id = id++;
-   		    				det.page = "app/pages/objectManage/tabs/template_"+det.template+".html";
+   		    				det.page = "app/pages/templates/template_"+det.template+".html";
    		    			});
    		    		}
    		    	});
@@ -56,7 +56,7 @@
    		    	param.tabs = tabs ;
    		    	param.backUrl = "dashboard.demos" ;
    	 		   // $state.go('dashboard.demos.demoDetail', {param: param});
-   	 		    $state.go('dashboard.objectManage.details', {param: param});
+   	 		    $state.go('dashboard.templatedetails', {param: param});
    	    	}
    	    });
    	 };

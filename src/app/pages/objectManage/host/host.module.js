@@ -17,13 +17,7 @@
             order: 3,
           },
           params: {params:null,datacenter: null}
-        }).state('dashboard.objectManage.host.hostDetail', {
-        		url: '',
-            templateUrl: 'app/pages/objectManage/tabs/details.html',
-            controller: 'detailsCtrl',
-            title: '主机详情',
-            params: {param: null,datacenter:null}
-          });
+        });
   }
  
 })();

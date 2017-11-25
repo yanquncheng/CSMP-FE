@@ -39,11 +39,11 @@
 		    	angular.forEach(tabs, function(item, index){
 	    			item.id = id++;
 		    		if(!item.hasDetail){
-		    			item.page = "app/pages/objectManage/host/template_"+item.template+".html";
+		    			item.page = "app/pages/templates/template_"+item.template+".html";
 		    		}else{
 		    			angular.forEach(item.tabDetail, function(det, idx){
 		    				det.id = id++;
-		    				det.page = "app/pages/objectManage/host/template_"+det.template+".html";
+		    				det.page = "app/pages/templates/template_"+det.template+".html";
 		    			});
 		    		}
 		    	});
@@ -51,8 +51,7 @@
 		    	$scope.storage=host.baseinfo
 		    	$scope.storage.device=host.baseinfo.name;
 		    	var backUrl = "dashboard.objectManage.host" ;
-//	 		    $state.go('dashboard.objectManage.host.hostDetail', {param: {host: host, tabs: tabs}});
-						$state.go('dashboard.objectManage.host.hostDetail', {param: {"storage": $scope.storage, "tabs": tabs,"backUrl":backUrl}});
+				$state.go('dashboard.templatedetails', {param: {"storage": $scope.storage, "tabs": tabs,"backUrl":backUrl}});
 	    	}
 	    });
 	  }     

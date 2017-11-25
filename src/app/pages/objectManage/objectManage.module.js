@@ -5,10 +5,12 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages.objectManage', [
-      'BlurAdmin.pages.objectManage.tabs','BlurAdmin.pages.objectManage.switchboard',
-      'BlurAdmin.pages.objectManage.apply','BlurAdmin.pages.objectManage.host',
-      'BlurAdmin.pages.objectManage.hostHBA','BlurAdmin.pages.objectManage.details'
+  angular.module('BlurAdmin.pages.objectManage', [ 
+      'BlurAdmin.pages.objectManage.array', 
+      'BlurAdmin.pages.objectManage.switch',
+      'BlurAdmin.pages.objectManage.application', 
+      'BlurAdmin.pages.objectManage.host',
+      'BlurAdmin.pages.objectManage.hostHBA' 
     ])
     .config(routeConfig);
 

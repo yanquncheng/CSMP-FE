@@ -18,7 +18,7 @@
           },
         }).state('dashboard.demos.demoDetail', {
         	url: '',
-            templateUrl: 'app/pages/objectManage/tabs/details.html',
+            templateUrl: 'app/pages/templdates/details.html',
             controller: 'detailsCtrl',
             title: '测试功能',
             params: {param: null,datacenter: null}
