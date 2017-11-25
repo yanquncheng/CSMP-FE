@@ -1,3 +1,4 @@
+
 /**
  * 对象管理
  */
@@ -24,7 +25,7 @@
  	                	"apiUrl":"/arrays", 'detailUrl': '/menu/ObjectManage/Array'},
  	                {"id":2,"name":"虚拟存储","url":"app/pages/objectManage/tabs/storage_fictitious.html",
  	                	"apiUrl":"/virtualarrays", 'detailUrl': '/menu/ObjectManage/VirtualArray'}
- 	               ];
+	               ];
 	$scope.selectTab = $scope.tabs[0];
 	$scope.selectTabId = 0;
 	if($stateParams.datacenter){
@@ -39,11 +40,12 @@
  	                 {"text": "序列号","sort": "serialnb", "default": false},
  	                 {"text": "类型","sort": "", "default": false},
  	                 {"text": "型号", "sort": "", "default": false},
- 	                 {"text": "端口数量","sort": "","default": false},
+ 	                 {"text": "微码版本", "sort": "", "default": false},
+ 	//                 {"text": "端口数量","sort": "","default": false},
  	                 {"text": "磁盘数量", "sort": "","default": false},
  	                 {"text": "LUN数量","sort": "","default": false},
  	                 {"text": "Cache(MB)","sort": "","default": false},
- 	                 {"text": "已使用容量(百分比)","sort": "","default": false},
+ 	                 {"text": "已使用容量(%)","sort": "","default": false},
  	                 {"text": "位置信息", "sort": "","default": false},
  	                 {"text": "操作"}
  	                 ];
