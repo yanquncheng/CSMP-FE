@@ -84,6 +84,8 @@
   $scope.apps = []; 
   $scope.initApps = function (){
   	httpService.get("/application", null, config, function (response){
+  		console.log("AAAAAAAAAA");
+  		console.log(response);
   		$scope.apps=response;
   	});
   };
@@ -291,7 +293,7 @@
    	 $scope.csv2arr = function(){
    	 	if( typeof(FileReader) !== 'undefined' ){    //H5
         var reader = new FileReader();
-        reader.readAsText( $("#csvInput")[0].files[0] );            //以文本格式读取
+        reader.readAsText( $("#csvInput")[0].files[0] , "GBK");            //以文本格式读取
 
 
         reader.onload = function(evt){
@@ -351,6 +353,6 @@
 // 	 	$scope.$close('cancel');
    	 }
  	 
-  $scope.initApply();
+  	$scope.initApply();
   }
 })();

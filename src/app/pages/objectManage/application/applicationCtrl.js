@@ -141,7 +141,7 @@
      $scope.csv2arr = function(){
         if( typeof(FileReader) !== 'undefined' ){    //H5
           var reader = new FileReader();
-          reader.readAsText( $("#csvInput")[0].files[0] );            //以文本格式读取
+          reader.readAsText( $("#csvInput")[0].files[0] ,"GBK" );            //以文本格式读取
 
           reader.onload = function(evt){
               var data = evt.target.result;        //读到的数据
