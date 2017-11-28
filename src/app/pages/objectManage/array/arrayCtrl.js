@@ -45,7 +45,8 @@
  	                 {"text": "磁盘数量", "sort": "","default": false},
  	                 {"text": "LUN数量","sort": "","default": false},
  	                 {"text": "Cache(MB)","sort": "","default": false},
- 	                 {"text": "已使用容量(%)","sort": "","default": false},
+ 	                 {"text": "可用容量(TB)","sort": "","default": false}, 	                 
+ 	                 {"text": "分配容量占比(%)","sort": "","default": false},
  	                 {"text": "位置信息", "sort": "","default": false},
  	                 {"text": "操作"}
  	                 ];

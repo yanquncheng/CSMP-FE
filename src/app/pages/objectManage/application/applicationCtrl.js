@@ -6,7 +6,7 @@
       .controller('applicationCtrl', applicationCtrlFunc);
 
   /** @ngInject */
-  function applicationCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, httpService,$stateParams) {
+  function applicationCtrlFunc($scope, $filter, $timeout , $http, $localStorage,toastr, $state, commonService, httpService,$stateParams,$uibModal) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
@@ -113,7 +113,54 @@
              });  
       };
   	  
-  	  
+      //批量添加弹出页面
+      $scope.addAllApp=function(){
+          var modalInstance = $uibModal.open({
+                animation: true,
+                template: "<div class='modal-content'>" +
+                    "<div class='modal-header bg-primary'>" +
+                    "<i class='glyphicon glyphicon-info-sign'></i><span> 批量添加应用</span>" +
+                    "</div>" +
+                    "<div class='modal-body text-center'><div class='row'>"+
+                    "<span class='col-lg-7 col-sm-7 col-xlg-7 '><input style='margin-left:30px' id='csvInput' class='btn-default btn' type='file' accept='.csv'></span>" +
+                    "<span class='col-lg-3 col-sm-3 col-xlg-3 ' style='margin-top:15px'>应用文件上传.CSV</span></div></div>" +
+                    "<div class='modal-footer'>" +
+                    "<button type='button' class='btn btn-primary' ng-click='$close()'>确认</button>" +
+                    "<button type='button' class='btn btn-warning' ng-click='$dismiss()'>取消</button>" +
+                    "</div></div>",
+                size: 'md',//md lg sm 
+                resolve: {items: function () {}  }
+              }); 
+          modalInstance.result.then(function (result) {  
+            $scope.csv2arr(); 
+          }, function (reason) {    
+           console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
+          }); 
+      }
+
+     $scope.csv2arr = function(){
+        if( typeof(FileReader) !== 'undefined' ){    //H5
+          var reader = new FileReader();
+          reader.readAsText( $("#csvInput")[0].files[0] );            //以文本格式读取
+
+          reader.onload = function(evt){
+              var data = evt.target.result;        //读到的数据
+              var b = data.split("\r\n");
+              b.shift();
+        httpService.post('/application',b, config, function (response){
+          console.log("response:--->"+response);
+          commonService.showMsg("success","主机操作成功!");
+          $scope.initApply();
+        });
+
+          }
+        }else{
+            alert("IE9及以下浏览器不支持，请使用Chrome或Firefox浏览器");
+        } 
+     }
+
+
+
 		/***************************************/
   	  	$scope.initApply();
 		

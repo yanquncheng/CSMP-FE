@@ -224,10 +224,10 @@
 				    "type": 'serial',
 				    "dataProvider": $scope.capacity.left.chartData,
 				    "valueAxes": [{
-				        "title": "容量（GB）"
+				        "title": $scope.capacity.left.title
 				    }],
 				    "graphs": [{
-				        "balloonText": "容量 [[category]]:[[value]]",
+				        "balloonText": "[[category]]:[[value]]",
 				        "fillAlphas": 1,
 				        "lineAlpha": 0.2,
 				        "title": "name",
@@ -254,10 +254,10 @@
 				    "type": 'serial',
 				    "dataProvider": $scope.capacity.right.chartData,
 				    "valueAxes": [{
-				        "title": "容量（GB）"
+				        "title": $scope.capacity.right.title
 				    }],
 				    "graphs": [{
-				        "balloonText": "容量 [[category]]:[[value]]",
+				        "balloonText": "[[category]]:[[value]]",
 				        "fillAlphas": 1,
 				        "lineAlpha": 0.2,
 				        "title": "name",

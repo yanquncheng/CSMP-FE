@@ -292,6 +292,29 @@
    	 	if( typeof(FileReader) !== 'undefined' ){    //H5
         var reader = new FileReader();
         reader.readAsText( $("#csvInput")[0].files[0] );            //以文本格式读取
+
+
+        reader.onload = function(evt){
+            var data = evt.target.result;        //读到的数据
+            var b = data.split("\r\n");
+            b.shift();
+	 		httpService.post('/host',b, config, function (response){
+				console.log("response:--->"+response);
+				commonService.showMsg("success","主机操作成功!");
+				$scope.initApply();
+			});
+
+        }
+	    }else{
+	        alert("IE9及以下浏览器不支持，请使用Chrome或Firefox浏览器");
+	    }
+// 	 	$scope.$close('cancel');
+   	 }
+
+    	 $scope.csv2arr_bak = function(){
+   	 	if( typeof(FileReader) !== 'undefined' ){    //H5
+        var reader = new FileReader();
+        reader.readAsText( $("#csvInput")[0].files[0] );            //以文本格式读取
         reader.onload = function(evt){
             var data = evt.target.result;        //读到的数据
             var b = data.split("\r\n");
@@ -303,6 +326,7 @@
             	}
             	$scope.addAllHostData.baseinfo.name = b[i].split(",")[0];
             	$scope.addAllHostData.baseinfo.service_ip = b[i].split(",")[1];
+            	console.log(b[i]+'\t' + typeof b[i]);
             	var wwn = b[i].split(",")[2].split("|");
             	$scope.addAllHostData.HBAs=[];
             	for(var j in wwn){
