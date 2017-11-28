@@ -298,7 +298,7 @@
             var data = evt.target.result;        //读到的数据
             var b = data.split("\r\n");
             b.shift();
-	 		httpService.post('/host',b, config, function (response){
+	 		httpService.post('/hosts',b, config, function (response){
 				console.log("response:--->"+response);
 				commonService.showMsg("success","主机操作成功!");
 				$scope.initApply();
@@ -335,7 +335,7 @@
             		$scope.addAllHostData.HBAs.push(hbas);
             	}
             	 var params = angular.copy($scope.addAllHostData);
-            	 httpService.post('/host',params, config, function (response){
+            	 httpService.post('/hosts',params, config, function (response){
 			        	console.log("response:--->"+response);
 			        	commonService.showMsg("success","主机操作成功!");
 			        	if(i==b.length-1){

@@ -147,7 +147,7 @@
               var data = evt.target.result;        //读到的数据
               var b = data.split("\r\n");
               b.shift();
-        httpService.post('/application',b, config, function (response){
+        httpService.post('/applications',b, config, function (response){
           console.log("response:--->"+response);
           commonService.showMsg("success","主机操作成功!");
           $scope.initApply();
