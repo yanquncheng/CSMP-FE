@@ -1,0 +1,49 @@
+<div class="row">
+	<div class="col-lg-12 col-xs-12 col-sm-12">
+		<div class="horizontal-scroll">
+		<table class="table table-hover" st-table="lunTableData" st-safe-src="lunList">
+			<thead>
+				<tr> 
+				    <th colspan="2">
+				    	<div class="row">
+			    		 	<div class="col-lg-3 co2-sm-3 col-xlg-3 control-label" style="padding-top: 7px;">显示行数：</div>
+							<div class="col-lg-8 col-sm-8 col-xlg-8" style="width: 168px;">
+								<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="lunTablePageSize"
+									ng-options="i for i in [5,10,15,20,25]"></select>
+							</div>
+				    	</div>
+		    		 </th>
+				      <th colspan="3" style="text-align: right">
+				          <input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+				      </th>
+			      </tr>
+			      
+					<tr class="black-muted-bg">
+						<th style="text-align: center;" st-sort="partid">存储名称</th>
+						<th style="text-align: center;" st-sort="slotnum">LUN名称</th>
+						<th style="text-align: center;" st-sort="part">保护类型</th>
+						<th style="text-align: center;" st-sort="part">容量(GB)</th>
+						<th style="text-align: center;" st-sort="part">使用容量(GB)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in lunTableData">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5" class="text-center">
+							<div st-pagination="" st-items-by-page="lunTablePageSize" st-displayed-pages="15"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		
+ 	</div>
+</div>

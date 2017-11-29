@@ -30,29 +30,31 @@
 //	  	var param = angular.copy(host);
 //		  param.type = type ;
 //		  $state.go('dashboard.objectManage.host.hostDetail', {param: param });
-				httpService.get('/menu/ObjectManage/Host', null, config, function (response) {
-	    	if(typeof response == 'string'){
-	          commonService.showMsg("error", response);
-	    	}else{
-		    	var tabs = response;
-		    	var id = 1;
-		    	angular.forEach(tabs, function(item, index){
-	    			item.id = id++;
-		    		if(!item.hasDetail){
-		    			item.page = "app/pages/templates/template_"+item.template+".html";
-		    		}else{
-		    			angular.forEach(item.tabDetail, function(det, idx){
-		    				det.id = id++;
-		    				det.page = "app/pages/templates/template_"+det.template+".html";
-		    			});
-		    		}
-		    	});
-		    	$scope.storage={};
-		    	$scope.storage=host.baseinfo
-		    	$scope.storage.device=host.baseinfo.name;
-		    	var backUrl = "dashboard.objectManage.host" ;
-				$state.go('dashboard.templatedetails', {param: {"storage": $scope.storage, "tabs": tabs,"backUrl":backUrl}});
-	    	}
+
+
+		httpService.get('/menu/ObjectManage/Host', null, config, function (response) {
+		if(typeof response == 'string'){
+		  commonService.showMsg("error", response);
+		}else{
+			var tabs = response;
+			var id = 1;
+			angular.forEach(tabs, function(item, index){
+				item.id = id++;
+				if(!item.hasDetail){
+					item.page = "app/pages/templates/template_"+item.template+".html";
+				}else{
+					angular.forEach(item.tabDetail, function(det, idx){
+						det.id = id++;
+						det.page = "app/pages/templates/template_"+det.template+".html";
+					});
+				}
+			});
+			$scope.storage={};
+			$scope.storage=host.baseinfo;
+			$scope.storage.device=host.baseinfo.name;
+			var backUrl = "dashboard.objectManage.host" ;
+			$state.go('dashboard.templatedetails', {param: {"storage": $scope.storage, "tabs": tabs,"backUrl":backUrl}});
+		}
 	    });
 	  }     
 	  
@@ -83,10 +85,16 @@
   //应用系统名称
   $scope.apps = []; 
   $scope.initApps = function (){
+	  $('#APPs').selectpicker({
+		  dropupAuto : false
+		})
   	httpService.get("/application", null, config, function (response){
-  		console.log("AAAAAAAAAA");
-  		console.log(response);
   		$scope.apps=response;
+  		$timeout(function(){
+  			 $('#APPs').selectpicker('refresh');
+  	         $('APPs').selectpicker('render');  
+  		},200);
+  	   
   	});
   };
 	  
@@ -125,42 +133,36 @@
  	 	}
  	 	//获取HBAs信息
  	 	var name = "";  
-    var wwn = "";  
+ 	 	var wwn = "";  
 		var AB ="";
-    var tabledata = ""; 
+		var tabledata = ""; 
  	 	var table = $("#para_table");  
  	 	var tbody = table.children(); 
  	 	var trs = tbody.children();  
  	 	for(var i=1;i<trs.length;i++){  
  	 	 	var tds = trs.eq(i).children(); 
- 	 	 	for(var j=0;j<tds.length;j++){  
- 	 	 		if(j==0){
- 	 	 			if(tds.eq(j).text()==null||tds.eq(j).text()==""){  
-            return null;  
-        	}  
-        	name = "name\":\""+tds.eq(j).text();  
- 	 	 		}
- 	 	 		if(j==1){  
-           if(tds.eq(j).text()==null||tds.eq(j).text()==""){  
-            return null;  
-        	}   
-        	wwn = "wwn\":\""+tds.eq(j).text();  
-        } 
-        if(j==2){  
-           if(tds.eq(j).text()==null||tds.eq(j).text()==""){  
-            return null;  
-        	}   
-        	AB = "AB\":\""+tds.eq(j).text();  
-        }
- 	 	 	}
- 	 	 	if(i==trs.length-1){  
-        tabledata += "{\""+name+"\",\""+wwn+"\",\""+AB+"\"}";  
-    	}else{  
-        tabledata += "{\""+name+"\",\""+wwn+"\",\""+AB+"\"},";  
-    	} 
+ 	 		var td0 = "";  
+ 	 	 	var td1 = "";  
+ 			var td2 ="";
+ 			td0 = tds.eq(0).text();
+ 			td1 = tds.eq(1).text();
+ 			td2 = tds.eq(2).text();
+ 			
+	 		name = "name\":\""+ td0;  
+	 		wwn = "wwn\":\""+ td1;  
+	        AB = "AB\":\""+ td2;  
+ 	 	 	
+ 	 	 	if(!(td2 == td1 && td1== td0 && (td2==''||td2==null))){  
+	 	 		if(i==trs.length-1){  
+			        tabledata += "{\""+name+"\",\""+wwn+"\",\""+AB+"\"}";  
+			    }else{  
+			        tabledata += "{\""+name+"\",\""+wwn+"\",\""+AB+"\"},";  
+			    } 
+	 	 	}
  	 	}
  	 	$scope.host.HBAs=angular.fromJson("["+tabledata+"]");
-        console.log("提交信息"+angular.toJson($scope.host,2));
+        console.log("提交信息:"+angular.toJson($scope.host,2));
+        console.log("***************************");
         httpService.post('/host', $scope.host, config, function (response){
         	console.log("response:--->"+response);
         	commonService.showMsg("success","主机操作成功!");
@@ -293,29 +295,6 @@
    	 $scope.csv2arr = function(){
    	 	if( typeof(FileReader) !== 'undefined' ){    //H5
         var reader = new FileReader();
-        reader.readAsText( $("#csvInput")[0].files[0] , "GBK");            //以文本格式读取
-
-
-        reader.onload = function(evt){
-            var data = evt.target.result;        //读到的数据
-            var b = data.split("\r\n");
-            b.shift();
-	 		httpService.post('/hosts',b, config, function (response){
-				console.log("response:--->"+response);
-				commonService.showMsg("success","主机操作成功!");
-				$scope.initApply();
-			});
-
-        }
-	    }else{
-	        alert("IE9及以下浏览器不支持，请使用Chrome或Firefox浏览器");
-	    }
-// 	 	$scope.$close('cancel');
-   	 }
-
-    	 $scope.csv2arr_bak = function(){
-   	 	if( typeof(FileReader) !== 'undefined' ){    //H5
-        var reader = new FileReader();
         reader.readAsText( $("#csvInput")[0].files[0] );            //以文本格式读取
         reader.onload = function(evt){
             var data = evt.target.result;        //读到的数据
@@ -328,7 +307,6 @@
             	}
             	$scope.addAllHostData.baseinfo.name = b[i].split(",")[0];
             	$scope.addAllHostData.baseinfo.service_ip = b[i].split(",")[1];
-            	console.log(b[i]+'\t' + typeof b[i]);
             	var wwn = b[i].split(",")[2].split("|");
             	$scope.addAllHostData.HBAs=[];
             	for(var j in wwn){
@@ -337,7 +315,7 @@
             		$scope.addAllHostData.HBAs.push(hbas);
             	}
             	 var params = angular.copy($scope.addAllHostData);
-            	 httpService.post('/hosts',params, config, function (response){
+            	 httpService.post('/host',params, config, function (response){
 			        	console.log("response:--->"+response);
 			        	commonService.showMsg("success","主机操作成功!");
 			        	if(i==b.length-1){
@@ -353,6 +331,6 @@
 // 	 	$scope.$close('cancel');
    	 }
  	 
-  	$scope.initApply();
+  $scope.initApply();
   }
 })();
