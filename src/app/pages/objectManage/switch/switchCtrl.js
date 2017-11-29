@@ -19,9 +19,9 @@
 	 $scope.readStatus = false ;
  	 //tabs页
  	 $scope.tabs = [
- 	                {"id":1,"name":"交换机列表","url":"app/pages/objectManage/switch/switchlist.html",
+ 	                {"id":1,"name":"光纤交换机","url":"app/pages/objectManage/switch/switchlist.html",
  	                	'detailUrl': '/menu/ObjectManage/Switch'},
- 	                {"id":2,"name":"Fabric列表","url":"app/pages/objectManage/switch/fabric.html",
+ 	                {"id":2,"name":"Fabric","url":"app/pages/objectManage/switch/fabric.html",
  	                	'detailUrl': '/menu/ObjectManage/Switch'}
  	               ];
  	 

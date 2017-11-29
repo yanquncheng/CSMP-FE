@@ -83,9 +83,7 @@
   //应用系统名称
   $scope.apps = []; 
   $scope.initApps = function (){
-  	httpService.get("/application", null, config, function (response){
-  		console.log("AAAAAAAAAA");
-  		console.log(response);
+  	httpService.get("/application", null, config, function (response){ 
   		$scope.apps=response;
   	});
   };
