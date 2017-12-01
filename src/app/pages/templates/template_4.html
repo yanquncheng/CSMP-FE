@@ -1,4 +1,5 @@
 <style>
+
   .chat {
     width: 1502px;
     float: left;
@@ -51,6 +52,8 @@
       </div>
       <div class="col-xs-6" id="right" style="height: 300px;">
       </div>
+      <div class="col-xs-12" id="stackedbar" style="height: 600px;""> 
+      </div> 
 
     </div>
 
@@ -78,28 +81,85 @@
                 </th>
               </tr> 
                 <tr>
-                    <th ng-repeat="thead in data.tableHead" st-sort="{{thead.name}}" st-sort-default="{{thead.default}}"> {{thead.name}}</th>
+                    <th ng-repeat="thead in data.tableHead" st-sort="{{(thead.sort) ? thead.value : null}}" st-sort-default="{{thead.default}}"> {{thead.name}}</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr ng-repeat="disk in smartTableData" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
-                            <td ng-repeat="thead in data.tableHead">
-                              <a style="text-decoration: none;" href="javascript:void(0);" ng-if="thead.style.type=='a'"
-                      ng-click="rowClick(disk,thead);">{{disk[thead.value]}}</a>
-                      
-                              <span ng-if="!thead.style">{{disk[thead.value]}}</span>
-                            </td>
-                </tr>
-              </tbody>
-              <tfoot>
-              <tr>
-                  <td colspan="13" class="text-center">
-                    <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
-                  </td>
+ 
+
+            <tbody>
+              <tr ng-repeat="d in smartTableData" ng-class="{'select_table': d.selected}" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}" ng-click="click4Event(data.tableEvent, d, startDate, endDate)">
+                        <td ng-repeat="thead in data.tableHead">{{d[thead.value]}}</td>
               </tr>
+            </tbody>
+
+
+              <tfoot>
+ 
+                <tr>
+                    <td colspan="{{data.tableHead.length}}" class="text-center">
+                      <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
+                    </td>
+                </tr>
+
             </tfoot>
             </table>
             </div>
         </div>
     </div>
+
+    <div class="col-xs-12"  ng-if="detail_4!=null">
+      <div class="row" style="padding-top:10px;">
+        <div class="form-group">
+          <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">开始时间 :</label>
+          <div class="col-md-3 col-sm-3 col-lg-3">
+            <div class="input-group" ng-controller="switchCtrl">
+            <input id="startDate" type="text" class="form-control" readonly="readonly"
+              placeholder="维保起始时间" ng-model="startDate"
+              uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+              datepicker-options="options" 
+              show-button-bar="true"
+              is-open="opened" 
+              ng-required="true" 
+              close-text="Close" 
+              show-button-bar="false" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+          </div>
+          </div>
+          <label class="col-md-2 col-sm-2 col-lg-2 control-label no-padding-right text-right">结束时间 :</label>
+          <div class="col-md-3 col-sm-3 col-lg-3">
+            <div class="input-group" ng-controller="switchCtrl">
+            <input id="endDate" type="text" class="form-control" readonly="readonly"
+              placeholder="维保起始时间" ng-model="endDate"
+              uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+              datepicker-options="options" 
+              show-button-bar="true"
+              is-open="opened" 
+              ng-required="true" 
+              close-text="Close" 
+              show-button-bar="false" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+          </div>
+          </div>
+          <div class="col-md-2 col-sm-2 col-lg-2">
+             <button type="button" ng-click="search4(detail_4.tableEvent.url);" class="btn btn-primary btn-with-icon">
+              <i class="glyphicon glyphicon-search"></i>查询
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12" ng-if="detail_4!=null" style="padding-bottom: 10px;" ng-repeat="item in detail_4.charts">
+        <div id="chart-{{$index}}" style="height: 400px; width: 100%;padding: 15px; overflow: visible;">
+        </div>
+    </div>
+
+
 </div>

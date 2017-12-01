@@ -96,6 +96,10 @@
 	    		case 10:
 	    			$scope.initTemplate_10(tab, $scope.startDate, $scope.endDate);
 	    			return ;
+	    		case 11:
+	    			$scope.initTemplate_11(tab);
+	    			return ;
+
 	    		default:
 	    	}
 	    }
@@ -218,7 +222,15 @@
     		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
 		    	$scope.capacity = response;
+		    	$scope.startDate = response.startDate;
+				$scope.endDate = response.endDate;
+
+
+				var div1=document.getElementById("left");    
+				if( $scope.capacity.left === undefined) 
+						div1.style.display='none'; 
 		    
+		    	if ( $scope.capacity.left !== undefined )
 	            var chart = AmCharts.makeChart("left", {
 				    "theme": "none",
 				    "type": 'serial',
@@ -248,8 +260,13 @@
 				    	"enabled": true
 				     }
 				});
-				
-	            chart = AmCharts.makeChart("right", {
+		    	
+				var div1=document.getElementById("right");    
+				if ( $scope.capacity.right === undefined ) 
+						div1.style.display='none'; 
+		    				
+		    	if ( $scope.capacity.right !== undefined )
+	            var  chart = AmCharts.makeChart("right", {
 				    "theme": "none",
 				    "type": 'serial',
 				    "dataProvider": $scope.capacity.right.chartData,
@@ -278,9 +295,284 @@
 				    	"enabled": true
 				     }
 				});
+
+				var div1=document.getElementById("stackedbar");    
+				if( $scope.capacity.stackedbar === undefined) 
+						div1.style.display='none'; 
+		    	if ( $scope.capacity.stackedbar !== undefined )
+	            var  chart = AmCharts.makeChart("stackedbar", {
+					  "type": "serial",
+					  "theme": "chalk",
+					  "rotate": true,
+					  "marginBottom": 50,
+					  "dataProvider": $scope.capacity.stackedbar.chartData ,
+					  "startDuration": 1,
+					  "graphs": [{
+					    "fillAlphas": 0.8,
+					    "lineAlpha": 0.2,
+					    "type": "column",
+					    "valueField": "leftvalue",
+					    "title": "Male11",
+					    "labelText": "[[value]]",
+					    "clustered": false, 
+					    "color": "#ffffff",
+					    "labelFunction": function(item) {
+					      return Math.abs(item.values.value);
+					    },
+					    "balloonFunction": function(item) {
+					      return item.category + ": " + Math.abs(item.values.value) ;
+					    }
+					  }, {
+					    "fillAlphas": 0.8,
+					    "lineAlpha": 0.2,
+					    "type": "column",
+					    "valueField": "rightvalue",
+					    "title": "Female22",
+					    "labelText": "[[value]]",
+					    "clustered": false,
+					    "color": "#ffffff",
+					    "labelFunction": function(item) {
+					      return Math.abs(item.values.value);
+					    },
+					    "balloonFunction": function(item) {
+					      return item.category + ": " + Math.abs(item.values.value) ;
+					    }
+					  }],
+					  "categoryField": "catalog",
+					  "categoryAxis": {
+					    "gridPosition": "start",
+					    "gridAlpha": 0.2,
+					    "axisAlpha": 0,
+					    "color": "#ffffff"
+					  },
+					  "valueAxes": [{
+					    "gridAlpha": 0,
+					    "color": "#ffffff",
+					    "ignoreAxisWidth": true,
+					    "labelFunction": function(value) {
+					      return Math.abs(value) ;
+					    },
+					    "guides": [{
+					      "value": 0,
+					      "lineAlpha": 0.2
+					    }]
+					  }],
+					  "balloon": {
+					    "fixedPosition": true
+					  },
+					  "chartCursor": {
+					    "valueBalloonsEnabled": false,
+					    "cursorAlpha": 0.05,
+					    "fullWidth": true
+					  },
+					  "allLabels": [{
+					    "text": $scope.capacity.stackedbar.chartHeader.leftTitle,
+					    "x": "28%",
+					    "y": "97%",
+					    "bold": true,
+					    "align": "middle",
+					    "color": "#ffffff"
+					  }, {
+					    "text": $scope.capacity.stackedbar.chartHeader.rightTitle,
+					    "x": "75%",
+					    "y": "97%",
+					    "bold": true,
+					    "align": "middle",
+					    "color": "#ffffff"
+					  }],
+					 "export": {
+					    "enabled": true
+					  }
+
+					});
+
+
+
+		    	$scope.data = response.tableData; 
+				$scope.data.tableEvent = response.tableEvent; 
+
+		    });
+
+
+
+
+
+	    };
+
+	    $scope.click4Event = function(event, data, startDate, endDate, type, conf){
+	    	// 空，重新开始
+			$scope.chartList.splice(0, $scope.chartList.length); 
+			if(!type || type!='update'){
+				$scope.detail_4 = [];
+			}
+	    	if(!data.selected){
+		    	if($scope.selectData){
+		    		$scope.selectData.selected = false;
+		    	}
+		    	data.selected = true;
+		    	$scope.selectData = data;
+	    	}
+	    	var cfg = angular.copy(config);
+	    	if(conf){
+	    		cfg = conf;
+	    	}
+	    	if(!cfg.params){
+		    	cfg.params = {};
+	    	}
+	    	var f=0;
+	    	angular.forEach(event.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			if(data[item.findName]==undefined){
+		    			f++;
+		    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+		    			return;
+	    			}else{
+	    				cfg.params[item.postName] = data[item.findName];
+	    			}
+	    		}else{
+	    			cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		}
+	    	});
+	    	
+	    	cfg.params.startDate = moment(startDate).format();
+	    	cfg.params.endDate = moment(endDate).format();
+	    	
+    		if(f>0){
+    			return;
+    		}
+		    httpService.get(event['url'], null, cfg, function (response) {
+				if(!type || type!='update'){
+					$scope.detail_4 = response;
+		    		$("#startDate").val(moment(response.startDate).format('YYYY-MM-DD'));
+		    		$("#endDate").val(moment(response.endDate).format('YYYY-MM-DD')); 
+				}else{
+					$scope.detail_4.charts = response.charts; 
+				}
+		    	$scope.changeChartIn4(response.charts);
 		    });
 	    };
+
+
 	    
+	    $scope.changeChartIn4 = function(chartsData){ 
+	    	angular.forEach(chartsData, function(item, index){
+//	    		for(var t=0; t<100; t++){
+//	    			var p = angular.copy(item.chartData[0]);
+//	    			p.name = parseInt(p.name)+100000*t;
+//	    			item.chartData.push(p);
+//	    		}
+	    		angular.forEach(item.chartData, function(cdata, dindex){
+	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD HH");
+	    		});
+	    		var graphs = []; 
+	    		angular.forEach(item.chartData[0], function(value, name){
+ 
+	    			if(name != "name"){
+	    				graphs.push({
+						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> </span>",
+						    "bullet": "round",
+						    "bulletSize": 1,
+//						    "lineThickness": 3,
+//						    "bulletBorderAlpha": 1,
+//						    "bulletColor": "#FFFFFF",
+//						    "useLineColorForBulletBorder": true,
+//						    "bulletBorderThickness": 3,
+//						    "fillAlphas": 0,
+//						    "lineAlpha": 1,
+						    "title": name,
+						    "valueField": name
+						  });
+	    			}
+	    		});
+	    		
+   				$timeout(function() { 
+		    		var t = AmCharts.makeChart( "chart-"+index, {
+						  "type": "serial",
+						  "addClassNames": true,
+						  "theme": "",
+						  "autoMargins": true,
+//						  "marginLeft": 30,
+						  "marginRight": 8,
+						  "marginTop": 10,
+						  "marginBottom": 26,
+						  "balloon": {
+						    "adjustBorderColor": false,
+						    "horizontalPadding": 10,
+						    "verticalPadding": 8,
+						    "color": "#ffffff"
+						  },
+						
+						  "dataProvider": item.chartData,
+						  "valueAxes": [ {
+						    "axisAlpha": 0,
+						    "position": "left",
+						    "color": "#ffffff"
+						  } ],
+						  "titles": [
+						    {
+						      "size": 15,
+						      "text": item.category,
+						      "color": "#ffffff"
+						    }
+						  ],
+						  "startDuration": 0,
+						  "graphs": graphs,
+						  "categoryField": "name",
+						  "categoryAxis": {
+						    "gridPosition": "start",
+						    "gridCount": 3,
+						    "axisAlpha": 0,
+						    "tickLength": 0,
+						    "labelFunction": function(a, s, d){
+						    	return moment(a).format('MMDD'); 
+						    },
+						    "color": "#ffffff"
+//						    "categoryFunction": function(str){
+//						    	//str.substr(0, str.indexOf(" "))
+//						    	return moment(str).format('MMDD'); 
+//						    }
+						  },
+						  "export": {
+						    "enabled": true
+						  },
+						  "legend": {
+						    "useGraphSettings": true,
+						    "color": "#fff"
+						  },
+					    "chartScrollbar": {
+					        "oppositeAxis":false,
+					        "offset":30,
+					        "scrollbarHeight": 10,
+					        "backgroundAlpha": 0,
+					        "selectedBackgroundAlpha": 0.1,
+					        "selectedBackgroundColor": "#888888",
+					        "graphFillAlpha": 0,
+					        "graphLineAlpha": 0.5,
+					        "selectedGraphFillAlpha": 0,
+					        "selectedGraphLineAlpha": 1,
+					        "autoGridCount":true,
+					        "color":"#AAAAAA"
+					    }
+					});
+					t.addListener("zoomed", function(event){
+						console.log("zoomed");
+						
+						angular.forEach($scope.chartList, function(item, index){
+							if(event.chart.div.id != item.div.id){
+								item.zoomToCategoryValues(event.startValue, event.endValue);
+							}
+						})
+					})
+					$scope.chartList.push(t);
+   				}, 200);
+			});
+	    }
+	    
+	    $scope.search4 = function(url){
+	    	$scope.click4Event($scope.data.tableEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", null);
+	    };
+
+
 	    $scope.initTemplate_5 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
@@ -387,19 +679,17 @@
     			return;
     		}
 		    httpService.get(tab['url'], null, cfg, function (response) {
-		    	$scope.data = response;
-		    	$scope.event_table.push($scope.data);
+		    	$scope.tableData = response.tableData;
+		    	$scope.tableEvent = response.tableEvent;
 		    });
 	    };
 	    
-	    $scope.click7Event = function(index, data){
-	    	if($scope.event_table.length-1>index){
-	    		$scope.event_table.splice(index+1, $scope.event_table.length-1-index);
-	    	}
+	    $scope.click7Event = function( data){
+
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
 	    	var f=0;
-	    	angular.forEach($scope.event_table[index].tableEvent.param, function(item, index){
+	    	angular.forEach(event.param, function(item, index){
 	    		if($scope.baseInfo[item.findName]==undefined){
 	    			if(data[item.findName]==undefined){
 		    			f++;
@@ -412,12 +702,13 @@
 	    			cfg.params[item.postName] = $scope.baseInfo[item.findName];
 	    		}
 	    	});
+	    	
     		if(f>0){
     			return;
     		}
-		    httpService.get($scope.event_table[index].tableEvent['url'], null, cfg, function (response) {
+		    httpService.get($scope.tableEvent['url'], null, cfg, function (response) {
 		    	$scope.data = response;
-		    	$scope.event_table.push($scope.data);
+		    	//$scope.tableEvent = response.tableEvent;
 		    });
 	    };
 	    
@@ -920,7 +1211,8 @@
 		    	$scope.changeChartIn10(response.charts);
 		    });
 	    };
-	    
+
+
 	    $scope.changeChartIn10 = function(chartsData){
 	    	angular.forEach(chartsData, function(item, index){
 //	    		for(var t=0; t<100; t++){
@@ -1077,5 +1369,185 @@
 	    $timeout(function() {
             $(window).scrollTop(0,0);
         }, 200);
+
+	    $scope.initTemplate_11 = function(tab){
+	    	var cfg = angular.copy(config);
+	    	cfg.params = {};
+	    	var f=0;
+	    	angular.forEach(tab.param, function(item, index){
+	    		if($scope.baseInfo[item.findName]==undefined){
+	    			f++;
+	    			commonService.showMsg("error","获取不到"+item.findName+"的值");
+	    			return;
+	    		}
+	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    	});
+    		if(f>0){
+    			return;
+    		}
+		    //httpService.get(tab['url'], null, cfg, function (response) {
+		    	//$scope.capacity = response;
+		    
+			var chart = AmCharts.makeChart("stackedbar", {
+			  "type": "serial",
+			  "theme": "none",
+			  "rotate": true,
+			  "marginBottom": 50,
+			  "dataProvider": [{
+			    "age": "85+",
+			    "male": -0.1,
+			    "female": 0.3
+			  }, {
+			    "age": "80-54",
+			    "male": -0.2,
+			    "female": 0.3
+			  }, {
+			    "age": "75-79",
+			    "male": -0.3,
+			    "female": 0.6
+			  }, {
+			    "age": "70-74",
+			    "male": -0.5,
+			    "female": 0.8
+			  }, {
+			    "age": "65-69",
+			    "male": -0.8,
+			    "female": 1.0
+			  }, {
+			    "age": "60-64",
+			    "male": -1.1,
+			    "female": 1.3
+			  }, {
+			    "age": "55-59",
+			    "male": -1.7,
+			    "female": 1.9
+			  }, {
+			    "age": "50-54",
+			    "male": -2.2,
+			    "female": 2.5
+			  }, {
+			    "age": "45-49",
+			    "male": -2.8,
+			    "female": 3.0
+			  }, {
+			    "age": "40-44",
+			    "male": -3.4,
+			    "female": 3.6
+			  }, {
+			    "age": "35-39",
+			    "male": -4.2,
+			    "female": 4.1
+			  }, {
+			    "age": "30-34",
+			    "male": -5.2,
+			    "female": 4.8
+			  }, {
+			    "age": "25-29",
+			    "male": -5.6,
+			    "female": 5.1
+			  }, {
+			    "age": "20-24",
+			    "male": -5.1,
+			    "female": 5.1
+			  }, {
+			    "age": "15-19",
+			    "male": -3.8,
+			    "female": 3.8
+			  }, {
+			    "age": "10-14",
+			    "male": -3.2,
+			    "female": 3.4
+			  }, {
+			    "age": "5-9",
+			    "male": -4.4,
+			    "female": 4.1
+			  }, {
+			    "age": "0-4",
+			    "male": -5.0,
+			    "female": 4.8
+			  }],
+			  "startDuration": 1,
+			  "graphs": [{
+			    "fillAlphas": 0.8,
+			    "lineAlpha": 0.2,
+			    "type": "column",
+			    "valueField": "male",
+			    "title": "Male",
+			    "labelText": "[[value]]",
+			    "clustered": false,
+			    "labelFunction": function(item) {
+			      return Math.abs(item.values.value);
+			    },
+			    "balloonFunction": function(item) {
+			      return item.category + ": " + Math.abs(item.values.value) + "%";
+			    }
+			  }, {
+			    "fillAlphas": 0.8,
+			    "lineAlpha": 0.2,
+			    "type": "column",
+			    "valueField": "female",
+			    "title": "Female",
+			    "labelText": "[[value]]",
+			    "clustered": false,
+			    "labelFunction": function(item) {
+			      return Math.abs(item.values.value);
+			    },
+			    "balloonFunction": function(item) {
+			      return item.category + ": " + Math.abs(item.values.value) + "%";
+			    }
+			  }],
+			  "categoryField": "age",
+			  "categoryAxis": {
+			    "gridPosition": "start",
+			    "gridAlpha": 0.2,
+			    "axisAlpha": 0
+			  },
+			  "valueAxes": [{
+			    "gridAlpha": 0,
+			    "ignoreAxisWidth": true,
+			    "labelFunction": function(value) {
+			      return Math.abs(value) + '%';
+			    },
+			    "guides": [{
+			      "value": 0,
+			      "lineAlpha": 0.2
+			    }]
+			  }],
+			  "balloon": {
+			    "fixedPosition": true
+			  },
+			  "chartCursor": {
+			    "valueBalloonsEnabled": false,
+			    "cursorAlpha": 0.05,
+			    "fullWidth": true
+			  },
+			  "allLabels": [{
+			    "text": "Male",
+			    "x": "28%",
+			    "y": "97%",
+			    "bold": true,
+			    "align": "middle"
+			  }, {
+			    "text": "Female",
+			    "x": "75%",
+			    "y": "97%",
+			    "bold": true,
+			    "align": "middle"
+			  }],
+			 "export": {
+			    "enabled": true
+			  }
+
+			});
+
+
+				
+		    //});
+//
+
+	    };
+
+
+
     }
 })();
