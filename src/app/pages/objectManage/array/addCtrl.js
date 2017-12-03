@@ -3,7 +3,7 @@
  */
 (function () {
   'use strict';
-  angular.module('BlurAdmin.pages.objectManage.tabs')
+  angular.module('BlurAdmin.pages.objectManage.array')
      .controller('addCtrl', addCtrlFunc);
     
     function addCtrlFunc($scope, $http, $localStorage, $filter,$stateParams,$uibModal,modalParam) {

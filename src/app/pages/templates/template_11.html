@@ -1,100 +1,50 @@
 <style>
-  .chat {
-    width: 1502px;
-    float: left;
-    margin: 20px;
-  }
+body {
+  background-color: #000;
+}
 
-  .chat a:link, .chat a:visited, .chat a:active, .chat a:hover {
-    text-decoration: none;
-  }
+#chart {
+  width:900px;
+  height:600px;
+  border:1px solid #aaa;
+  border-radius: 5px;
+  margin:20px 20px;
+  background-color: #fff;
+  padding:4px 10px;
+}
 
-  .chat a {
-    color: inherit;
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
 
-  .cell {
-    border: solid 1px white;
-    text-align: center;
-    line-height: 60px;
-    float: left;
-    height: 60px;
-  !important;
-    border-radius: 2px;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 0px;
-  !important;
-  }
+#chart text {
+  font-family:helvetica,arial,verdana;
+}
 
-  .blank {
-    border: solid 0px transparent !important;
-    color: transparent;
-  }
 
-  .dash {
-    border: dashed white 2px;
-    color: #58666e;
-  }
+#controls {
+  width:800px;
+  height:12px;
+  margin-left:20px;
+  font-family:helvetica,arial,verdana;
+  font-size:12pt;
+}
 
-  .hide {
-    display: none;
-  }
+#controls .units {
+  float:right;
+}
+
+#controls .depth {
+  float:left;
+}
+
+#controls .values {
+  float:left;
+  margin-left:40px;
+  background-color: #111;
+}
+
 </style>
 
-<div id="faq-tab-1" class="tab-pane fade in active"> 
-      <div class="col-xs-12" id="stackedbar" style="height: 600px;"> 
-      </div> 
-
-    
-     <div class="row">
-          <div class="col-xs-12">
-            <div class="horizontal-scroll">
-            <table id="sample-table-1" st-table="smartTableData" st-safe-src="data.tableBody" class="table table-striped table-bordered table-hover">
-               <thead>
-                <tr> 
-                  <th colspan="13">
-                    <div class="row">
-                        <div class="col-lg-1 col-sm-1 col-xlg-1 control-label" style="padding-top: 7px;">显示行数：</div>
-                        <div class="col-lg-3 col-sm-3 col-xlg-3" style="width: 168px;">
-                        <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="smartTablePageSize"
-                           ng-options="i for i in [5,10,15,20,25]"></select>
-                      </div>
-                      <div class="col-lg-2 col-sm-2 col-xlg-2"></div>
-                      <div class="col-xs-5 clo-lg-5 col-sm-5">  
-                          <input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
-                       </div>
-                    </div>
-                    
-                  </th>
-                </th>
-              </tr> 
-                <tr>
-                    <th ng-repeat="thead in data.tableHead" st-sort="{{thead.name}}" st-sort-default="{{thead.default}}"> {{thead.name}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="disk in smartTableData" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
-                            <td ng-repeat="thead in data.tableHead">
-                              <a style="text-decoration: none;" href="javascript:void(0);" ng-if="thead.style.type=='a'"
-                      ng-click="rowClick(disk,thead);">{{disk[thead.value]}}</a>
-                      
-                              <span ng-if="!thead.style">{{disk[thead.value]}}</span>
-                            </td>
-                </tr>
-              </tbody>
-              <tfoot>
-              <tr>
-                  <td colspan="13" class="text-center">
-                    <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
-                  </td>
-              </tr>
-            </tfoot>
-            </table>
-            </div>
-        </div>
+<div  class="row">  
+    <div id="disk111" style="height: 400px; width: 100%;">
     </div>
+    <button id="swicthBtn"  class="btn">Switch status</button>
 </div>

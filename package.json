@@ -50,6 +50,7 @@
     "postinstall": "bower install"
   },
   "dependencies": {
+    "d3": "^4.12.0",
     "knockout": "^3.4.0",
     "knockout-sortable": "^0.14.1",
     "moment-range": "^2.2.0"

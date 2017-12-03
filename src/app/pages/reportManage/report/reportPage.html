@@ -35,13 +35,13 @@
 		        <td>{{storage.GenerateSchedule}}</td>
 		        <td>{{storage.Description}}</td>
 		        <td class="center">
-		        	<button type="button" ng-if="storage.Generate==='enable'" ng-click="showFileList(storage);" class="btn btn-primary btn-with-icon btn-xs">
+		        	<button type="button" ng-if="storage.GeneratedCount>0" ng-click="showFileList(storage);" class="btn btn-primary btn-with-icon btn-xs">
 			        	<i class="glyphicon glyphicon-pencil"></i>文件列表
-			    		<span class="badge" style="vertical-align: super;">{{storage.GenerateRunningCount}}</span>
+			    		<span class="badge" style="vertical-align: super;">{{storage.GeneratedCount}}</span>
 			    	</button>
-		        	<button type="button" disabled ng-if="storage.Generate==='disable'" class="btn btn-primary btn-with-icon btn-xs">
+		        	<button type="button" disabled ng-if="storage.GeneratedCount==0" class="btn btn-primary btn-with-icon btn-xs">
 			        	<i class="glyphicon glyphicon-pencil"></i>文件列表
-			    		<span class="badge" style="vertical-align: super;">{{storage.GenerateRunningCount}}</span>
+			    		<span class="badge" style="vertical-align: super;">{{storage.GeneratedCount}}</span>
 			    	</button>
 		        	<button type="button" ng-click="addReport(storage);" class="btn btn-primary btn-with-icon btn-xs">
 			        	<i class="glyphicon glyphicon-pencil"></i>创建

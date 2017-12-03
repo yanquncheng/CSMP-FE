@@ -22,9 +22,11 @@
  	                {"id":1,"name":"光纤交换机","url":"app/pages/objectManage/switch/switchlist.html",
  	                	'detailUrl': '/menu/ObjectManage/Switch'},
  	                {"id":2,"name":"Fabric","url":"app/pages/objectManage/switch/fabric.html",
- 	                	'detailUrl': '/menu/ObjectManage/Switch'}
+ 	                	'detailUrl': '/menu/ObjectManage/Switch'},
+                  {"id":3,"name":"光纤端口","url":"app/pages/objectManage/switch/switchports.html",
+                    'detailUrl': '/menu/ObjectManage/Switch'}
  	               ];
- 	 
+ 
  	 //tabs页切换
  	 $scope.selectTab = { } ;
  	 $scope.selectTabId = 0 ;
@@ -51,7 +53,9 @@
  	 			
  	 		 }if(tab.id === 2){//Fabric列表
  	 			$scope.initFabric();
- 	 		 }
+ 	 		 }if(tab.id === 3){//Switch Port列表
+        $scope.initSwitchPorts();
+       }
  			 
  		 });
  		
@@ -70,13 +74,31 @@
             angular.forEach($scope.DataList, function (item,i) {
           	  item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD HH:mm:ss");
           	  
-			  });
+			       });
             
             $scope.smartTablePageSize = 15;
 
 	      });
       };
-      
+
+      $scope.initSwitchPorts = function (){
+        var params ={};
+        if(datacenter1!=null && datacenter1!=''){
+          params.datacenter=datacenter1;
+        }
+        httpService.get('/switch/ports' , params,config ,function (response) {
+          
+            $scope.DataList = response;
+            angular.forEach($scope.DataList, function (item,i) {
+              item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD HH:mm:ss");
+              
+             });
+            
+            $scope.smartTablePageSize = 15;
+
+        });
+      };
+            
       $scope.fabricTablePageSize = 5;
      //Fabric列表查询
       $scope.initFabric = function (){

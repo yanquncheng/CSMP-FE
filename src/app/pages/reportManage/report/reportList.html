@@ -31,9 +31,9 @@
 	      <tbody>
 		      <tr ng-repeat="storage in smartTableData" ng-animate="{enter: 'tr_ng-enter', leave: 'tr_ng-leave'}">
 			        <td>{{storage.Name}}</td>
-			        <td>{{storage.File}}</td>
+			        <td>{{storage.ReportFile}}</td>
 			        <td>{{storage.Status}}</td>
-			        <td>{{storage.Date}}</td>
+			        <td>{{storage.StatusTime}}</td>
 			        <td class="center">
 			        	<button type="button" ng-click="downLoad(storage);" class="btn btn-primary btn-with-icon btn-xs">
 				        	<i class="glyphicon glyphicon-pencil"></i>下载
