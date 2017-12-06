@@ -67,7 +67,8 @@
     "ng-scrollbars": "^0.0.10",
     "angular-loading-bar": "^0.9.0",
     "angular-gettext": "^2.3.8",
-    "ngstorage": "^0.3.11"
+    "ngstorage": "^0.3.11",
+    "angular-file-saver": "^1.1.3"
   },
   "resolutions": {
     "angular": "~1.4.8"

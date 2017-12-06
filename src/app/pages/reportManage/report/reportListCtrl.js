@@ -32,11 +32,9 @@
      	$scope.query();
      	
      	$scope.downLoad = function(report){
-			httpService.get("/reporting/downloadfiles",{reportInstance: report }, null, function (response) { 
- 				var myBuffer= new Uint8Array( response );
-                var data = new Blob([myBuffer], {type: 'image/jpeg;charset=UTF-8'});
-                FileSaver.saveAs(data, filename);
-
+                var filename = report.ReportFile;
+			httpService.get("/reporting/downloadfiles",{reportInstance: report }, {responseType: 'blob'}, function (response) { 
+                saveAs(response, filename);
 	      	});
      	}
 
