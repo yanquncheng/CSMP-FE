@@ -244,8 +244,8 @@
 		    resolve: {items: function () {}  }
 		   });
 		  modalInstance.result.then(function (result) {  
-		  	$scope.csv2arr();
-//		  	$scope.initApply();
+		  	//$scope.csv2arr(); 
+		  	$scope.csv2arr_dlbank(); 
      }, function (reason) {    
          console.log(reason);//点击空白区域，总会输出backdrop click，点击取消，则会暑促cancel    
      }); 
@@ -255,7 +255,9 @@
    	 
    	 $scope.addAllHostData={
 		    "baseinfo":{
-		        "name":"",                     
+		        "name":"",
+		        "sn":"",
+		        "HAType":"",
 		        "type":"Physical",                       
 		        "catalog": "",                        
 		        "status": "Test",                         
@@ -268,7 +270,9 @@
 		        "vendor":"",                             
 		        "contact":"",                    
 		        "maintenance_department" : "",      
-		        "maintenance_owner": ""                 
+		        "maintenance_owner": ""  ,
+		        "datacenter":"",
+		        "room":""               
 		    },
 		    "assets": {
 		      "no": "",                          
@@ -279,7 +283,8 @@
 		    "configuration" : {
 		      "OS": "",                               
 		      "OSVersion": "",	
-		      "memory": "",                           
+		      "memory": "",   
+		      "cpu" : "",                        
 		      "other": ""     
 				},
 		    "HBAs": [
@@ -330,7 +335,77 @@
 	    }
 // 	 	$scope.$close('cancel');
    	 }
- 	 
+
+
+   	 $scope.csv2arr_dlbank = function(){
+   	 	if( typeof(FileReader) !== 'undefined' ){    //H5
+        var reader = new FileReader();
+        reader.readAsText( $("#csvInput")[0].files[0] ,"GBK" );            //以文本格式读取
+        reader.onload = function(evt){
+            var data = evt.target.result;        //读到的数据
+            var b = data.split("\r\n");
+            b.shift();
+            for(var i in b){
+            	if(b[i].length<1){
+            			$scope.initApply();
+            		return;
+            	}
+            	$scope.addAllHostData.baseinfo.name = b[i].split(",")[5];
+            	$scope.addAllHostData.baseinfo.service_ip = b[i].split(",")[8];
+            	$scope.addAllHostData.baseinfo.type = b[i].split(",")[3];
+            	$scope.addAllHostData.baseinfo.catalog = b[i].split(",")[4];
+            	$scope.addAllHostData.baseinfo.status = b[i].split(",")[6];
+            	$scope.addAllHostData.baseinfo.management_ip = b[i].split(",")[7];
+            	$scope.addAllHostData.baseinfo.description = b[i].split(",")[3];
+            	$scope.addAllHostData.baseinfo.catalog = b[i].split(",")[20];
+            	$scope.addAllHostData.baseinfo.sn = b[i].split(",")[1];
+            	$scope.addAllHostData.baseinfo.HAType = b[i].split(",")[2];
+
+            	$scope.addAllHostData.maintenance.vendor = "";
+				$scope.addAllHostData.maintenance.contact = "";
+				$scope.addAllHostData.maintenance.maintenance_department = b[i].split(",")[12];
+				$scope.addAllHostData.maintenance.maintenance_owner = b[i].split(",")[13];
+				$scope.addAllHostData.maintenance.datacenter = b[i].split(",")[10];
+				$scope.addAllHostData.maintenance.room = b[i].split(",")[11];
+
+				$scope.addAllHostData.configuration.OS = b[i].split(",")[14];
+				$scope.addAllHostData.configuration.OSVersion = b[i].split(",")[15];
+				$scope.addAllHostData.configuration.memory = b[i].split(",")[17];
+				$scope.addAllHostData.configuration.cpu = b[i].split(",")[16];
+				$scope.addAllHostData.configuration.other = b[i].split(",")[18];
+
+            	var wwn = b[i].split(",")[21].split("#");
+            	$scope.addAllHostData.HBAs=[];
+            	for(var j in wwn){
+            		var hbas={"name":"","AB":""};
+            		hbas.wwn=wwn[j].split("@")[0];
+            		$scope.addAllHostData.HBAs.push(hbas);
+            	}
+
+            	var apps = b[i].split(",")[22].split("@");
+            	$scope.addAllHostData.APPs=[];
+            	for(var j in apps){
+            		$scope.addAllHostData.APPs.push(apps[j]);
+            	}
+
+
+            	 var params = angular.copy($scope.addAllHostData);
+            	 httpService.post('/host',params, config, function (response){
+			        	console.log("response:--->"+response);
+			        	commonService.showMsg("success","主机操作成功!");
+			        	if(i==b.length-1){
+	            		$scope.initApply();
+			        	}
+				      });
+	//          	 console.log(angular.toJson($scope.addAllHostData,2)+"----");
+	            }
+	        }
+		    }else{
+		        alert("IE9及以下浏览器不支持，请使用Chrome或Firefox浏览器");
+		    }
+	// 	 	$scope.$close('cancel');
+	   	 }
+ 	  	 
   $scope.initApply();
   }
 })();

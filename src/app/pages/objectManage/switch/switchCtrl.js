@@ -24,6 +24,8 @@
  	                {"id":2,"name":"Fabric","url":"app/pages/objectManage/switch/fabric.html",
  	                	'detailUrl': '/menu/ObjectManage/Switch'},
                   {"id":3,"name":"光纤端口","url":"app/pages/objectManage/switch/switchports.html",
+                    'detailUrl': '/menu/ObjectManage/Switch'},
+                  {"id":4,"name":"Alias","url":"app/pages/objectManage/switch/alias.html",
                     'detailUrl': '/menu/ObjectManage/Switch'}
  	               ];
  
@@ -55,7 +57,10 @@
  	 			$scope.initFabric();
  	 		 }if(tab.id === 3){//Switch Port列表
         $scope.initSwitchPorts();
+       }if(tab.id === 4){ 
+        $scope.initAlias();
        }
+       
  			 
  		 });
  		
@@ -98,7 +103,23 @@
 
         });
       };
+      $scope.initAlias = function (){
+        var params ={};
+        if(datacenter1!=null && datacenter1!=''){
+          params.datacenter=datacenter1;
+        }
+        httpService.get('/switch/alias' , params,config ,function (response) {
+          
+            $scope.DataList = response;
+            angular.forEach($scope.DataList, function (item,i) {
+              item.LastTS = moment(item.LastTS * 1000).format("YYYY-MM-DD HH:mm:ss");
+              
+             });
             
+            $scope.smartTablePageSize = 15;
+
+        });
+      };           
       $scope.fabricTablePageSize = 5;
      //Fabric列表查询
       $scope.initFabric = function (){
@@ -197,7 +218,45 @@
   	    });
   	 };
   	 
+      //点击查看详情
+     $scope.aliasDetail = function (switchBoard , type ){
+       //switchBoard.arraytype = 'VMAX10K';
+       //switchBoard.device = '000298700718';
       
+        var param = {"storage": angular.copy(switchBoard),"datacenter":datacenter1};
+        param.type = type ;
+        if(type =='switch_oriname' ){
+          param.storage.device = switchBoard.switch_oriname;
+          param.type = 'switch' ;
+        }
+       
+        param.selectTab = $scope.selectTab.id ;
+        
+        httpService.get($scope.selectTab.detailUrl, {}, config, function (response) {
+          if(typeof response == 'string'){
+              commonService.showMsg("error", response);
+          }else{
+            var tabs = response;
+            var id = 1;
+            angular.forEach(tabs, function(item, index){
+              item.id = id++;
+              if(!item.hasDetail){
+                item.page = "app/pages/templates/template_"+item.template+".html";
+              }else{
+                angular.forEach(item.tabDetail, function(det, idx){
+                  det.id = id++;
+                  det.page = "app/pages/templates/template_"+det.template+".html";
+                });
+              }
+            });
+            param.tabs = tabs ;
+            param.backUrl = "dashboard.objectManage.switch" ;
+            $state.go('dashboard.templatedetails', {param: param});
+            
+          }
+        });
+     };
+           
      $scope.open = open;
      $scope.opened = false;
      $scope.format = "yyyy/MM/dd";

@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-lg-12">
+	<div class="horizontal-scroll">
+		<table class="table table-hover" st-table="smartTableData" st-safe-src="DataList">
+			<thead>
+				<tr> 
+				    <th colspan="4">
+				    	<div class="row">
+			    		 	<div class="col-lg-3 col-sm-3 col-xlg-3 control-label text-right" style="width: 80px;padding-top: 7px;">显示行数：</div>
+								<div class="col-lg-7 col-sm-7 col-xlg-7" style="width: 170px;">
+									<select class="form-control selectpicker show-tick pull-left" title="Rows on page" selectpicker ng-model="smartTablePageSize"
+										ng-options="i for i in [5,10,15,20,25]"></select>
+								</div>
+							</div>
+		    		</th>
+		    		<th colspan="5" style="text-align: right">
+		    			<div class="row" >
+									<div class="col-lg-12 col-sm-12 col-xlg-12 pull-right" style="width: 400px;">
+											<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
+									</div>
+			    		</div>
+		    		</th>
+				</tr>	
+				<tr class="black-muted-bg">
+					<th style="text-align: left;" st-sort="ALIAS">端口别名</th>
+					<th style="text-align: left;" st-sort="HBAWWN">端口WWN</th>
+					<th style="text-align: left;" st-sort="connectTo[0].device">连接交换机名称</th>
+					<th style="text-align: left;" st-sort="connectTo[0].part">连接交换机端口</th>
+					<th style="text-align: left;" st-sort="connectTo[0].partstat">交换机端口状态</th>
+					<th style="text-align: left;" st-sort="connectTo[0].maxspeed">交换机端口速率</th>
+					<th style="text-align: left;" st-sort="connectTo[0].porttype">交换机端口类型</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in smartTableData">
+					<!--<td style="text-align: center;width: 80px;vertical-align: middle;">{{$index + 1 }}</td>-->
+					<td style="line-height: 25px;">{{row.ALIAS}}</td>
+					<td style="line-height: 25px;">{{row.HBAWWN}}</td>
+					<td style="line-height: 25px;">
+						<a style="text-decoration: none;" href="javascript:void(0);" ng-click="aliasDetail(row ,'switch');">
+							{{row.connectTo[0].device}}
+						</a>
+					</td>
+					<td style="line-height: 25px;">
+						<a style="text-decoration: none;" href="javascript:void(0);" ng-click="aliasDetail(row ,'switch');">
+							{{row.connectTo[0].part}}
+						</a>
+					</td> 
+					<td style="line-height: 25px;">{{row.connectTo[0].partstat}}</td>
+					<td style="line-height: 25px;">{{row.connectTo[0].maxspeed}}</td>
+					<td style="line-height: 25px;">{{row.connectTo[0].porttype}}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="9" class="text-center">
+						<div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="15"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	</div>
+</div>

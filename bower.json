@@ -68,7 +68,10 @@
     "angular-loading-bar": "^0.9.0",
     "angular-gettext": "^2.3.8",
     "ngstorage": "^0.3.11",
-    "angular-file-saver": "^1.1.3"
+    "angular-file-saver": "^1.1.3",
+    "async": "^2.6.0",
+    "highcharts": "^6.0.3",
+    "lodash": "^4.17.3"
   },
   "resolutions": {
     "angular": "~1.4.8"
@@ -112,6 +115,15 @@
         "fonts/fontawesome-webfont.ttf",
         "fonts/fontawesome-webfont.woff",
         "fonts/fontawesome-webfont.woff2"
+      ]
+    },
+    "highcharts": {
+      "main": [
+        "highcharts.js",
+        "modules/exporting.js",
+        "modules/heatmap.js",
+        "modules/treemap.js",
+        "modules/no-data-to-display.js"
       ]
     }
   }

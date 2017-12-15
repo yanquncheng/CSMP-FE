@@ -99,6 +99,9 @@
 	    		case 11:
 	    			$scope.initTemplate_11(tab);
 	    			return ;
+	    		case 12:
+	    			$scope.initTemplate_12(tab);
+	    			return ;
 
 	    		default:
 	    	}
@@ -1462,8 +1465,549 @@
 				}
 		    });
 	    };
+//  }
+//
+//  function VmaxPerformanceCtrl($scope, fixedNumber, httpService, $scope.baseInfo) {
+//  	('VmaxPerformanceCtrl', ['$scope', '$scope.baseInfo', 'Vmax',
+//  function ($scope, $scope.baseInfo, Vmax) {
+	
+      function myAlgorithmFill(isHorizontal,parent, children) {
+        children.sort(function (a, b) {
+          if( (a.name === null || a.name === undefined) && a.id !==null && a.id !== undefined ){
+            if (a.id > b.id) {
+              return 1;
+            }
+            if (a.id < b.id) {
+              return -1;
+            }
+            return 0;
+          }
+          var a_rank = parseInt(a.name.substring(0,a.name.indexOf('_')));
+          var b_rank = parseInt(b.name.substring(0,b.name.indexOf('_')));
+          if (a_rank > b_rank) {
+            return 1;
+          }
+          if (a_rank < b_rank) {
+            return -1;
+          }
+          return 0;
+        });
+        var sumVal=0,
+            childrenArea = [],
+            pTot,
+            pInterval=0,
+            x = parent.x,
+            y = parent.y,
+            direction = isHorizontal?0:1,
+            width = parent.width,
+            height = parent.height,
+            pX,
+            pY,
+            pW,
+            pH;
+        /*
+         1. 需要能 横向或者纵向 按照所有children的节点比例均分当前parent的空间
+         2. 能够在parent节点以外（上面或者下面）进行绘画，而不是在划分内部空间
+         3. 按照数据声明的顺序开始绘图（验证是否对data进行了自动排序）
+         */
+        Highcharts.each (children,function(child){
+          sumVal+=child.val;
+        });
+        //console.log('sumVal',sumVal,children.length,children);
+        if(sumVal<1){
+          /*if(children.length>1){
+            pInterval = (1-sumVal)/(children.length-1);
+          }else{
+            pInterval = 0;
+          }*/
+        }
+        Highcharts.each(children, function (child) {
+          if(child.val>=1){
+            pTot = (parent.width * parent.height) * (child.val / sumVal);//计算当前节点总体积
+          }else{
+            pTot = (parent.width * parent.height) * (child.val);//计算当前节点总体积
+          }
+          pX = x;
+          pY = y;
+          if (direction === 0) {//横向分割，即分割的是X轴
+            pH = height;
+            pW = pTot / pH;
+            width = width - pW;
+            x = x + pW;//设置下一个child的开始X座标
+            if(child.val<1){
+              width = width - pInterval*parent.width;
+              x = x + pInterval*parent.width;
+            }
+          } else {//纵向分割，即分割的是y轴
+            pW = width;
+            pH = pTot / pW;
+            height = height - pH;
+            y = y + pH;//设置下一个child的开始Y座标
+          }
+          childrenArea.push({
+            x: pX,
+            y: pY,
+            width: pW,
+            height: pH
+          });
+        });
+        return childrenArea;
+      }
+      function myEqualShare_H(parent, children) {
+        return myAlgorithmFill(true, parent, children);
+      }
+      function myEqualShare_V(parent, children) {
+        return myAlgorithmFill(false, parent, children);
+      }
+      $scope.initTemplate_12 = function(tab){
+      	   console.log("AAAAAAAAAAAAAAAAAAAAAAA");
+	      $scope.treemapLoaded = false;
+	      var params = {serialNumber: $scope.baseInfo.device};
+	      var begin = moment().add('months', -1).format('YYYY-MM-DD');
+	      var end = moment().format('YYYY-MM-DD');
+	      $scope.condition = {begin: begin, end: end};
+	      $scope.initData12 = {};
+	      
+	      $scope.initTemplate_12_q();
+		}
+      $scope.initTemplate_12_q = function(){
+	      var params = {device: $scope.baseInfo.device};
+        if ($scope.condition.begin === '') delete $scope.condition.begin;
+        if ($scope.condition.end === '') delete $scope.condition.end;
+        async.parallel({
+            directorList: function(callback) {
+                if(_.isEmpty($scope.initData12)){
+//                  Vmax.getAllDirectorForPerf(params,function(result){
+	    			var cfg = angular.copy(config);
+		    		httpService.get('/vmax/performance/director', params, cfg, function (response) {
+                        callback(null,response);
+                    });
+                }else {
+                    callback(null,null);
+                }
+            },
+            diskList: function(callback) {
+                if(_.isEmpty($scope.initData12)) {
+//                  Vmax.getAllDiskForPerf(params, function (result) {
+					
+	    			var cfg = angular.copy(config);
+		    		httpService.get('/vmax/performance/disk', params, cfg, function (response) {
+                        callback(null, response);
+                    });
+                }else {
+                    callback(null,null);
+                }
+            },
+            allPerfDetail: function(callback){
+//              Vmax.getPerfDetailHistory(params,$scope.condition,function(result){
+    			var cfg = angular.copy(config);
+    			var cdt = angular.copy($scope.condition);
+    			cdt.device = params.device;
+    			cdt.start = cdt.begin;
+	    		httpService.get('/vmax/performance/perfDetail/history', cdt, cfg, function (response) {
+                    callback(null, response);
+                });
+            }
+        },
+        function(err, results) {
+            if(!_.isEmpty(results.directorList)){
+                _.set($scope.initData12,'directorList',results.directorList);
+            }
+            if(!_.isEmpty(results.diskList)){
+                _.set($scope.initData12,'diskList',results.diskList);
+            }
+            transformPerformanceData(results.allPerfDetail);
+        });
 
+      }
+      function transformPerformanceData(allPerfDetail){
+          $scope.allPerfDetail = {};
+          _.each(allPerfDetail,function(perfDetail){
+              _.set($scope.allPerfDetail,perfDetail.component,perfDetail);
+          });
+          function formatBusy(id,key){
+              if(key === undefined){
+                  key = 'busy';
+              }
+              var busy = _.get($scope.allPerfDetail,[id,key]);
+              if(busy===undefined || busy<=0){
+                  return -1;
+              }else if(busy>100){
+                  return 100;
+              }else {
+                  return _.chain(busy).ceil(1).value();
+              }
+          }
+          var dataObj = {};
+          var directorPath = {};
+          _.each($scope.initData12.directorList,function(e,i){
+              var parent;
+              if(e.cache === 'FA-CACHE'){
+                  parent = "Cache_E";
+              }else if(e.cache === 'RA-CACHE'){
+                  parent = "Cache_E";
+              }else if(e.cache === 'DA-CACHE'){
+                  parent = "Cache_I";
+              }
+              var keyArr = [e.cache];
+              if(_.get(dataObj,keyArr)==undefined){
+                  _.set(dataObj,e.cache,{
+                      name:e.cache,
+                      parent:parent,
+                      value:-1,
+                      slots:{}
+                  });
+              }
+              keyArr = _.concat(keyArr,['slots',e.slot]);
+              if(_.get(dataObj,keyArr)==undefined){
+                  _.set(dataObj,keyArr,{
+                      name:e.slot,
+                      value:-1,
+                      directors:{}
+                  });
+              }
+              keyArr = _.concat(keyArr,['directors',e.id]);
+              if(_.get(dataObj,keyArr)==undefined){
+                  var directorObj = {
+                      name:e.id,
+                      value:formatBusy(e.id),
+                      directorType:e.directorType,
+                      ports:{}
+                  };
+                  if(parent === "Cache_I"){
+                      _.set(directorPath,e.id,keyArr);
+                      directorObj = _.extend(directorObj,{disks:{}});
+                  }
+                  _.set(dataObj,keyArr,directorObj);
 
+                  var _curCache = _.get(dataObj,[e.cache]);
+                  _.set(dataObj,e.cache,_.extend(_curCache,{
+                      value:formatBusy(e.id,'cacheBusy')
+                  }));
+              }
+              if(e.directorType === 'RF' && e.port === ''){
+                  e.port = '0';
+              }
+              if(e.directorType !== 'DF'){
+                  keyArr = _.concat(keyArr,['ports',e.port]);
+                  if(_.get(dataObj,keyArr)===undefined){
+                      _.set(dataObj,keyArr,{
+                          name:e.port,
+                          value:formatBusy(e.id+'-'+e.port)
+                      });
+                  }
+              }else{
+                  _.times(2,function(v){
+                      var _keyArr = _.concat(keyArr,['ports',v]);
+                      if(_.get(dataObj,_keyArr)===undefined){
+                          _.set(dataObj,_keyArr,{
+                              name:v,
+                              value:formatBusy(e.id+'-'+v)
+                          });
+                      }
+                  });
+              }
 
+          });
+          _.each($scope.initData12.diskList,function(e){
+              var keyArr = directorPath[e.ident];
+              keyArr = _.concat(keyArr,['disks',e.spindleId]);
+              if(_.get(dataObj,keyArr) === undefined){
+                  _.set(dataObj,keyArr,{
+                      name:e.spindleId,
+                      value:formatBusy(e.ident+' '+e.spindleId)
+                  });
+              }
+          });
+          var maxDiskHightFactor = 0;
+          var diskByDirector = _.groupBy($scope.initData12.diskList,_.iteratee('ident'))
+          _.each(diskByDirector,function(diskArray,director){
+              var keyArr = directorPath[director];
+              var portsKey = _.concat(keyArr,['ports']);
+              var portSize = _.size(_.get(dataObj,portsKey));
+              var distSize = _.size(diskArray);
+              var curDiskHightFactor = 0;
+              if(portSize>0){
+                  curDiskHightFactor = _.ceil(distSize/portSize);
+              }
+              if(curDiskHightFactor >= maxDiskHightFactor){
+                  maxDiskHightFactor = curDiskHightFactor;
+              }
+          });
+          var dataArr = [];
+          var fir_level_arr = [
+              { 'id' : 'Director_E', 'name' : '1_DirectorToExternal', 'value' : 90 },
+              { 'id' : 'Cache_E', 'name' : '2_CacheForExternal', 'value' : 90 },
+              { 'id' : 'Cache_I', 'name' : '3_CacheForInternal', 'value' : 90 },
+              { 'id' : 'Director_I', 'name' : '4_DirectorToInternal', 'value' : 90 },
+              { 'id' : 'Disk', 'name' : '5_Disk', 'value' : maxDiskHightFactor* 30 }
+          ];
+          dataArr = _.concat(dataArr,fir_level_arr);
+          _.each(_.values(dataObj),function(cacheObj,cache_index){
+              dataArr.push({
+                  name:(cache_index+1)+"_"+cacheObj.name,
+                  parent:cacheObj.parent,
+                  value:1,
+                  colorValue:cacheObj.value
+              });
+              var directorsId;
+              var cntr_port;
+              var cntr_director;
+              var cntr_slot;
+              var cntr_diskCntr_by_cache;
+              var cntr_disk_by_cache;
+              var cntr_directorArr = [];
+              if(cacheObj.parent === 'Cache_E'){
+                  directorsId = 'Director_E_'+cacheObj.name+'_'+(cache_index+1);
+                  cntr_port = directorsId+'_Port';
+                  cntr_director = directorsId+'_Director';
+                  cntr_slot = directorsId+'_Slot';
+                  cntr_directorArr = [
+                      { id:directorsId, parent:'Director_E' },
+                      { id:cntr_port, name:'1_cntr_port', parent:directorsId },
+                      { id:cntr_director, name:'2_cntr_director', parent:directorsId },
+                      { id:cntr_slot, name:'3_cntr_slot', parent:directorsId }
+                  ];
+              }else if(cacheObj.parent === 'Cache_I'){
+                  directorsId = 'Director_I_'+cacheObj.name+'_'+(cache_index+1);
+                  cntr_slot = directorsId+'_Slot';
+                  cntr_director = directorsId+'_Director';
+                  cntr_port = directorsId+'_Port';
+                  cntr_diskCntr_by_cache = directorsId+'_Disk_Container';
+                  cntr_disk_by_cache = directorsId+'_Disk';
+                  cntr_directorArr = [
+                      { id:directorsId, parent:'Director_I' },
+                      { id:cntr_slot, name:'1_cntr_slot', parent:directorsId },
+                      { id:cntr_director, name:'2_cntr_director', parent:directorsId },
+                      { id: cntr_port, name: '3_cntr_port', parent: directorsId },
+                      { id: cntr_diskCntr_by_cache, parent: 'Disk' },
+                      { id: cntr_disk_by_cache, parent: cntr_diskCntr_by_cache }
+                  ];
+              }
+              dataArr = _.concat(dataArr,cntr_directorArr);
+              _.each(_.values(cacheObj.slots),function(slotObj,slot_index){
+                  var slotId = directorsId+ '_Slot_'+(slot_index+1);
+                  dataArr.push({
+                      name:(slot_index+1)+'_slot_'+slotObj.name,
+                      parent:cntr_slot,
+                      value:1,
+                      colorValue:-1
+                  });
+                  var cntr_director_by_slot = slotId + '_Director';
+                  dataArr.push({
+                      id:cntr_director_by_slot,
+                      parent:cntr_director,
+                      value:1
+                  });
+                  var cntr_port_by_slot = slotId + '_Port';
+                  dataArr.push({
+                      id:cntr_port_by_slot,
+                      parent:cntr_port,
+                      value:1
+                  });
+                  var cntr_disk_by_slot = slotId + '_Disk';
+                  if(cacheObj.parent === 'Cache_I') {
+                      dataArr.push({
+                          id: cntr_disk_by_slot,
+                          parent: cntr_disk_by_cache,
+                          value: 1
+                      });
+                  }
+                  _.each(_.values(slotObj.directors),function(directorObj,director_index){
+                      var directorId = (director_index+1)+'_director_'+directorObj.name;
+                      dataArr.push({
+                          name:directorId,
+                          parent:cntr_director_by_slot,
+                          value:1,
+                          unitType:directorObj.directorType,
+                          unitId:directorObj.name,
+                          colorValue:directorObj.value
+                      });
+                      var cntr_port_by_director = directorId+'_Port';
+                      dataArr.push({
+                          id:cntr_port_by_director,
+                          parent:cntr_port_by_slot,
+                          value:1
+                      });
+                      var cntr_port_by_director_H = cntr_port_by_director+'_H';
+                      dataArr.push({
+                          id:cntr_port_by_director_H,
+                          parent:cntr_port_by_director,
+                          value:1
+                      });
+                      var cntr_disk_by_director = directorId + '_Disk';
+                      if(cacheObj.parent === 'Cache_I') {
+                          dataArr.push({
+                              id: cntr_disk_by_director,
+                              parent: cntr_disk_by_slot,
+                              value: 1
+                          });
+                      }
+                      _.each(_.values(directorObj.ports),function(portObj,port_index){
+                          dataArr.push({
+                              name:(port_index+1)+'_port_'+portObj.name,
+                              parent:cntr_port_by_director_H,
+                              value:1,
+                              unitType:directorObj.directorType+'-PORT',
+                              unitId:directorObj.name+'-'+portObj.name,
+                              colorValue:portObj.value
+                          });
+                      });
+                      if(directorObj.hasOwnProperty('disks')){
+                          var portSize = _.size(directorObj.ports);
+                          var cntr_disk_by_port;
+                          _.each(_.values(directorObj.disks),function(diskObj,disk_index){
+                              if(disk_index % portSize === 0){
+                                  cntr_disk_by_port = cntr_disk_by_director+'_Port_'+_.ceil(disk_index/portSize);
+                                  dataArr.push({
+                                      id:cntr_disk_by_port,
+                                      parent:cntr_disk_by_director,
+                                      value:1/maxDiskHightFactor
+                                  });
+                              }
+                              dataArr.push({
+                                  name:(disk_index+1)+'_disk_'+diskObj.name,
+                                  parent:cntr_disk_by_port,
+                                  value:1.0/portSize,
+                                  unitType:'DISK',
+                                  unitId:directorObj.name+' '+diskObj.name,
+                                  colorValue:diskObj.value
+                              });
+                          });
+                      }
+                  });
+              });
+
+          });
+          dataArr.forEach(function(e){
+              if(e.colorValue === undefined || e.colorValue === null){
+                  e.colorValue = -2;
+              }
+              if(e.value === undefined || e.value === null){
+                  e.value = 1;
+              }
+          });
+          var chartHight = _.sumBy(fir_level_arr, function(o) { return o.value; });
+          initPerformanceConfig(dataArr,chartHight);
+      }
+      function initPerformanceConfig(dataArr,chartHight) {
+        Highcharts.seriesTypes.treemap.prototype.myEqualShare_H = myEqualShare_H;
+        Highcharts.seriesTypes.treemap.prototype.myEqualShare_V = myEqualShare_V;
+        var dataLabelsOpt = {
+          enabled: true,
+          align: 'center',
+          verticalAlign: 'middle',
+          style: {
+            fontSize:'11px',
+            fontWeight: 'bold',
+            color:'#F9F9F9'
+          },
+          formatter:function(){
+            if(this.point.colorValue >=0){
+              return _.ceil(this.point.colorValue);
+            }else if(this.point.colorValue === -1){
+              return 'N/A';
+            }
+            return null;
+          }
+        };
+        var viewWidth = $('.page-content').width()*0.90;
+        $scope.treemapConfig = {
+          options:{
+          	exporting:{
+          		enabled: false
+          	},
+            chart: {
+              type: 'treemap',
+              renderTo:'chart_vmax_performance',
+              width:viewWidth,
+              height:chartHight,
+              marginTop:30
+            },
+            colorAxis: {
+              type:'linear',
+              dataClasses: [
+              				{from: -2,to: -1,color:'#FFFFFF',name:''},
+							{from: -1,to:  0,color:'#494D50',name:'N/A'}, 
+							{from:  0,to:  5,color:'#0000FF',name:'5%'}, 
+							{from:  5,to: 10,color:'#0033FF',name:'10%'}, 
+							{from: 10,to: 15,color:'#0066FF',name:'15%'}, 
+							{from: 15,to: 20,color:'#0099FF',name:'20%'}, 
+							{from: 20,to: 25,color:'#00CCFF',name:'25%'}, 
+							{from: 25,to: 30,color:'#00FFFF',name:'30%'}, 
+							{from: 30,to: 35,color:'#00FFCC',name:'35%'}, 
+							{from: 35,to: 40,color:'#00FF99',name:'40%'}, 
+							{from: 40,to: 45,color:'#00FF66',name:'45%'}, 
+							{from: 45,to: 50,color:'#00FF33',name:'50%'}, 
+							{from: 50,to: 55,color:'#00FF00',name:'55%'}, 
+							{from: 55,to: 60,color:'#33FF00',name:'60%'}, 
+							{from: 60,to: 65,color:'#66FF00',name:'65%'}, 
+							{from: 65,to: 70,color:'#99FF00',name:'70%'}, 
+							{from: 70,to: 75,color:'#CCFF00',name:'75%'}, 
+							{from: 75,to: 80,color:'#FFFF00',name:'80%'}, 
+							{from: 80,to: 85,color:'#FFCC00',name:'85%'}, 
+							{from: 85,to: 90,color:'#FF9900',name:'90%'}, 
+							{from: 90,to: 95,color:'#FF6600',name:'95%'}, 
+							{from: 95,to: 100,color:'#FF3300',name:'100%'}
+							]
+            },
+            legend: {
+              title: {
+                text: '利用率'
+              },
+              align: 'right',
+              verticalAlign: 'top',
+              layout: 'vertical',
+              y:45,
+              x:0,
+              symbolRadius: 1,
+              symbolHeight:15,
+              reversed:true
+            },
+            plotOptions: {
+              series: {
+                turboThreshold:5000,
+                allowPointSelect:true
+              }
+            }
+          },
+          series: [{
+            levels: [
+	            		{level: 1, layoutAlgorithm: 'myEqualShare_V', dataLabels: {enabled:false}},
+						{level: 2, layoutAlgorithm: 'myEqualShare_H', dataLabels: dataLabelsOpt},
+						{level: 3, layoutAlgorithm: 'myEqualShare_V', dataLabels: dataLabelsOpt},
+						{level: 4, layoutAlgorithm: 'myEqualShare_H', dataLabels: dataLabelsOpt},
+						{level: 5, layoutAlgorithm: 'myEqualShare_H', dataLabels: dataLabelsOpt},
+						{level: 6, layoutAlgorithm: 'myEqualShare_V', dataLabels: dataLabelsOpt},
+						{level: 7, layoutAlgorithm: 'myEqualShare_H', dataLabels: dataLabelsOpt}
+					],
+            "data" : dataArr
+          }],
+          title: {
+            verticalAlign:'top',
+            text: 'VMAX 历史性能'
+          },
+          tooltip:{
+            formatter:function(){
+              if(this.point.colorValue >-2){
+                var _name = this.point.name;
+                _name = _name.substring(_name.indexOf('_')+1);
+                if(this.point.colorValue > -1){
+                    _name = _name + ':<b>'+_.ceil(this.point.colorValue,1)+'%</b>';
+                }
+                return _name;
+              }else {
+                return false;
+              }
+            }
+          }
+        };
+
+        $scope.treemapLoaded = true;
+      }
+      $scope.queryT_12 = function(){
+        $scope.initTemplate_12_q();
+      };
+        $scope.initTemplate_12();
     }
 })();

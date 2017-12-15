@@ -1,0 +1,112 @@
+<style>
+.title {
+float: left;
+    vertical-align: bottom;
+}
+
+.title div {
+height: 29px;
+width: 80px;
+border-right: solid 1px black;
+text-align: right;
+margin-right: 0px;
+line-height: 29px;
+}
+
+.title span {
+padding-left: 10px;
+border-top: solid 1px black;
+float: right;
+}
+
+.title i {
+float: right;
+margin-right: -3px;
+margin-top: -7px;
+}
+</style>
+<div class="tab-content no-border padding-24">
+    <div id="faq-tab-1" class="tab-pane fade in active">
+        <div class="row">
+            <div class="col-xs-12 clearfix form-actions">
+                <div class="form-group">
+                    <label class="col-xs-1 control-label no-padding-right" for="condition_begin">开始时间</label>
+
+                    <div class="col-xs-2">
+		        		<div class="input-group" ng-controller="switchCtrl">
+				        	<input id="startDate" type="text" class="form-control form-control1" style="background-color: darkslategray;" readonly="readonly"
+				        		placeholder="参数值" ng-model="condition.begin"
+				        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+				        		datepicker-options="options" 
+				        		show-button-bar="true"
+				        		is-open="opened" 
+				        		ng-required="true" 
+				        		close-text="Close" 
+				        		show-button-bar="false" />
+				          	<span class="input-group-btn">
+				            	<button type="button" class="btn btn-default" ng-click="open()">
+				            		<i class="glyphicon glyphicon-calendar"></i>
+				            	</button>
+				          	</span>
+				        </div>
+                    </div>
+                    <label class="col-xs-1 control-label no-padding-right" for="condition_end">结束时间</label>
+
+                    <div class="col-xs-2">
+		        		<div class="input-group" ng-controller="switchCtrl">
+				        	<input id="startDate" type="text" class="form-control form-control1" style="background-color: darkslategray;" readonly="readonly"
+				        		placeholder="参数值" ng-model="condition.end"
+				        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+				        		datepicker-options="options" 
+				        		show-button-bar="true"
+				        		is-open="opened" 
+				        		ng-required="true" 
+				        		close-text="Close" 
+				        		show-button-bar="false" />
+				          	<span class="input-group-btn">
+				            	<button type="button" class="btn btn-default" ng-click="open()">
+				            		<i class="glyphicon glyphicon-calendar"></i>
+				            	</button>
+				          	</span>
+				        </div>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <button class="btn btn-info" ng-click="queryT_12()">
+                            <i class="ace-icon fa fa-search-plus bigger-110"></i>
+                            查询
+                        </button>
+                    </div>
+                    <label class="col-xs-2 control-label no-padding-right"></label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="clo-xs-2">
+                <div class="title">
+                    <div style="height: 30px;border:none;"></div>
+                    <div>Port<span></span></div>
+                    <div>Director<span></span></div>
+                    <div>Slot<span></span></div>
+                    <div style="height: 162px;line-height: 84px">Cache<span></span></div>
+                    <div>Slot<span></span></div>
+                    <div>Director<span></span></div>
+                    <div>Port<span></span></div>
+                    <div style="height: 60px;line-height: 60px">Disk<span></span></div>
+                    <div style="border: none"><i class="fa fa-sort-down"></i></div>
+                </div>
+            </div>
+            <style>
+            	.highcharts-background{
+            		fill-opacity:0;
+            	}
+            	
+            </style>
+            <div class="col-xs-10">
+                <div id="chart_vmax_performance" ng-if="treemapLoaded">
+                    <highchart config="treemapConfig"></highchart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

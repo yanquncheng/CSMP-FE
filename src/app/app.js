@@ -14,7 +14,7 @@ angular.module('BlurAdmin', [
         'xeditable',
         'ui.slimscroll',
         'ngJsTree',
-        'permission', 
+        'permission',
         'permission.ui',
         'angular-progress-button-styles',
         'BlurAdmin.authService',
@@ -29,7 +29,8 @@ angular.module('BlurAdmin', [
         'ngFileUpload', // added for file uploads s3 backet
         'BlurAdmin.theme.components',
         'angular-loading-bar',
-        'nvd3'
+        'nvd3',
+    	'highcharts-ng'
 
     ]).config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;

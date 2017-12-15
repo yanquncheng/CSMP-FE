@@ -39,8 +39,11 @@
 							<th st-sort="configuration.OS">操作系统类型</th>
 							<th st-sort="configuration.OSVersion">操作系统版本</th>
 							<th st-sort="configuration.memory">内存大小</th>
+							<th st-sort="configuration.cpu">CPU</th>
 							<th st-sort="maintenance_department.maintenance">运维支持部门</th>
 							<th st-sort="maintenance_department.maintenance_owner">运维支持负责人</th>
+							<th st-sort="Capacity">分配容量(GB)</th>
+							<th st-sort="NumOfLuns">#分配设备</th>
 							<th >操作</th>
 						</tr>
 					</thead>
@@ -57,8 +60,11 @@
 							<td>{{row.configuration.OS}}</td>
 							<td>{{row.configuration.OSVersion}}</td>
 							<td>{{row.configuration.memory}}</td>
+							<td>{{row.configuration.cpu}}</td>
 							<td>{{row.maintenance.maintenance_department}}</td>
 							<td>{{row.maintenance.maintenance_owner}}</td>
+							<td>{{row.Capacity}}</td>
+							<td>{{row.NumOfLuns}}</td>
 							<td>
 								<button type="button" ng-click="editHost(row);" class="btn btn-primary btn-with-icon btn-xs">
 						        	<i class="glyphicon glyphicon-pencil"></i>修改
@@ -240,13 +246,24 @@
 				        </div>  
     				</div>
     		   </div>
+
     		   <div class="row" style="padding-right: 60px;padding-bottom: 5px;">
     				<div class="form-group">
+						<label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">CPU:</label>
+				        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
+				          <input type="text" class="form-control" ng-model="host.configuration.cpu" placeholder="CPU"/>
+				        </div>
 						<label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">内存(GB):</label>
 				        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
 				          <input type="text" class="form-control" ng-model="host.configuration.memory" placeholder="内存(GB)"/>
 				        </div>
-				
+
+    				</div>
+    		   </div>
+    		   
+
+    		   <div class="row" style="padding-right: 60px;padding-bottom: 5px;">
+    				<div class="form-group">
 				        <label class="col-lg-2 col-sm-2 col-xlg-2 control-label text-right" style="padding-top:7px;padding-right:0px;">其他配置:</label>
 				        <div class="col-lg-4 col-sm-4 col-xlg-4 text-left">
 				          <textarea class="form-control" ng-model="host.configuration.other" placeholder="没有其他配置"></textarea>
