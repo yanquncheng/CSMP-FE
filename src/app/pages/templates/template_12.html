@@ -35,8 +35,8 @@ margin-top: -7px;
                     <div class="col-xs-2">
 		        		<div class="input-group" ng-controller="switchCtrl">
 				        	<input id="startDate" type="text" class="form-control form-control1" style="background-color: darkslategray;" readonly="readonly"
-				        		placeholder="参数值" ng-model="condition.begin"
-				        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
+				        		placeholder="开始时间" ng-model="condition.begin" 
+				        		uib-datepicker-popup="yyyy/MM/dd" ng-click="open()"
 				        		datepicker-options="options" 
 				        		show-button-bar="true"
 				        		is-open="opened" 
@@ -54,8 +54,8 @@ margin-top: -7px;
 
                     <div class="col-xs-2">
 		        		<div class="input-group" ng-controller="switchCtrl">
-				        	<input id="startDate" type="text" class="form-control form-control1" style="background-color: darkslategray;" readonly="readonly"
-				        		placeholder="参数值" ng-model="condition.end"
+				        	<input id="endDate" type="text" class="form-control form-control1" style="background-color: darkslategray;" readonly="readonly"
+				        		placeholder="结束时间" ng-model="condition.end"
 				        		uib-datepicker-popup="yyyy/MM/dd"  ng-click="open()"
 				        		datepicker-options="options" 
 				        		show-button-bar="true"

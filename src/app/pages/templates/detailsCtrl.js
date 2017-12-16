@@ -1560,12 +1560,20 @@
         return myAlgorithmFill(false, parent, children);
       }
       $scope.initTemplate_12 = function(tab){
-      	   console.log("AAAAAAAAAAAAAAAAAAAAAAA");
 	      $scope.treemapLoaded = false;
 	      var params = {serialNumber: $scope.baseInfo.device};
-	      var begin = moment().add('months', -1).format('YYYY-MM-DD');
-	      var end = moment().format('YYYY-MM-DD');
+	      var begin = moment().add('months', -1);
+	      var end = moment();
 	      $scope.condition = {begin: begin, end: end};
+	      
+	      $timeout(function() { 
+	      	$("#startDate").val(begin.format('YYYY-MM-DD'));
+		  }, 200);
+		  
+	      $timeout(function() { 
+	      	$("#endDate").val(end.format('YYYY-MM-DD'));
+		  }, 200);
+	      
 	      $scope.initData12 = {};
 	      
 	      $scope.initTemplate_12_q();
@@ -1920,7 +1928,7 @@
             chart: {
               type: 'treemap',
               renderTo:'chart_vmax_performance',
-              width:viewWidth,
+//            width:100,
               height:chartHight,
               marginTop:30
             },

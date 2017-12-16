@@ -12,7 +12,7 @@
           url: "/arrayCtrl",
           templateUrl: 'app/pages/objectManage/array/array.html',
           controller: 'arrayCtrl',
-          title: '存储(新)',
+          title: '存储',
           sidebarMeta: {
             order: 2,
           },
