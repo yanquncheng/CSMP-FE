@@ -5,7 +5,7 @@
 				<table class="table table-hover" st-table="smartTableData" st-safe-src="DataList">
 					<thead>
 						<tr> 
-						    <th colspan="4">
+						    <th colspan="4" style="text-align: left>
 						    	<div class="row">
 					    		 	<div class="col-lg-3 col-sm-5 col-xlg-5 control-label text-right" style="padding-top: 7px;">显示行数：</div>
 									<div class="col-lg-7 col-sm-7 col-xlg-7" style="padding-left:0px;">
@@ -18,9 +18,14 @@
 				    		<th colspan="6">
 								<input st-search placeholder="全局搜索" class="input-sm form-control" type="search"/>
 				    		</th>
+							<th colspan="6" ng-if='appid!=null'>
+								<button ng-click="back();" type="button" class="back-button btn btn-default btn-with-icon pull-right">
+								<i class="ion-chevron-left"></i>Back
+								</button>		
+							</th>		    		
 						</tr>	
 						<tr>
-					      <th colspan="10" style="text-align: right">
+					      <th colspan="10" style="text-align: right" ng-if='appid==null'>
 					        <div class="col-xs-6" style="text-align: left">
 					           <button type="button" ng-click="addHost();" class="btn btn-primary btn-with-icon">
 						        	<i class="glyphicon glyphicon-plus"></i>新增主机
@@ -65,8 +70,9 @@
 							<td>{{row.maintenance.maintenance_owner}}</td>
 							<td>{{row.Capacity}}</td>
 							<td>{{row.NumOfLuns}}</td>
-							<td>
-								<button type="button" ng-click="editHost(row);" class="btn btn-primary btn-with-icon btn-xs">
+
+							<td ng-if="username=='admin'" >
+								<button type="button" ng-click="editHost(row);" class="btn btn-primary btn-with-icon btn-xs" ">
 						        	<i class="glyphicon glyphicon-pencil"></i>修改
 						    	</button>
 						    	<button type="button" ng-click="delHost('{{row.baseinfo.name}}');" class="btn btn-danger btn-with-icon editable-table-button btn-xs">

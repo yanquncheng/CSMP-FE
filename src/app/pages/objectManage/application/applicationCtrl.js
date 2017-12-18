@@ -160,6 +160,12 @@
      }
 
 
+      $scope.hostlistByApp=function(url,app){
+          var params = {};
+          params.appid = app.id;  
+          $state.go(url,params);
+      }
+
 
 		/***************************************/
   	  	$scope.initApply();

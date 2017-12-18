@@ -16,7 +16,7 @@
           sidebarMeta: {
             order: 3,
           },
-          params: {params:null,datacenter: null}
+          params: {params:null,datacenter: null, appid:null}
         });
   }
  

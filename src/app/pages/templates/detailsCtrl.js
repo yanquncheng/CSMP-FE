@@ -234,29 +234,85 @@
 						div1.style.display='none'; 
 		    
 		    	if ( $scope.capacity.left !== undefined )
-	            var chart = AmCharts.makeChart("left", {
-				    "theme": "none",
-				    "type": 'serial',
-				    "dataProvider": $scope.capacity.left.chartData,
+				var chart = AmCharts.makeChart("left", {
+				    "type": "serial",
+					"theme": "dark",
+					/*
+					    "legend": {
+					        "horizontalGap": 10,
+					        "maxColumns": 1,
+					        "position": "right",
+							"useGraphSettings": true,
+							"markerSize": 10
+					    },
+					*/
+				    "dataProvider": $scope.capacity.left.chartData ,
 				    "valueAxes": [{
-				        "title": $scope.capacity.left.title
+				        "stackType": "regular",
+				        "axisAlpha": 0.5,
+				        "gridAlpha": 0,
+				        "axisColor": "#FFFFFF",
+				        "titleColor": "#FFE7BA",
+				        "titleFontSize": 20, 
+				        "title": $scope.capacity.left.title,
+				        "totalText": "[[total]]"
 				    }],
 				    "graphs": [{
-				        "balloonText": "[[category]]:[[value]]",
-				        "fillAlphas": 1,
-				        "lineAlpha": 0.2,
-				        "title": "name",
-				        "fillColorsField": "color",
+				        "balloonText": "<span style='font-size:14px'>[[name]]: <b>[[value]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
 				        "type": "column",
+						"color": "#FFFFFF",
 				        "valueField": "value"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name2]]: <b>[[value2]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value2"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name3]]: <b>[[value3]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value3"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name4]]: <b>[[value4]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value4"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name5]]: <b>[[value5]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3,
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value5"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name6]]: <b>[[value6]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3,
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value6"
 				    }],
-	//			    "depth3D": 20,
-	//			    "angle": 30,
 				    "rotate": true,
 				    "categoryField": "name",
 				    "categoryAxis": {
 				        "gridPosition": "start",
-				        "fillAlpha": 0.05,
+				        "axisAlpha": 0,
+				        "gridAlpha": 0,
+				        "color": "#FFF68F",
 				        "position": "left"
 				    },
 				    "export": {
@@ -269,29 +325,85 @@
 						div1.style.display='none'; 
 		    				
 		    	if ( $scope.capacity.right !== undefined )
-	            var  chart = AmCharts.makeChart("right", {
-				    "theme": "none",
-				    "type": 'serial',
-				    "dataProvider": $scope.capacity.right.chartData,
+				var chart = AmCharts.makeChart("right", {
+				    "type": "serial",
+					"theme": "dark",
+					/*
+					    "legend": {
+					        "horizontalGap": 10,
+					        "maxColumns": 1,
+					        "position": "right",
+							"useGraphSettings": true,
+							"markerSize": 10
+					    },
+					*/
+				    "dataProvider": $scope.capacity.right.chartData ,
 				    "valueAxes": [{
-				        "title": $scope.capacity.right.title
+				        "stackType": "regular",
+				        "axisAlpha": 0.5,
+				        "gridAlpha": 0,
+				        "axisColor": "#FFFFFF",
+				        "titleColor": "#FFE7BA",
+				        "titleFontSize": 20, 
+				        "title": $scope.capacity.right.title,
+				        "totalText": "[[total]]"
 				    }],
 				    "graphs": [{
-				        "balloonText": "[[category]]:[[value]]",
-				        "fillAlphas": 1,
-				        "lineAlpha": 0.2,
-				        "title": "name",
-				        "fillColorsField": "color",
+				        "balloonText": "<span style='font-size:14px'>[[name]]: <b>[[value]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
 				        "type": "column",
+						"color": "#FFFFFF",
 				        "valueField": "value"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name2]]: <b>[[value2]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value2"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name3]]: <b>[[value3]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value3"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name4]]: <b>[[value4]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3, 
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value4"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name5]]: <b>[[value5]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3,
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value5"
+				    }, {
+				        "balloonText": "<span style='font-size:14px'>[[name6]]: <b>[[value6]]</b></span>",
+				        "fillAlphas": 0.8,
+				        "labelText": "[[value]]",
+				        "lineAlpha": 0.3,
+				        "type": "column",
+						"color": "#FFFFFF",
+				        "valueField": "value6"
 				    }],
-	//			    "depth3D": 20,
-	//			    "angle": 30,
 				    "rotate": true,
 				    "categoryField": "name",
 				    "categoryAxis": {
 				        "gridPosition": "start",
-				        "fillAlpha": 0.05,
+				        "axisAlpha": 0,
+				        "gridAlpha": 0,
+				        "color": "#FFF68F",
 				        "position": "left"
 				    },
 				    "export": {
@@ -1562,7 +1674,7 @@
       $scope.initTemplate_12 = function(tab){
 	      $scope.treemapLoaded = false;
 	      var params = {serialNumber: $scope.baseInfo.device};
-	      var begin = moment().add('months', -1);
+	      var begin = moment().add('weeks', -1);
 	      var end = moment();
 	      $scope.condition = {begin: begin, end: end};
 	      
@@ -1578,15 +1690,17 @@
 	      
 	      $scope.initTemplate_12_q();
 		}
+
       $scope.initTemplate_12_q = function(){
 	      var params = {device: $scope.baseInfo.device};
         if ($scope.condition.begin === '') delete $scope.condition.begin;
         if ($scope.condition.end === '') delete $scope.condition.end;
+
         async.parallel({
             directorList: function(callback) {
                 if(_.isEmpty($scope.initData12)){
 //                  Vmax.getAllDirectorForPerf(params,function(result){
-	    			var cfg = angular.copy(config);
+	    			var cfg = angular.copy(config); 
 		    		httpService.get('/vmax/performance/director', params, cfg, function (response) {
                         callback(null,response);
                     });
@@ -1612,6 +1726,7 @@
     			var cdt = angular.copy($scope.condition);
     			cdt.device = params.device;
     			cdt.start = cdt.begin;
+    			console.log("AAA:"+cdt);
 	    		httpService.get('/vmax/performance/perfDetail/history', cdt, cfg, function (response) {
                     callback(null, response);
                 });
@@ -1638,7 +1753,7 @@
                   key = 'busy';
               }
               var busy = _.get($scope.allPerfDetail,[id,key]);
-              if(busy===undefined || busy<=0){
+              if(busy===undefined || busy<0){
                   return -1;
               }else if(busy>100){
                   return 100;
@@ -1723,6 +1838,8 @@
               if(_.get(dataObj,keyArr) === undefined){
                   _.set(dataObj,keyArr,{
                       name:e.spindleId,
+                      displayName:e.displayName,
+                      TipsDisplayName:e.TipsDisplayName,
                       value:formatBusy(e.ident+' '+e.spindleId)
                   });
               }
@@ -1825,6 +1942,7 @@
                       var directorId = (director_index+1)+'_director_'+directorObj.name;
                       dataArr.push({
                           name:directorId,
+                          displayname:directorObj.name,
                           parent:cntr_director_by_slot,
                           value:1,
                           unitType:directorObj.directorType,
@@ -1854,6 +1972,7 @@
                       _.each(_.values(directorObj.ports),function(portObj,port_index){
                           dataArr.push({
                               name:(port_index+1)+'_port_'+portObj.name,
+                              displayname:portObj.name,
                               parent:cntr_port_by_director_H,
                               value:1,
                               unitType:directorObj.directorType+'-PORT',
@@ -1875,6 +1994,8 @@
                               }
                               dataArr.push({
                                   name:(disk_index+1)+'_disk_'+diskObj.name,
+                                  displayname:diskObj.displayName,
+                                  TipsDisplayName:diskObj.TipsDisplayName,
                                   parent:cntr_disk_by_port,
                                   value:1.0/portSize,
                                   unitType:'DISK',
@@ -1910,13 +2031,17 @@
             fontWeight: 'bold',
             color:'#F9F9F9'
           },
-          formatter:function(){
+          formatter:function(){  
+          	/*
             if(this.point.colorValue >=0){
               return _.ceil(this.point.colorValue);
             }else if(this.point.colorValue === -1){
               return 'N/A';
             }
-            return null;
+            return null; 
+            */
+             return this.point.displayname;
+
           }
         };
         var viewWidth = $('.page-content').width()*0.90;
@@ -1961,9 +2086,19 @@
             },
             legend: {
               title: {
-                text: '利用率'
-              },
+                text: '利用率',
+			      style: {
+			         color: '#E0E0E3',
+			         textTransform: 'uppercase',
+			         fontSize: '12px'
+			      }
+              }, 
+		      itemStyle: {
+		         color: '#E0E0E3'
+		      },
+
               align: 'right',
+              color: '#FFFFFF',
               verticalAlign: 'top',
               layout: 'vertical',
               y:45,
@@ -1993,7 +2128,8 @@
           }],
           title: {
             verticalAlign:'top',
-            text: 'VMAX 历史性能'
+            text: '存储性能热点图',
+            color: '#FFFFFF'
           },
           tooltip:{
             formatter:function(){
@@ -2001,7 +2137,11 @@
                 var _name = this.point.name;
                 _name = _name.substring(_name.indexOf('_')+1);
                 if(this.point.colorValue > -1){
-                    _name = _name + ':<b>'+_.ceil(this.point.colorValue,1)+'%</b>';
+                    //_name = _name + ':<b>'+_.ceil(this.point.colorValue,1)+'%</b>';
+                    if ( this.point.TipsDisplayName !== undefined)
+                    	_name = this.point.TipsDisplayName + '<br><b>'+_.ceil(this.point.colorValue,1)+' %</b>';
+                    else 
+                    	_name = this.point.name + '<br><b>'+_.ceil(this.point.colorValue,1)+' %</b>';
                 }
                 return _name;
               }else {
@@ -2016,6 +2156,6 @@
       $scope.queryT_12 = function(){
         $scope.initTemplate_12_q();
       };
-        $scope.initTemplate_12();
+        //$scope.initTemplate_12();
     }
 })();

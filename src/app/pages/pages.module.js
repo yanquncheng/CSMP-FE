@@ -20,6 +20,7 @@
             'BlurAdmin.pages.form',
             'BlurAdmin.pages.components',
             'BlurAdmin.pages.EquipmentManagement',
+            'BlurAdmin.pages.ConfigManagement',
             'BlurAdmin.pages.objectManage',
             'BlurAdmin.pages.sysManage',
 			'BlurAdmin.pages.performance',

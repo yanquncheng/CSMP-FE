@@ -207,7 +207,7 @@
 
                         AuthenticationService.setUser($scope.username);
                         AuthenticationService.setLoggedIn(true);
-
+ 
                         /*
                         if ( response.user.role.toUpperCase() === 'ADMIN' ) 
                             AuthenticationService.setAdmin(true);

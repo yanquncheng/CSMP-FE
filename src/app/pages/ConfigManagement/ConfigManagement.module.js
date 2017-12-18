@@ -7,6 +7,7 @@
 
   angular.module('BlurAdmin.pages.ConfigManagement', [
       'BlurAdmin.pages.ConfigManagement.topo' 
+      
     ])
     .config(routeConfig);
 

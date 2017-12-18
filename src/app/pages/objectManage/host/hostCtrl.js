@@ -15,16 +15,32 @@
 	  $scope.status=[{"name":"Product"},{"name":"Test"},{"name":"Development"}];  //主机基本信息状态
 	  $scope.baseinfoType=[{"name":"Physical"},{"name":"Virtual"}];
 	  var datacenter = $stateParams.datacenter;
+	  var appid = $stateParams.appid; 
+
 	  //主机列表查询
   	$scope.initApply = function (){
   		var params ={};
   		if(datacenter!=null && datacenter!=''){
   			params.datacenter=datacenter;
+  		}  
+  		if ( appid != null && appid != '' ) {
+  			params.appid=appid;
+  			$scope.appid=appid;
   		}
+  		console.log("-------------999\n"+appid);
   		httpService.get("/hosts", params, config, function (response){
           $scope.DataList = response;
       });
   	};
+
+	//返回
+	$scope.back = function (){
+		var backUrl = "dashboard.objectManage.application";
+
+		$state.go(backUrl,{datacenter: null });
+	};
+
+
   	//点击名称 显示详情的 js方法
   	$scope.hostDetail = function(host){
 //	  	var param = angular.copy(host);

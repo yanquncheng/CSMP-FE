@@ -37,15 +37,11 @@
 					<td style="line-height: 25px;">{{row.ALIAS}}</td>
 					<td style="line-height: 25px;">{{row.HBAWWN}}</td>
 					<td style="line-height: 25px;">
-						<a style="text-decoration: none;" href="javascript:void(0);" ng-click="aliasDetail(row ,'switch');">
+						<a style="text-decoration: none;" href="javascript:void(0);" ng-click="switchDetail(row.connectTo[0]  ,'switch');">
 							{{row.connectTo[0].device}}
 						</a>
 					</td>
-					<td style="line-height: 25px;">
-						<a style="text-decoration: none;" href="javascript:void(0);" ng-click="aliasDetail(row ,'switch');">
-							{{row.connectTo[0].part}}
-						</a>
-					</td> 
+					<td style="line-height: 25px;">{{row.connectTo[0].part}}</td> 
 					<td style="line-height: 25px;">{{row.connectTo[0].partstat}}</td>
 					<td style="line-height: 25px;">{{row.connectTo[0].maxspeed}}</td>
 					<td style="line-height: 25px;">{{row.connectTo[0].porttype}}</td>

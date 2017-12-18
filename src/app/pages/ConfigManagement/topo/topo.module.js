@@ -12,7 +12,7 @@
           url: '/topo',
           templateUrl: 'app/pages/ConfigManagement/topo/topo.html',
           controller: 'topoCtrl',
-          title: '拓扑视图1',
+          title: '拓扑视图',
           sidebarMeta: {
             order: 3,
           },

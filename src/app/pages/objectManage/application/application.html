@@ -51,7 +51,11 @@
 					<tbody>
 						<tr ng-repeat="row in smartTableData">
 							<!--<td style="text-align: center;width: 80px;vertical-align: middle;">{{$index + 1 }}</td>-->
-							<td>{{row.name}}</td>
+							<td>
+								<a style="text-decoration: none;" href="javascript:void(0);" ng-click="hostlistByApp('dashboard.objectManage.host',row)">
+									{{row.name}}
+								</a>
+							</td> 
 							<td>{{row.alias}}</td>
 							<td>{{row.status}}</td>
 							<td>{{row.busi_type}}</td>
@@ -61,7 +65,7 @@
 							<td>{{row.app_depart}}</td>
 							<td>{{row.app_level}}</td>
 							<td>{{row.description}}</td>
-							<td>
+							<td ng-if="username=='admin'">
 								<button type="button" ng-click="editApply(row);" class="btn btn-primary btn-with-icon btn-xs">
 						        	<i class="glyphicon glyphicon-pencil"></i>修改
 						    	</button>

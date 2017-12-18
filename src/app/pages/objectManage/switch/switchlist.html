@@ -55,7 +55,7 @@
 					<td style="line-height: 25px;">{{row.devdesc}}</td>
 					<td style="line-height: 25px;">{{row.localtion}}</td>
 					<td style="line-height: 25px;">{{row.LastTS}}</td>
-					<td style="line-height: 25px;">
+					<td style="line-height: 25px;" ng-if="username=='admin'">
 						<button type="button" ng-click="editSwitch(row);" class="btn btn-primary btn-with-icon btn-xs">
 				        	<i class="glyphicon glyphicon-pencil"></i>修改
 				    	</button>
