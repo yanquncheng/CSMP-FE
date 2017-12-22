@@ -14,31 +14,56 @@
     var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
     $scope.charts = [{
       color: pieColor,
-      description: '容量(TB)',
-      stats: '57,820',
-      icon: 'person',
+      description: '可用 / 剩余可用',
+      stats: '57,820 / 29,232',
+      icon: 'capacity',
+      percent: 90, 
     }, {
       color: pieColor,
-      description: 'Purchases',
+      description: '性能',
       stats: '$ 89,745',
-      icon: 'network',
-    }, {
+      icon: 'perf-chart',
+      percent: 36
+    }, 
+    {
       color: pieColor,
-      description: 'Active Users',
-      stats: '178,391',
-      icon: 'face',
-    }, {
-      color: pieColor,
-      description: 'Returned',
-      stats: '32,592',
-      icon: 'refresh',
-    }, {
-      color: pieColor,
-      description: 'Addition',
-      stats: '32,5921',
-      icon: 'refresh',
+      description: '事件',
+      stats: '5',
+      icon: 'bell',
+      percent: 10
     }
     ];
+ 
+
+    $scope.charts1 = [{
+      color: pieColor,
+      description: '可用 / 剩余可用',
+      stats: '57,820 / 29,232',
+      icon: 'capacity',
+      percent: 90, 
+    }, {
+      color: pieColor,
+      description: '性能',
+      stats: '$ 89,745',
+      icon: 'perf-chart',
+      percent: 36
+    }, 
+    {
+      color: pieColor,
+      description: '事件',
+      stats: '5',
+      icon: 'bell',
+      percent: 10
+    }, 
+    {
+      color: pieColor,
+      description: '事件',
+      stats: '5',
+      icon: 'bell',
+      percent: 10
+    }
+    ];
+ 
 
     function getRandomArbitrary(min, max) {
       return Math.random() * (max - min) + min;
@@ -50,6 +75,7 @@
         chart.easyPieChart({
           easing: 'easeOutBounce',
           onStep: function (from, to, percent) {
+            //$(this.el).find('.percent').text(Math.round(percent)); 
             $(this.el).find('.percent').text(Math.round(percent));
           },
           barColor: chart.attr('rel'),
@@ -57,10 +83,14 @@
           size: 84,
           scaleLength: 0,
           animation: 2000,
-          lineWidth: 9,
+          lineWidth: 10,
           lineCap: 'round',
         });
+
+
+
       });
+
 
       $('.refresh-data').on('click', function () {
         updatePieCharts();
@@ -69,13 +99,13 @@
 
     function updatePieCharts() {
       $('.pie-charts .chart').each(function(index, chart) {
-        $(chart).data('easyPieChart').update(getRandomArbitrary(11, 90));
+        $(chart).data('easyPieChart').update(getRandomArbitrary(89, 90));
       });
     }
 
     $timeout(function () {
       loadPieCharts();
-      updatePieCharts();
+      //updatePieCharts();
     }, 1000);
   }
 })();

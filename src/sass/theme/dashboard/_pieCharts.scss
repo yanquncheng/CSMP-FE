@@ -13,7 +13,7 @@
   }
   @media screen and (min-width: 1325px) {
     .pie-chart-item-container {
-      width: 25%;
+      width: 33.33%;
     }
   }
   @media screen and (min-width: 700px) and (max-width: 1325px)  {
@@ -71,13 +71,18 @@
   }
   .description {
     display: inline-block;
-    padding: 20px 0 0 20px;
+    padding: 2px 0 0 20px;
     font-size: 18px;
     opacity: 0.9;
     .description-stats {
-      padding-top: 8px;
+      padding-top: 18px;
+      font-size: 34px;
+    };
+    .description-stats1 {
+      padding-top: 18px;
       font-size: 24px;
-    }
+    };
+
   }
   .angular {
     margin-top: 100px;

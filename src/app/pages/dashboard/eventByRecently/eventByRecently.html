@@ -1,0 +1,25 @@
+
+<div class="feed-messages-container" track-width="smallContainerWidth" min-width="360">
+  <div class="feed-message" ng-repeat="message in feed" ng-click="expandMessage(message)">
+    <div class="message-icon">
+      <i class="chart-icon i-{{ ::message.deviceType }}"></i>
+      <span class="sub-photo-icon" ng-class="::message.severity"></span>
+    </div>
+    <div class="text-block text-message">
+      <div class="message-header">
+        <span class="author">{{ ::message.device }} {{ ::message.part}}</span>
+      </div>
+      <div class="message-content line-clamp" ng-class="{'line-clamp-2' : !message.expanded}">
+        <span>{{message.header}}  :  </span>{{::message.text}}
+      </div> 
+      <div class="message-time">
+        <div class="post-time">
+          {{::message.time}}
+        </div>
+        <div class="ago-time">
+          {{::message.ago}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

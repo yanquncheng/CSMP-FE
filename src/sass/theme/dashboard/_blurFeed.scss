@@ -42,7 +42,22 @@
         &:after {
           @include bg-image('theme/icon/feed/feed-video.svg');
         }
-      }
+      } 
+      &.critical { 
+        &:after {
+          @include bg-image('theme/icon/event/critical.svg');
+        }
+      }   
+      &.error { 
+        &:after {
+          @include bg-image('theme/icon/event/error.svg');
+        }
+      }   
+      &.warning { 
+        &:after {
+          @include bg-image('theme/icon/event/warning.svg');
+        }
+      }   
       &.image-message {
         background: $image-message-color;
         &:after {

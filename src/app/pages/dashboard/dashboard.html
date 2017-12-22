@@ -1,5 +1,33 @@
 
-<dashboard-pie-chart></dashboard-pie-chart>
+<dashboard-pie-chart></dashboard-pie-chart> 
+
+<div class="row">
+  <div class="col-xlg-12 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="row">
+      <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-5 col-xs-12"
+           ba-panel 
+          ba-panel-title="应用容量分布"
+          ba-panel-class="medium-panel">
+         <capacity-by-app-chart></capacity-by-app-chart>
+      </div>
+      <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-7 col-xs-12"
+           ba-panel
+           ba-panel-title="存储性能分布" >
+        <performance-by-array-chart></performance-by-array-chart>
+      </div>
+      <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-5 col-xs-12"
+           ba-panel
+           ba-panel-class="popular-app medium-panel">
+        <event-by-recently></event-by-recently>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="padding-top: 1px; padding-bottom: 5px; height: 2px; background-color: rgb(125, 125, 125);"></div>
+
+<statistic-by-app></statistic-by-app>
+
 
 <!--
 <div class="row">
@@ -7,7 +35,13 @@
        ba-panel
        ba-panel-title="Acquisition Channels"
        ba-panel-class="medium-panel traffic-panel">
-    <traffic-chart></traffic-chart>
+    <dashboard-line-chart></dashboard-line-chart>
+  </div>
+  <div class="col-lg-6 col-md-12 col-sm-12"
+       ba-panel
+       ba-panel-title="Users by Country"
+       ba-panel-class="medium-panel">
+    <dashboard-map></dashboard-map>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12"
        ba-panel
