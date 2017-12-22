@@ -14,14 +14,14 @@
     var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
     $scope.charts = [{
       color: pieColor,
-      description: '可用容量',
+      description: '容量(TB)',
       stats: '57,820',
       icon: 'person',
     }, {
       color: pieColor,
       description: 'Purchases',
       stats: '$ 89,745',
-      icon: 'money',
+      icon: 'network',
     }, {
       color: pieColor,
       description: 'Active Users',

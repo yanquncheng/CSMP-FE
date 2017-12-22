@@ -31,7 +31,10 @@
 					<th style="text-align: left;" st-sort="partstat">启用状态</th>
 					<th style="text-align: left;" st-sort="partphys">连接状态</th>
 					<th style="text-align: left;" st-sort="connectedToWWN">连接WWN</th>
-					<th style="text-align: left;" st-sort="hostname">连接设备</th>
+					<th style="text-align: left;" st-sort="connectedToPart">连接部件名称</th>
+					<th style="text-align: left;" st-sort="connectedToDeviceType">连接设备类型</th>
+					<th style="text-align: left;" st-sort="connectedToDevice">连接设备名称</th>
+
 				</tr>
 			</thead>
 			<tbody>
@@ -54,7 +57,9 @@
 					<td style="line-height: 25px;">{{row.partstat}}</td>
 					<td style="line-height: 25px;">{{row.partphys}}</td>
 					<td style="line-height: 25px;">{{row.connectedToWWN}}</td>
-					<td style="line-height: 25px;">{{row.hostname}}</td>
+					<td style="line-height: 25px;">{{row.connectedToPart}}</td>
+					<td style="line-height: 25px;">{{row.connectedToDeviceType}}</td>
+					<td style="line-height: 25px;">{{row.connectedToDevice}}</td>
 				</tr>
 			</tbody>
 			<tfoot>
