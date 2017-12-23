@@ -8,7 +8,8 @@
   angular.module('BlurAdmin.pages.CapacityManagement', [
 //    'BlurAdmin.pages.CapacityManagement.coreview',
 //    'BlurAdmin.pages.CapacityManagement.gateway',
-      'BlurAdmin.pages.CapacityManagement.capacity'
+      'BlurAdmin.pages.CapacityManagement.capacity',
+      'BlurAdmin.pages.CapacityManagement.capacityDistributeMap'
     ])
     .config(routeConfig);
 

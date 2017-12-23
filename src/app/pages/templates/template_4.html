@@ -53,12 +53,14 @@
       <div class="col-xs-6" id="right" style="height: 300px;">
       </div>
       <div class="col-xs-12" id="stackedbar" style="height: 600px;""> 
+      </div>   
+      <div class="col-xs-12" id="stackedarea" style="width: 100%; height: 600px; background-color: #282828;""> 
       </div> 
 
     </div>
 
     
-     <div class="row">
+     <div class="row" ng-if="data.tableBody!=null">
           <div class="col-xs-12">
             <div class="horizontal-scroll">
             <table id="sample-table-1" st-table="smartTableData" st-safe-src="data.tableBody" class="table table-striped table-bordered table-hover">

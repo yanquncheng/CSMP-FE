@@ -20,7 +20,7 @@
     	$scope.tabs = $stateParams.param.tabs;
     	$scope.activetab = $scope.tabs[0].id;
     	$scope.tab = $scope.tabs[0];
-	    
+
 	    $scope.initTemplate_1 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
@@ -52,12 +52,7 @@
 		    });
 	    };
 	    
-	    $scope.initData = function(){
-		    $scope.initTemplate_1($scope.tabs[0]);
-	    };
-	    
-	    $scope.initData();
-	    
+
 	    $scope.swithTabs = function(tab){
 	    	$scope.activetab = tab.id;
     		$scope.tab = tab;
@@ -106,7 +101,8 @@
 	    		default:
 	    	}
 	    }
-	    
+
+	    	    
 	    $scope.initTemplate_2 = function(tab){
 	    	var cfg = angular.copy(config);
 	    	cfg.params = {};
@@ -501,10 +497,83 @@
 
 					});
 
+				var div1=document.getElementById("stackedarea");    
+				if( $scope.capacity.stackedarea === undefined)  {
+					div1.style.display='none';  
+				} else {   
+ 		    		angular.forEach($scope.capacity.stackedarea.chartData, function(cdata, dindex){
+ 		    			console.log(cdata.timestamp);
+		    			cdata.timestamp = moment(parseInt(cdata.timestamp)*1000).format($scope.capacity.stackedarea.chartHeader.dataformat);
+		    		});
+					var chartStackedArea = AmCharts.makeChart("stackedarea", {
+					    "type": "serial",
+					    "theme": "dark",
+						"plotAreaBorderColor": "#FF0000",
+						"plotAreaFillAlphas": 0.21,
+						"plotAreaFillColors": "#383535",    
+						"color": "#E1DADA",
+					    "marginRight":30,
+					    "titles": [
+							{
+								"id": "Title-1",
+								"size": 25,
+								"text": $scope.capacity.stackedarea.chartHeader.Title
+							}
+						],
+					    "legend": {
+					        "equalWidths": false,
+					        "color": "#FFFFFF",
+					        "periodValueText": "total: [[value.sum]]",
+					        "position": "bottom",
+					        "valueAlign": "left",
+					        "valueWidth": 100,
+					        "switchable": true
+					    },
+					    "dataProvider": $scope.capacity.stackedarea.chartData ,
+					    "valueAxes": [{
+					        "stackType": "regular",
+					        "gridAlpha": 0.07,
+					        "position": "left",
+					        "title": $scope.capacity.stackedarea.chartHeader.YTitle
+					    }],
+
+					    "plotAreaBorderAlpha": 0,
+					    "marginTop": 10,
+					    "marginLeft": 0,
+					    "marginBottom": 0,
+					    "chartScrollbar": {},
+					    "chartCursor": {
+					        "cursorAlpha": 0
+					    },
+					    "categoryField": $scope.capacity.stackedarea.chartHeader.categoryField,
+					    "export": {
+					    	"enabled": true
+					     }
+					});
+			 
+					for ( var i in $scope.capacity.stackedarea.chartHeader.ValueField ) {
+						var item = $scope.capacity.stackedarea.chartHeader.ValueField[i];
+
+						var graph = new AmCharts.AmGraph();
+						graph.valueField = item.field; 
+						graph.balloonText = item.name + " <b>[[value]]</b>";
+						graph.fillAlphas = 0.6,
+			        	graph.lineAlpha = 0.4,
+			        	graph.title = item.name; 
+			 
+						chartStackedArea.addGraph( graph );		
+				  	
+					}  
+
+
+
+
+				}
 
 
 		    	$scope.data = response.tableData; 
-				$scope.data.tableEvent = response.tableEvent; 
+		    	if ( response.tableEvent !== undefined )
+					$scope.data.tableEvent = response.tableEvent; 
 
 		    });
 
@@ -513,6 +582,7 @@
 
 
 	    };
+
 
 	    $scope.click4Event = function(event, data, startDate, endDate, type, conf){
 	    	// 空，重新开始
@@ -570,12 +640,7 @@
 
 	    
 	    $scope.changeChartIn4 = function(chartsData){ 
-	    	angular.forEach(chartsData, function(item, index){
-//	    		for(var t=0; t<100; t++){
-//	    			var p = angular.copy(item.chartData[0]);
-//	    			p.name = parseInt(p.name)+100000*t;
-//	    			item.chartData.push(p);
-//	    		}
+	    	angular.forEach(chartsData, function(item, index){ 
 	    		angular.forEach(item.chartData, function(cdata, dindex){
 	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD HH");
 	    		});
@@ -586,14 +651,7 @@
 	    				graphs.push({
 						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> </span>",
 						    "bullet": "round",
-						    "bulletSize": 1,
-//						    "lineThickness": 3,
-//						    "bulletBorderAlpha": 1,
-//						    "bulletColor": "#FFFFFF",
-//						    "useLineColorForBulletBorder": true,
-//						    "bulletBorderThickness": 3,
-//						    "fillAlphas": 0,
-//						    "lineAlpha": 1,
+						    "bulletSize": 1, 
 						    "title": name,
 						    "valueField": name
 						  });
@@ -605,8 +663,7 @@
 						  "type": "serial",
 						  "addClassNames": true,
 						  "theme": "",
-						  "autoMargins": true,
-//						  "marginLeft": 30,
+						  "autoMargins": true, 
 						  "marginRight": 8,
 						  "marginTop": 10,
 						  "marginBottom": 26,
@@ -641,11 +698,7 @@
 						    "labelFunction": function(a, s, d){
 						    	return moment(a).format('MMDD'); 
 						    },
-						    "color": "#ffffff"
-//						    "categoryFunction": function(str){
-//						    	//str.substr(0, str.indexOf(" "))
-//						    	return moment(str).format('MMDD'); 
-//						    }
+						    "color": "#ffffff" 
 						  },
 						  "export": {
 						    "enabled": true
@@ -721,9 +774,7 @@
 				        "fillColorsField": "color",
 				        "type": "column",
 				        "valueField": "value"
-				    }],
-	//			    "depth3D": 20,
-	//			    "angle": 30,
+				    }], 
 				    "rotate": true,
 				    "categoryField": "name",
 				    "categoryAxis": {
@@ -962,12 +1013,7 @@
 	    }
 	    
 	    $scope.changeChartIn8 = function(chartsData){
-	    	angular.forEach(chartsData, function(item, index){
-//	    		for(var t=0; t<100; t++){
-//	    			var p = angular.copy(item.chartData[0]);
-//	    			p.name = parseInt(p.name)+100000*t;
-//	    			item.chartData.push(p);
-//	    		}
+	    	angular.forEach(chartsData, function(item, index){ 
 	    		angular.forEach(item.chartData, function(cdata, dindex){
 	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD HH");
 	    		});
@@ -977,14 +1023,7 @@
 	    				graphs.push({
 						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> </span>",
 						    "bullet": "round",
-						    "bulletSize": 1,
-//						    "lineThickness": 3,
-//						    "bulletBorderAlpha": 1,
-//						    "bulletColor": "#FFFFFF",
-//						    "useLineColorForBulletBorder": true,
-//						    "bulletBorderThickness": 3,
-//						    "fillAlphas": 0,
-//						    "lineAlpha": 1,
+						    "bulletSize": 1, 
 						    "title": name,
 						    "valueField": name
 						  });
@@ -996,8 +1035,7 @@
 						  "type": "serial",
 						  "addClassNames": true,
 						  "theme": "",
-						  "autoMargins": true,
-//						  "marginLeft": 30,
+						  "autoMargins": true, 
 						  "marginRight": 8,
 						  "marginTop": 10,
 						  "marginBottom": 26,
@@ -1032,11 +1070,7 @@
 						    "labelFunction": function(a, s, d){
 						    	return moment(a).format('MMDD'); 
 						    },
-						    "color": "#ffffff"
-//						    "categoryFunction": function(str){
-//						    	//str.substr(0, str.indexOf(" "))
-//						    	return moment(str).format('MMDD'); 
-//						    }
+						    "color": "#ffffff" 
 						  },
 						  "export": {
 						    "enabled": true
@@ -1338,12 +1372,7 @@
 
 
 	    $scope.changeChartIn10 = function(chartsData){
-	    	angular.forEach(chartsData, function(item, index){
-//	    		for(var t=0; t<100; t++){
-//	    			var p = angular.copy(item.chartData[0]);
-//	    			p.name = parseInt(p.name)+100000*t;
-//	    			item.chartData.push(p);
-//	    		}
+	    	angular.forEach(chartsData, function(item, index){ 
 	    		angular.forEach(item.chartData, function(cdata, dindex){
 	    			cdata.name = moment(parseInt(cdata.name)*1000).format("YYYY-MM-DD HH");
 	    		});
@@ -1353,14 +1382,7 @@
 	    				graphs.push({
 						    "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> </span>",
 						    "bullet": "round",
-						    "bulletSize": 1,
-//						    "lineThickness": 3,
-//						    "bulletBorderAlpha": 1,
-//						    "bulletColor": "#FFFFFF",
-//						    "useLineColorForBulletBorder": true,
-//						    "bulletBorderThickness": 3,
-//						    "fillAlphas": 0,
-//						    "lineAlpha": 1,
+						    "bulletSize": 1,  
 						    "title": name,
 						    "valueField": name
 						  });
@@ -1372,8 +1394,7 @@
 						  "type": "serial",
 						  "addClassNames": true,
 						  "theme": "",
-						  "autoMargins": true,
-//						  "marginLeft": 30,
+						  "autoMargins": true, 
 						  "marginRight": 8,
 						  "marginTop": 10,
 						  "marginBottom": 26,
@@ -1408,11 +1429,7 @@
 						    "labelFunction": function(a, s, d){
 						    	return moment(a).format('MMDD'); 
 						    },
-						    "color": "#ffffff"
-//						    "categoryFunction": function(str){
-//						    	//str.substr(0, str.indexOf(" "))
-//						    	return moment(str).format('MMDD'); 
-//						    }
+						    "color": "#ffffff" 
 						  },
 						  "export": {
 						    "enabled": true
@@ -1576,12 +1593,7 @@
 	   				}, 200);
 				}
 		    });
-	    };
-//  }
-//
-//  function VmaxPerformanceCtrl($scope, fixedNumber, httpService, $scope.baseInfo) {
-//  	('VmaxPerformanceCtrl', ['$scope', '$scope.baseInfo', 'Vmax',
-//  function ($scope, $scope.baseInfo, Vmax) {
+	    }; 
 	
       function myAlgorithmFill(isHorizontal,parent, children) {
         children.sort(function (a, b) {
@@ -1624,14 +1636,8 @@
          */
         Highcharts.each (children,function(child){
           sumVal+=child.val;
-        });
-        //console.log('sumVal',sumVal,children.length,children);
-        if(sumVal<1){
-          /*if(children.length>1){
-            pInterval = (1-sumVal)/(children.length-1);
-          }else{
-            pInterval = 0;
-          }*/
+        }); 
+        if(sumVal<1){ 
         }
         Highcharts.each(children, function (child) {
           if(child.val>=1){
@@ -1698,8 +1704,7 @@
 
         async.parallel({
             directorList: function(callback) {
-                if(_.isEmpty($scope.initData12)){
-//                  Vmax.getAllDirectorForPerf(params,function(result){
+                if(_.isEmpty($scope.initData12)){ 
 	    			var cfg = angular.copy(config); 
 		    		httpService.get('/vmax/performance/director', params, cfg, function (response) {
                         callback(null,response);
@@ -1709,8 +1714,7 @@
                 }
             },
             diskList: function(callback) {
-                if(_.isEmpty($scope.initData12)) {
-//                  Vmax.getAllDiskForPerf(params, function (result) {
+                if(_.isEmpty($scope.initData12)) { 
 					
 	    			var cfg = angular.copy(config);
 		    		httpService.get('/vmax/performance/disk', params, cfg, function (response) {
@@ -1720,8 +1724,7 @@
                     callback(null,null);
                 }
             },
-            allPerfDetail: function(callback){
-//              Vmax.getPerfDetailHistory(params,$scope.condition,function(result){
+            allPerfDetail: function(callback){ 
     			var cfg = angular.copy(config);
     			var cdt = angular.copy($scope.condition);
     			cdt.device = params.device;
@@ -2031,15 +2034,7 @@
             fontWeight: 'bold',
             color:'#F9F9F9'
           },
-          formatter:function(){  
-          	/*
-            if(this.point.colorValue >=0){
-              return _.ceil(this.point.colorValue);
-            }else if(this.point.colorValue === -1){
-              return 'N/A';
-            }
-            return null; 
-            */
+          formatter:function(){   
              return this.point.displayname;
 
           }
@@ -2052,8 +2047,7 @@
           	},
             chart: {
               type: 'treemap',
-              renderTo:'chart_vmax_performance',
-//            width:100,
+              renderTo:'chart_vmax_performance', 
               height:chartHight,
               marginTop:30
             },
@@ -2155,7 +2149,21 @@
       }
       $scope.queryT_12 = function(){
         $scope.initTemplate_12_q();
-      };
-        //$scope.initTemplate_12();
-    }
+      }; 
+
+
+
+
+		$scope.initData = function(){ 
+			console.log("Begin InitData:" + $scope.tabs[0]);
+			$scope.swithTabs($scope.tabs[0]);
+		};
+	    
+	    $scope.initData();
+
+
+
+    }   // end of detailsCtrlFunc
+
+
 })();

@@ -1,0 +1,201 @@
+<!--
+	容量管理首页html
+-->
+<ui-view autoscroll="true" autoscroll-body-top>
+	<!-- 第一部分 -->
+	<div class="row">
+		<div class="col-lg-12 col-md-6 col-sm-6">
+			<div style="margin-left: 10px; width: 100%; margin-top: 25px;">
+				<div style="width: 5%; height: 10px; background-color: yellow; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;已使用&nbsp;&nbsp;{{CapacityOverview.Used}}TB</div>
+				<div style="width: 5%; height: 10px; background-color: green; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;剩余物理可用&nbsp;&nbsp;{{CapacityOverview.PhysicalFree-CapacityOverview.Used}}TB</div>
+			</div>
+			<br/>
+			<div style="margin-left: 10px; width: 100%;">
+				<div style="width: 5%; height: 10px; background-color: #D03E3E; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;未使用&nbsp;&nbsp;{{CapacityOverview.Assigned-CapacityOverview.Used}}TB</div>
+				<div style="width: 5%; height: 10px; background-color: #0093FA; float: left;"></div>
+				<div style="width: 45%;float: left;">&nbsp;&nbsp;未分配&nbsp;&nbsp;{{CapacityOverview.Available-CapacityOverview.Assigned}}TB</div>
+			</div>
+			<br /><br /><br />
+			
+			<div style="width: 100%; margin-left: 10px; padding-top: 20px; border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;">
+				<div style="width: 100%; height: 20px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 35%; padding-top: 8px;"></div>
+					<div style="width: 30%; float: left; text-align: center;">裸容量: {{CapacityDistributeMap.RawCapacity.RawCapacityTB}} TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 35%; padding-top: 8px;"></div>
+				</div>
+				<div style="width: {{( CapacityDistributeMap.RawCapacity.ConfiguredRawCapacityGB + CapacityDistributeMap.RawCapacity.UnconfiguredRawCapacityGB ) / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; border-right: 1px solid #FFFFFF; height: 20px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 30%; padding-top: 8px;"></div>
+					<div style="width: 40%; float: left; text-align: center;">可用裸容量: {{CapacityDistributeMap.RawCapacity.ConfiguredRawCapacityTB + CapacityDistributeMap.RawCapacity.UnconfiguredRawCapacityTB}} TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 30%; padding-top: 8px;"></div>
+				</div>
+			</div>
+			<!-- 
+				裸容量分布柱状图 :
+					  "RawCapacity": {
+					    "RawCapacity": 168168,
+					    "ConfiguredRawCapacity" = ConfiguredUsableCapacity + RAIDOverheadCapacity
+					    "UnconfiguredCapacity": 8867, 
+					    "HotSpareCapacity": 0, 
+					    "UnusableCapacity": 1467
+					  }				
+			-->
+			<div style="margin-left: 10px;width: 100%;">
+				<div title="{{CapacityDistributeMap.RawCapacity.RawCapacityGB}} GB" 
+					 style="background-color:#666666; width: 100%; height: 40px; border-bottom: 2px #bbbbb3;">
+
+					<div class="domes" title="已配置裸容量: {{CapacityDistributeMap.RawCapacity.ConfiguredRawCapacityGB}} (GB)" style="background: #98FB98; width: {{CapacityDistributeMap.RawCapacity.ConfiguredRawCapacityGB / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; height: 40px; float: left;"></div>
+					<div class="domes" title="未配置裸容量: {{CapacityDistributeMap.RawCapacity.UnconfiguredRawCapacityGB}} (GB)" style="background: #FFF8DC ; width: {{CapacityDistributeMap.RawCapacity.UnconfiguredRawCapacityGB / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; height: 40px; float: left;"></div>
+					<div class="domes" title="HotSpare容量: {{CapacityDistributeMap.RawCapacity.HotSpareCapacityGB}} (GB)" style="background: #BBFFFF; width: {{CapacityDistributeMap.RawCapacity.HotSpareCapacityGB / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; height: 40px; float: left;"></div>
+					<div class="domes" title="不可用容量: {{CapacityDistributeMap.RawCapacity.UnusableCapacityGB}} (GB)" style="background: 	#4D4D4D ; width: {{CapacityDistributeMap.RawCapacity.UnusableCapacityGB / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; height: 40px; float: left;"></div>
+
+				</div>
+			</div> 
+			<div title="{{CapacityDistributeMap.RawCapacity.RawCapacityGB}} GB" 
+				 style="margin-left: 10px; background-color:#FFFFFF; width: {{CapacityDistributeMap.RawCapacity.ConfiguredRawCapacityGB / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; height: 40px; border-bottom: 2px #bbbbb3;"> 
+				<div class="domes" title="物理可用容量: {{CapacityDistributeMap.ConfiguredRawCapacity.ConfiguredUsable}} (GB)" style="background: #00CD00; width: {{CapacityDistributeMap.ConfiguredRawCapacity.ConfiguredUsable / CapacityDistributeMap.RawCapacity.ConfiguredRawCapacityGB * 100}}%; height: 40px; float: left;"></div>
+				<div class="domes" title="Raid Overhead: {{CapacityDistributeMap.ConfiguredRawCapacity.RAIDOverhead}} (GB)" style="background: 	#787878; width: {{CapacityDistributeMap.ConfiguredRawCapacity.RAIDOverhead / CapacityDistributeMap.RawCapacity.ConfiguredRawCapacityGB * 100}}%; height: 40px; float: left;"></div>
+			</div> 
+
+			<div title="{{CapacityDistributeMap.ConfiguredRawCapacity.ConfiguredUsable}} GB" 
+				 style="margin-left: 10px; background-color:#FFFFFF; width: {{CapacityDistributeMap.ConfiguredRawCapacity.ConfiguredUsable / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; height: 40px; border-bottom: 2px #bbbbb3;"> 
+				<div class="domes" title="已分配容量: {{CapacityDistributeMap.ConfiguredUsable.Used}} (GB)" style="background: #FF4040; width: {{CapacityDistributeMap.ConfiguredUsable.Used / CapacityDistributeMap.ConfiguredRawCapacity.ConfiguredUsable * 100}}%; height: 40px; float: left;"></div>
+				<div class="domes" title="剩余可用容量: {{CapacityDistributeMap.ConfiguredUsable.PoolFree}} (GB)" style="background: #00FF00; width: {{CapacityDistributeMap.ConfiguredUsable.PoolFree / CapacityDistributeMap.ConfiguredRawCapacity.ConfiguredUsable * 100}}%; height: 40px; float: left;"></div>
+			</div> 
+
+
+			<div style="top: 20px; height: 3px; width: 110%; background-color: #EEEE00;"></div>
+			<!-- 底部柱形 -->
+
+			<div title="{{CapacityDistributeMap.ConfiguredUsable.Used}} GB" 
+				 style="margin-left: 10px; background-color:#FFFFFF; width: {{CapacityDistributeMap.ConfiguredUsable.Used / CapacityDistributeMap.RawCapacity.RawCapacityGB * 100}}%; height: 40px; border-bottom: 2px #bbbbb3;"> 
+				<div class="domes" title="用于Block: {{CapacityDistributeMap.UsedCapacity.BlockUsed}} (GB)" style="background: 	#00008B; width: {{CapacityDistributeMap.UsedCapacity.BlockUsed / CapacityDistributeMap.ConfiguredUsable.Used * 100}}%; height: 40px; float: left;"></div>
+				<div class="domes" title="用于File: {{CapacityDistributeMap.UsedCapacity.FileUsed}} (GB)" style="background: #8B6914; width: {{CapacityDistributeMap.UsedCapacity.FileUsed / CapacityDistributeMap.ConfiguredUsable.Used * 100}}%; height: 40px; float: left;"></div>
+			</div> 
+
+			<!-- 已分配容量 -->
+			<div style="width: 100%; margin-left: 10px; padding-top: 30px;">
+				<div style="width: {{CapacityDistributeMap.ConfiguredUsable.Used / CapacityDistributeMap.RawCapacity.RawCapacityGB* 100}}%; border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF; height: 25px;">
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 25%; padding-top: 12px;"></div>
+					<div style="width: 50%; float: left; text-align: center; padding-top: 8px;">已分配:{{CapacityDistributeMap.ConfiguredUsable.Used/1024}}TB</div>
+					<div style="height: 2px; border-bottom: 1px solid #FFFFFF; float: left; width: 25%; padding-top: 12px;"></div>
+				</div>
+			</div>
+			<div style="width: 100%; margin-left: 10px; padding-top: 20px;" align="center">
+				<span class="title1" >容量分布</span>
+			</div>
+		</div>
+		
+
+	<script>
+		var div1 =0;
+		var div2 = 0;
+		function aa(id){
+			div1= $("#div1").css("z-index");
+			div2= $("#div2").css("z-index");
+			$("#"+id).css("z-index",9999);
+		}
+		function bb(){
+			$("#div1").css("z-index",div1);
+			$("#div2").css("z-index",div2);
+		}
+	</script>
+	
+	
+	<style>
+		span.title1{
+		    display:block;
+		    width:200px;
+		    height:25px;
+		    top:-8px;
+		    text-align: center;
+		    margin-left: 50px;
+		    font-size: 26px;
+		}
+		
+		.divborder{
+			border: 2px solid #FFFFFF;
+			border-top-left-radius: 1em;
+		    border-top-right-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    border-bottom-right-radius: 1em;
+		    padding-bottom: 10px;
+		}
+		
+		.ddd{
+			border: 1px solid #FFFFFF;
+		    height: 30px;
+		    width: 94%;
+		    /*background-color: red;*/
+		    /*padding-left: 150px;*/
+		    border-top-left-radius: 1em;
+		    border-top-right-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    border-bottom-right-radius: 1em;
+		    margin: 10px;
+		    position:relative;
+		}
+		.divl_left_radius{
+			height: 100%;
+		    border-top-left-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    color: #000000;
+		    text-align: center;
+		    padding: 5px;
+		    position:absolute;
+		}
+		.divl_rigth_radius{
+			height: 100%;
+			border-top-left-radius: 1em;
+		    border-bottom-left-radius: 1em;
+			border-top-right-radius: 1em;
+			border-bottom-right-radius: 1em;
+			color: #000000;
+			text-align: center;
+			padding: 5px;
+			position:absolute;
+		}
+		.div2{
+			float: left;
+		}
+		span.title{
+		    display:block;
+		    width:130px;
+		    height:12px;
+		    position:relative;
+		    top:-8px;
+		    text-align: center;
+		    background: rgb(53,77,81);
+		    color: #FFFFFF;
+		    margin-left: 25px;
+		}
+		
+		.demo:hover{
+			/*border: 2px red solid;*/
+			width:120%;
+			/*position: absolute;*/
+			 -webkit-box-shadow: 5px 5px 5px;  
+		     -moz-box-shadow: 5px 5px 5px;  
+		     box-shadow: 5px 5px 5px;  
+		     /*z-index: 2000;*/
+		}
+		
+		.domes:hover{  
+			position:relative;
+			cursor:pointer;
+		   -webkit-box-shadow: 5px 5px 5px #000000;  
+		  -moz-box-shadow: 5px 5px 5px #000000;  
+		  box-shadow: 5px 5px 5px #000000;  
+		} 
+		.domes1:hover{  
+			/*position:relative;
+			cursor:pointer;
+		  	box-shadow: -8px 5px 5px #000000,5px 5px 5px #000000,5px -8px 5px #000000,5px 5px 5px #000000;  */
+		  	-webkit-box-shadow:inset 0 0 15px #FFFFFF;  
+		    -moz-box-shadow:inset 0 0 15px #FFFFFF;  
+		    box-shadow:inset -10 0 15px #FFFFFF;  
+		} 
+	</style>
+</ui-view>
