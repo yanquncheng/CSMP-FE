@@ -105,211 +105,33 @@
 	<div class="row" style="padding-top: 1px; height: 1px; background-color: rgb(125, 125, 125);"></div>
 	<!--  最新第二部分  -->
 	<div class="row">
-		<div class="domes1 divborder col-md-4 col-sm-4 col-lg-4" ng-repeat="chart in tabsValue" style="height: 630px;margin: 10px;">
-			<h3 style="text-align: center; padding-top: 5px;">{{chart.Name}}</h3>
-			<!--<div id="stacked-bar" class="ct-chart stacked-bar"></div>-->
-			<div style="background-color: rgba(127, 190, 255, 0.14); height: 150px;">
-				<h5 style="text-align: center; padding-top: 10px;">容量分布图</h5>
-				<!--<div style="width: 94%; padding-left: 10px;">
-					<div style="width: {{chart.CapacityDist.Available/chart.CapacityDist.TotalRaw*100}}%; border-left: 2px solid #FFFFFF; border-right: 2px solid #FFFFFF; height: 20px;">
-						<div style="height: 2px; border-bottom: 2px solid #FFFFFF; float: left; width: 15%; padding-top: 8px;"></div>
-						<div style="width: 70%; float: left; text-align: center;">可用容量:{{chart.CapacityDist.Available}}TB</div>
-						<div style="height: 2px; border-bottom: 2px solid #FFFFFF; float: left; width: 15%; padding-top: 8px;"></div>
-					</div>
-				</div>-->
-				<div class="ddd" align="left">
-					<div title="可用容量:{{chart.CapacityDist.Availables}}%" class="divl_left_radius demo" style="background-color: rgb(236,236,4); float: left; width: {{chart.CapacityDist.Availables}}%; z-index: {{chart.CapacityDist.Available>chart.CapacityDist.Used?chart.CapacityDist.Used:chart.CapacityDist.Available}};"></div>
-					<div title="已用容量:{{chart.CapacityDist.Useds}}%" class="divl_left_radius demo" style="background-color: rgb(120,156,14);float: left;width: {{chart.CapacityDist.Useds}}%; height: 100%; color: #000000; padding: 5px; text-align: center; z-index: {{chart.CapacityDist.Used>chart.CapacityDist.Available?chart.CapacityDist.Available:chart.CapacityDist.Used}};"></div>
-					<div class="divl_rigth_radius demo" style="background-color: rgb(222,222,222);float: left;width: 100%; z-index: 1;"></div>
-				</div>
-				<div style="padding-left: 10px; width: 94%;">
-					<div style="width: 10%; height: 10px; background-color: rgb(236,236,4); float: left;"></div>
-					<div style="width: 90%;float: left;">可用容量:{{chart.CapacityDist.Available}}</div>
-				</div><br />
-				<div style="padding-left: 10px; width: 94%;">
-					<div style="width: 10%; height: 10px; background-color: rgb(120,156,14); float: left;"></div>
-					<div style="width: 90%; float: left;">已用容量:{{chart.CapacityDist.Used}}</div>
-				</div>
-				<div style="width: 94%; padding-left: 10px; padding-top: 20px;">
-					<div style="width: 100%; border-left: 2px solid #FFFFFF; border-right: 2px solid #FFFFFF; height: 20px;">
-						<div style="height: 2px; border-bottom: 2px solid #FFFFFF; float: left; width: 25%; padding-top: 8px;"></div>
-						<div style="width: 50%; float: left; text-align: center;">裸容量:{{chart.CapacityDist.TotalRaw}}TB</div>
-						<div style="height: 2px; border-bottom: 2px solid #FFFFFF; float: left; width: 25%; padding-top: 8px;"></div>
-					</div>
-				</div>
-			</div>
-			<br />
-			<div  class="divborder">
-				<span class="title">数据中心容量趋势</span>
-				<div style="height: 260px; width:100%;" id="zoomAxisChart{{chart.Name}}" class="admin-chart" ng-controller="dashboardCtrl">
-				</div>
-			</div>
-			<br />
-			<div class="divborder">
-				<span class="title">保护类型数据容量情况</span>
-				<table style="padding-left: 10px;">
-					<tr><td align="right" style="padding-left: 20px;">主机数据:</td><td style="padding-left: 10px;">{{chart.CapacityByPurpose.Primary}}</td></tr>
-					<tr><td align="right"style="padding-left: 20px;">本地复制:</td><td style="padding-left: 10px;">{{chart.CapacityByPurpose.LocalRep}}</td></tr>
-					<tr><td align="right"style="padding-left: 20px;">本地远程复制:</td><td style="padding-left: 10px;">{{chart.CapacityByPurpose.LocalRemoteRep}}</td></tr>
-					<tr><td align="right"style="padding-left: 20px;">本地Clone:</td><td style="padding-left: 10px;">{{chart.CapacityByPurpose.LocalTragetClone}}</td></tr>
-					<tr><td align="right"style="padding-left: 20px;">远程复制:</td><td style="padding-left: 10px;">{{chart.CapacityByPurpose.RemoteRep}}</td></tr>
-				</table>
-			</div>
+		<dashboard-pie-chart></dashboard-pie-chart> 
+
+		<div class="row">
+		  <div class="col-xlg-12 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+		    <div class="row">
+		      <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-5 col-xs-12"
+		           ba-panel 
+		          ba-panel-title="应用容量分布"
+		          ba-panel-class="medium-panel">
+		         <capacity-by-app-chart></capacity-by-app-chart>
+		      </div>
+		      <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-7 col-xs-12"
+		           ba-panel
+		           ba-panel-title="存储性能分布(IOPS)" >
+		        <performance-by-array-chart></performance-by-array-chart>
+		      </div>
+		      <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-5 col-xs-12"
+		           ba-panel
+		           ba-panel-class="popular-app medium-panel">
+		        <event-by-recently></event-by-recently>
+		      </div>
+		    </div>
+		  </div>
 		</div>
 	</div>
 	
-	
-	<!--<style>
-		.aa>div>div{background-color: rgba(0, 75, 128, 0.19);}
-	</style>-->
-	<!--  第二部分sheet    -->
-	<!--<div class="row">
-	    <div class="col-md-12 col-sm-12 col-lg-12">
-		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel">
-		        <uib-tabset active="$tabSetStatus.activeTab">
-					  <uib-tab heading="存储容量-资源池分类统计">
-					     <div class="row pie-charts">
-						   <div class="pie-chart-item-container" ng-repeat="chart in charts">
-						    <div ba-panel class="aa">
-						      <div class="panel-heading" style="height: 25px; text-align: center;padding-top: 2px; background-color: {{chart.bgColor}}; margin-bottom: 2px;"><font color="#000000">{{chart.name}}资源池</font></div>
-						      <div class="pie-chart-item">
-						        <div class="chart" rel="{{chart.bgColor }}" data-percent="{{chart.percent}}"> 
-						        	<span class="percent"></span> 
-						        </div>
-						        <div class="description" style="font-size: 13px;">
-						          <div>存储数量：{{chart.storageCount}}</div>
-						          <div>已用容量：{{chart.usedCapacity}}{{chart.defaultCapacityWithUnit}}</div>
-						          <div>可用容量：{{chart.totalCapacity}}{{chart.defaultCapacityWithUnit}}</div>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-					    </div>
-					</uib-tab>
-					<uib-tab heading="存储容量-连接虚拟网络设备">
-					     <div class="row pie-charts">
-						   <div class="pie-chart-item-container" ng-repeat="chart in charts">
-						    <div ba-panel>
-						      <div class="panel-heading" style="height: 25px; text-align: center;padding-top: 2px; background-color: brown;">高端资源池</div>
-						      <div class="pie-chart-item">
-						        <div class="chart" rel="{{ ::chart.color }}" data-percent="{{chart.aa}}"> 
-						        	<span class="percent"></span> 
-						        </div>
-						        <div class="description" style="font-size: 13px;">
-						          <div>已用容量：100</div>
-						          <div>可用容量：50</div>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-					    </div>
-					</uib-tab>
-					<uib-tab heading="存储容量-被虚拟网关封装">
-					     <div class="row pie-charts">
-						   <div class="pie-chart-item-container" ng-repeat="chart in charts">
-						    <div ba-panel>
-						      <div class="panel-heading" style="height: 25px; text-align: center;padding-top: 2px; background-color: brown;">高端资源池</div>
-						      <div class="pie-chart-item">
-						        <div class="chart" rel="{{ ::chart.color }}" data-percent="{{chart.aa}}"> 
-						        	<span class="percent"></span> 
-						        </div>
-						        <div class="description" style="font-size: 13px;">
-						          <div>已用容量：100</div>
-						          <div>可用容量：20</div>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-					    </div>
-					</uib-tab>
-					<uib-tab heading="存储容量-被自动化接管容量">
-					     <div class="row pie-charts">
-						   <div class="pie-chart-item-container" ng-repeat="chart in charts">
-						    <div ba-panel>
-						      <div class="panel-heading" style="height: 25px; text-align: center;padding-top: 2px; background-color: brown;">高端资源池</div>
-						      <div class="pie-chart-item">
-						        <div class="chart" rel="{{ ::chart.color }}" data-percent="{{chart.aa}}"> 
-						        	<span class="percent"></span> 
-						        </div>
-						        <div class="description" style="font-size: 13px;">
-						          <div>自动化容量：100</div>
-						          <div>可用容量：0</div>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-					    </div>
-					</uib-tab>
-				</uib-tabset>
-		      </div>
-	    </div>
-	</div>-->
-	
-	<!--  第三部分sheet    -->
-	<!--<div class="row">
-	    <div class="col-md-6 col-sm-6 col-lg-6">
-		      <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel">
-		        <uib-tabset active="$tabSetStatus.activeTab">
-						  <uib-tab heading="{{tab3.name}}" ng-repeat="tab3 in tabs3" ng-click="">
-						      <div ng-include="tab3.url"></div>
-						  </uib-tab>
-					</uib-tabset>
-		      </div>
-	    </div>
-	    <div class="col-md-6 col-sm-6 col-lg-6">
-		      <div class="horizontal-scroll" ba-panel>
-				<table class="table" st-table="eventTableData" st-safe-src="selectDateList" style="table-layout:fixed">
-					<thead>
-						<tr>
-							<th>事件统计</th>
-							<th></th>
-							<th></th>
-							<th>
-								<select class="form-control selectpicker show-tick" ng-model="filter.selectValue" style="width: 120px;" ng-change="selectChange()" >  
-								    <option ng-repeat="detectUnit in serialNumbers" value="{{detectUnit.day}}">{{detectUnit.name}}</option>  
-								</select> 
-							</th>
-						</tr>
-						<tr>
-							<th colspan="2">
-								<div class="row form-group no-padding" style="margin: 0px;">
-									<div class="col-lg-5 col-sm-5 col-xlg-5 control-label" style="padding-top: 7px;">显示行数：</div>
-									<div class="col-lg-7 col-sm-7 col-xlg-7">
-										<select class="form-control selectpicker show-tick" title="Rows on page" selectpicker ng-model="eventTablePageSize" ng-options="i for i in [1,5,10,15,20,25]">
-							      		</select>
-									</div>
-								</div>
-							</th>
-							<th colspan="2">
-								<input st-search placeholder="搜索" class="input-sm form-control" type="search" />
-							</th>
-						</tr>
-						<tr class="sortable ">
-							<th>设备序列号</th>
-							<th>事件级别</th>
-							<th>事件描述</th>
-							<th>发生次数</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="row in eventTableData">
-							<td>{{row.serialnb}}</td>
-							<td>{{row.severity}}</td>
-							<td>{{row.fullmsg}}</td>
-							<td>{{row.eventnum}}</td>
-						</tr>
-					</tbody>
-					<tfoot>
-					<tr>
-						<td colspan="4" class="text-center">
-							<div st-pagination="" st-items-by-page="eventTablePageSize" st-displayed-pages="15"></div>
-						</td>
-					</tr>
-				</tfoot>
-				</table>
-			</div>
-	    </div>
-	</div>-->
+
 </ui-view>
 
 <style>

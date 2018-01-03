@@ -9,147 +9,86 @@
       .controller('performanceByArrayChartCtrl', performanceByArrayChartCtrl);
 
   /** @ngInject */
-  function performanceByArrayChartCtrl(baConfig, layoutPaths, baUtil) {
-    var layoutColors = baConfig.colors;
-    var graphColor = baConfig.theme.blur ? '#000000' : layoutColors.primary;
-var chart = AmCharts.makeChart("amchart", {
-    "type": "serial",
-    "theme": "black",
-    "marginRight":30,
-    "dataProvider": [{
-        "year": 1994,
-        "cars": 1587,
-        "motorcycles": 650,
-        "bicycles": 121
-    }, {
-        "year": 1995,
-        "cars": 1567,
-        "motorcycles": 683,
-        "bicycles": 146
-    }, {
-        "year": 1996,
-        "cars": 1617,
-        "motorcycles": 691,
-        "bicycles": 138
-    }, {
-        "year": 1997,
-        "cars": 1630,
-        "motorcycles": 642,
-        "bicycles": 127
-    }, {
-        "year": 1998,
-        "cars": 1660,
-        "motorcycles": 699,
-        "bicycles": 105
-    }, {
-        "year": 1999,
-        "cars": 1683,
-        "motorcycles": 721,
-        "bicycles": 109
-    }, {
-        "year": 2000,
-        "cars": 1691,
-        "motorcycles": 737,
-        "bicycles": 112
-    }, {
-        "year": 2001,
-        "cars": 1298,
-        "motorcycles": 680,
-        "bicycles": 101
-    }, {
-        "year": 2002,
-        "cars": 1275,
-        "motorcycles": 664,
-        "bicycles": 97
-    }, {
-        "year": 2003,
-        "cars": 1246,
-        "motorcycles": 648,
-        "bicycles": 93
-    }, {
-        "year": 2004,
-        "cars": 1318,
-        "motorcycles": 697,
-        "bicycles": 111
-    }, {
-        "year": 2005,
-        "cars": 1213,
-        "motorcycles": 633,
-        "bicycles": 87
-    }, {
-        "year": 2006,
-        "cars": 1199,
-        "motorcycles": 621,
-        "bicycles": 79
-    }, {
-        "year": 2007,
-        "cars": 1110,
-        "motorcycles": 210,
-        "bicycles": 81
-    }, {
-        "year": 2008,
-        "cars": 1165,
-        "motorcycles": 232,
-        "bicycles": 75
-    }, {
-        "year": 2009,
-        "cars": 1145,
-        "motorcycles": 219,
-        "bicycles": 88
-    }, {
-        "year": 2010,
-        "cars": 1163,
-        "motorcycles": 201,
-        "bicycles": 82
-    }, {
-        "year": 2011,
-        "cars": 1180,
-        "motorcycles": 285,
-        "bicycles": 87
-    }, {
-        "year": 2012,
-        "cars": 1159,
-        "motorcycles": 277,
-        "bicycles": 71
-    }],
-    "valueAxes": [{
-        "stackType": "regular",
-        "gridAlpha": 0.07,
-        "position": "left",
-        "title": "Traffic incidents"
-    }],
-    "graphs": [{
-        "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
-        "fillAlphas": 0.6,
-        "hidden": true,
-        "lineAlpha": 0.4,
-        "title": "Cars",
-        "valueField": "cars"
-    }, {
-        "balloonText": "<img src='https://www.amcharts.com/lib/3/images/motorcycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
-        "fillAlphas": 0.6,
-        "lineAlpha": 0.4,
-        "title": "Motorcycles",
-        "valueField": "motorcycles"
-    }, {
-        "balloonText": "<img src='https://www.amcharts.com/lib/3/images/bicycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
-        "fillAlphas": 0.6,
-        "lineAlpha": 0.4,
-        "title": "Bicycles",
-        "valueField": "bicycles"
-    }],
-    "plotAreaBorderAlpha": 0,
-    "marginTop": 10,
-    "marginLeft": 0,
-    "marginBottom": 0, 
-    "chartCursor": {
-        "cursorAlpha": 0
-    },
-    "categoryField": "year",
-    "export": {
-      "enabled": true
-     }
-});
+  function performanceByArrayChartCtrl($scope, baConfig, layoutPaths, baUtil, httpService, $localStorage) {
+        var config = { headers: {
+            "Authorization": $localStorage.authKey
+        }};
+        
+        var cfg = angular.copy(config);
+
+        var layoutColors = baConfig.colors;
+        var graphColor = baConfig.theme.blur ? '#000000' : layoutColors.primary;
+
+        httpService.get('/dashboard/PerfSummary', null, cfg, function (response) {
+            $scope.perfdetail = response.perfdetail;
+            $scope.graphs = [];
+
+            angular.forEach($scope.perfdetail, function(item, index){
+                item.DT = moment(parseInt(item.DT)*1000).format("MM-DD HH:00");
+
+                    for ( var key in item ) {
+                        if ( key == 'DT' ) continue;
+
+                        var isFind = false;
+                        for ( var i in $scope.graphs ) {
+                            var gItem = $scope.graphs[i];
+                            if ( gItem.title == key ) {
+                                isFind = true;
+                                break;
+                            }
+                        }
+                        if ( isFind == false ) {
+                        var graphsItem = {};
+                            graphsItem["balloonText"] = key + " <b>[[value]]</b>";
+                            graphsItem["fillAlphas"] = 0.6 ;
+                            graphsItem["lineAlpha"] = 0.4 ;
+                            graphsItem["title"] = key;
+                            graphsItem["valueField"] = key;
+
+                            $scope.graphs.push(graphsItem);                            
+                        }
+
+     
+                    } 
+            });
+            console.log($scope.graphs);
+                    var chartStackedArea = AmCharts.makeChart("amchart", {
+                        "type": "serial",
+                        "theme": "dark",
+                        "plotAreaBorderColor": "#FF0000",
+                        "plotAreaFillAlphas": 0.21,
+                        "plotAreaFillColors": "#383535",    
+                        "color": "#E1DADA",
+                        "marginRight":30,
+                        "dataProvider": $scope.perfdetail ,
+                        "graphs":  $scope.graphs,
+                        "valueAxes": [{
+                            "stackType": "regular",
+                            "gridAlpha": 0.07,
+                            "position": "left",
+                            "title": "IOPS"
+                        }],
+
+                        "plotAreaBorderAlpha": 0,
+                        "marginTop": 10,
+                        "marginLeft": 0,
+                        "marginBottom": 0, 
+                        "chartCursor": {
+                            "cursorAlpha": 0
+                        },
+                        "categoryField": "DT",
+                        "export": {
+                            "enabled": true
+                         }
+                    });
+
+
+
+
+        });
+
+
+
 
 
   }

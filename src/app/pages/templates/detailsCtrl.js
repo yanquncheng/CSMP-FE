@@ -215,6 +215,7 @@
 	    			return;
 	    		}
 	    		cfg.params[item.postName] = $scope.baseInfo[item.findName];
+	    		$scope.device = $scope.baseInfo[item.findName];
 	    	});
     		if(f>0){
     			return;
@@ -223,7 +224,8 @@
 		    	$scope.capacity = response;
 		    	$scope.startDate = response.startDate;
 				$scope.endDate = response.endDate;
-
+	    		$("#startDate").val(moment(response.startDate).format('YYYY-MM-DD'));
+	    		$("#endDate").val(moment(response.endDate).format('YYYY-MM-DD')); 
 
 				var div1=document.getElementById("left");    
 				if( $scope.capacity.left === undefined) 
@@ -496,11 +498,15 @@
 					  }
 
 					});
+				var div2=document.getElementById("DTSelect");    
 
 				var div1=document.getElementById("stackedarea");    
 				if( $scope.capacity.stackedarea === undefined)  {
 					div1.style.display='none';  
+					div2.style.display='none';
 				} else {   
+			    	$scope.startDate = $scope.capacity.startDate;
+					$scope.endDate = $scope.capacity.endDate;					
  		    		angular.forEach($scope.capacity.stackedarea.chartData, function(cdata, dindex){
  		    			console.log(cdata.timestamp);
 		    			cdata.timestamp = moment(parseInt(cdata.timestamp)*1000).format($scope.capacity.stackedarea.chartHeader.dataformat);
@@ -522,8 +528,7 @@
 						],
 					    "legend": {
 					        "equalWidths": false,
-					        "color": "#FFFFFF",
-					        "periodValueText": "total: [[value.sum]]",
+					        "color": "#FFFFFF", 
 					        "position": "bottom",
 					        "valueAlign": "left",
 					        "valueWidth": 100,
@@ -637,7 +642,98 @@
 		    });
 	    };
 
+	    $scope.click4Event_DT = function(tab, device, startDate, endDate,  conf){
+	    	var cfg = angular.copy(config);
+	    	if(conf){
+	    		cfg = conf;
+	    	}
+	    	if(!cfg.params){
+		    	cfg.params = {};
+	    	}	    	
 
+	    	cfg.params.device = device;
+	    	cfg.params.startDate = moment(startDate).format();
+	    	cfg.params.endDate = moment(endDate).format(); 
+    
+		    httpService.get(tab['url'], null, cfg, function (response) {
+		    	$scope.capacity = response;
+		    	$scope.startDate = response.startDate;
+				$scope.endDate = response.endDate; 
+ 		    	$scope.changeChartIn4_DT(response);
+		    });
+	    };
+
+	    $scope.changeChartIn4_DT = function(chartsData){ 
+	    	$scope.capacity = chartsData;
+	    	
+			    	$scope.startDate = $scope.capacity.startDate;
+					$scope.endDate = $scope.capacity.endDate;					
+ 		    		angular.forEach($scope.capacity.stackedarea.chartData, function(cdata, dindex){
+ 		    			console.log(cdata.timestamp);
+		    			cdata.timestamp = moment(parseInt(cdata.timestamp)*1000).format($scope.capacity.stackedarea.chartHeader.dataformat);
+		    		});
+					var chartStackedArea = AmCharts.makeChart("stackedarea", {
+					    "type": "serial",
+					    "theme": "dark",
+						"plotAreaBorderColor": "#FF0000",
+						"plotAreaFillAlphas": 0.21,
+						"plotAreaFillColors": "#383535",    
+						"color": "#E1DADA",
+					    "marginRight":30,
+					    "titles": [
+							{
+								"id": "Title-1",
+								"size": 25,
+								"text": $scope.capacity.stackedarea.chartHeader.Title
+							}
+						],
+					    "legend": {
+					        "equalWidths": false,
+					        "color": "#FFFFFF", 
+					        "position": "bottom",
+					        "valueAlign": "left",
+					        "valueWidth": 100,
+					        "switchable": true
+					    },
+					    "dataProvider": $scope.capacity.stackedarea.chartData ,
+					    "valueAxes": [{
+					        "stackType": "regular",
+					        "gridAlpha": 0.07,
+					        "position": "left",
+					        "title": $scope.capacity.stackedarea.chartHeader.YTitle
+					    }],
+
+					    "plotAreaBorderAlpha": 0,
+					    "marginTop": 10,
+					    "marginLeft": 0,
+					    "marginBottom": 0,
+					    "chartScrollbar": {},
+					    "chartCursor": {
+					        "cursorAlpha": 0
+					    },
+					    "categoryField": $scope.capacity.stackedarea.chartHeader.categoryField,
+					    "export": {
+					    	"enabled": true
+					     }
+					});
+			 
+					for ( var i in $scope.capacity.stackedarea.chartHeader.ValueField ) {
+						var item = $scope.capacity.stackedarea.chartHeader.ValueField[i];
+
+						var graph = new AmCharts.AmGraph();
+						graph.valueField = item.field; 
+						graph.balloonText = item.name + " <b>[[value]]</b>";
+						graph.fillAlphas = 0.6,
+			        	graph.lineAlpha = 0.4,
+			        	graph.title = item.name; 
+			 
+						chartStackedArea.addGraph( graph );		
+				  	
+					}  
+
+
+
+	    }
 	    
 	    $scope.changeChartIn4 = function(chartsData){ 
 	    	angular.forEach(chartsData, function(item, index){ 
@@ -739,7 +835,9 @@
 	    $scope.search4 = function(url){
 	    	$scope.click4Event($scope.data.tableEvent, $scope.selectData, $("#startDate").val(), $("#endDate").val(), "update", null);
 	    };
-
+	    $scope.search4_dt = function(device){
+	    	$scope.click4Event_DT($scope.tab, device, $("#startDate").val(), $("#endDate").val(),  null);
+	    };
 
 	    $scope.initTemplate_5 = function(tab){
 	    	var cfg = angular.copy(config);

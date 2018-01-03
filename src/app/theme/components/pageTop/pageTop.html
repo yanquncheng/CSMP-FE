@@ -1,5 +1,5 @@
 <div class="page-top clearfix" scroll-position="scrolled" max-height="50" ng-class="{'scrolled': scrolled}">
-  <a href="#/dashboard/home" class="al-logo clearfix"><span>存储管理平台</span></a>
+  <a href="#/dashboard/home" class="al-logo clearfix"><img src="assets/img/logo.png" /><span>    存储管理平台</span></a>
   <a href class="collapse-menu-link ion-navicon" ba-sidebar-toggle-menu></a>
 
 
@@ -13,15 +13,15 @@
 
       <ul  class="top-dropdown-menu profile-dropdown" uib-dropdown-menu>
         <li><i class="dropdown-arr"></i></li>
-        <li><a href="#/dashboard/profile"><i class="fa fa-user"></i>Profile</a></li>
-        <li><a href="#/dashboard/settings"><i class="fa fa-cog"></i>Credentials</a></li>
+        <!-- <li><a href="#/dashboard/profile"><i class="fa fa-user"></i>Profile</a></li> 
+        <li><a href="#/dashboard/settings"><i class="fa fa-cog"></i>修改密码</a></li> -->
         <li><a ng-click="modifyPasswd();" href="javascript:void(0);"><i class="glyphicon glyphicon-eye-close"></i>修改密码</a></li>
-        <li><a ng-click="signOut()" href="#/signin" class="signout"><i class="fa fa-power-off"></i>Sign out</a></li>
+        <li><a ng-click="signOut()" href="#/signin" class="signout"><i class="fa fa-power-off"></i>退出</a></li>
       </ul>
     </div>
     <msg-center></msg-center> 
     <div style="padding-top:15px; float:right;">
-      User: {{username}} 
+      当前用户: {{username}} 
     </div>
   </div>
 </div>
