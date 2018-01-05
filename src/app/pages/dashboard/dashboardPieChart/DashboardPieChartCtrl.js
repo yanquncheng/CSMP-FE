@@ -78,73 +78,91 @@
       });
     }
 
-        async.waterfall([
-              
-              function(callback) {
-                  httpService.get('/capacity/distributemap', null, cfg, function (response) {
 
-                      var chartItem = {};
-                      chartItem["color"] = pieColor;
-                      chartItem["name"] = '剩余可用容量(TB)';
-                      chartItem["stats"] = (Math.round(response.RawCapacity.ConfiguredRawCapacityGB.ConfiguredUsable.AllocateUsable.Total/1024 * 100)/100).toString();
-                      chartItem["icon"] = 'capacity';
-                      chartItem["percent"] = Math.round((response.RawCapacity.ConfiguredRawCapacityGB.ConfiguredUsable.AllocateUsable.Total / response.RawCapacity.ConfiguredRawCapacityGB.ConfiguredUsable.Total) * 100) ;  
-                      chartItem["description"] = moment(parseInt(response.LastTS)*1000).format("YYYY-MM-DD HH:mm:ss");
 
-                      $scope.charts.push(chartItem);
 
-                      callback(null,"aa");
 
-                  }); 
-              },
-              function(arg1,callback){ 
 
-                  httpService.get('/dashboard/PerfSummary', null, cfg, function (response) {
 
-                      var chartItem = {};
-                      chartItem["color"] = pieColor;
-                      chartItem["name"] = '性能-IOPS';
-                      chartItem["stats"] = Math.round(response.MaxIOPS.value).toString();
-                      chartItem["icon"] = 'perf-chart';
-                      chartItem["percent"] = Math.round((response.MaxIOPS.value / 100000) * 100) ;  
-                      chartItem["description"] = moment(parseInt(response.MaxIOPS.DT)*1000).format("YYYY-MM-DD HH:mm:ss");
-
-                      $scope.charts.push(chartItem);
-
-                      callback(null,"aa");
-
-                  });
-
-              },
-              function(arg1,callback) {
+    async.waterfall([
+          
+          function(callback) {
+              httpService.get('/capacity/distributemap', null, cfg, function (response) {
 
                   var chartItem = {};
                   chartItem["color"] = pieColor;
-                  chartItem["name"] = '事件';
-                  chartItem["stats"] = "4567";
-                  chartItem["icon"] = 'bell';
-                  chartItem["percent"] = 22;
-                  chartItem["description"] = 'this is desc';
- 
-                  $scope.charts.push(chartItem); 
+                  chartItem["name"] = '剩余可用容量(TB)';
+                  chartItem["stats"] = (Math.round(response.RawCapacity.ConfiguredRawCapacityGB.ConfiguredUsable.AllocateUsable.Total/1024 * 100)/100).toString();
+                  chartItem["icon"] = 'capacity';
+                  chartItem["percent"] = Math.round((response.RawCapacity.ConfiguredRawCapacityGB.ConfiguredUsable.AllocateUsable.Total / response.RawCapacity.ConfiguredRawCapacityGB.ConfiguredUsable.Total) * 100) ;  
+                  chartItem["description"] = moment(parseInt(response.LastTS)*1000).format("YYYY-MM-DD HH:mm:ss");
+
+                  $scope.charts.push(chartItem);
+
                   callback(null,"aa");
 
-              },
-              function(arg1,callback) {
-                  loadPieCharts();
+              }); 
+          },
+          function(arg1,callback){ 
+
+              httpService.get('/dashboard/PerfSummary', null, cfg, function (response) {
+
+                  var chartItem = {};
+                  chartItem["color"] = pieColor;
+                  chartItem["name"] = '性能-IOPS';
+                  chartItem["stats"] = Math.round(response.MaxIOPS.value).toString();
+                  chartItem["icon"] = 'perf-chart';
+                  chartItem["percent"] = Math.round((response.MaxIOPS.value / 100000) * 100) ;  
+                  chartItem["description"] = moment(parseInt(response.MaxIOPS.DT)*1000).format("YYYY-MM-DD HH:mm:ss");
+
+                  $scope.charts.push(chartItem);
+
                   callback(null,"aa");
-              }
-          ], function (err, result) { 
-              $('.refresh-data').on('click', function () {
-                updatePieCharts();
-              });          
-        });
+
+              });
+
+          },
+          function(arg1,callback) {
+
+              httpService.get('/events', null, cfg, function (response) {
+
+                var lastTS = 0;
+                for ( var i in response ) {
+                    var item = response[i];
+                    if ( lastTS < item.timestamp ) lastTS = item.timestamp;
+                }
+                
+                var chartItem = {};
+                chartItem["color"] = pieColor;
+                chartItem["name"] = '事件';
+                chartItem["stats"] = response.length;
+                chartItem["icon"] = 'bell';
+                chartItem["percent"] = 22;
+                //chartItem["description"] = moment(parseInt(lastTS)*1000).format("YYYY-MM-DD HH:mm:ss");
+                chartItem["description"] = moment().format('LTS');
+
+                $scope.charts.push(chartItem); 
+                callback(null,"aa");
+
+              });
+
+
+          },
+          function(arg1,callback) { 
+              $timeout(function () {
+                loadPieCharts();
+                //updatePieCharts();
+              }, 1000);                  
+              callback(null,"aa");
+          }
+      ], function (err, result) { 
+          $('.refresh-data').on('click', function () {
+            updatePieCharts();
+          });          
+    });
 
     
-    $timeout(function () {
-      loadPieCharts();
-      //updatePieCharts();
-    }, 1000);
+
     
    
   }

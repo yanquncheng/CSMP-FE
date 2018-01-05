@@ -6,7 +6,7 @@
       .controller('dashboardCtrl', dashboardCtrlFunc);
 	
   /** @ngInject */
-  function dashboardCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService,baUtil,baConfig,$timeout,$element,layoutPaths,httpService,$state) {
+  function dashboardCtrlFunc($scope, $filter, $http, $localStorage,toastr, $uibModal, commonService,baUtil,baConfig,$timeout,$element,layoutPaths,httpService,$state, $interval) {
       var config = { headers: {
           "Authorization": $localStorage.authKey
       }}
@@ -168,44 +168,52 @@
 			
 
       
-			$scope.dataList =[] ;  //初始化数据源
-			$scope.tabs1=[];  // 数据中心信息
-			$scope.charts =[];  //资源池数据信息
-			$scope.tabsValue=[]; //默认数据中心查询值
+	$scope.dataList =[] ;  //初始化数据源
+	$scope.tabs1=[];  // 数据中心信息
+	$scope.charts =[];  //资源池数据信息
+	$scope.tabsValue=[]; //默认数据中心查询值
 
-			
-			$scope.initData = function (params){ 
-				httpService.get("/dashboard/EquipmentSummary", params, config, function (response){ 
-					$scope.dataList = response.Datacenter;  
-					$scope.tabs1 = $scope.dataList;
-					$scope.tabsValue = $scope.tabs1[0].ResourcePool; 
-					for(var i in $scope.tabsValue){
-						var item = $scope.tabsValue[i];
-						var Availables = parseFloat((item.CapacityDist.Available / item.CapacityDist.TotalRaw)*100).toFixed(1);  //可用容量
-						var Useds = parseFloat((item.CapacityDist.Used / item.CapacityDist.TotalRaw)*100).toFixed(1);  //已用容量
-						$scope.tabsValue[i].CapacityDist.Availables=Availables;
-						$scope.tabsValue[i].CapacityDist.Useds=Useds;
-						trendCharts(item.Name,item.CapacityTrend);
-					} 
-				});
-			};
-    
+
+	$scope.initData = function (params){ 
+		httpService.get("/dashboard/EquipmentSummary", params, config, function (response){ 
+			$scope.dataList = response.Datacenter;  
+			$scope.tabs1 = $scope.dataList;
+			$scope.tabsValue = $scope.tabs1[0].ResourcePool; 
+			for(var i in $scope.tabsValue){
+				var item = $scope.tabsValue[i];
+				var Availables = parseFloat((item.CapacityDist.Available / item.CapacityDist.TotalRaw)*100).toFixed(1);  //可用容量
+				var Useds = parseFloat((item.CapacityDist.Used / item.CapacityDist.TotalRaw)*100).toFixed(1);  //已用容量
+				$scope.tabsValue[i].CapacityDist.Availables=Availables;
+				$scope.tabsValue[i].CapacityDist.Useds=Useds;
+				trendCharts(item.Name,item.CapacityTrend);
+			} 
+		});
+	};
+
  	               
- 	  //数据中心 tab点击事件
- 	  $scope.swithTabs = function(tab){   
- 	  	$scope.tabsValue = tab.ResourcePool;
- 	  	 for(var i in $scope.tabsValue){
-      	var item = $scope.tabsValue[i];
-      	trendCharts(item.Name,item.CapacityTrend);
-      }
- 	  }
- 	  
- 	  $scope.server=function(url,datacenter,type){
- 	  	var params = {};
- 	  	params.datacenter = datacenter;
- 	  	params.type = type;
- 	  	$state.go(url,params);
- 	  }
- 	  $scope.initData();
+	//数据中心 tab点击事件
+	$scope.swithTabs = function(tab){   
+		$scope.tabsValue = tab.ResourcePool;
+		for(var i in $scope.tabsValue){
+			var item = $scope.tabsValue[i];
+			trendCharts(item.Name,item.CapacityTrend);
+		}
+	}
+  
+	$scope.server=function(url,datacenter,type){
+		var params = {};
+		params.datacenter = datacenter;
+		params.type = type;
+		$state.go(url,params);
+	}
+	$scope.initData();
+
+	// 10秒执行一次
+	//$scope.runner = $interval($scope.initData, 10000);
+
+	//$scope.$on('$destroy', function () {
+	//	$interval.cancel($scope.runner);  
+	//});
+		
   }
 })();
