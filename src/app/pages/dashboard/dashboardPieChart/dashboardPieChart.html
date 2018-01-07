@@ -3,16 +3,15 @@
   <div class="pie-chart-item-container" ng-repeat="chart in charts">
     <div ba-panel >
  
-      <div class="pie-chart-item">
+      <div class="pie-chart-item" id={{chart.name}} >
         <div class="chart" rel="{{ ::chart.color }}" data-percent={{chart.percent}}> <span class="percent"></span> </div>
 
         <div class="description">
           <div>{{ ::chart.name }}</div>
-          <div class="description-stats">{{ ::chart.stats }}</div>
+          <div class="description-stats" >{{ ::chart.stats }}</div>
           <div class="description-stats1">{{ ::chart.description }}</div>
         </div>        
-        <i class="chart-icon i-{{ ::chart.icon }}"></i> 
-
+        <i class="chart-icon tick i-{{ ::chart.icon }}"></i>
       </div>
     </div> 
   </div>

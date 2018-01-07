@@ -6,12 +6,13 @@
       .controller('demosCtrl', demosCtrlFunc);
 
   /** @ngInject */
-  function demosCtrlFunc($scope, $filter, $http, $localStorage,$timeout, $uibModal, commonService, httpService, $state) {
+  function demosCtrlFunc($scope, $stateParams, $filter, $http, $localStorage,$timeout, $uibModal, commonService, httpService, $state) {
       
 	  var config = { headers: {
           "Authorization": $localStorage.authKey
       }}
 	  
+    console.log("DEMO-stateParams="+ JSON.stringify($stateParams));
 	  
 	  $scope.dataList = [];
 	  $scope.theadList = [];
@@ -27,6 +28,25 @@
     		  }
 	      });
       };
+
+      //返回
+      $scope.back = function (){
+        var backUrl = "dashboard.objectManage.array";
+        console.log($stateParams);
+        if($stateParams.param.backUrl){
+          backUrl = $stateParams.param.backUrl ;
+        }
+        if($stateParams.param.selectTab){
+          $scope.baseInfo.selectTab = $stateParams.param.selectTab ;
+        }
+        var datacenter = null ;
+        if($stateParams.datacenter){
+          datacenter = $stateParams.datacenter ;
+        }
+         
+      $state.go(backUrl,{param: $scope.baseInfo,datacenter: datacenter });
+     };
+     
       
   	  
       //点击查看

@@ -16,6 +16,7 @@
           sidebarMeta: {
             order: 1,
           },
+          params: {param: null}
         }).state('dashboard.demos.demoDetail', {
         	url: '',
             templateUrl: 'app/pages/templdates/details.html',

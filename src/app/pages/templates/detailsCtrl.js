@@ -8,7 +8,7 @@
     
     function detailsCtrlFunc($scope, fixedNumber, httpService, $localStorage, $filter, $stateParams, $timeout, commonService,$state) {
     	 
-    	 console.log($stateParams);
+    	 console.log("$stateParams="+$stateParams.toString());
     	 
     	 $scope.baseInfo = {};
     	 $scope.baseInfo = $stateParams.param.storage;

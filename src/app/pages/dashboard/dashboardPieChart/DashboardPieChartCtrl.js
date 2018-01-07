@@ -6,18 +6,18 @@
   'use strict';
 
 
-  angular.module('BlurAdmin.pages.dashboard')
+  angular.module('BlurAdmin.pages.dashboards')
       .controller('DashboardPieChartCtrl', DashboardPieChartCtrl);
 
   /** @ngInject */
-  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil,httpService, $localStorage) {
+  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil,httpService, $localStorage,$state) {
     var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
         var config = { headers: {
             "Authorization": $localStorage.authKey
         }};
         
         var cfg = angular.copy(config);
-        //$scope.charts = [];
+        $scope.charts = [];
                 $scope.charts1 = [{
                   color: pieColor,
                   description: '',
@@ -40,6 +40,7 @@
                   percent: 10
                 }
                 ];
+
 
 
     function getRandomArbitrary(min, max) {
@@ -79,7 +80,11 @@
     }
 
 
-
+    function server(url){  
+      var param = {}; 
+      param.backUrl = $state.current.name ; 
+      $state.go(url, {param: param });
+    }
 
 
 
@@ -152,7 +157,22 @@
               $timeout(function () {
                 loadPieCharts();
                 //updatePieCharts();
-              }, 1000);                  
+              }, 1000);            
+
+              // Listener Click Event 
+              var classObj = document.getElementsByClassName('pie-chart-item');
+              Array.prototype.forEach.call(classObj, function(el) { 
+                  if ( el.id == "性能-IOPS") {
+                    el.addEventListener('click', function (event) {
+                        // do something
+                        console.log("Click on it!!!!" + el.id);
+                        var param = {}; 
+                        server('dashboard.dashboardsPerformance',param); 
+
+                    });
+                  }
+              }); 
+ 
               callback(null,"aa");
           }
       ], function (err, result) { 
@@ -163,7 +183,6 @@
 
     
 
-    
    
   }
 })();

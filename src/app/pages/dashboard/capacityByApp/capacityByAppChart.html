@@ -37,9 +37,27 @@ g.arc path:hover {
 
 </style>
 
-<div >
+<!--
+<div >         
+<div id="tools">
+  <button id="drawing" class="button" onclick="toggle(this);">Start Drawing</button>
+  <button id="erasing" class="button" onclick="toggle(this);">Start Erasing</button>
+</div>
         <div id="disk111" style="height: 350px; width: 100%;">
         </div>
  
 </div>
+-->
 
+<div>
+<uib-tabset active="$tabSetStatus.activeTab">
+  <uib-tab heading="容量分布">
+        <div id="disk111" style="height: 340px; width: 100%;">
+        </div>
+  </uib-tab>
+  <uib-tab heading="分配增长率">
+        <div id="CapacityAllocateGrowthRate" style="height: 340px; width: 100%;">
+        </div>
+  </uib-tab>    
+</uib-tabset>
+</div>

@@ -200,10 +200,8 @@
 		}
 	}
   
-	$scope.server=function(url,datacenter,type){
-		var params = {};
-		params.datacenter = datacenter;
-		params.type = type;
+	$scope.server=function(url){
+		var params = {}; 
 		$state.go(url,params);
 	}
 	$scope.initData();

@@ -13,7 +13,7 @@
             'BlurAdmin.pages.viewuser',
             'BlurAdmin.pages.interntasks',
             'BlurAdmin.pages.settings',
-            'BlurAdmin.pages.dashboard',
+            'BlurAdmin.pages.dashboards',
             'BlurAdmin.pages.charts',
             'BlurAdmin.pages.ui',
             'BlurAdmin.pages.tables',
@@ -25,12 +25,12 @@
             'BlurAdmin.pages.sysManage',
 			'BlurAdmin.pages.performance',
 			'BlurAdmin.pages.EventManagement',
-			'BlurAdmin.pages.CapacityManagement',
-			'BlurAdmin.pages.dashboards',
+			'BlurAdmin.pages.CapacityManagement', 
 			'BlurAdmin.pages.objectManage',
 			'BlurAdmin.pages.reportManage',
             'BlurAdmin.pages.templatedetails',
-			'BlurAdmin.pages.demos'
+			'BlurAdmin.pages.demos',
+            'BlurAdmin.pages.dashboardsPerformance'
         ])
         .config(routeConfig);
 

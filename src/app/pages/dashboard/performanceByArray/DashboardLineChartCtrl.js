@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages.dashboard')
+  angular.module('BlurAdmin.pages.dashboards')
       .controller('performanceByArrayChartCtrl', performanceByArrayChartCtrl);
 
   /** @ngInject */
@@ -69,6 +69,14 @@
                             "title": "IOPS"
                         }],
 
+                        "legend": {
+                            "horizontalGap": 10,
+                            "maxColumns": 4,
+                            "position": "bottom",
+                            "useGraphSettings": true,
+                            "color": "#FFFFFF",
+                            "markerSize": 10
+                        },
                         "plotAreaBorderAlpha": 0,
                         "marginTop": 10,
                         "marginLeft": 0,

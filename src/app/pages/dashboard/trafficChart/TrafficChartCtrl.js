@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages.dashboard')
+  angular.module('BlurAdmin.pages.dashboards')
       .controller('TrafficChartCtrl', TrafficChartCtrl);
 
   /** @ngInject */
