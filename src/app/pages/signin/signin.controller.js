@@ -238,9 +238,13 @@
                                
                               AuthenticationService.setMenuItems($scope.menuItems);
                                
-                              //$state.go('dashboard.dashboards');
-                              $state.go('dashboard.dashboardsPerformance');
+                              $state.go('dashboard.dashboards');
+
+                              // Testing for performance dashboard;
+                              //$state.go('dashboard.dashboardsPerformance');
                            }, 1000).error(function (err) {
+
+                            
                                 console.log(err); 
                                 toastr.error(err.message, '获取菜单失败'); 
                           });

@@ -14,6 +14,7 @@
             "Authorization": $localStorage.authKey
         }};
         
+        
         var cfg = angular.copy(config);
 
         var layoutColors = baConfig.colors;
