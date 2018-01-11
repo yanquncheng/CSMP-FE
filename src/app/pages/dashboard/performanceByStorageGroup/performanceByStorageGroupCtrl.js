@@ -19,7 +19,7 @@
         var layoutColors = baConfig.colors;
         var graphColor = baConfig.theme.blur ? '#000000' : layoutColors.primary;
         cfg.params = {};
-        cfg.params["period"] = 86400;
+        cfg.params["period"] = 0;
         httpService.get('/vmax/performance/storagegroup/bubblechart', null, cfg, function (response) {
             $scope.perfdetail = response;
             $scope.graphs = [];

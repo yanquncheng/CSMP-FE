@@ -82,7 +82,8 @@
                         "marginLeft": 0,
                         "marginBottom": 0, 
                         "chartCursor": {
-                            "cursorAlpha": 0
+                            "cursorAlpha": 0,
+                            "oneBalloonOnly": true
                         },
                         "categoryField": "DT",
                         "export": {

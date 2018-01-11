@@ -20,7 +20,17 @@
         <div id="director_RF_chart"></div> 
       </div>
     </div>
+    <div class="row">
+      <div>
+        <button id='button-day' ng-click="setPeriod('1d');" type="button" class="btn btn-info" disabled=true  style="margin-right:10px;">日</button>
+        <button id='button-week' ng-click="setPeriod('1w');" type="button" class="btn btn-default"  style="margin-right:10px;">周</button> 
+        <button id='button-month' ng-click="setPeriod('1m');" type="button" class="btn btn-default"  style="margin-right:80px;">月</button> 
+        <button id='button-max' ng-click="setValueType('max');" type="button" class="btn btn-default btn-with-icon" disabled=true ><i class="ion-stats-bars" style="margin-right:10px;"></i>最大值</button>
+        <button id='button-avg' ng-click="setValueType('average');" type="button" class="btn btn-default btn-with-icon" disabled=true ><i class="ion-stats-bars"></i>平均值</button> 
+      </div>  
+    </div> 
   </div>
+
 </div>
 
 
