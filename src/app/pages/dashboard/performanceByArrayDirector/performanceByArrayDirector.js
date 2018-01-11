@@ -52,7 +52,7 @@
                             graphsItem["lineColor"] =  "#FF4500",
                             graphsItem["lineThickness"] = 2;
                             graphsItem["negativeLineColor"] =  "#00FF00",
-                            graphsItem["negativeBase"] = 30,
+                            graphsItem["negativeBase"] = 45,
                             graphsItem["type"] =  "smoothedLine",
                             graphsItem["valueField"] =  key,
   
@@ -85,7 +85,7 @@
                             graphsItem["lineColor"] =  "#FF4500",
                             graphsItem["lineThickness"] = 2;
                             graphsItem["negativeLineColor"] =  "#00FF00",
-                            graphsItem["negativeBase"] = 30,
+                            graphsItem["negativeBase"] = 45,
                             graphsItem["type"] =  "smoothedLine",
                             graphsItem["valueField"] =  key,
   
@@ -118,7 +118,7 @@
                             graphsItem["lineColor"] =  "#FF4500",
                             graphsItem["lineThickness"] = 2;
                             graphsItem["negativeLineColor"] =  "#00FF00",
-                            graphsItem["negativeBase"] = 30,
+                            graphsItem["negativeBase"] = 45,
                             graphsItem["type"] =  "smoothedLine",
                             graphsItem["valueField"] =  key,
   

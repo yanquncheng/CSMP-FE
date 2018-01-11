@@ -265,7 +265,7 @@
     flushData();
 
     // 10秒执行一次
-     $scope.runner = $interval(flushData, 10000);
+     $scope.runner = $interval(flushData, 60000*60);
 
     $scope.$on('$destroy', function () {
       $interval.cancel($scope.runner);  

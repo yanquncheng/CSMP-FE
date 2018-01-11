@@ -68,14 +68,14 @@
                             "position": "left",
                             "title": "IOPS"
                         }],
-
+ 
                         "legend": {
                             "horizontalGap": 10,
                             "maxColumns": 4,
                             "position": "bottom",
                             "useGraphSettings": true,
                             "color": "#FFFFFF",
-                            "markerSize": 10
+                            "markerSize": 16
                         },
                         "plotAreaBorderAlpha": 0,
                         "marginTop": 10,
