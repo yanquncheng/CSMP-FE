@@ -22,7 +22,7 @@
 		    		</th>
 				</tr>	
 				<tr class="black-muted-bg">
-					<th style="text-align: left;" st-sort="device">交换机名称</th>
+					<th style="text-align: left;" st-sort="device">交换机名称(IP)</th>
 					<th style="text-align: left;" st-sort="partid">端口序号</th>
 					<th style="text-align: left;" st-sort="part">端口名称</th>
 					<th style="text-align: left;" st-sort="vendor">端口WWN</th>
@@ -45,7 +45,7 @@
 					<!--<td style="text-align: center;width: 80px;vertical-align: middle;">{{$index + 1 }}</td>-->
 					<td style="line-height: 25px;">
 						<a style="text-decoration: none;" href="javascript:void(0);" ng-click="switchDetail(row ,'switch');">
-							{{row.device}}
+							{{row.lsname}} ({{row.ip}})
 						</a>
 					</td>
 					<td style="line-height: 25px;">

@@ -12,9 +12,9 @@
           "Authorization": $localStorage.authKey
       }}
 	  $scope.readStatus = false ;
+    $scope.u = {sendsms: false};
 	  
-      $scope.initData = function (){
-      	
+      $scope.initData = function (){ 
     	  httpService.get('/user/list' , null,config ,function (response) {
               $scope.userList = response;
               angular.forEach($scope.userList, function (item,i) {
@@ -53,46 +53,58 @@
        * 用户编辑
        */
       $scope.editUser = function (user){
-    	  //$scope.userEntity = user ;
-    	  $scope.editPanel = true ;
-   		  $scope.panelTtile = '编辑用户' ;
-   		  $("#username").val(user.username);
-   		  $("#password").val(user.password);
-   		  $("#email").val(user.email);
-   		  $("#_id").val(user._id);
-   		  $scope.readStatus = true ;
-   		  roleListInit(user.roleList );
+      	  //$scope.userEntity = user ;
+      	  $scope.editPanel = true ;
+     		  $scope.panelTtile = '编辑用户' ;
+     		  $("#username").val(user.username);
+     		  $("#password").val(user.password);
+     		  $("#email").val(user.email);
+          $("#phone").val(user.phone);
+          
+          $scope.u.sendsms = user.sendsms;  
+
+      		$("#_id").val(user._id);
+     		  $scope.readStatus = true ;
+     		  roleListInit(user.roleList ); 
       };
       
       /**
        * 用户新增
        */
-      $scope.addUser = function (){
-		$scope.editPanel = true ;
-		$scope.panelTtile = '新增用户' ;
-		$("#username").val("");
-		$scope.readStatus = false ;
-		$("#password").val("");
-		$("#email").val("");
-		$("#_id").val("");
-		roleListInit();
+      $scope.addUser = function (){ 
+      		$scope.editPanel = true ;
+      		$scope.panelTtile = '新增用户' ;
+      		$("#username").val("");
+      		$scope.readStatus = false ;
+      		$("#password").val("");
+      		$("#email").val("");
+          $("#phone").val("");
+          $scope.sendsms = false;
+      		$("#_id").val("");
+      		roleListInit();
       };
       
       /**
        * 新增/编辑返回
        */
  	  $scope.panelBack = function (){
- 		$scope.editPanel = false ;
+ 		   $scope.editPanel = false ;
  	  };
  	  
+    $scope.changeStatus = function(value){
+      $scope.sendsms = value;
+      console.log("ChangeStatus to:" + $scope.sendsms);
+    }
+
  	 /**
        * 新增/编辑 保存
        */
- 	 $scope.userSave = function (){
- 		 
+ 	 $scope.userSave = function (){ 
  		var username = $("#username").val();
  		var password = $("#password").val();
  		var email = $("#email").val();
+    var phone = $("#phone").val();
+    var sendsms = $scope.u.sendsms;
  		var _id = $("#_id").val();
  		
  		 if(!username){
@@ -108,13 +120,19 @@
  			commonService.showMsg("error","请输入用户email！");
  			return;
  		 }
- 		
+
+    if(!phone){
+      commonService.showMsg("error","请输入用户手机号码！");
+      return;
+     }
+
  		var regex = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g ;
  		if(!regex.test(email)){
  			commonService.showMsg("error","请输入正确email格式！");
  			return;
  		 }
- 		
+ 		 
+
  		if( $scope.checkedRows.length == 0){
  			commonService.showMsg("error","请选择用户分配的角色！");
  			return;
@@ -124,6 +142,8 @@
 				 "username": username,
 				 "password": password,
 				 "email": email,
+         "phone": phone,
+         "sendsms": sendsms,
 				 //"_id": _id,
 				 "roleList":  $scope.checkedRows
  		 }
@@ -132,8 +152,7 @@
  			delete params.password ;
  		 }
  		 
- 		httpService.post("/user/add" , params , config,function (response) {
-        	console.log("response:--->"+response);
+ 		httpService.post("/user/add" , params , config,function (response) { 
         	commonService.showMsg("success","用户操作成功!");
         	
         	 $scope.panelBack();
@@ -144,7 +163,8 @@
   	  //角色列表初始化
   	  $scope.checkedCount = 0 ;
   	  $scope.checkedRows = [] ;
-  	  function roleListInit(userRoleList ){
+
+  	  function roleListInit(userRoleList ){ 
   		 $scope.checkedCount = 0 ;
   	  	 $scope.checkedRows = [] ;
   		  
@@ -156,28 +176,28 @@
                       	if(roleName == role.roleName){
                       		role.selected = true ;
                       		$scope.checkedCount ++ ;
-                      		$scope.checkedRows.push(roleName);
+                      		$scope.checkedRows.push(roleName); 
                       		return;
                          }
                   	});
                 }
         	});
-            $scope.roleData =  angular.copy(response);
+            $scope.roleData =  angular.copy(response); 
             
             var allcheckbox=$("th :checkbox");
      		 if($scope.checkedRows.length == $scope.roleData.length){
      			allcheckbox.prop("checked", true);
      		 }else{
      			allcheckbox.prop("checked", false);
-     		 }
-            
+     		 } 
+           
 	      });
   	  }
   	  
   	 /**
 	   * 角色列表 全选
 	   */
-  	  $scope.checkAll = function (e){
+  	  $scope.checkAll = function (e){ 
   		  $scope.checkedRows = [] ;
   		  var checkStatus = e.target.checked;
   		  var allcheckbox=$("th :checkbox");
@@ -203,7 +223,8 @@
   	 /**
 	   * 角色列表 列表单个选择
 	   */
-  	  $scope.addCheck = function (e,row){
+  	  $scope.addCheck = function (e,row){ 
+
   		 var checkStatus = e.target.checked;
   		 if(checkStatus){
   			 $scope.checkedRows.push(row.roleName) ;
@@ -222,13 +243,13 @@
   			allcheckbox.prop("checked", checkStatus);
   		 }else{
   			allcheckbox.prop("checked", false);
-  		 }
+  		 } 
+
   	  };
   	  
   	  
 		/***************************************/
-		$scope.initData();
-		
+		$scope.initData(); 
 		
 		//打开后返回顶部
         $timeout(function() {
@@ -238,3 +259,4 @@
   }
 
 })();
+

@@ -30,10 +30,10 @@
 			  </tr>
 			      
 					<tr class="black-muted-bg">
-						<th style="text-align: center;width: 80px;">序号</th>
-						<th style="text-align: center;" st-sort="username">用户名称</th>
-						<th style="text-align: center;" st-sort="email">用户email</th>
-						<th style="text-align: center;">分配角色</th>
+						<th style="text-align: left;width: 80px;">序号</th>
+						<th style="text-align: left;" st-sort="username">用户名称</th>
+						<th style="text-align: left;" st-sort="email">用户email</th>
+						<th style="text-align: left;">分配角色</th>
 						<th style="text-align: center;" >操作</th>
 					</tr>
 				</thead>
@@ -103,7 +103,14 @@
 				    <label for="email"><fond style="color:red;">* </fond>email</label>
 				    <input type="email" class="form-control" id="email" placeholder="email"/>
 				</div>
-					
+
+				<div class="form-group">
+				    <label for="phone"><fond style="color:red;">* </fond>手机号码</label>
+				    <input type="phone" class="form-control" id="phone" placeholder="phone"/>
+					<input type="checkbox" id="sendsms" ng-model="u.sendsms" ng-change="changeStatus(sendsms);"  /> 接收告警短信
+				</div>
+			  
+			
 			</div>
 		</div><!--panel  start-->
 	</div>
