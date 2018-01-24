@@ -90,7 +90,8 @@
         var params ={};
         if(datacenter1!=null && datacenter1!=''){
           params.datacenter=datacenter1;
-        }
+		}
+		params.isPortStatics = 'true';
         httpService.get('/switch/ports' , params,config ,function (response) {
           
             $scope.DataList = response;
