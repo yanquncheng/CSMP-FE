@@ -344,19 +344,19 @@
 
                           // remove datapoint from the beginning
                           //chart1.dataProvider.shift();  
-                          chart1.dataProvider = result1.graphsFA;
+                          chart1.dataProvider = result1.FA;
                           chart1.validateData();
 
                           //chart2.dataProvider.shift();  
-                          chart2.dataProvider = result1.graphsDA;
+                          chart2.dataProvider = result1.DA;
                           chart2.validateData();
 
                           //chart3.dataProvider.shift();  
-                          chart3.dataProvider = result1.graphsRF;
+                          chart3.dataProvider = result1.RF;
                           chart3.validateData();
 
                     });
-                }, 60000 * 5 );  
+                }, 60000 * 30 );  
 
              });
 
