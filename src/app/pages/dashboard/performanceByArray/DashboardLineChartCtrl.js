@@ -24,7 +24,7 @@
             $scope.graphs = [];
 
             angular.forEach($scope.perfdetail, function(item, index){
-                item.DT = moment(parseInt(item.DT)*1000).format("MM-DD HH:00");
+                //item.DT = moment(parseInt(item.DT)*1000).format("MM-DD HH:00");
 
                     for ( var key in item ) {
                         if ( key == 'DT' ) continue;

@@ -21,6 +21,12 @@
         cfg.params = {};
         cfg.params["period"] = 0;
         httpService.get('/vmax/performance/storagegroup/bubblechart', null, cfg, function (response) {
+            if ( response.length == 0 ) {
+              var divsg=document.getElementById("perfBySG");   
+              divsg.style.display='none'; 
+              return;
+            }
+            
             $scope.perfdetail = response;
             $scope.graphs = [];
  

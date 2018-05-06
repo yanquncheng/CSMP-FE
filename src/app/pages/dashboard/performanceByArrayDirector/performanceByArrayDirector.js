@@ -19,7 +19,7 @@
 
         var layoutColors = baConfig.colors;
         var graphColor = baConfig.theme.blur ? '#000000' : layoutColors.primary;
-        var chart1, chart2, chart3;
+        var chart1, chart2, chart3, chart4;
 
         $scope.setPeriod = function(period) { 
             $scope.periodtype = period;
@@ -115,6 +115,11 @@
                   chart3.dataProvider = result1.RF;
                   chart3.validateData();
 
+                  
+                  //chart3.dataProvider.shift();  
+                  chart4.dataProvider = result1.VNXControllerIOPS;
+                  chart4.validateData();
+
             });        
         }
 
@@ -134,7 +139,28 @@
                                 var graphs_fa = [];
                                 var graphs_da = [];
                                 var graphs_rf = [];
-                        
+
+                                var div0=document.getElementById("FACharts");  
+                                var div2=document.getElementById("RDFCharts");   
+                                var div1=document.getElementById("DACharts");   
+
+                                if ( Object.keys(response.FrontEnd).length == 0  ) {
+                                    div0.style.display='none';  
+                                }                         
+                                if ( Object.keys(response.BackEnd).length == 0  ) {
+
+                                    div1.style.display='none'; 
+                                }
+                                if ( Object.keys(response.RDF).length == 0  ) {
+                                   div2.style.display='none'; 
+                                }
+                                
+                                if ( div1.style.display == 'none' && div2.style.display == 'none' ) { 
+                                    div0.className = 'col-xlg-12 col-lg-6 col-md-6 col-sm-12 col-xs-12'
+                                }
+
+
+
                                 for ( var j in director_fa ) {
                                     var item = director_fa[j];
 
@@ -236,18 +262,85 @@
 
                                  finalResult["graphsFA"] = graphs_fa;
                                 finalResult["graphsDA"] = graphs_da;
-                                finalResult["graphsRF"] = graphs_rf;
+                                finalResult["graphsRF"] = graphs_rf; 
 
                                 finalResult["FA"] = director_fa;
                                 finalResult["DA"] = director_da;
                                 finalResult["RF"] = director_rf;
-             
+                           
                                 callback(null,finalResult);
 
                             });
 
-                        }
-                    ], function (err, result) { 
+                        }, 
+                       
+                        function(arg1, callback) {               
+                            httpService.get('/vnx/performance/controller/iops', null, cfg, function (response) {
+                                var  director_fa = response.TotalThroughput;
+                                var graphs_fa = [];
+                                var div4=document.getElementById("VNXControllerIOPSCharts");   
+
+                                if ( Object.keys(response).length == 0  ) {
+                                    div4.style.display='none';   
+                                }                           
+
+
+                                for ( var j in director_fa ) {
+                                    var item = director_fa[j];
+
+                                        for ( var key in item ) {
+                                            if ( key == 'DT' ) continue;
+
+                                            var isFind = false;
+                                            for ( var i in graphs_fa ) {
+                                                var gItem = graphs_fa[i];
+                                                if ( gItem.id == key ) {
+                                                    isFind = true;
+                                                    break;
+                                                }
+                                            }
+                                            if ( isFind == false ) {
+                                                var graphsItem = {}; 
+                                                graphsItem["id"] =  key;
+                                                graphsItem["balloonText"] =  key + "<br><b>[[value]]</b>", 
+                                                graphsItem["bullet"] =  "round",
+                                                graphsItem["bulletSize"] =  4,
+                                                graphsItem["lineColor"] =  "#FF4500",
+                                                graphsItem["lineThickness"] = 2;
+                                                graphsItem["negativeLineColor"] =  "#00FF00",
+                                                graphsItem["negativeBase"] = 45,
+                                                graphsItem["type"] =  "smoothedLine",
+                                                graphsItem["valueField"] =  key;
+                      
+                                                //graphs_fa.push(graphsItem);          
+                                                
+                                                var graphsItem1 = {};
+                                                graphsItem1["id"] = key;
+                                                graphsItem1["fillAlphas"] = 0.6;
+                                                //graphsItem1["hidden"] =  true;
+                                                graphsItem1["lineAlpha"] = 0.4;
+                                                graphsItem1["title"] =  key;
+                                                graphsItem1["valueField"] =  key; 
+
+                                                graphs_fa.push(graphsItem1);  
+
+                                            }
+                                    } 
+                                };
+                     
+ 
+                                arg1["graphsVNXControllerIOPS"] = graphs_fa;
+ 
+                                arg1["VNXControllerIOPS"] = director_fa;
+                          
+                                callback(null,arg1);
+
+                            });
+
+                        } 
+                    ], function (err, result) {  
+                        console.log(result.VNXControllerIOPS);
+                        console.log(result.graphsVNXControllerIOPS) ;
                         callback1(result);
                     });
 
@@ -274,7 +367,8 @@
                 "categoryAxis": { 
                     "parseDates": false,
                     "minorGridAlpha": 0.1,
-                    "minorGridEnabled": true
+                    "minorGridEnabled": true,
+                    "labelRotation": 30
                 },
                 "valueAxis": {
                     "maximum": 100
@@ -302,7 +396,8 @@
                 "categoryAxis": { 
                     "parseDates": false,
                     "minorGridAlpha": 0.1,
-                    "minorGridEnabled": true
+                    "minorGridEnabled": true,
+                    "labelRotation": 30
                 },
                 "export": {
                     "enabled": true
@@ -329,13 +424,56 @@
                 "categoryAxis": { 
                     "parseDates": false,
                     "minorGridAlpha": 0.1,
-                    "minorGridEnabled": true
+                    "minorGridEnabled": true,
+                    "labelRotation": 30
                 },
                 "export": {
                     "enabled": true
                 }
                 });
+ 
 
+                chart4 = AmCharts.makeChart("VNX_Controller_IOPS_chart", {
+                    "type": "serial",
+                    "theme": "black",
+                    "marginRight":30,
+                    "color": "#E1DADA",  
+                    "legend": {
+                        "equalWidths": false,
+                        "periodValueText": "total: [[value.sum]]",
+                        "position": "top",
+                        "valueAlign": "left",
+                        "valueWidth": 100
+                    },
+                    "dataProvider": result.VNXControllerIOPS,
+                    "valueAxes": [{
+                        "stackType": "regular",
+                        "gridAlpha": 0.07,
+                        "position": "left",
+                        "title": "IOPS"
+                    }],
+                    "graphs": result.graphsVNXControllerIOPS,
+                    "plotAreaBorderAlpha": 0,
+                    "marginTop": 10,
+                    "marginLeft": 0,
+                    "marginBottom": 0,
+                    "chartScrollbar": {},
+                    "chartCursor": {
+                        "cursorAlpha": 0
+                    },
+                    "categoryField": "DT",
+                    "categoryAxis": {
+                        "startOnAxis": true,
+                        "axisColor": "#DADADA",
+                        "gridAlpha": 0.07,
+                        "labelRotation": 30
+                        //"title": "Year",
+                       
+                    },
+                    "export": {
+                        "enabled": true
+                     }
+                });
 
                 // set up the chart to update every 5 mins
                 setInterval( function() {
@@ -354,6 +492,10 @@
                           //chart3.dataProvider.shift();  
                           chart3.dataProvider = result1.RF;
                           chart3.validateData();
+
+                          //chart3.dataProvider.shift();  
+                          chart4.dataProvider = result1.VNXControllerIOPS;
+                          chart4.validateData();
 
                     });
                 }, 60000 * 30 );  

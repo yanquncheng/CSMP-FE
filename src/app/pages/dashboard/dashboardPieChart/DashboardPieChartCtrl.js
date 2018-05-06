@@ -211,8 +211,8 @@
                     chartItem["stats"] = Math.round(response.MaxIOPS.value).toString();
                     chartItem["icon"] = 'perf-chart';
                     chartItem["percent"] = Math.round((response.MaxIOPS.value / 100000) * 100) ;  
-                    chartItem["description"] = moment(parseInt(response.MaxIOPS.DT)*1000).format("YYYY-MM-DD HH:mm:ss");
-
+                    //chartItem["description"] = moment(parseInt(response.MaxIOPS.DT)*1000).format("YYYY-MM-DD HH:mm:ss");
+                    chartItem["description"] =  response.MaxIOPS.DT;
                     charts_tmp.push(chartItem);
 
                     callback(null,"aa");
