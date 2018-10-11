@@ -271,6 +271,7 @@
    	 
    	 $scope.addAllHostData={
 		    "baseinfo":{
+				"id":"",
 		        "name":"",
 		        "sn":"",
 		        "HAType":"",
@@ -365,8 +366,10 @@
             	if(b[i].length<1){
             			$scope.initApply();
             		return;
-            	}
-            	$scope.addAllHostData.baseinfo.name = b[i].split(",")[5];
+				}
+				
+            	$scope.addAllHostData.baseinfo.id = b[i].split(",")[23];
+				$scope.addAllHostData.baseinfo.name = b[i].split(",")[5];
             	$scope.addAllHostData.baseinfo.service_ip = b[i].split(",")[8];
             	$scope.addAllHostData.baseinfo.type = b[i].split(",")[3];
             	$scope.addAllHostData.baseinfo.catalog = b[i].split(",")[4];
