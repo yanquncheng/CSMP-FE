@@ -10,7 +10,7 @@ angular.module('BlurAdmin', [
         'ngTouch',
         'toastr', 
         'smart-table',
-        'ngStorage',
+        'ngStorage', 
         'xeditable',
         'ui.slimscroll',
         'ngJsTree',

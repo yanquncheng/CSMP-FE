@@ -1,0 +1,441 @@
+<div class="widgets">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div ba-panel ba-panel-title="服务执行向导" ba-panel-class="with-scroll">
+                <ba-wizard>
+                    <ba-wizard-step title="1.容量需求" form="vm.capacityInfoForm">
+                        <form name="vm.capacityInfoForm" novalidate>
+                            <div ba-panel ba-panel-title="需求信息" ba-panel-class="light-text">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="input01">资源用途</label>
+                                        <select class="form-control selectpicker" ng-model="selecedItemPurpose"
+                                            ng-change="saveData('purpose',selecedItemPurpose,'json')">
+                                            <option ng-repeat="purposeItem in useManagement" value="{{purposeItem}}">{{purposeItem.purpose}}</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input01">资源池</label>
+                                        <select class="form-control selectpicker" ng-model="selecedItemPool" ng-change="saveData('pool',selecedItemPool,'json')">
+                                            <option ng-repeat="item in pools" value="{{item}}">{{item.resourcePoolName}}
+                                                [ free={{item.freeSize}} ({{item.freeUnit}})/ total={{item.totalSize}}
+                                                ({{item.sizeUnit}}) ]</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group" name='capacity'>
+                                        <label for="input01">容量</label>
+                                        <div class="input-group" ng-class="{'has-error': capacity.capacity.$invalid && (capacity.capacity.$dirty || capacity.capacity.$submitted)}">
+                                            <input name='capacity' type="number" class="form-control with-warning-addon"
+                                                aria-describedby="basic-addon2" min="0" max="{{item.freeUnit}}"
+                                                ng-model="capacity" ng-change="saveData('capacityGB',capacity)">
+                                            <span class="input-group-addon input-group-addon-warning addon-right" id="basic-addon2">GB</span>
+                                        </div>
+                                        <span class="help-block error-block basic-block">Required</span>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <label for="input01">应用代码</label>
+                                        <input type="text" class="form-control" ng-model="appCode" ng-change="saveData('appCode',appCode)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input01">应用名称</label>
+                                        <input type="text" class="form-control" ng-model="appName" ng-change="saveData('appName',appName)">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="button-wrapper"><button type="button" ng-click="resourceRowAdd()"
+                                                class="btn btn-success btn-with-icon"><i class="ion-android-checkmark-circle"></i>添加</button></div>
+                                        <div class="button-wrapper"><button type="button" ng-click="resourceRowReset()"
+                                                class="btn btn-warning btn-with-icon"><i class="ion-android-warning"></i>重置</button></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <table class="table table-bordered table-hover table-condensed">
+                                            <tr>
+                                                <td>资源用途</td>
+                                                <td>资源池</td>
+                                                <td>容量(GB)</td>
+                                                <td>操作</td>
+                                            </tr>
+                                            <tr ng-repeat="item in resourceInfo">
+                                                <td>
+                                                    {{item.purpose.purpose}}
+                                                </td>
+                                                <td>
+                                                    {{item.pool.resourcePoolName}}
+                                                </td>
+                                                <td>
+                                                    {{item.capacityGB}}
+                                                </td>
+                                                <td>
+                                                    <div class="buttons" ng-show="!rowform.$visible">
+                                                        <button class="btn btn-danger editable-table-button btn-xs"
+                                                            ng-click="resourceRowRemove($index)">Delete</button>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                        {{item}}
+                                        <!-- /.span -->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step title="2.分配主机" form="vm.hostInfoForm">
+
+                        <div class="widgets">
+                            <div class="col-md-12" ba-panel ba-panel-title="集群" ba-panel-class="with-scroll">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="clusterName">集群名称</label>
+                                        <input type="text" class="form-control" id="clusterName" name="productName"
+                                            placeholder="Cluster Name" ng-model="clusterName" ng-change="saveData('clusterName',clusterName)"
+                                            onkeyup="value=value.replace(/(^_)|([^\w\u4e00-\u9fa5])+$/ig,'')"
+                                            onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/(^_)|([^\w\u4e00-\u9fa5])+$/ig,''))">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="dataCenterLocation">杋房位置</label>
+                                        <select class="form-control selectpicker" ng-model="selecedLocation" ng-change="saveData('location',selecedLocation,'json')">
+                                            <option ng-repeat="item in locationInfos" value="{{item}}">{{item.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="widgets">
+                                    <div class="col-md-12" ba-panel ba-panel-title="主机信息" ba-panel-class="with-scroll">
+                                        <div class="col-md-12">
+                                            <div class="form-group has-feedback">
+                                                <label for="clusterName">主机名称</label>
+                                                <input type="text" class="form-control" ng-model="hostName" ng-change="saveData('hostName',hostName)"
+                                                    onkeyup="value=value.replace(/(^_)|([^\w\u4e00-\u9fa5])+$/ig,'')"
+                                                    onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/(^_)|([^\w\u4e00-\u9fa5])+$/ig,''))">
+                                            </div>
+
+                                            <div class="form-group ">
+                                                <label for="dataCenterLocation">操作系统</label>
+                                                <select class="form-control selectpicker" selectpicker ng-change="saveData('osType',hostOSType)"
+                                                    ng-model="hostOSType">
+                                                    <option>X86-Linux</option>
+                                                    <option>X86-ESXi-VMware</option>
+                                                </select>
+                                            </div>
+
+                                            <div ba-panel ba-panel-title="主机HBA端口信息" ba-panel-class="with-scroll">
+                                                <div class="add-row-editable-table">
+                                                    <button class="btn btn-primary" ng-click="addHostHBA()">增加HBA端口</button>
+                                                </div>
+                                                <table class="table table-bordered table-hover table-condensed">
+                                                    <tr>
+                                                        <td>WWN</td>
+                                                        <td>别名(alias)</td>
+                                                        <td>操作</td>
+                                                    </tr>
+                                                    <tr ng-repeat="hba in hbas" class="editable-row">
+                                                        <td>
+                                                            <span editable-text="hba.WWN" e-name="WWN" e-form="rowform"
+                                                                e-required>
+                                                                {{ hba.WWN || 'empty' }}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            {{hba.alias}}
+                                                        </td>
+                                                        <td>
+                                                            <form editable-form name="rowform" ng-show="rowform.$visible"
+                                                                class="form-buttons form-inline" shown="inserted == user">
+                                                                <button type="submit" ng-disabled="rowform.$waiting"
+                                                                    class="btn btn-primary editable-table-button btn-xs">
+                                                                    Save
+                                                                </button>
+                                                                <button type="button" ng-disabled="rowform.$waiting"
+                                                                    ng-click="rowform.$cancel()" class="btn btn-default editable-table-button btn-xs">
+                                                                    Cancel
+                                                                </button>
+                                                            </form>
+                                                            <div class="buttons" ng-show="!rowform.$visible">
+                                                                <button class="btn btn-primary editable-table-button btn-xs"
+                                                                    ng-click="rowform.$show()">Edit</button>
+                                                                <button class="btn btn-danger editable-table-button btn-xs"
+                                                                    ng-click="hbaRowRemove($index)">Delete</button>
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 center">
+                                                    <button id="addHostList" class="btn btn-info" type="button"
+                                                        ng-click="hostRowAdd()">
+                                                        <i class="ace-icon fa fa-check bigger-110"></i>添加
+                                                    </button>
+                                                    <button class="btn" type="button" id="btn_reset">
+                                                        <i class="ace-icon fa fa-undo bigger-110"></i>重置
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-12" ba-panel ba-panel-class="with-scroll">
+                                    <table id="table_report" class="table table-striped table-bordered table-hover">
+                                        <tr>
+                                            <th>主机</th>
+                                            <th>操作系统</th>
+                                            <th>HBA端口</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        <tr ng-repeat="item in hostInfo.hosts">
+                                            <td>
+                                                {{item.hostName}}
+                                            </td>
+                                            <td>
+                                                {{item.osType}}
+                                            </td>
+                                            <td>  
+                                                <div class="bootstrap-tagsinput" ng-if="item.hbas.length>0"><!--white-space: normal;-->
+                                                    <span class="tag label label-warning" ng-repeat="hbaitem in item.hbas" style="float: left;margin-top: 3px;" >{{hbaitem.WWN}}</span>
+                                                    <!--<span data-role="remove"></span>-->
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="buttons" ng-show="!rowform.$visible">
+                                                    <button class="btn btn-danger editable-table-button btn-xs"
+                                                        ng-click="hostInfoRowRemove($index)">Delete</button>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </ba-wizard-step>
+                    <ba-wizard-step title="信息确认" form="vm.infoConfirmForm">
+                        <div id="content">
+                            <h1>Timeline Concept</h1>
+
+                            <ul class="timeline">
+                                <li class="event" data-date="12:30 - 1:00pm">
+                                    <h3>Registration</h3>
+                                    <p>Get here on time, it's first come first serve. Be late, get turned away.</p>
+                                    <table id="table_report" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>主机</th>
+                                                <th>操作系统</th>
+                                                <th>集群名称</th>
+                                                <th>HBA</th>
+                                                <th>机房位置</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody_report">
+                                        </tbody>
+                                    </table>
+                                </li>
+                                <li class="event" data-date="2:30 - 4:00pm">
+                                    <h3>Opening Ceremony</h3>
+                                    <p>Get ready for an exciting event, this will kick off in amazing fashion with MOP
+                                        & Busta Rhymes as an opening show.</p>
+                                </li>
+                                <li class="event" data-date="5:00 - 8:00pm">
+                                    <h3>Main Event</h3>
+                                    <p>This is where it all goes down. You will compete head to head with your friends
+                                        and rivals. Get ready!</p>
+                                </li>
+                                <li class="event" data-date="8:30 - 9:30pm">
+                                    <h3>Closing Ceremony</h3>
+                                    <p>See how is the victor and who are the losers. The big stage is where the winners
+                                        bask in their own glory.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </ba-wizard-step>
+                    <ba-wizard-step title="Finish">
+                        <div class="button-wrapper"><button type="button" ng-click="infoConfirm()" class="btn btn-success btn-with-icon"><i
+                                    class="ion-android-checkmark-circle"></i>添加</button></div>
+                    </ba-wizard-step>
+                </ba-wizard>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<style>
+        /* Import */
+        @font-face {
+            font-family: 'Oswald';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Oswald Light'), local('Oswald-Light'), url(https://fonts.gstatic.com/s/oswald/v16/TK3hWkUHHAIjg75-sh0Tus9H.ttf) format('truetype');
+        }
+    
+        @font-face {
+            font-family: 'Oswald';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Oswald Regular'), local('Oswald-Regular'), url(https://fonts.gstatic.com/s/oswald/v16/TK3iWkUHHAIjg752GT8D.ttf) format('truetype');
+        }
+    
+        @font-face {
+            font-family: 'Oswald';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Oswald Bold'), local('Oswald-Bold'), url(https://fonts.gstatic.com/s/oswald/v16/TK3hWkUHHAIjg75-ohoTus9H.ttf) format('truetype');
+        }
+    
+        @font-face {
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 200;
+            src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf) format('truetype');
+        }
+    
+        @font-face {
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf) format('truetype');
+        }
+    
+        @font-face {
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf) format('truetype');
+        }
+    
+        @font-face {
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 600;
+            src: local('Source Sans Pro SemiBold'), local('SourceSansPro-SemiBold'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdr.ttf) format('truetype');
+        }
+    
+        @font-face {
+            font-family: 'Source Sans Pro';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdr.ttf) format('truetype');
+        }
+    
+        /* Variables */
+        /* Base */
+        body {
+            background: #252827;
+            font-size: 16px;
+        }
+    
+        strong {
+            font-weight: 600;
+        }
+    
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1.5px;
+            color: white;
+            font-weight: 100;
+            font-size: 2.4em;
+        }
+    
+        #content {
+            margin-top: 50px;
+            text-align: center;
+        }
+    
+        /* Timeline */
+        .timeline {
+            border-left: 4px solid #4298C3;
+            border-bottom-right-radius: 4px;
+            border-top-right-radius: 4px;
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Source Sans Pro', sans-serif;
+            margin: 50px auto;
+            letter-spacing: 0.5px;
+            position: relative;
+            line-height: 1.4em;
+            font-size: 1.03em;
+            padding: 50px;
+            list-style: none;
+            text-align: left;
+            font-weight: 100;
+            max-width: 30%;
+        }
+    
+        .timeline h1,
+        .timeline h2,
+        .timeline h3 {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1.5px;
+            font-weight: 100;
+            font-size: 1.4em;
+        }
+    
+        .timeline .event {
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-bottom: 25px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+    
+        .timeline .event:last-of-type {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border: none;
+        }
+    
+        .timeline .event:before,
+        .timeline .event:after {
+            position: absolute;
+            display: block;
+            top: 0;
+        }
+    
+        .timeline .event:before {
+            left: -217.5px;
+            color: rgba(255, 255, 255, 0.4);
+            content: attr(data-date);
+            text-align: right;
+            font-weight: 100;
+            font-size: 0.9em;
+            min-width: 120px;
+        }
+    
+        .timeline .event:after {
+            box-shadow: 0 0 0 4px #4298c3;
+            left: -57.85px;
+            background: #313534;
+            border-radius: 50%;
+            height: 11px;
+            width: 11px;
+            content: "";
+            top: 5px;
+        }
+    </style>

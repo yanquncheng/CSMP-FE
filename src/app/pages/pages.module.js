@@ -30,7 +30,8 @@
 			'BlurAdmin.pages.reportManage',
             'BlurAdmin.pages.templatedetails',
 			'BlurAdmin.pages.demos',
-            'BlurAdmin.pages.dashboardsPerformance'
+            'BlurAdmin.pages.dashboardsPerformance',
+            'BlurAdmin.pages.Automation'
         ])
         .config(routeConfig);
 
