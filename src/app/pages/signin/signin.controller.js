@@ -193,7 +193,7 @@
                 var config = {headers: { 'Access-Control-Allow-Origin': '*' } };
    
                 var loginreq = {"username": $scope.username, "password": $scope.password };
-                
+                printService.print(" BlurAdmin.signin->login =  " + loginreq);
                 $http.post(IG.api + '/login' , loginreq ).success(function (response) {
                        console.log("response string="+JSON.stringify(response));
                        $scope.users = response;

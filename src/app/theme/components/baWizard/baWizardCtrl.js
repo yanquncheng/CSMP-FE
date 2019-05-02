@@ -6,6 +6,8 @@
 
   /** @ngInject */
   function baWizardCtrl($scope,$rootScope) {
+	
+   
     var vm = this;
     vm.tabs = [];
 
@@ -42,10 +44,13 @@
 
     vm.nextTab = function () {
       vm.selectTab(vm.tabNum + 1)
+	  $scope.$emit('ToBrotherController',vm.tabNum);
     };
 
     vm.previousTab = function () {
-      vm.selectTab(vm.tabNum - 1)
+      vm.selectTab(vm.tabNum - 1);
+	  $("#nextButton").attr("disabled",false);
+	 
     };
 
     function calcProgress() {
@@ -59,5 +64,6 @@
       vm.progress = ((vm.tabNum + 1) / vm.tabs.length) * 100;
 
     }
+	
   }
 })();

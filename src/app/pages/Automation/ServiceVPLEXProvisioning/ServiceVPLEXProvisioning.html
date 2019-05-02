@@ -1,295 +1,678 @@
 <div class="widgets">
 
-    <div class="row">
-        <div class="col-md-12">
-            <div ba-panel ba-panel-title="服务执行向导" ba-panel-class="with-scroll">
-                <ba-wizard>
-                    <ba-wizard-step title="服务请求" form="vm.capacityInfoForm">
-                        <form name="vm.capacityInfoForm" novalidate>
-                            <div ba-panel ba-panel-title="需求信息" ba-panel-class="light-text">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="input01">应用代码</label>
-                                        <select class="form-control selectpicker" ng-model="selecedItemAppName"
-                                            ng-change="saveData('appname',selecedItemAppName,'json')">
-                                            <option ng-repeat="appNameItem in AppNames" value="{{appNameItem}}">{{appNameItem}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="input01">资源池</label>
-                                        <select class="form-control selectpicker" ng-model="selecedItemPool" ng-change="saveData('pool',selecedItemPool,'json')">
-                                            <option ng-repeat="item in pools" value="{{item}}">{{item.resourcePoolName}}
-                                                [ free={{item.freeSize}} ({{item.freeUnit}})/ total={{item.totalSize}}
-                                                ({{item.sizeUnit}}) ]</option>
+  <div class="row">
+    <div class="col-md-12">
+      <div ba-panel ba-panel-class="with-scroll notification-panel">
+        <ba-wizard>
+          <ba-wizard-step title="服务请求" form="vm.capacityInfoForm">
+            <form class="form-horizontal" name="vm.capacityInfoForm" novalidate>
+              <div ba-panel class="mj-ba-panel" style="box-shadow: none">
+                <div class="task-todo-container transparent">
+                  <div class="todo-header-searchbox">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-2">应用代码/名称</label>
+                    <div class="select-input-box col-md-3 col-sm-8 col-xs-8">
+                      <select id="select" class="form-control task-todo" style="width: 100%;" ng-model="aValue" ng-init="aValue='所有'"
+                              ng-change="change()" ng-click="ccc()">
+						<option ng-repeat="application in ApplicationList" value="{{application.name}}">{{application.name}}</option>
+                      </select>
+                      <input id="input" type="text" class="form-control task-todo" placeholder="Task to do.."
+                             ng-model="bValue">
+                    </div>
+                    <div class="col-md-1 col-sm-2 col-xs-2 text-right" style="padding-left: 0px;">
+                      <button type="button" class="btn btn-primary">详情
+                      </button>
+                    </div>
+                  </div>
+                  <div class="box-shadow-border"></div>
+                  <div class="widgets-first-box">
+                    <div
+                      class="col-xlg-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 widgets-first-item box-shadow-border-right">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 col-sm-2 col-xs-2 control-label">存储资源池</label>
+                        <div class="col-md-6 col-sm-8 col-xs-8">
+                          <select class="form-control selectpicker" ng-model="selecedItemAppName" ng-init="selecedItemAppName='所有'"
+                                  ng-change="saveData('appname',selecedItemAppName,'json')">
+                            <option ng-repeat="appNameItem in AppNames" value="{{appNameItem}}">{{appNameItem.name}}</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2 text-right" style="padding-left: 0px;">
+                          <button type="button" class="btn btn-primary">详情
+                          </button>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputPassword3" class="col-md-4 col-sm-2 col-xs-2 control-label">申请容量</label>
+                        <div class="col-md-8 col-sm-10 col-xs-10">
+                          <div class="input-group" style="margin-bottom: 0px;">
+                            <input id="capacityGb" type="text" class="form-control with-primary-addon" placeholder="请输入内容"
+                                   aria-describedby="basic-addon2" ng-model="capacityGbModel" ng-init = "capacityGbModel=1" ng-keyup="clearNoNum()" >
+                            <span class="input-group-addon input-group-addon-other addon-right" id="basic-addon2">&nbsp;&nbsp;&nbsp;&nbsp;GB&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputPassword3" class="col-md-4 col-sm-2 col-xs-2 control-label">资源能力</label>
+                        <div class="col-md-8 col-sm-10 col-xs-10">
+                          <ul class="widgets-wrapper">
+                            <li class="form-row">
+                              <label for="name" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同城容灾</label>
+                              <switch id="DR_SameCitySwitch" ng-if="showDrSameCity" color="primary" ng-model="DR_SameCity" on="Disabled"></switch>
+							  <div ng-if="disableSameCity" class="switch-no">—</div>
+                            </li>
+                            <li class="form-row">
+                              <label for="input01">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;异地容灾</label>
+                              <switch id ="DR_DiffCitySwitch" ng-if="showDrDiffCity" color="primary" ng-model="DR_DiffCity"></switch>
+							  <div ng-if="disableDrDiffCity"class="switch-no">—</div>
+                            </li>
+                            <li class="form-row">
+                              <label for="input01">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备份(NBU)</label>
+							  <switch id ="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup"></switch>
+                              <div ng-if="disableDrBackup" class="switch-no">—</div>
+                            </li>
+                            <li class="form-row">
+                              <label for="input01">同城应用核验</label>
+                              <switch id ="AppVerification_SameCitySwitch" ng-if="showAppVerificationSameCity" color="primary" ng-model="AppVerification_SameCity" disabled="true"></switch>
+							  <div ng-if="disableAppVerificationSameCity" class="switch-no">—</div>
+                            </li>
+                            <li class="form-row">
+                              <label for="input01">异地应用核验</label>
+                              <switch id ="AppVerification_DiffCitySwitch" ng-if="showAppVerificationDiffCity" color="primary" ng-model="AppVerification_DiffCity" ng-change="saveData('AppVerification_DiffCity',AppVerification_DiffCity)"></switch>
+							  <div ng-if="disableAppVerificationDiffCity" class="switch-no">—</div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-md-10 col-sm-10 col-xs-10 text-right">
+                          <button type="button" ng-click="resourceRowReset()" class="btn btn-danger btn-with-icon">重置
+                          </button>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2 text-right" style="padding-left: 0px;">
+                          <button type="button" ng-click="resourceRowAdd()" class="btn btn-info btn-with-icon">添加
+                          </button>
+                        </div>
 
-                                        </select>
-                                    </div>
-                                    <div class="form-group" name='capacity'>
-                                        <label for="input01">容量</label>
-                                        <div class="input-group" ng-class="{'has-error': capacity.capacity.$invalid && (capacity.capacity.$dirty || capacity.capacity.$submitted)}">
-                                            <input name='capacity' type="number" class="form-control with-warning-addon"
-                                                aria-describedby="basic-addon2" min="0" max="{{item.freeUnit}}"
-                                                ng-model="capacity" ng-change="saveData('capacityGB',capacity)">
-                                            <span class="input-group-addon input-group-addon-warning addon-right" id="basic-addon2">GB</span>
-                                        </div>
-                                        <span class="help-block error-block basic-block">Required</span>
-                                    </div>
-
-                                    <hr> {{ DR_SameCity }}
+                      </div>
 
 
+                    </div>
 
-                                    <form>
-                                        <ul class="wrapper"> 
-                                            <li class="form-row">
-                                                <label for="name">同城容灾</label>
-                                                <switch color="primary" ng-model="DR_SameCity" on="Disabled"></switch>
-                                            </li>
-                                            <li class="form-row">
-                                                <label for="input01">异地容灾</label>
-                                                <switch color="primary" ng-model="DR_DiffCity"></switch>
-                                            </li>
-                                            <li class="form-row">
-                                                <label for="input01">备份(NBU)</label>
-                                                <switch color="primary" ng-model="Backup"></switch>
-                                            </li>
-                                            <li class="form-row">
-                                                <label for="input01">同城应用核验</label>
-                                                <switch color="primary" ng-model="AppVerification_SameCity" disabled="true"></switch>
-                                            </li>
-                                            <li class="form-row">
-                                                <label for="input01">异地应用核验</label>
-                                                <switch color="primary" ng-model="AppVerification_DiffCity" ng-change="saveData('AppVerification_DiffCity',AppVerification_DiffCity)"></switch>
+                    <div class="col-xlg-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 widgets-first-item">
+                      <div class="widgets-table-box">
+                        <table class="table table-bordered table-hover table-condensed">
+                          <tr>
+                            <td>存储资源池</td>
+                            <td>申请容量(GB)</td>
+                            <td>资源能力</td>
+                            <td>操作</td>
+                          </tr>
+                          <tbody>
+                          <tr ng-repeat="specOption in SpecificationOptionList">
+                            <td>{{specOption.pool}}</td>
+                            <td>{{specOption.capacityGB}}</td>
+                            <td>
+                              <button ng-if="specOption.showDrSameCityTable" class="btn btn-info editable-table-button btn-xs" disabled>同城容灾</button>
+                              <button ng-if="specOption.showDrDiffCityTable" class="btn btn-primary editable-table-button btn-xs" disabled>异地容灾</button>
+							  <button ng-if="specOption.showDrBackupTable" class="btn btn-success editable-table-button btn-xs" disabled>备份</button>
+							  <button ng-if="specOption.showAppVerificationSameCityTable" class="btn btn-warning editable-table-button btn-xs" disabled>同城应用校验</button>
+							  <button ng-if="specOption.showAppVerificationDiffCityTable" class="btn btn-danger editable-table-button btn-xs" disabled>异地应用校验</button>
+                            </td>
+                            <td>
+                              <div class="buttons">
+                                <button class="btn btn-danger editable-table-button btn-xs" ng-click="resourceRowRemove(index)">删除</button>
+                              </div>
+                            </td>
+                          </tr>
+                          </tbody>
 
-                                            </li>
-                                        </ul>
-                                    </form>
+                        </table>
+                        {{item}}
+                        <!-- /.span -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="box-shadow-border"></div>
+                </div>
 
-
-
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <div class="button-wrapper"><button type="button" ng-click="resourceRowAdd()"
-                                                class="btn btn-success btn-with-icon"><i class="ion-android-checkmark-circle"></i>添加</button></div>
-                                        <div class="button-wrapper"><button type="button" ng-click="resourceRowReset()"
-                                                class="btn btn-warning btn-with-icon"><i class="ion-android-warning"></i>重置</button></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <table class="table table-bordered table-hover table-condensed">
-                                            <tr>
-                                                <td>资源用途</td>
-                                                <td>资源池</td>
-                                                <td>容量(GB)</td>
-                                                <td>操作</td>
-                                            </tr>
-                                            <tr ng-repeat="item in resourceInfo">
-                                                <td>
-                                                    {{item.purpose.purpose}}
-                                                </td>
-                                                <td>
-                                                    {{item.pool.resourcePoolName}}
-                                                </td>
-                                                <td>
-                                                    {{item.capacityGB}}
-                                                </td>
-                                                <td>
-                                                    <div class="buttons" ng-show="!rowform.$visible">
-                                                        <button class="btn btn-danger editable-table-button btn-xs"
-                                                            ng-click="resourceRowRemove($index)">Delete</button>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-                                        </table>
-                                        {{item}}
-                                        <!-- /.span -->
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </ba-wizard-step>
-                    <ba-wizard-step title="Finish">
-                        <div class="button-wrapper"><button type="button" ng-click="infoConfirm()" class="btn btn-success btn-with-icon"><i
-                                    class="ion-android-checkmark-circle"></i>添加</button></div>
-                    </ba-wizard-step>
-                </ba-wizard>
+              </div>
+            </form>
+          </ba-wizard-step>
+          <ba-wizard-step title="确认">
+            <div ba-panel class="mj-ba-panel">
+              <div class="task-todo-container transparent">
+                <div class="box-shadow-border" style="margin-top: 20px;"></div>
+                <div class="box-shadow-content-box">
+                  <section id="cd-timeline" class="cd-container cssanimations" ng-repeat="action in actionList">
+                    <div class="cd-timeline-block">
+                      <div class="cd-timeline-img">
+							<div  class="kameleon-icon with-round-bg primary">{{$index}}</div>
+                      </div>
+                      <div class="cd-timeline-content warning">
+                        <p>Method:{{action.method}}</p>
+						<p>DependOnAction:{{action.DependOnAction}}</p>
+						<p>StorageVolumeName:{{action.StorageVolumeName}}</p>
+                      </div>
+                    </div>
+                  </section>
+                  <div class="box-shadow-border"></div>
+                </div>
+              </div>
             </div>
-        </div>
+          </ba-wizard-step>
+          <ba-wizard-step title="执行">
+            <div ba-panel class="mj-ba-panel">
+              <div class="task-todo-container transparent">
+                <div class="box-shadow-border" style="margin-top: 20px;"></div>
+                <div class="box-shadow-content-box">
+                  <section id="cd-timeline" class="cd-container cssanimations" ng-repeat="result in resultList">
+                    <div  ng-if="result.show!='false'" class="cd-timeline-block">
+                      <div class="cd-timeline-img">
+                        <div class="kameleon-icon with-round-bg warning">{{$index}}</div>
+                      </div>
+					  <div class="col-md-6">
+						  <div class="cd-timeline-content warning">
+							<p>Method:{{result.method}}</p>
+							<p>DependOnAction:{{result.DependOnAction}}</p>
+							<p>StorageVolumeName:{{result.StorageVolumeName}}</p>
+							<span>
+							<div class="progress">
+							  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+								   aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+								<span class="sr-only">100%</span>
+							  </div>
+							</div>
+						  </span>
+						  </div>
+					  </div>
+					  <div class="col-md-6">
+						  <div class="cd-timeline-content cd-timeline-content-info warning" style="margin-top:-1px">
+							<h5><i class="ion-checkmark"></i> 执行成功</h5>
+							<textarea style="width:520px;height:62px;color:black;border-radius:3px;font-size: 14px" >{{result.response}}</textarea>
+						  </div>
+					  </div>
+                    </div>
+					 <div ng-if="result.show!='true'" class="cd-timeline-block">
+                      <div class="cd-timeline-img">
+                        <div class="kameleon-icon with-round-bg danger">{{$index}}</div>
+                      </div>
+					<div class="col-md-6">
+                      <div class="cd-timeline-content danger">
+                        <p>Method:{{result.method}}</p>
+						<p>DependOnAction:{{result.DependOnAction}}</p>
+						<p>StorageVolumeName:{{result.StorageVolumeName}}</p>
+                        <span>
+                            <div ng-switch on="result.response" class="progress">
+                              <div ng-switch-when='Failed!' class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
+                                   aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                <span class="sr-only">100%</span>
+                              </div>
+							  <div ng-switch-default class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar"
+                                   aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                <span class="sr-only">0%</span>
+                              </div>
+                            </div>
+                            
+                      </span>
+                     </div>
+                    </div>
+					<div class="col-md-6">
+                      <div ng-switch on="result.response" class="cd-timeline-content cd-timeline-content-info danger" style="margin-top:-1px">
+						<h5 ng-switch-when='Failed!'><i class="ion-alert"></i> 执行失败</h5>
+						<h5 ng-switch-default><i class="ion-alert"></i> 等待执行</h5>
+                        <textarea style="width:520px;height:62px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
+                      </div>
+					  </div>
+                    </div>
+                  </section>
+                  <div class="box-shadow-border"></div>
+                </div>
+              </div>
+            </div>
+          </ba-wizard-step>
+        </ba-wizard>
+      </div>
     </div>
+  </div>
 
 </div>
 
 
-
-
-
 <style>
-    .form-row {
-        display: flex;
-        justify-content: flex-end;
-        padding: .5em;
-    }
+  /*.widgets .btn{*/
+  /*padding: 6px 20px;*/
+  /*}*/
+  .widgets-first-box {
+    overflow: hidden;
+    overflow-y: auto;
+    height: 500px;
+  }
 
-    .form-row label {
-        flex: 1;
-        font: 3px;
-    }
+  .todo-header-searchbox {
+    overflow: hidden;
+    padding: 15px 0;
+  }
 
-    .form-row switch {
-        flex: 2;
-    }
+  .todo-header-searchbox label {
+    height: 34px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 34px;
+    margin-bottom: 0px;
+    font-size: 13px;
+    font-weight: 400;
+  }
 
-    /* Import */
-    @font-face {
-        font-family: 'Oswald';
-        font-style: normal;
-        font-weight: 300;
-        src: local('Oswald Light'), local('Oswald-Light'), url(https://fonts.gstatic.com/s/oswald/v16/TK3hWkUHHAIjg75-sh0Tus9H.ttf) format('truetype');
-    }
+  .todo-header-searchbox .select-input-box {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+  }
 
-    @font-face {
-        font-family: 'Oswald';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Oswald Regular'), local('Oswald-Regular'), url(https://fonts.gstatic.com/s/oswald/v16/TK3iWkUHHAIjg752GT8D.ttf) format('truetype');
-    }
+  .select-input-box select {
+    background: #1f3138 !important;
+    /*color: rgba(0, 0, 0, 0);*/
+  }
 
-    @font-face {
-        font-family: 'Oswald';
-        font-style: normal;
-        font-weight: 700;
-        src: local('Oswald Bold'), local('Oswald-Bold'), url(https://fonts.gstatic.com/s/oswald/v16/TK3hWkUHHAIjg75-ohoTus9H.ttf) format('truetype');
-    }
+  .select-input-box select:focus {
+    background: #1f3138 !important;
+    /*color: rgba(0, 0, 0, 0);*/
+  }
 
-    @font-face {
-        font-family: 'Source Sans Pro';
-        font-style: normal;
-        font-weight: 200;
-        src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf) format('truetype');
-    }
+  .select-input-box input {
+    border: none;
+    width: calc(100% - 50px) !important;
+    position: absolute;
+    top: 1px;
+    height: calc(100% - 2px);
+    left: 18px;
+    background: #1f3138 !important;
+  }
 
-    @font-face {
-        font-family: 'Source Sans Pro';
-        font-style: normal;
-        font-weight: 300;
-        src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf) format('truetype');
-    }
+  .select-input-box input:focus {
+    border: none;
+    width: calc(100% - 50px) !important;
+    position: absolute;
+    top: 1px;
+    height: calc(100% - 2px);
+    left: 18px;
+    background: #1f3138 !important;
+  }
 
-    @font-face {
-        font-family: 'Source Sans Pro';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf) format('truetype');
-    }
+  .mj-ba-panel .panel {
+    box-shadow: none !important;
+  }
 
-    @font-face {
-        font-family: 'Source Sans Pro';
-        font-style: normal;
-        font-weight: 600;
-        src: local('Source Sans Pro SemiBold'), local('SourceSansPro-SemiBold'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdr.ttf) format('truetype');
-    }
+  .mj-ba-panel .panel > .panel-body {
+    padding: 0px;
+    overflow: hidden;
+  }
 
-    @font-face {
-        font-family: 'Source Sans Pro';
-        font-style: normal;
-        font-weight: 700;
-        src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdr.ttf) format('truetype');
-    }
+  .input-group-addon-other {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #dfb81c;
+    border: none;
+    border-left: 1px solid rgba(0, 0, 0, 0.4) !important;
+  }
 
-    /* Variables */
-    /* Base */
-    body {
-        background: #252827;
-        font-size: 16px;
-    }
+  .widgets-first-item {
+    padding-top: 25px;
+    height: 100%;
+  }
 
-    strong {
-        font-weight: 600;
-    }
+  .box-shadow-border-right {
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 1px 0px 0px 0px rgba(255, 255, 255, 0.12);
+  }
 
-    h1 {
-        font-family: 'Oswald', sans-serif;
-        letter-spacing: 1.5px;
-        color: white;
-        font-weight: 100;
-        font-size: 2.4em;
-    }
+  .widgets-wrapper {
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+  }
 
-    #content {
-        margin-top: 50px;
-        text-align: center;
-    }
+  .widgets .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default, .widgets .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
+    background: #e85656 !important;
+    color: #FFFFFF !important;
+  }
 
-    /* Timeline */
-    .timeline {
-        border-left: 4px solid #4298C3;
-        border-bottom-right-radius: 4px;
-        border-top-right-radius: 4px;
-        background: rgba(255, 255, 255, 0.03);
-        color: rgba(255, 255, 255, 0.8);
-        font-family: 'Source Sans Pro', sans-serif;
-        margin: 50px auto;
-        letter-spacing: 0.5px;
-        position: relative;
-        line-height: 1.4em;
-        font-size: 1.03em;
-        padding: 50px;
-        list-style: none;
-        text-align: left;
-        font-weight: 100;
-        max-width: 30%;
-    }
+  .switch-no {
+    width: 86px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+    cursor: no-drop;
+  }
 
-    .timeline h1,
-    .timeline h2,
-    .timeline h3 {
-        font-family: 'Oswald', sans-serif;
-        letter-spacing: 1.5px;
-        font-weight: 100;
-        font-size: 1.4em;
-    }
+  .widgets-table-box {
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    font-size: 13px;
+  }
 
-    .timeline .event {
-        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-        padding-bottom: 25px;
-        margin-bottom: 50px;
-        position: relative;
-    }
+  .widgets-table-box .table > tbody > tr > td {
+    padding: 4px !important;
+    text-align: center;
+  }
 
-    .timeline .event:last-of-type {
-        padding-bottom: 0;
-        margin-bottom: 0;
-        border: none;
-    }
+  .widgets-table-box .table > tbody > tr > td button.btn[disabled] {
+    opacity: 1;
+  }
 
-    .timeline .event:before,
-    .timeline .event:after {
-        position: absolute;
-        display: block;
-        top: 0;
-    }
+  #cd-timeline::before {
+    left: 18px;
+    margin-left: 0;
+  }
 
-    .timeline .event:before {
-        left: -217.5px;
-        color: rgba(255, 255, 255, 0.4);
-        content: attr(data-date);
-        text-align: right;
-        font-weight: 100;
-        font-size: 0.9em;
-        min-width: 120px;
-    }
+  #cd-timeline-1::before {
+    left: 18px;
+    margin-left: 0;
+  }
 
-    .timeline .event:after {
-        box-shadow: 0 0 0 4px #4298c3;
-        left: -57.85px;
-        background: #313534;
-        border-radius: 50%;
-        height: 11px;
-        width: 11px;
-        content: "";
-        top: 5px;
-    }
+  .box-shadow-content-box {
+    height: 500px;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .cssanimations{
+    margin: 15px 0;
+  }
+  .cssanimations .cd-timeline-img {
+    width: 40px;
+    height: 40px;
+    margin-left: 0;
+    left: 0px;
+    top: 6px;
+  }
+
+  .cssanimations .cd-timeline-content {
+    width: auto;
+    text-align: left;
+    margin-left: 60px;
+    float: left !important;
+    padding: 15px;
+    width: calc(100% - 70px);
+  }
+
+  .cssanimations .cd-timeline-content-info {
+    margin-top: 15px;
+    padding: 0px;
+    overflow: hidden;
+  }
+
+  .cssanimations .cd-timeline-content-info p {
+    background: #fff;
+    color: #000;
+    padding: 15px;
+  }
+
+  .cssanimations .cd-timeline-content-info h5 {
+    padding: 15px;
+    padding-bottom: 0px;
+  }
+
+  .cssanimations .cd-timeline-content-info h5 i.ion-alert {
+    font-weight: 400;
+    font-size: 10px;
+    cursor: pointer;
+    background: #e85656;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    margin: auto;
+    line-height: 22px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .cssanimations .cd-timeline-content-info h5 i.ion-checkmark {
+    font-weight: 400;
+    font-size: 10px;
+    cursor: pointer;
+    background: #90b900;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    margin: auto;
+    line-height: 22px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .cd-timeline-content::before {
+    top: 24px;
+    left: auto;
+    right: 100%;
+    border-color: transparent;
+    border-right-color: white;
+    border-left-color: transparent !important;
+  }
+
+  .cd-timeline-content.warning:before {
+    border-right: 7px solid rgba(223, 184, 28, .2);
+  }
+
+  .cd-timeline-content.danger:before {
+    border-right: 7px solid rgba(232, 86, 86, .2);
+  }
+
+  .cd-timeline-content.danger:before {
+    border-right: 7px solid rgba(32, 158, 145, .2);
+  }
+
+  .cd-timeline-content .cd-date {
+    position: initial;
+    width: auto;
+  }
+
+  .kameleon-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-bottom: 0px;
+    background: red;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .kameleon-icon.warning {
+    background: #facf21;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 6px #e0b71d;
+  }
+
+  .kameleon-icon.danger {
+    background: #df4b4b;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 6px #e75854;
+  }
+
+  .kameleon-icon.primary {
+    background: #1f9c8e;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 6px #1f9d91;
+  }
+
+  .widgets .progress-bar {
+    text-align: right;
+  }
+
+  .widgets .progress-bar .sr-only {
+    position: initial;
+    margin-right: 4px;
+  }
+
+  .widgets .progress {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5em;
+  }
+
+  .form-row label {
+    flex: 1;
+    font: 3px;
+  }
+
+  .form-row switch {
+    flex: 2;
+  }
+
+  /* Import */
+  @font-face {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Oswald Light'), local('Oswald-Light'), url(https://fonts.gstatic.com/s/oswald/v16/TK3hWkUHHAIjg75-sh0Tus9H.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Oswald Regular'), local('Oswald-Regular'), url(https://fonts.gstatic.com/s/oswald/v16/TK3iWkUHHAIjg752GT8D.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Oswald Bold'), local('Oswald-Bold'), url(https://fonts.gstatic.com/s/oswald/v16/TK3hWkUHHAIjg75-ohoTus9H.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 200;
+    src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Source Sans Pro SemiBold'), local('SourceSansPro-SemiBold'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdr.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdr.ttf) format('truetype');
+  }
+
+  /* Variables */
+  /* Base */
+  body {
+    background: #252827;
+    font-size: 16px;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1.5px;
+    color: white;
+    font-weight: 100;
+    font-size: 2.4em;
+  }
+
+  #content {
+    margin-top: 50px;
+    text-align: center;
+  }
+
+  /* Timeline */
+  .timeline {
+    border-left: 4px solid #4298C3;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Source Sans Pro', sans-serif;
+    margin: 50px auto;
+    letter-spacing: 0.5px;
+    position: relative;
+    line-height: 1.4em;
+    font-size: 1.03em;
+    padding: 50px;
+    list-style: none;
+    text-align: left;
+    font-weight: 100;
+    max-width: 30%;
+  }
+
+  .timeline h1,
+  .timeline h2,
+  .timeline h3 {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1.5px;
+    font-weight: 100;
+    font-size: 1.4em;
+  }
+
+  .timeline .event {
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-bottom: 25px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+
+  .timeline .event:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border: none;
+  }
+
+  .timeline .event:before,
+  .timeline .event:after {
+    position: absolute;
+    display: block;
+    top: 0;
+  }
+
+  .timeline .event:before {
+    left: -217.5px;
+    color: rgba(255, 255, 255, 0.4);
+    content: attr(data-date);
+    text-align: right;
+    font-weight: 100;
+    font-size: 0.9em;
+    min-width: 120px;
+  }
+
+  .timeline .event:after {
+    box-shadow: 0 0 0 4px #4298c3;
+    left: -57.85px;
+    background: #313534;
+    border-radius: 50%;
+    height: 11px;
+    width: 11px;
+    content: "";
+    top: 5px;
+  }
 </style>

@@ -1,278 +1,174 @@
 <div id="mainbox">
-	<div class="recipe-card">
-
-		<aside>
-
-			<img src="/assets/pictures/vPlex-provisioning.png" alt="Chai Oatmeal" />
-
-			<a ng-click="go('/dashboard/Automation/ServiceVPLEXProvisioning')" class="button"><span class="icon icon-play"></span></a>
-
-		</aside>
-
-		<article>
-
-			<h2>VPLEX容量扩容服务</h2>
-			<button type="button" disabled="disabled" class="btn btn-success btn-with-icon"><i class="ion-android-checkmark-circle"></i>
-				X86物理机 </button>
-			<button type="button" disabled="disabled" class="btn btn-warning btn-with-icon"><i class="ion-android-checkmark-circle"></i>
-				IBM LPar </button>
-			<button type="button" disabled="disabled" class="btn btn-danger btn-with-icon"><i class="ion-android-checkmark-circle"></i>
-				VMWare ESXi </button>
-
-			<ul>
-				<li><span class="icon icon-clock"></span><span>15 min</span></li>
-				<li><span class="icon icon-level"></span><span>Base Service</span></li>
-				<li><span class="icon icon-calories"></span><span>0</span></li>
-			</ul>
-
-			<p class="bg-warning">为已经使用VPLEX存储的主机(包括x86物理机和ESXi主机)扩充存储容量空间.</p>
-			<ol class="GreenNumbers">
-				<li>
-					<font color="black">在该服务前, 需要在VPLEX后端物理存储中分配物理卷到VPLEX中</font>
-				</li>
-				<li>
-					<font color="black">该服务将自动Claim Storage Volume并随后创建一系列VPLEX逻辑对象(Extent, Device, Distrubuted Device, Virtual
-						Volume)</font>
-				</li>
-			</ol>
-
-
-			<p class="ingredients"><span>自动化规则:&nbsp;</span>Milk, salt, coriander, cardamom, cinnamon, turmeric, honey, vanilla
-				extract, regular oats, oat bran.</p>
-
-
-		</article>
-
+	<div class="search-box">
+		<label for="inputEmail3" class="control-label">服务目录名称：</label>
+		<select id="select" type="email" ng-change="change()" class="form-control" id="inputEmail3" ng-model="query.name" placeholder="请选择">
+			<option value="ALL">所有</option>
+			<option ng-repeat="item in selectList" value="{{item.name}}">{{item.name}}</option>
+		</select>
 	</div>
-
-
-	<div class="recipe-card">
-
-		<aside>
-
-			<img src="/assets/pictures/Building.png" alt="Chai Oatmeal" />
-
-			<a ng-click="go('/dashboard/Automation/ServiceCapacityProvide')" class="button"><span class="icon icon-play"></span></a>
-
-		</aside>
-
-		<article>
-
-			<h2>VMWare ESXi新建Datastore</h2>
-			<button type="button" disabled="disabled" class="btn btn-danger btn-with-icon"><i class="ion-android-checkmark-circle"></i>
-				VMWare ESXi </button>
-
-			<ul>
-				<li><span class="icon icon-clock"></span><span>15 min</span></li>
-				<li><span class="icon icon-level"></span><span>Beginner level</span></li>
-				<li><span class="icon icon-calories"></span><span>248</span></li>
-			</ul>
-
-			<p>从VPLEX存储中分配存储容量空间后在指定的ESXi主机中创建新的Datastore.</p>
-			<p>1. 在该服务前, 需要在VPLEX后端物理存储中分配物理卷到VPLEX中;
-				2. 该服务将自动Claim Storage Volume并随后创建一系列VPLEX逻辑对象(Extent, Device, Distrubuted Device, Virtual Volume);
-				3. 在分配存储卷后, 在指定的ESXi主机中用该存储卷创建一个新的Datastore.
-			</p>
-
-			<p class="ingredients"><span>自动化规则:&nbsp;</span>Milk, salt, coriander, cardamom, cinnamon, turmeric, honey, vanilla
-				extract, regular oats, oat bran.</p>
-
-		</article>
-
+	<div id="catalogList" class="row recipe-box" >
+		<div ng-repeat="catalog in catalogLists" class="col-xlg-4 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+				 ba-panel ba-panel-class="with-scroll notification-panel">
+			<div class="task-todo-container transparent">
+				<div calss="todo-header">
+					<div class="todo-img"><img src="/assets/pictures/service_run.png" alt="Chai Oatmeal" /></div>
+					<div class="todo-title">
+						<div class="todo-title-name">{{catalog.label}}</div>
+						<button class="todo-title-run" ng-click="go('/dashboard/Automation/ServiceVPLEXProvisioning', '12333333')">执行</button>
+					</div>
+				</div>
+				<div class="box-shadow-border"></div>
+				<div calss="todo-nav">
+					<div class="todo-tab">
+						<span ng-repeat="support_host_type in catalog.propertices.support_host_type">{{support_host_type}}</span>
+					</div>
+					<div class="todo-info">
+						<span><img src="/assets/pictures/service_icon_time.png" alt=""><span class="todo-info-name">{{catalog.propertices.estimated_execution_time}}</span></span>
+						<span><img src="/assets/pictures/service_icon_bar.png" alt=""><span class="todo-info-name">{{catalog.propertices.service_level}}</span></span>
+						<span><img src="/assets/pictures/service_icon_fire.png" alt=""><span class="todo-info-name">{{catalog.propertices.last_month_execution_count}}</span></span>
+					</div>
+				</div>
+				<div class="box-shadow-border"></div>
+				<div class="todo-content">
+					<p>{{catalog.description}}</p>
+					<p ng-bind-html="catalog.detailFunctionDesc|trust2Html">{{catalog.detailFunctionDesc}}</p>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
 <style>
-	html {
-		height: 100%;
+	.search-box{
+		width:100%;
 	}
-
-	body {
-		background-color: #57abf2;
-		background-image: -webkit-linear-gradient(-225deg, #19d3d1 5%, #57abf2);
-		background-image: linear-gradient(-45deg, #19d3d1 5%, #57abf2);
-		font-family: "Open Sans", sans-serif;
-		font-size: 1rem;
+	.search-box label {
+		font-size: 16px;
+		font-weight: 200;
 	}
-
-	img {
-		max-width: 100%;
-		height: auto;
-		vertical-align: bottom;
-	}
-
-	#mainbox {
-		font-family: calibri;
-		box-sizing: border-box;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-start;
-	}
-
-	.recipe-card {
-		background: rgb(207, 245, 159);
-		margin: 40px;
-		max-width: 496px;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-		border-bottom-left-radius: 5px;
-		border-bottom-right-radius: 5px;
-	}
-
-	.recipe-card aside {
-		position: relative;
-	}
-
-	.recipe-card aside img {
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-	}
-
-	.recipe-card aside .button {
-		background: #57abf2;
+	.search-box select {
 		display: inline-block;
-		position: absolute;
-		top: 80%;
-		right: 3%;
-		width: 4.0625em;
-		height: 4.0625em;
-		border-radius: 4.0625em;
-		line-height: 4.0625em;
+		width: 200px;
+	}
+	.recipe-box{
+		margin-top:30px;
+		display:-webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-wrap:wrap;
+		-webkit-box-lines:multiple;
+		-moz-flex-wrap:wrap;
+		flex-wrap:wrap;
+		-webkit-flex-flow:row wrap;
+		-webkit-box-orient:horizontal;
+		-webkit-box-lines:multiple;
+		-moz-flex-flow:row wrap;
+		box-orient:horizontal;
+		box-lines:multiple;
+		flex-flow:row wrap;
+	}
+	.todo-img{
+		margin: auto;
 		text-align: center;
 	}
+	.todo-img img {
+		width:70%;
+		margin: auto;
+	}
+	.todo-title{
+		padding: 5px 0;
+		overflow: hidden;
+	}
+	.todo-title-name{
+		float: left;
+		font-size: 16px;
+		line-height: 38px;
+	}
+	.todo-title-run{
+		width: 38px;
+		height: 38px;
+		line-height: 34px;
+		text-align: center;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		background: red;
+		font-size: 14px;
+		float: right;
+		color: #FFFFFF;
+		padding: 0px;
+		cursor: pointer;
+		outline:none;
+	}
 
-	.recipe-card aside .button .icon {
+	.todo-title-run:disabled{
+		cursor: no-drop;
+	}
+
+	.todo-title-run.no-run{
+		width: 38px;
+		height: 38px;
+		line-height: 34px;
+		text-align: center;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		background: #b4b4b4;
+		font-size: 14px;
+		float: right;
+	}
+	.todo-tab {
+		overflow: hidden;
+		padding-bottom: 2px;
+	}
+	.todo-tab span{
+		margin-right: 15px;
+		margin-top: 12px;
+		float: left;
+		display: block;
+	}
+	.todo-tab span {
+		border-radius: 4px;
+		padding: 6px 4px;
+		text-align: center;
+	}
+	.todo-tab span:nth-child(3n+1){
+		background: #e1b41d;
+		box-shadow: 0px 2px 0px #b69419;
+	}
+	.todo-tab span:nth-child(3n+2){
+		background: #95be02;
+		box-shadow: 0px 2px 0px #719400;
+	}
+	.todo-tab span:nth-child(3n+3){
+		background: #e65e68;
+		box-shadow: 0px 2px 0px #c04243;
+	}
+	.todo-tab.no-run span{
+		background: #b3b3b1;
+		box-shadow: 0px 2px 0px #909090;
+	}
+	.todo-info{
+		overflow: hidden;
+		margin: 12px 0;
+	}
+	.todo-info>span{
+		margin-right: 10px;
+	}
+	.todo-info img {
+		width: 18px;
+	}
+	.todo-info .todo-info-name {
+		font-size: 14px;
+		margin-left: 5px;
+		line-height: 14px;
 		vertical-align: middle;
+		color: #19b6d9;
 	}
-
-	.recipe-card article {
-		padding: 1.25em 1.5em;
-	}
-
-	.recipe-card article ul {
-		list-style: none;
-		margin: 0.5em 0 0;
-		padding: 0;
-	}
-
-	.recipe-card article ul li {
-		display: inline-block;
-		margin-left: 1em;
-		line-height: 1em;
-	}
-
-	.recipe-card article ul li:first-child {
-		margin-left: 0;
-	}
-
-	.recipe-card article ul li .icon {
-		vertical-align: bottom;
-	}
-
-	.recipe-card article ul li span:nth-of-type(2) {
-		margin-left: 0.5em;
-		font-size: 0.8em;
-		font-weight: 300;
-		vertical-align: middle;
-		color: #838689;
-	}
-
-	.recipe-card article h2,
-	.recipe-card article h3 {
-		margin: 0;
-		font-weight: 300;
-	}
-
-	.recipe-card article h2 {
-		font-size: 1.75em;
-		color: #222222;
-	}
-
-	.recipe-card article h3 {
-		font-size: 0.9375em;
-		color: #838689;
-	}
-
-	.recipe-card article p {
+	.todo-content p{
 		margin: 1.25em 0;
 		font-size: 0.8125em;
 		font-weight: 400;
-		color: #222222;
+		color: #fff;
 	}
-
-	.recipe-card article p span {
-		font-weight: 700;
-		color: #000000;
-	}
-
-	.recipe-card article .ingredients {
-		margin: 2em 0 0.5em;
-	}
-
-	.recipe-card .icon {
-		display: inline;
-		display: inline-block;
-		background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/203277/recipe-card-icons.svg);
-		background-repeat: no-repeat;
-	}
-
-	.recipe-card .icon-calories,
-	.recipe-card .icon-calories\:regular {
-		background-position: 0 0;
-		width: 16px;
-		height: 19px;
-	}
-
-	.recipe-card .icon-clock,
-	.recipe-card .icon-clock\:regular {
-		background-position: 0 -19px;
-		width: 20px;
-		height: 20px;
-	}
-
-	.recipe-card .icon-level,
-	.recipe-card .icon-level\:regular {
-		background-position: 0 -39px;
-		width: 16px;
-		height: 19px;
-	}
-
-	.recipe-card .icon-play,
-	.recipe-card .icon-play\:regular {
-		background-position: 0 -58px;
-		width: 21px;
-		height: 26px;
-	}
-
-	.recipe-card .icon-users,
-	.recipe-card .icon-users\:regular {
-		background-position: 0 -84px;
-		width: 18px;
-		height: 18px;
-	}
-
-
-	.GreenNumbers {
-		list-style-type: none;
-	}
-
-	.GreenNumbers ol {
-		margin-left: 2em;
-	}
-
-	.GreenNumbers li {
-		counter-increment: count-me;
-	}
-
-	.GreenNumbers li::before {
-		content: counter(count-me) ". ";
-		display: block;
-		position: relative;
-		max-width: 0px;
-		max-height: 0px;
-		left: -1.3em;
-		top: .05em;
-		color: #008000;
-		font-weight: bold;
-	}
-</style>
+	</style>

@@ -214,7 +214,7 @@ a {
       color: #dd4b39; }
 
 .al-content {
-  padding: 8px 32px 8px 40px; }
+  padding: 8px 32px 8px 32px; }
 
 @media screen and (max-width: 500px) {
   .al-content {

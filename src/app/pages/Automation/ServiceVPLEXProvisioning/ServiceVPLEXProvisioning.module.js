@@ -8,12 +8,12 @@
     function routeConfig($stateProvider) {
       $stateProvider
           .state('dashboard.Automation.ServiceVPLEXProvisioning', {
-            url: '/ServiceVPLEXProvisioning',
+            url: '/ServiceVPLEXProvisioning/:id',
   //        template : '<ui-view  autoscroll="true" autoscroll-body-top></ui-view>',
             templateUrl: 'app/pages/Automation/ServiceVPLEXProvisioning/ServiceVPLEXProvisioning.html',
   //        abstract: true, 
             controller: 'ServiceVPLEXProvisioningCtrl',
-            title: 'VPLEX容量扩容服务',
+            title: '服务执行向导',
             sidebarMeta: {
               icon: 'ion-grid',
               order: 1,

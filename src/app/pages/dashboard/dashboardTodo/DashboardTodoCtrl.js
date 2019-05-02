@@ -6,7 +6,7 @@
   'use strict';
 
   angular.module('BlurAdmin.pages.dashboards')
-      .controller('DashboardTodoCtrl', DashboardTodoCtrl);
+    .controller('DashboardTodoCtrl', DashboardTodoCtrl);
 
   /** @ngInject */
   function DashboardTodoCtrl($scope, baConfig) {
@@ -40,8 +40,13 @@
       item.color = getRandomColor();
     });
 
+    $scope.bValue = '';
+    $scope.aValue = '';
     $scope.newTodoText = '';
-
+    $scope.change = function() {
+      var value = $('#select').find('option:selected').text();
+      $scope.bValue = value
+    };
     $scope.addToDoItem = function (event, clickPlus) {
       if (clickPlus || event.which === 13) {
         $scope.todoList.unshift({

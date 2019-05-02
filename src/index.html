@@ -50,6 +50,7 @@
         <!-- endbuild -->
 
         <script src="assets/script/aws-sdk-2.1.48.min.js"></script> 
+		<script src="assets/script/angular-websocket.js"></script>
 
         <script type="text/javascript">
 
@@ -57,7 +58,8 @@
 
             var IG = {
                 stage: 'dev',
-                api: "http://192.168.17.223:8080/api",
+                //api: "http://123.56.114.249:8080/api",
+                api: "http://localhost:8080/api", 
                 cognitoUserPoolId: 'us-east-1_vivy8Tb0Q',
                 cognitoClientId: '1f4qsiknh7p3th045vf1tv2r4d',
                 cognitoConfigRegion: 'us-east-1'
