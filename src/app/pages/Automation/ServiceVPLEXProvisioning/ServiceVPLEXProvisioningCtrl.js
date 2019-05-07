@@ -24,6 +24,12 @@
                 return methods;
             })
   app.controller('ServiceVPLEXProvisioningCtrl', ServiceVPLEXProvisioningCtrl);
+  var showDrSameCitySwitch=false;
+  var showDrDiffCitySwitch = false;
+  var showDrBackupSwitch = false;
+  var showAppVerificationSameCitySwitch = false;
+  var showAppVerificationDiffCitySwitch = false;
+  var success = false;
 
   /** @ngInject */
   function ServiceVPLEXProvisioningCtrl($scope,$filter, $http, $localStorage, httpService, $stateParams,$interval,$rootScope, MyData) {		
@@ -64,6 +70,7 @@
       }
     }
     $scope.smartTablePageSize = 15;
+
     $scope.initData = function () {
       //    	config.params=params;
 	  httpService.get("/auto/service/block/provisioning/getinfo", "", config, function (response) {
@@ -72,28 +79,40 @@
 			angular.forEach(response.ProtectLevel,function(data,index,array){
 				if(data.name=="DR_SameCity"){
 					if(data.value=="true"){
+						$scope.showDrSameCity = true;	
+					}else if(data.value=="false"){
 						$scope.showDrSameCity = true;
+						showDrSameCitySwitch=true;					
 					}else if(data.value="disable"){
 						$scope.disableSameCity = true;
-					}
-				
+					}			
 				}else if(data.name=="DR_DiffCity"){
 					if(data.value=="true"){
+						$scope.showDrDiffCity = true;					
+					}else if(data.value=="false"){
 						$scope.showDrDiffCity = true;
+						showDrDiffCitySwitch = true;					
 					}else if(data.value="disable"){
 						$scope.disableDrDiffCity = true;
-					}
-				
+					}				
 				}else if(data.name=="Backup"){
 					if(data.value=="true"){
+						$scope.showDrBackup = true;	
+					}else if(data.value=="false"){
 						$scope.showDrBackup = true;
+						showDrBackupSwitch = true;				
 					}else if(data.value="disable"){
 						$scope.disableDrBackup = true;
-					}
-				
+					}			
 				}else if(data.name=="AppVerification_SameCity"){
 					if(data.value=="true"){
 						$scope.showAppVerificationSameCity = true;
+						
+					}else if(data.value=="false"){
+						$scope.showAppVerificationSameCity = true;
+						showAppVerificationSameCitySwitch = true;
+						
+					
 					}else if(data.value="disable"){
 						$scope.disableAppVerificationSameCity = true;
 					}
@@ -101,6 +120,12 @@
 				}else if(data.name=="AppVerification_DiffCity"){
 					if(data.value=="true"){
 						$scope.showAppVerificationDiffCity = true;
+						
+					}else if(data.value=="false"){
+						$scope.showAppVerificationDiffCity = true;
+						showAppVerificationDiffCitySwitch = true;
+						
+					
 					}else if(data.value="disable"){
 						$scope.disableAppVerificationDiffCity = true;
 					}
@@ -108,6 +133,8 @@
 				}
 			})
       });
+
+	  
       var params;
      // httpService.get("/auto/resource/vplex/appnames", params, config, function (response) {
         //$scope.AppNames = response;
@@ -185,32 +212,27 @@
 		  recordItem.TotalCapacity = vm.resourceInfoItem.appname.TotalCapacity;
 		  recordItem.UsedCapacity = vm.resourceInfoItem.appname.UsedCapacity;
 		  if($scope.showDrSameCity){
-				console.log($("#DR_SameCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on'));
-				recordItem.showDrSameCityTable = $("#DR_SameCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on');
+				recordItem.showDrSameCityTable = ($('#DR_SameCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
 				recordItem.showDrSameCityTable = false;
 			}
 			if($scope.showDrDiffCity){
-				console.log($("#DR_DiffCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on'));
-				recordItem.showDrDiffCityTable = $("#DR_DiffCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on');
+				recordItem.showDrDiffCityTable = ($('#DR_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
 				recordItem.showDrDiffCityTable = false;
 			}
 			if($scope.showDrBackup){
-				console.log($("#DR_BackupSwitch")[0].children[0].classList.contains('bootstrap-switch-on'));
-				recordItem.showDrBackupTable  = $("#DR_BackupSwitch")[0].children[0].classList.contains('bootstrap-switch-on');
+				recordItem.showDrBackupTable  = ($('#DR_BackupSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
 				recordItem.showDrBackupTable  = false;
 			}
 			if($scope.showAppVerificationSameCity){
-				console.log($("#AppVerification_SameCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on'));
-				recordItem.showAppVerificationSameCityTable = $("#AppVerification_SameCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on');
+				recordItem.showAppVerificationSameCityTable = ($('#AppVerification_SameCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
 				recordItem.showAppVerificationSameCityTable = false;
 			}
 			if($scope.showAppVerificationDiffCity){
-				console.log($("#AppVerification_DiffCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on'));
-				recordItem.showAppVerificationDiffCityTable = $("#AppVerification_DiffCitySwitch")[0].children[0].classList.contains('bootstrap-switch-on');
+				recordItem.showAppVerificationDiffCityTable =($('#AppVerification_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
 				recordItem.showAppVerificationDiffCityTable = false;
 			}
@@ -276,8 +298,9 @@
     }
 
 
-    $scope.resourceRowRemove = function(index) {
-      $scope.resourceInfo.splice(index, 1); 
+    $scope.resourceRowRemove = function(e) {
+	  console.log(e.$index);
+      $scope.resourceInfo.splice(e.$index, 1); 
     };
     $scope.hostInfoRowRemove = function(index) {
       $scope.hostInfo.hosts.splice(index, 1); 
@@ -309,7 +332,8 @@
 	
     var tabIndex = false;
     $scope.$on('ToBrotherController', function(event, msg) {
-			json.appname = $scope.bValue; 
+			//json.appname = $scope.bValue; 
+			json.appname = $('#input').val(); 
 			json.opsType = "";	   
 			angular.forEach($scope.resourceInfo,function(data,index,array){
 				    var request = {};
@@ -420,11 +444,73 @@
 		}
 
     $scope.initData();
-	//console.log($rootScope.vm+"vm.tabNum");
-	//httpService.post("/auto/service/block/provisioning","",config, function (response) {
-      //      $scope.serviceVplexSelectList = response;
-    //});
 
+	success =true;
+	$interval(function() {
+	if(success==true){
+	  if($scope.showDrSameCity){
+		  if(showDrSameCitySwitch==true){
+			$('#DR_SameCitySwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-off');
+			$('#DR_SameCitySwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-on');
+			$('#DR_SameCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='-42px';
+		  }else{
+			$('#DR_SameCitySwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-on');
+			$('#DR_SameCitySwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-off');
+			$('#DR_SameCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
+		  }
+	  }
+	  if($scope.showDrDiffCity){
+		  if(showDrDiffCitySwitch==true){
+			$('#DR_DiffCitySwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-off');
+			$('#DR_DiffCitySwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-on');
+			$('#DR_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='-42px';
+		  }else{
+			$('#DR_DiffCitySwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-on');
+			$('#DR_DiffCitySwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-off');
+			$('#DR_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
+		  }
+	  }
+	  if($scope.showDrBackup){
+		  if(showDrBackupSwitch==true){
+			$('#DR_BackupSwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-off');
+			$('#DR_BackupSwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-on');
+			$('#DR_BackupSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='-42px';
+		  }else{
+			$('#DR_BackupSwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-on');
+			$('#DR_BackupSwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-off');
+			$('#DR_BackupSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
+		  }
+	  }
+	  if($scope.showAppVerificationSameCity){
+		  if(showAppVerificationSameCitySwitch==true){
+			$('#AppVerification_SameCitySwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-off');
+			$('#AppVerification_SameCitySwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-on');
+			$('#AppVerification_SameCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='-42px';
+		  
+		  }else{
+			$("#AppVerification_SameCitySwitch .bootstrap-switch-small")[0].classList.add('bootstrap-switch-on');
+			$("#AppVerification_SameCitySwitch .bootstrap-switch-small")[0].classList.remove('bootstrap-switch-off');
+			$('#AppVerification_SameCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
+		  }
+	  }
+	  if($scope.showAppVerificationDiffCity){
+		  if(showAppVerificationDiffCitySwitch==true){
+			$("#AppVerification_DiffCitySwitch .bootstrap-switch-small")[0].classList.add('bootstrap-switch-off');
+			$("#AppVerification_DiffCitySwitch .bootstrap-switch-small")[0].classList.remove('bootstrap-switch-on');
+			$('#AppVerification_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='-42px';
+		  }else{
+			$("#AppVerification_DiffCitySwitch .bootstrap-switch-small")[0].classList.add('bootstrap-switch-on');
+			$("#AppVerification_DiffCitySwitch .bootstrap-switch-small")[0].classList.remove('bootstrap-switch-off');
+			$('#AppVerification_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
+		  }
+	  }
+   }
+   success = false;
+   if(success==false){
+		$interval.cancel($scope.timer)
+   }
+   }, 300);
 
   }
+  
 })();

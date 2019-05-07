@@ -15,7 +15,7 @@
                               ng-change="change()" ng-click="ccc()">
 						<option ng-repeat="application in ApplicationList" value="{{application.name}}">{{application.name}}</option>
                       </select>
-                      <input id="input" type="text" class="form-control task-todo" placeholder="Task to do.."
+                      <input id="input" type="text" class="form-control task-todo" placeholder="Task to do.." style="border:0px;height: 80%;margin-top: 2px;border-radius: 6px;color:white;background-color:black"
                              ng-model="bValue">
                     </div>
                     <div class="col-md-1 col-sm-2 col-xs-2 text-right" style="padding-left: 0px;">
@@ -56,7 +56,7 @@
                           <ul class="widgets-wrapper">
                             <li class="form-row">
                               <label for="name" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同城容灾</label>
-                              <switch id="DR_SameCitySwitch" ng-if="showDrSameCity" color="primary" ng-model="DR_SameCity" on="Disabled"></switch>
+                              <switch id="DR_SameCitySwitch"ng-Class="currentClass" ng-if="showDrSameCity" color="primary" ng-model="DR_SameCity" ></switch>
 							  <div ng-if="disableSameCity" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
@@ -66,12 +66,12 @@
                             </li>
                             <li class="form-row">
                               <label for="input01">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备份(NBU)</label>
-							  <switch id ="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup"></switch>
+							  <switch id ="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup" ></switch>
                               <div ng-if="disableDrBackup" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
                               <label for="input01">同城应用核验</label>
-                              <switch id ="AppVerification_SameCitySwitch" ng-if="showAppVerificationSameCity" color="primary" ng-model="AppVerification_SameCity" disabled="true"></switch>
+                              <switch id ="AppVerification_SameCitySwitch" ng-if="showAppVerificationSameCity" color="primary" ng-model="AppVerification_SameCity"></switch>
 							  <div ng-if="disableAppVerificationSameCity" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
@@ -119,7 +119,7 @@
                             </td>
                             <td>
                               <div class="buttons">
-                                <button class="btn btn-danger editable-table-button btn-xs" ng-click="resourceRowRemove(index)">删除</button>
+                                <button class="btn btn-danger editable-table-button btn-xs" ng-click="resourceRowRemove(this)">删除</button>
                               </div>
                             </td>
                           </tr>
