@@ -22,6 +22,9 @@
                       <button type="button" class="btn btn-primary">详情
                       </button>
                     </div>
+                    <div>
+                      <label>本地CDP+异地保护</label>  <switch id ="DR_DiffCitySwitch" ng-if="showDrDiffCity" color="primary" ng-model="DR_DiffCity"></switch>
+                    </div>
                   </div>
                   <div class="box-shadow-border"></div>
                   <div class="widgets-first-box">
@@ -55,27 +58,22 @@
                         <div class="col-md-8 col-sm-10 col-xs-10">
                           <ul class="widgets-wrapper">
                             <li class="form-row">
-                              <label for="name" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同城容灾</label>
+                              <label for="name" >生产同城双活</label>
                               <switch id="DR_SameCitySwitch"ng-Class="currentClass" ng-if="showDrSameCity" color="primary" ng-model="DR_SameCity" ></switch>
 							  <div ng-if="disableSameCity" class="switch-no">—</div>
-                            </li>
+                            </li> 
                             <li class="form-row">
-                              <label for="input01">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;异地容灾</label>
-                              <switch id ="DR_DiffCitySwitch" ng-if="showDrDiffCity" color="primary" ng-model="DR_DiffCity"></switch>
-							  <div ng-if="disableDrDiffCity"class="switch-no">—</div>
-                            </li>
-                            <li class="form-row">
-                              <label for="input01">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备份(NBU)</label>
+                              <label for="input01">备份(NBU)</label>
 							  <switch id ="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup" ></switch>
                               <div ng-if="disableDrBackup" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
-                              <label for="input01">同城应用核验</label>
+                              <label for="input01">本地CDP验证</label>
                               <switch id ="AppVerification_SameCitySwitch" ng-if="showAppVerificationSameCity" color="primary" ng-model="AppVerification_SameCity"></switch>
 							  <div ng-if="disableAppVerificationSameCity" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
-                              <label for="input01">异地应用核验</label>
+                              <label for="input01">异地验证</label>
                               <switch id ="AppVerification_DiffCitySwitch" ng-if="showAppVerificationDiffCity" color="primary" ng-model="AppVerification_DiffCity" ng-change="saveData('AppVerification_DiffCity',AppVerification_DiffCity)"></switch>
 							  <div ng-if="disableAppVerificationDiffCity" class="switch-no">—</div>
                             </li>

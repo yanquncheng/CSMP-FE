@@ -11,16 +11,16 @@
 				 ba-panel ba-panel-class="with-scroll notification-panel">
 			<div class="task-todo-container transparent">
 				<div calss="todo-header">
-					<div class="todo-img"><img src="/assets/pictures/service_run.png" alt="Chai Oatmeal" /></div>
+					<div class="todo-img"><img src="/assets/pictures/vPlex-provisioning.png" alt="Chai Oatmeal" /></div>
 					<div class="todo-title">
 						<div class="todo-title-name">{{catalog.label}}</div>
-						<button class="todo-title-run" ng-click="go('/dashboard/Automation/ServiceVPLEXProvisioning', '12333333')">执行</button>
+						<input type="button" value="执行" style="width:70px;color:white;background-color:#4ACC46;margin-left:140px;height:28px;border-radius:6px;height:28px;margin-top:5px" ng-click="go('/dashboard/Automation/ServiceVPLEXProvisioning', 'success')" src="/assets/pictures/exec_button.png" alt="Chai Oatmeal" ></input>
 					</div>
 				</div>
 				<div class="box-shadow-border"></div>
 				<div calss="todo-nav">
 					<div class="todo-tab">
-						<span ng-repeat="support_host_type in catalog.propertices.support_host_type">{{support_host_type}}</span>
+						<span style="background:#333333;box-shadow:#FF4A4B 1px 1px 1px" ng-repeat="support_host_type in catalog.propertices.support_host_type">{{support_host_type}}</span>
 					</div>
 					<div class="todo-info">
 						<span><img src="/assets/pictures/service_icon_time.png" alt=""><span class="todo-info-name">{{catalog.propertices.estimated_execution_time}}</span></span>
@@ -163,7 +163,7 @@
 		margin-left: 5px;
 		line-height: 14px;
 		vertical-align: middle;
-		color: #19b6d9;
+		color: #ffff00;
 	}
 	.todo-content p{
 		margin: 1.25em 0;

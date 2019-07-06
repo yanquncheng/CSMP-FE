@@ -1,1 +1,480 @@
 <ui-view  autoscroll="true" autoscroll-body-top>
+	<!--  第一部分sheet    -->
+	<div class="row">
+	    <div class="col-md-12 col-sm-12 col-lg-12">
+		    <div ba-panel ba-panel-class="with-scroll horizontal-tabs tabs-panel">
+		        <!--large medium -->
+		        <uib-tabset active="$tabSetStatus.activeTab">
+					  <uib-tab heading="{{tab1.datacenter}}" ng-repeat="tab1 in tabs1" ng-click="swithTabs(tab1);">
+					      <div class="horizontal-scroll">
+					      <div class="topo">
+					        <a class="server" href="javascript:void(0)" ng-click="server('dashboard.objectManage.host',tab1.datacenter)">
+					          <div class="device"></div>
+					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>服务器({{tab1.Host}})</span>
+					        </a>
+					        <a class="hypervisor" href="javascript:void(0)" ng-click="server('dashboard.objectManage.application',tab1.datacenter)">
+					          <div class="device"></div>
+					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>应用系统({{tab1.Application}})</span>
+					        </a>
+					        <a class="fabric" href="javascript:void(0)" ng-click="server('dashboard.objectManage.array',tab1.datacenter,2)">
+					          <div class="device"></div>
+					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>虚拟化网关({{tab1.VirtualStorage}})</span> </a>
+					        <a class="switch" href="javascript:void(0)" ng-click="server('dashboard.objectManage.switch',tab1.datacenter)">
+					          <div class="device"></div>
+					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>交换机({{tab1.FabricSwitch}})</span> </a>
+					        <a class="storage" href="javascript:void(0)" ng-click="server('dashboard.objectManage.array',tab1.datacenter,1)">
+					          <div class="device"></div>
+					          <span class="summary"><i class="topoIcon tick">&nbsp;</i>存储({{tab1.Array}})</span> </a>
+					      </div>
+					      </div>
+					  </uib-tab>
+				</uib-tabset>
+		    </div>
+	    </div>
+	</div>
+	<!-- style -->
+	<style>
+		.divborder{
+			border: 2px solid #FFFFFF;
+			border-top-left-radius: 1em;
+		    border-top-right-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    border-bottom-right-radius: 1em;
+		}
+		
+		.ddd{
+			border: 1px solid #FFFFFF;
+		    height: 30px;
+		    width: 94%;
+		    /*background-color: red;*/
+		    /*padding-left: 150px;*/
+		    border-top-left-radius: 1em;
+		    border-top-right-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    border-bottom-right-radius: 1em;
+		    margin: 10px;
+		    position:relative;
+		}
+		.divl_left_radius{
+			height: 100%;
+		    border-top-left-radius: 1em;
+		    border-bottom-left-radius: 1em;
+		    color: #000000;
+		    text-align: center;
+		    padding: 5px;
+		    position:absolute;
+		}
+		.divl_rigth_radius{
+			height: 100%;
+			border-top-left-radius: 1em;
+		    border-bottom-left-radius: 1em;
+			border-top-right-radius: 1em;
+			border-bottom-right-radius: 1em;
+			color: #000000;
+			text-align: center;
+			padding: 5px;
+			position:absolute;
+		}
+		.div2{
+			float: left;
+		}
+		span.title{
+		    display:block;
+		    width:150px;
+		    height:12px;
+		    position:relative;
+		    top:-8px;
+		    text-align: center;
+		    background: rgb(53,77,81);
+		    color: #FFFFFF;
+		    margin-left: 25px;
+		}
+		
+		.demo:hover{
+			width:120%;
+			-webkit-box-shadow: 5px 5px 5px;  
+		    -moz-box-shadow: 5px 5px 5px;  
+		    box-shadow: 5px 5px 5px;  
+		}
+		.domes1:hover{  
+			position:relative;
+			cursor:pointer;
+		  	box-shadow: -8px 5px 5px #000000,5px 5px 5px #000000,5px -8px 5px #000000,5px 5px 5px #000000;  
+		} 
+	</style>
+	<div class="row" style="padding-top: 1px; height: 1px; background-color: rgb(125, 125, 125);"></div>
+	<!--  最新第二部分  -->
+	<div class="row">
+		<dashboard-pie-chart></dashboard-pie-chart> 
+
+  <div class="row">
+    <div class="col-xlg-12 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <div class="row">
+          <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-5 col-xs-12"
+               ba-panel  
+              ba-panel-class="medium-panel">
+             <capacity-by-app-chart></capacity-by-app-chart>
+          </div>
+          <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-7 col-xs-12"
+               ba-panel
+               ba-panel-title="存储性能分布" >
+            <performance-by-array-chart></performance-by-array-chart>
+          </div>
+          <div class="col-xlg-4 col-lg-12 col-md-12 col-sm-5 col-xs-12"
+               ba-panel
+               ba-panel-title="最近事件"
+               ba-panel-class="popular-app medium-panel with-scroll">
+            <event-by-recently></event-by-recently>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+	
+
+</ui-view>
+
+<style>
+  .clear_both {
+    clear: both;
+  }
+
+  .right_align {
+    text-align: right;
+    margin-top: 6px;
+  }
+
+  .grid4 {
+    margin: 0;
+  }
+
+  .widget-header {
+    text-align: center;
+  }
+
+  .widget-main {
+    text-align: -webkit-center;
+  }
+
+  .capacity, .equipment {
+    padding-left: 0px; 
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .equipment_item {
+    width: 100%;
+    height: 158px;
+    background-position: 0 0;
+    background-size: 100% 180px;
+    background-repeat: no-repeat;
+  }
+
+  .storage {
+    background-image: url("assets/img/dashboard/storage_devices_base1.png");
+  }
+
+  .switch {
+    background-image: url("assets/img/dashboard/switch_base1.png");
+  }
+
+  .server {
+    background-image: url("assets/img/dashboard/servers_base1.png");
+  }
+
+  .hypervisor {
+    background-image: url("assets/img/dashboard/hypervisor_base1.png");
+  }
+
+  .btn.btn-app {
+    display: inline-block;
+    width: 100px;
+    font-size: 18px;
+    font-weight: normal;
+    color: #FFF;
+    text-align: center;
+    text-shadow: 0 -1px -1px rgba(0, 0, 0, 0.2) !important;
+    border: 0;
+    border-radius: 0px;
+    padding: 12px 0 8px;
+    margin: 0px;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .btn.btn-app > [class*=icon] {
+    display: block;
+    font-size: 42px;
+    margin: 0 0 4px;
+    line-height: 36px;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .btn-left {
+    padding-right: 0 !important;
+    width: 12%;
+    float: left;
+    padding-bottom: 75px;
+  }
+
+  .bth-right {
+    float: left;
+    width: 37%;
+    background-color: #edf1f2;
+    height: 90px;
+    padding: 5px;
+    display: table;
+  }
+
+  .bth-right div {
+    display: table-cell;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+
+  .padding {
+    float: left;
+    width: 10px;
+    height: 1px;
+  }
+
+  .disabled {
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+  }
+
+  .disabled a {
+    cursor: default;
+  }
+
+  /*.dropdown-menu {
+    position: relative;
+    min-width: 100%;
+    overflow: hidden;
+  }*/
+
+  .easypiechart {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  .highcharts-tooltip{
+    font-weight: bold;
+  }
+  
+  .fullScreenAnchor{
+	position: fixed;
+    right: 0;
+    top: 200px;
+    z-index: 13;
+}
+
+
+
+  .fullScreen.navbar {
+    display: none !important;
+  }
+  .fullScreen.sidebar {
+    display: none !important;
+  }
+  .fullScreen.main-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .fullScreen.main-content .nav-search {
+    display: none !important;
+  }
+ .fullScreen .main-content .breadcrumbs {
+    float: right;
+    border-width: 0 !important;
+  }
+  .fullScreen.main-content .breadcrumbs .breadcrumb > li + li:before {
+    content: "/";
+  }
+  .fullScreen.main-content .breadcrumbs .breadcrumb .home-icon {
+    display: none;
+  }
+  .fullScreen.ace-settings-container {
+    display: none !important;
+  }
+  .fullScreen.footer {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .fullScreen.footer .footer-inner,
+  .fullScreen.footer .footer-inner .footer-content {
+    width: 100%;
+  }
+ 
+
+
+
+
+/**topology**/
+.topo{
+	width:1024px;
+	height:316px;
+	margin:0 0;
+	position:relative;
+	background-image: url("assets/img/dashboard/statictopoconnectors.png");/*,url("assets/img/dashboard/statictopofloor.png");*/
+    background-position: 0 0;
+    background-size: 1215px 316px;
+    background-repeat: no-repeat;
+    border-color:#000;
+    /*border: 1px solid ;*/
+}
+.topo>div,.topo>a{
+	cursor: pointer;
+}
+.topo .server{
+	left: 50px;
+    top: 50px;
+    position: absolute;
+    width:200px;
+    height:205px;
+}
+
+.topo .hypervisor{
+	left: 380px;
+    top: 25px;
+    position: absolute;
+    width:136px;
+    height:148px;
+}
+.topo .fabric{
+	left: 520px;
+    top: 153px;
+    position: absolute;
+    width:200px;
+    height:135px;
+}
+.topo .switch{
+	left: 715px;
+    top: 70px;
+    position: absolute;
+    width:130px;
+    height:95px;
+}
+.topo .storage{
+	left: 1000px;
+    top: 50px;
+    position: absolute;
+    width:200px;
+    height:255px;
+}
+
+/** device  **/
+    .topo a {
+    text-transform:none;text-decoration:none;
+    }
+
+.topo .server .device{
+	width:200px;
+	height:180px;
+	background-image: url("assets/img/dashboard/servers_base1.png");
+    background-position: 0 0;
+    background-size: 200px 180px;
+    background-repeat: no-repeat;
+}
+.topo .server .device:hover{
+	background-image: url("assets/img/dashboard/servers_hover1.png");
+}
+.topo .hypervisor .device{
+	width:128px;
+	height:128px;
+	background-image: url("assets/img/dashboard/hypervisor_base1.png");
+    background-position: 0 0;
+    background-size: 128px 128px;
+    background-repeat: no-repeat;
+}
+.topo .hypervisor .device:hover{
+	background-image: url("assets/img/dashboard/hypervisor_hover1.png");
+}
+.topo .fabric .device{
+	width:200px;
+	height:110px;
+	background-image: url("assets/img/dashboard/fabric_base1.png");
+    background-position: 0 0;
+    background-size: 200px 110px;
+    background-repeat: no-repeat;
+}
+.topo .fabric .device:hover{
+	background-image: url("assets/img/dashboard/fabric_hover1.png");
+}
+.topo .switch .device{
+	width:130px;
+	height:70px;
+	background-image: url("assets/img/dashboard/switch_base1.png");
+    background-position: 0 0;
+    background-size: 130px 70px;
+    background-repeat: no-repeat;
+}
+.topo .switch .device:hover{
+	background-image: url("assets/img/dashboard/switch_hover1.png");
+}
+.topo .storage .device{
+	width:200px;
+	height:230px;
+	background-image: url("assets/img/dashboard/storage_devices_base1.png");
+    background-position: 0 0;
+    background-size: 200px 230px;
+    background-repeat: no-repeat;
+}
+.topo .storage .device:hover{
+	background-image: url("assets/img/dashboard/storage_devices_hover1.png");
+}
+/** summary **/
+.summary{
+	display:block;
+	margin:0 auto;
+	color: #fff; 
+color: #fff; 
+font-family: Arial; 
+font-size: 1.2em; 
+font-weight: bold; 
+text-shadow: black 2px 2px 3px; 
+}
+.server .summary{
+	width:60%;
+}
+.hypervisor .summary{
+	width:100%;
+}
+.fabric .summary{
+	width:65%;
+}
+.storage .summary{
+	width:65%;
+}
+/** icon  **/
+.topoIcon{
+    background-image: url("assets/img/dashboard/status24.png");
+    background-position: 0 0;
+    background-size: 168px 24px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+.topoIcon.default{
+	background-position: 0 0;
+}
+.topoIcon.tick{
+	background-position: -24px 0;
+}
+.topoIcon.warning{
+	background-position: -48px 0;
+}
+.topoIcon.error{
+	background-position: -72px 0;
+}
+.topoIcon.unknow{
+	background-position: -96px 0;
+}
+.topoIcon.info{
+	background-position: -120px 0;
+}
+</style>
