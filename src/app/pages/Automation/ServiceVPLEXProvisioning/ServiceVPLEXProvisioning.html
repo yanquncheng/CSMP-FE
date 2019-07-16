@@ -22,9 +22,11 @@
                       <button type="button" class="btn btn-primary">详情
                       </button>
                     </div>
-                    <div>
-                      <label>本地CDP+异地保护</label>  <switch id ="DR_DiffCitySwitch" ng-if="showDrDiffCity" color="primary" ng-model="DR_DiffCity"></switch>
-                    </div>
+                    <li class="form-row" style="margin-top: -10px;">
+                      <label for="name" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本地CDP+异地保护</label>
+                      <switch id="Local_CdpSwitch" style="margin-top: 3px" ng-Class="currentClass" ng-if="showLocalCdp" color="primary" ng-model="Local_Cdp" ></switch>
+                      <div ng-if="disableLocalCdp" style="margin-top: 3px" class="switch-no">—</div>
+                    </li>  
                   </div>
                   <div class="box-shadow-border"></div>
                   <div class="widgets-first-box">
