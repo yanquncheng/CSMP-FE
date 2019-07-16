@@ -7,11 +7,11 @@
 		</select>
 	</div>
 	<div id="catalogList" class="row recipe-box" >
-		<div ng-repeat="catalog in catalogLists" class="col-xlg-4 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+		<div ng-repeat="catalog in catalogLists" class="col-xlg-4 col-lg-4 col-md-6 col-sm-12 col-xs-12" style="width: 450px"
 				 ba-panel ba-panel-class="with-scroll notification-panel">
 			<div class="task-todo-container transparent">
 				<div calss="todo-header">
-					<div class="todo-img"><img src="/assets/pictures/vPlex-provisioning.png" alt="Chai Oatmeal" /></div>
+					<div class="todo-img" style="width: 500px;"><img src="/assets/pictures/vPlex-provisioning.png" alt="Chai Oatmeal" /></div>
 					<div class="todo-title">
 						<div class="todo-title-name">{{catalog.label}}</div>
 						<input type="button" value="执行" style="width:70px;color:white;background-color:#4ACC46;margin-left:140px;height:28px;border-radius:6px;height:28px;margin-top:5px" ng-click="go('/dashboard/Automation/ServiceVPLEXProvisioning', 'success')" src="/assets/pictures/exec_button.png" alt="Chai Oatmeal" ></input>
@@ -76,6 +76,7 @@
 	.todo-img img {
 		width:70%;
 		margin: auto;
+		margin-left: -120px;
 	}
 	.todo-title{
 		padding: 5px 0;

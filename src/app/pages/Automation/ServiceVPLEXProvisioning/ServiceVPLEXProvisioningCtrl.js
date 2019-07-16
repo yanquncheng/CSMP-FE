@@ -89,14 +89,14 @@
 						$scope.disableSameCity = true;
 					}			
 				}else if(data.name=="DR_DiffCity"){
-					if(data.value=="true"){
+					/*if(data.value=="true"){
 						$scope.showDrDiffCity = true;					
 					}else if(data.value=="false"){
 						$scope.showDrDiffCity = true;
 						showDrDiffCitySwitch = true;					
 					}else if(data.value="disable"){
 						$scope.disableDrDiffCity = true;
-					}				
+					}*/				
 				}else if(data.name=="Backup"){
 					if(data.value=="true"){
 						$scope.showDrBackup = true;	
@@ -233,11 +233,11 @@
 			}else{
 				recordItem.showDrSameCityTable = false;
 			}
-			if($scope.showDrDiffCity){
+			/*if($scope.showDrDiffCity){
 				recordItem.showDrDiffCityTable = ($('#DR_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
 				recordItem.showDrDiffCityTable = false;
-			}
+			}*/
 			if($scope.showDrBackup){
 				recordItem.showDrBackupTable  = ($('#DR_BackupSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
@@ -381,11 +381,11 @@
 					}else{
 						protectLevel.DR_SameCity = "disable";
 					}
-					if($scope.showDrDiffCity){
+					/*if($scope.showDrDiffCity){
 						protectLevel.DR_DiffCity = data.showDrDiffCityTable;
 					}else{
 						protectLevel.DR_DiffCity = "disable";
-					}
+					}*/
 					if($scope.showDrBackup){
 						protectLevel.Backup = data.showDrBackupTable;
 					}else{
@@ -490,7 +490,7 @@
 			$('#DR_SameCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
 		  }
 	  }
-	  if($scope.showDrDiffCity){
+	  /*if($scope.showDrDiffCity){
 		  if(showDrDiffCitySwitch==true){
 			$('#DR_DiffCitySwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-off');
 			$('#DR_DiffCitySwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-on');
@@ -500,7 +500,7 @@
 			$('#DR_DiffCitySwitch .bootstrap-switch-small')[0].classList.remove('bootstrap-switch-off');
 			$('#DR_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
 		  }
-	  }
+	  }*/
 	  if($scope.showDrBackup){
 		  if(showDrBackupSwitch==true){
 			$('#DR_BackupSwitch .bootstrap-switch-small')[0].classList.add('bootstrap-switch-off');
