@@ -13,7 +13,7 @@
                     <div class="select-input-box col-md-3 col-sm-8 col-xs-8">
                       <select id="select" class="form-control task-todo" style="width: 100%;" ng-model="aValue" ng-init="aValue='所有'"
                               ng-change="change()" ng-click="ccc()">
-						<option ng-repeat="application in ApplicationList" value="{{application.name}}">{{application.name}}</option>
+						<option ng-repeat="application in ApplicationList" value="{{application.name}}" name="{{application.name_ext}}">{{application.name}}</option>
                       </select>
                       <input id="input" type="text" class="form-control task-todo" placeholder="Task to do.." style="border:0px;height: 80%;margin-top: 2px;border-radius: 6px;color:white;background-color:black"
                              ng-model="bValue">
@@ -23,7 +23,7 @@
                       </button>
                     </div>
                     <li class="form-row" style="margin-top: -10px;">
-                      <label for="name" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本地CDP+异地保护</label>
+                      <label for="name" style="margin-left: 100px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本地CDP+异地保护</label>
                       <switch id="Local_CdpSwitch" style="margin-top: 3px" ng-Class="currentClass" ng-if="showLocalCdp" color="primary" ng-model="Local_Cdp" ></switch>
                       <div ng-if="disableLocalCdp" style="margin-top: 3px" class="switch-no">—</div>
                     </li>  

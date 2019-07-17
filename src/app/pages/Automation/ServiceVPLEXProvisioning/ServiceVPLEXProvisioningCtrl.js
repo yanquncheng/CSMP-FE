@@ -29,7 +29,7 @@
   var showDrBackupSwitch = false;
   var showAppVerificationSameCitySwitch = false;
   var showAppVerificationDiffCitySwitch = false;
-  var showAppVerificationLocalCdp = false;
+  var showAppVerificationLocalCdpSwitch = false;
   var success = false;
   var check = false;
 
@@ -44,8 +44,10 @@
     $scope.aValue = '';
     $scope.change = function() {
       var value = $('#select').find('option:selected').text();
-      $scope.bValue = value
-      $("#input").val(value)
+	  var name = $('#select').find('option:selected').attr("name");
+      $scope.bValue = value;
+      $("#input").val(value);
+	  $("#input").attr("name",name);
     };
     $scope.ccc = function() {
 
@@ -138,7 +140,7 @@
 						
 					}else if(data.value=="false"){
 						$scope.showLocalCdp = true;
-						showAppVerificationLocalCdp = true;
+						showAppVerificationLocalCdpSwitch = true;
 						
 					
 					}else if(data.value="disable"){
@@ -254,7 +256,7 @@
 				recordItem.showAppVerificationDiffCityTable = false;
 			}
 			if($scope.showLocalCdp){
-				recordItem.showAppVerificationLocalCdpTable =($('#AppVerification_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
+				recordItem.showAppVerificationLocalCdpTable =($('#Local_CdpSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']=='0px');
 			}else{
 				recordItem.showAppVerificationLocalCdpTable = false;
 			}
@@ -356,6 +358,7 @@
     $scope.$on('ToBrotherController', function(event, msg) {
 			//json.appname = $scope.bValue; 
 			json.appname = $('#input').val(); 
+			json.appname_ext = $("#input").attr("name");; 
 			json.opsType = "";
 			
 			requests = [];
@@ -535,15 +538,15 @@
 			$('#AppVerification_DiffCitySwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
 		  }
 	  }
-	   if($scope.showAppVerificationLocalCdp){
+	   if($scope.showLocalCdp){
 		  if(showAppVerificationLocalCdpSwitch==true){
-			$("#AppVerification_LocalCdpSwitch .bootstrap-switch-small")[0].classList.add('bootstrap-switch-off');
-			$("#AppVerification_LocalCdpSwitch .bootstrap-switch-small")[0].classList.remove('bootstrap-switch-on');
-			$('#AppVerification_LocalCdpSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='-42px';
+			$("#Local_CdpSwitch .bootstrap-switch-small")[0].classList.add('bootstrap-switch-off');
+			$("#Local_CdpSwitch .bootstrap-switch-small")[0].classList.remove('bootstrap-switch-on');
+			$('#Local_CdpSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='-42px';
 		  }else{
-			$("#AppVerification_LocalCdpSwitch .bootstrap-switch-small")[0].classList.add('bootstrap-switch-on');
-			$("#AppVerification_LocalCdpSwitch .bootstrap-switch-small")[0].classList.remove('bootstrap-switch-off');
-			$('#AppVerification_LocalCdpSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
+			$("#Local_CdpSwitch .bootstrap-switch-small")[0].classList.add('bootstrap-switch-on');
+			$("#Local_CdpSwitch .bootstrap-switch-small")[0].classList.remove('bootstrap-switch-off');
+			$('#Local_CdpSwitch .bootstrap-switch .bootstrap-switch-container')[0].style['margin-left']='0px';
 		  }
 	  }
    }
