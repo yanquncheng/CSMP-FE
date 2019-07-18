@@ -225,6 +225,7 @@
 	  }else{
 		  recordItem.pool = vm.resourceInfoItem.appname.name;
 		  recordItem.capacityGB = $('#capacityGb').val(); 
+		  recordItem.count = $('#count').val(); 
 		  recordItem.name = vm.resourceInfoItem.appname.name;
 		  recordItem.resourceLevel = vm.resourceInfoItem.appname.resourceLevel;
 		  recordItem.resourceType = vm.resourceInfoItem.appname.resourceType;
@@ -359,13 +360,18 @@
 			//json.appname = $scope.bValue; 
 			json.appname = $('#input').val(); 
 			json.appname_ext = $("#input").attr("name");; 
-			json.opsType = "";
+			if(msg==1){
+				json.opsType = "review";
+			}else if(msg==2){
+				json.opsType = "execute";
+			}
 			
 			requests = [];
 			angular.forEach($scope.resourceInfo,function(data,index,array){
 				    var request = {};
 					request.usedfor = "";
 					request.capacity = data.capacityGB;
+					request.count = data.count;
 					var storageResourcePool = {};
 					var protectLevel = {};
 					storageResourcePool.name = data.name;
@@ -416,6 +422,7 @@
 			})
 			json.requests = requests;
 			httpService.post("/auto/service/block/provisioning",json,config, function (response) {
+			   
 			   $scope.actionList = response.AutoInfo.ActionParamaters;
 			   $scope.resultList = response.AutoInfo.ActionParamaters;
 			   tabIndex = true;
@@ -425,7 +432,23 @@
 			   //storageResourcePool = {};
 			   //protectLevel = {};	
 			   if(response.resMsg.code!='200'){ 
-			      //$("#nextButton").attr("disabled",true);
+				   
+			       $("#nextButton").attr("disabled",true);
+				   var messageOut = [];
+				   var messageResult = {};
+				   var secondMessage = "";
+				   angular.forEach(response.resMsg.message,function(data,index,array){
+					   if(secondMessage == ""){
+					       secondMessage = data
+					   }else{
+							secondMessage = secondMessage+"<br/>"+data;
+					   }
+				   })
+				   messageResult.response = secondMessage;
+				   messageResult.DependOnAction = "";
+				   messageResult.StorageVolumeName = "";
+				   messageOut.push(messageResult);
+				   $scope.actionList = messageOut;
 			   }
 			})
     });
@@ -457,7 +480,7 @@
 				}
 			}
 	}, 6000);*/
-	$scope.clearNoNum = function(){
+	$scope.clearNoNumCapacityGb = function(){
         
 		//先把非数字的都替换掉，除了数字和.
 		var result = $('#capacityGb').val();
@@ -475,7 +498,26 @@
 		}
 		
 
+	}
+	$scope.clearNoNumCount = function(){
+        
+		//先把非数字的都替换掉，除了数字和.
+		var result = $('#count').val();
+		result = result.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		result = result.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		result = result.replace(/\.{2,}/g,"");
+		//保证.只出现一次，而不能出现两次以上
+		result = result.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        if(result==""){
+			$('#count').val("1");
+		}else{
+			$('#count').val(result);
 		}
+		
+
+	}
 
     $scope.initData();
 
@@ -557,5 +599,7 @@
    }, 300);
 
   }
+  app.filter('trust2Html', ['$sce',function($sce) { return function(val) {  if (val) {
+            val = val.replace(/\[\[/g, "<span style=\"color: #FFFFFF;\">").replace(/\]\]/g, "</span>");return $sce.trustAsHtml(val); } };}])
   
 })();

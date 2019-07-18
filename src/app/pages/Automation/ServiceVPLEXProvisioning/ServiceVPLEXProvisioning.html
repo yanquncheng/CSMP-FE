@@ -46,15 +46,26 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="inputPassword3" class="col-md-4 col-sm-2 col-xs-2 control-label">申请容量</label>
+                        <label for="inputCapacity3" class="col-md-4 col-sm-2 col-xs-2 control-label">申请容量</label>
                         <div class="col-md-8 col-sm-10 col-xs-10">
                           <div class="input-group" style="margin-bottom: 0px;">
                             <input id="capacityGb" type="text" class="form-control with-primary-addon" placeholder="请输入内容"
-                                   aria-describedby="basic-addon2" ng-model="capacityGbModel" ng-init = "capacityGbModel=1" ng-keyup="clearNoNum()" >
-                            <span class="input-group-addon input-group-addon-other addon-right" id="basic-addon2">&nbsp;&nbsp;&nbsp;&nbsp;GB&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                   aria-describedby="basic-addonCapacityGb" ng-model="capacityGbModel" ng-init = "capacityGbModel=1" ng-keyup="clearNoNumCapacityGb()" >
+                            <span class="input-group-addon input-group-addon-other addon-right" id="basic-addonCapacityGb">&nbsp;&nbsp;&nbsp;&nbsp;GB&nbsp;&nbsp;&nbsp;&nbsp;</span>
                           </div>
                         </div>
+						
                       </div>
+					  <div class="form-group">
+					    <label for="inputCount3" class="col-md-4 col-sm-2 col-xs-2 control-label">申请数量</label>
+                        <div class="col-md-8 col-sm-10 col-xs-10">
+                          <div class="input-group" style="margin-bottom: 0px;">
+                            <input id="count" type="text" class="form-control with-primary-addon" placeholder="请输入内容"
+                                   aria-describedby="basic-addonCount" ng-model="countModel" ng-init = "countbModel=1" ng-keyup="clearNoNumCount()" >
+                            <span class="input-group-addon input-group-addon-other addon-right" id="basic-addonCount">&nbsp;&nbsp;&nbsp;&nbsp;个&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          </div>
+                        </div>
+					  </div>
                       <div class="form-group">
                         <label for="inputPassword3" class="col-md-4 col-sm-2 col-xs-2 control-label">资源能力</label>
                         <div class="col-md-8 col-sm-10 col-xs-10">
@@ -103,6 +114,7 @@
                           <tr>
                             <td>存储资源池</td>
                             <td>申请容量(GB)</td>
+							<td>申请数量</td>
                             <td>资源能力</td>
                             <td>操作</td>
                           </tr>
@@ -110,6 +122,7 @@
                           <tr ng-repeat="specOption in SpecificationOptionList">
                             <td>{{specOption.pool}}</td>
                             <td>{{specOption.capacityGB}}</td>
+							<td>{{specOption.count}}</td>
                             <td>
                               <button ng-if="specOption.showDrSameCityTable" class="btn btn-info editable-table-button btn-xs" disabled>同城容灾</button>
                               <button ng-if="specOption.showDrDiffCityTable" class="btn btn-primary editable-table-button btn-xs" disabled>异地容灾</button>
@@ -151,7 +164,18 @@
                       <div class="cd-timeline-content warning">
                         <p>Method:{{action.method}}</p>
 						<p>DependOnAction:{{action.DependOnAction}}</p>
+						<p>VirtualVolume:{{action.virtual_volume}}</p>
+						<p>VirtualVolumes:{{action.virtualvolumes}}</p>
+						<p>ConsistencyGroup:{{action.consistency_group}}</p>
 						<p>StorageVolumeName:{{action.StorageVolumeName}}</p>
+						<p>DeviceName:{{action.devicename}}</p>
+						<p>Devices:{{action.devices}}</p>
+						<p>SourceDevice:{{action.sourcedevice}}</p>
+						<p>ClusterName:{{action.clustername}}</p>
+						<p>ViewName:{{action.viewname}}</p>
+						<p>Geometry:{{action.geometry}}</p>
+						<p>Extents:{{action.extents}}</p>
+						<p ng-bind-html="action.response|trust2Html">Response:{{action.response}}</p>
                       </div>
                     </div>
                   </section>
@@ -172,9 +196,20 @@
                       </div>
 					  <div class="col-md-6">
 						  <div class="cd-timeline-content warning">
-							<p>Method:{{result.method}}</p>
-							<p>DependOnAction:{{result.DependOnAction}}</p>
-							<p>StorageVolumeName:{{result.StorageVolumeName}}</p>
+							<p>Method:{{action.method}}</p>
+							<p>DependOnAction:{{action.DependOnAction}}</p>
+							<p>VirtualVolume:{{action.virtual_volume}}</p>
+							<p>VirtualVolumes:{{action.virtualvolumes}}</p>
+							<p>ConsistencyGroup:{{action.consistency_group}}</p>
+							<p>StorageVolumeName:{{action.StorageVolumeName}}</p>
+							<p>DeviceName:{{action.devicename}}</p>
+							<p>Devices:{{action.devices}}</p>
+							<p>SourceDevice:{{action.sourcedevice}}</p>
+							<p>ClusterName:{{action.clustername}}</p>
+							<p>ViewName:{{action.viewname}}</p>
+							<p>Geometry:{{action.geometry}}</p>
+							<p>Extents:{{action.extents}}</p>
+							<p>Response:{{action.response}}</p>
 							<span>
 							<div class="progress">
 							  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
@@ -188,7 +223,7 @@
 					  <div class="col-md-6">
 						  <div class="cd-timeline-content cd-timeline-content-info warning" style="margin-top:-1px">
 							<h5><i class="ion-checkmark"></i> 执行成功</h5>
-							<textarea style="width:520px;height:62px;color:black;border-radius:3px;font-size: 14px" >{{result.response}}</textarea>
+							<textarea style="width:520px;height:236px;color:black;border-radius:3px;font-size: 14px" >{{result.response}}</textarea>
 						  </div>
 					  </div>
                     </div>
@@ -198,9 +233,20 @@
                       </div>
 					<div class="col-md-6">
                       <div class="cd-timeline-content danger">
-                        <p>Method:{{result.method}}</p>
-						<p>DependOnAction:{{result.DependOnAction}}</p>
-						<p>StorageVolumeName:{{result.StorageVolumeName}}</p>
+                        <p>Method:{{action.method}}</p>
+						<p>DependOnAction:{{action.DependOnAction}}</p>
+						<p>VirtualVolume:{{action.virtual_volume}}</p>
+						<p>VirtualVolumes:{{action.virtualvolumes}}</p>
+						<p>ConsistencyGroup:{{action.consistency_group}}</p>
+						<p>StorageVolumeName:{{action.StorageVolumeName}}</p>
+						<p>DeviceName:{{action.devicename}}</p>
+						<p>Devices:{{action.devices}}</p>
+						<p>SourceDevice:{{action.sourcedevice}}</p>
+						<p>ClusterName:{{action.clustername}}</p>
+						<p>ViewName:{{action.viewname}}</p>
+						<p>Geometry:{{action.geometry}}</p>
+						<p>Extents:{{action.extents}}</p>
+						<p>Response:{{action.response}}</p>
                         <span>
                             <div ng-switch on="result.response" class="progress">
                               <div ng-switch-when='Failed!' class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
@@ -220,7 +266,7 @@
                       <div ng-switch on="result.response" class="cd-timeline-content cd-timeline-content-info danger" style="margin-top:-1px">
 						<h5 ng-switch-when='Failed!'><i class="ion-alert"></i> 执行失败</h5>
 						<h5 ng-switch-default><i class="ion-alert"></i> 等待执行</h5>
-                        <textarea style="width:520px;height:62px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
+                        <textarea style="width:520px;height:236px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
                       </div>
 					  </div>
                     </div>
