@@ -162,20 +162,20 @@
 							<div  class="kameleon-icon with-round-bg primary">{{$index}}</div>
                       </div>
                       <div class="cd-timeline-content warning">
-                        <p>Method:{{action.method}}</p>
-						<p>DependOnAction:{{action.DependOnAction}}</p>
-						<p>VirtualVolume:{{action.virtual_volume}}</p>
-						<p>VirtualVolumes:{{action.virtualvolumes}}</p>
-						<p>ConsistencyGroup:{{action.consistency_group}}</p>
-						<p>StorageVolumeName:{{action.StorageVolumeName}}</p>
-						<p>DeviceName:{{action.devicename}}</p>
-						<p>Devices:{{action.devices}}</p>
-						<p>SourceDevice:{{action.sourcedevice}}</p>
-						<p>ClusterName:{{action.clustername}}</p>
-						<p>ViewName:{{action.viewname}}</p>
-						<p>Geometry:{{action.geometry}}</p>
-						<p>Extents:{{action.extents}}</p>
-						<p ng-bind-html="action.response|trust2Html">Response:{{action.response}}</p>
+                        <p ng-if="action.hasOwnProperty('method')">Method:{{action.method}}</p>
+						<p ng-if="action.hasOwnProperty('DependOnAction')">DependOnAction:{{action.DependOnAction}}</p>
+						<p ng-if="action.hasOwnProperty('virtual_volume')">VirtualVolume:{{action.virtual_volume}}</p>
+						<p ng-if="action.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{action.virtualvolumes}}</p>
+						<p ng-if="action.hasOwnProperty('consistency_group')">ConsistencyGroup:{{action.consistency_group}}</p>
+						<p ng-if="action.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{action.StorageVolumeName}}</p>
+						<p ng-if="action.hasOwnProperty('devicename')">DeviceName:{{action.devicename}}</p>
+						<p ng-if="action.hasOwnProperty('devices')">Devices:{{action.devices}}</p>
+						<p ng-if="action.hasOwnProperty('sourcedevice')">SourceDevice:{{action.sourcedevice}}</p>
+						<p ng-if="action.hasOwnProperty('clustername')">ClusterName:{{action.clustername}}</p>
+						<p ng-if="action.hasOwnProperty('viewname')">ViewName:{{action.viewname}}</p>
+						<p ng-if="action.hasOwnProperty('geometry')">Geometry:{{action.geometry}}</p>
+						<p ng-if="action.hasOwnProperty('extents')">Extents:{{action.extents}}</p>
+						<p ng-if="action.hasOwnProperty('response')" ng-bind-html="action.response|trust2Html">Response:{{action.response}}</p>
                       </div>
                     </div>
                   </section>
@@ -196,20 +196,20 @@
                       </div>
 					  <div class="col-md-6">
 						  <div class="cd-timeline-content warning">
-							<p>Method:{{action.method}}</p>
-							<p>DependOnAction:{{action.DependOnAction}}</p>
-							<p>VirtualVolume:{{action.virtual_volume}}</p>
-							<p>VirtualVolumes:{{action.virtualvolumes}}</p>
-							<p>ConsistencyGroup:{{action.consistency_group}}</p>
-							<p>StorageVolumeName:{{action.StorageVolumeName}}</p>
-							<p>DeviceName:{{action.devicename}}</p>
-							<p>Devices:{{action.devices}}</p>
-							<p>SourceDevice:{{action.sourcedevice}}</p>
-							<p>ClusterName:{{action.clustername}}</p>
-							<p>ViewName:{{action.viewname}}</p>
-							<p>Geometry:{{action.geometry}}</p>
-							<p>Extents:{{action.extents}}</p>
-							<p>Response:{{action.response}}</p>
+							<p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
+							<p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}</p>
+							<p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
+							<p ng-if="result.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{result.virtualvolumes}}</p>
+							<p ng-if="result.hasOwnProperty('consistency_group')">ConsistencyGroup:{{result.consistency_group}}</p>
+							<p ng-if="result.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{result.StorageVolumeName}}</p>
+							<p ng-if="result.hasOwnProperty('devicename')">DeviceName:{{result.devicename}}</p>
+							<p ng-if="result.hasOwnProperty('devices')">Devices:{{result.devices}}</p>
+							<p ng-if="result.hasOwnProperty('sourcedevice')">SourceDevice:{{result.sourcedevice}}</p>
+							<p ng-if="result.hasOwnProperty('clustername')">ClusterName:{{result.clustername}}</p>
+							<p ng-if="result.hasOwnProperty('viewname')">ViewName:{{result.viewname}}</p>
+							<p ng-if="result.hasOwnProperty('geometry')">Geometry:{{result.geometry}}</p>
+							<p ng-if="result.hasOwnProperty('extents')">Extents:{{result.extents}}</p>
+							<p ng-if="result.hasOwnProperty('response')">Response:{{result.response}}</p>
 							<span>
 							<div class="progress">
 							  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
@@ -223,7 +223,7 @@
 					  <div class="col-md-6">
 						  <div class="cd-timeline-content cd-timeline-content-info warning" style="margin-top:-1px">
 							<h5><i class="ion-checkmark"></i> 执行成功</h5>
-							<textarea style="width:520px;height:236px;color:black;border-radius:3px;font-size: 14px" >{{result.response}}</textarea>
+							<textarea style="width:520px;height:75px;color:black;border-radius:3px;font-size: 14px" >{{result.response}}</textarea>
 						  </div>
 					  </div>
                     </div>
@@ -233,20 +233,20 @@
                       </div>
 					<div class="col-md-6">
                       <div class="cd-timeline-content danger">
-                        <p>Method:{{action.method}}</p>
-						<p>DependOnAction:{{action.DependOnAction}}</p>
-						<p>VirtualVolume:{{action.virtual_volume}}</p>
-						<p>VirtualVolumes:{{action.virtualvolumes}}</p>
-						<p>ConsistencyGroup:{{action.consistency_group}}</p>
-						<p>StorageVolumeName:{{action.StorageVolumeName}}</p>
-						<p>DeviceName:{{action.devicename}}</p>
-						<p>Devices:{{action.devices}}</p>
-						<p>SourceDevice:{{action.sourcedevice}}</p>
-						<p>ClusterName:{{action.clustername}}</p>
-						<p>ViewName:{{action.viewname}}</p>
-						<p>Geometry:{{action.geometry}}</p>
-						<p>Extents:{{action.extents}}</p>
-						<p>Response:{{action.response}}</p>
+							<p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
+							<p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}</p>
+							<p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
+							<p ng-if="result.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{result.virtualvolumes}}</p>
+							<p ng-if="result.hasOwnProperty('consistency_group')">ConsistencyGroup:{{result.consistency_group}}</p>
+							<p ng-if="result.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{result.StorageVolumeName}}</p>
+							<p ng-if="result.hasOwnProperty('devicename')">DeviceName:{{result.devicename}}</p>
+							<p ng-if="result.hasOwnProperty('devices')">Devices:{{result.devices}}</p>
+							<p ng-if="result.hasOwnProperty('sourcedevice')">SourceDevice:{{result.sourcedevice}}</p>
+							<p ng-if="result.hasOwnProperty('clustername')">ClusterName:{{result.clustername}}</p>
+							<p ng-if="result.hasOwnProperty('viewname')">ViewName:{{result.viewname}}</p>
+							<p ng-if="result.hasOwnProperty('geometry')">Geometry:{{result.geometry}}</p>
+							<p ng-if="result.hasOwnProperty('extents')">Extents:{{result.extents}}</p>
+							<p ng-if="result.hasOwnProperty('response')">Response:{{result.response}}</p>
                         <span>
                             <div ng-switch on="result.response" class="progress">
                               <div ng-switch-when='Failed!' class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
@@ -266,7 +266,7 @@
                       <div ng-switch on="result.response" class="cd-timeline-content cd-timeline-content-info danger" style="margin-top:-1px">
 						<h5 ng-switch-when='Failed!'><i class="ion-alert"></i> 执行失败</h5>
 						<h5 ng-switch-default><i class="ion-alert"></i> 等待执行</h5>
-                        <textarea style="width:520px;height:236px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
+                        <textarea style="width:520px;height:110px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
                       </div>
 					  </div>
                     </div>
