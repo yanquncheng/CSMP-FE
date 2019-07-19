@@ -5,14 +5,18 @@
   
   app.factory('MyData', function ($websocket) {
                 // Open a WebSocket connection
-                var dataStream = $websocket('ws://123.56.114.249:9000');
+                var dataStream = $websocket('ws://127.0.0.1:9000');
  
                 var collection = [];
  
                 dataStream.onMessage(function (message) {
-						console.log(message+"******message");
+					console.log(message+"******message");
                     collection.push(message);
+					
                 });
+				dataStream.onOpen(function() {
+				  console.log("连接中..");
+				});
  
                 var methods = {
                     collection: collection,
@@ -37,6 +41,7 @@
   function ServiceVPLEXProvisioningCtrl($scope,$filter, $http, $localStorage, httpService, $stateParams,$interval,$rootScope, MyData) {		
 	$rootScope.MyData = MyData;
 	console.log(MyData.collection+"*********MyData")
+	$scope.resultList = MyData.collection[0];
     $scope.id=$stateParams.id;
     console.log($scope.id+"$scope.id")
 	
@@ -421,36 +426,38 @@
 					}
 			})
 			json.requests = requests;
-			httpService.post("/auto/service/block/provisioning",json,config, function (response) {
-			   
-			   $scope.actionList = response.AutoInfo.ActionParamaters;
-			   $scope.resultList = response.AutoInfo.ActionParamaters;
-			   tabIndex = true;
-			   json = {};
-			   requests =[];
-			   //request ={};
-			   //storageResourcePool = {};
-			   //protectLevel = {};	
-			   if(response.resMsg.code!='200'){ 
+			if(msg==1){
+				httpService.post("/auto/service/block/provisioning",json,config, function (response) {
 				   
-			       $("#nextButton").attr("disabled",true);
-				   var messageOut = [];
-				   var messageResult = {};
-				   var secondMessage = "";
-				   angular.forEach(response.resMsg.message,function(data,index,array){
-					   if(secondMessage == ""){
-					       secondMessage = data
-					   }else{
-							secondMessage = secondMessage+"<br/>"+data;
-					   }
-				   })
-				   messageResult.response = secondMessage;
-				   messageResult.DependOnAction = "";
-				   messageResult.StorageVolumeName = "";
-				   messageOut.push(messageResult);
-				   $scope.actionList = messageOut;
-			   }
-			})
+				   $scope.actionList = response.AutoInfo.ActionParamaters;
+				   $scope.resultList = response.AutoInfo.ActionParamaters;
+				   tabIndex = true;
+				   json = {};
+				   requests =[];
+				   //request ={};
+				   //storageResourcePool = {};
+				   //protectLevel = {};	
+				   if(response.resMsg.code!='200'){ 
+					   
+					   $("#nextButton").attr("disabled",true);
+					   var messageOut = [];
+					   var messageResult = {};
+					   var secondMessage = "";
+					   angular.forEach(response.resMsg.message,function(data,index,array){
+						   if(secondMessage == ""){
+							   secondMessage = data
+						   }else{
+								secondMessage = secondMessage+"<br/>"+data;
+						   }
+					   })
+					   messageResult.response = secondMessage;
+					   messageResult.DependOnAction = "";
+					   messageResult.StorageVolumeName = "";
+					   messageOut.push(messageResult);
+					   $scope.actionList = messageOut;
+				   }
+				})
+			}
     });
 	var successIndex = 0;
 	var successArray = [];
