@@ -2,22 +2,20 @@
   'use strict';
 
   var app=angular.module('BlurAdmin.pages.Automation.ServiceCapacityProvide',['ngWebSocket']);
-  
+  var collection=""; 
+  var clientKey = "";
   app.factory('MyData', function ($websocket) {
                 // Open a WebSocket connection
-                var dataStream = $websocket('ws://127.0.0.1:9000');
- 
-                var collection = [];
- 
+                var dataStream = $websocket('ws://localhost:9000');
+				clientKey = new Date().getTime();
+				dataStream.send(JSON.stringify({client: clientKey+""}));
                 dataStream.onMessage(function (message) {
-					console.log(message+"******message");
-                    collection.push(message);
+					var re = message.data;
+					collection = ""; 
+                    collection=re;
+					console.log(collection+"*************result");
 					
                 });
-				dataStream.onOpen(function() {
-				  console.log("连接中..");
-				});
- 
                 var methods = {
                     collection: collection,
                     get: function () {
@@ -36,9 +34,11 @@
   var showAppVerificationLocalCdpSwitch = false;
   var success = false;
   var check = false;
+  var checkWebsocket = false;
 
   /** @ngInject */
-  function ServiceVPLEXProvisioningCtrl($scope,$filter, $http, $localStorage, httpService, $stateParams,$interval,$rootScope, MyData) {		
+  function ServiceVPLEXProvisioningCtrl($scope,$filter, $http, $localStorage, httpService, $stateParams,$interval,$rootScope, MyData) {	
+	
 	$rootScope.MyData = MyData;
 	console.log(MyData.collection+"*********MyData")
 	$scope.resultList = MyData.collection[0];
@@ -363,6 +363,7 @@
     var tabIndex = false;
     $scope.$on('ToBrotherController', function(event, msg) {
 			//json.appname = $scope.bValue; 
+			json.client = clientKey+"";
 			json.appname = $('#input').val(); 
 			json.appname_ext = $("#input").attr("name");; 
 			if(msg==1){
@@ -425,9 +426,9 @@
 						requests.push(request);	
 					}
 			})
-			json.requests = requests;
-			if(msg==1){
+			json.requests = requests; 
 				httpService.post("/auto/service/block/provisioning",json,config, function (response) {
+				   checkWebsocket = true;
 				   
 				   $scope.actionList = response.AutoInfo.ActionParamaters;
 				   $scope.resultList = response.AutoInfo.ActionParamaters;
@@ -451,13 +452,11 @@
 						   }
 					   })
 					   messageResult.response = secondMessage;
-					   messageResult.DependOnAction = "";
-					   messageResult.StorageVolumeName = "";
+					   messageResult.show = "false";
 					   messageOut.push(messageResult);
 					   $scope.actionList = messageOut;
 				   }
-				})
-			}
+				}) 
     });
 	var successIndex = 0;
 	var successArray = [];
@@ -605,8 +604,21 @@
    }
    }, 300);
 
+   $interval(function () {
+	   if(checkWebsocket==true){
+		    if(collection!=""){
+				$scope.actionList = angular.fromJson(collection);
+		        $scope.resultList = angular.fromJson(collection);
+			}
+		}
+   }, 2000);
+  
+
   }
   app.filter('trust2Html', ['$sce',function($sce) { return function(val) {  if (val) {
             val = val.replace(/\[\[/g, "<span style=\"color: #FFFFFF;\">").replace(/\]\]/g, "</span>");return $sce.trustAsHtml(val); } };}])
+  	  
+  
+   
   
 })();
