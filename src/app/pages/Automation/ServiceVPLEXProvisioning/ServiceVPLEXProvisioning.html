@@ -22,11 +22,11 @@
                       <button type="button" class="btn btn-primary">详情
                       </button>
                     </div>
-                    <li class="form-row" style="margin-top: -10px;">
+                    <!--<li class="form-row" style="margin-top: -10px;">
                       <label for="name" style="margin-left: 100px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本地CDP+异地保护</label>
                       <switch id="Local_CdpSwitch" style="margin-top: 3px" ng-Class="currentClass" ng-if="showLocalCdp" color="primary" ng-model="Local_Cdp" ></switch>
                       <div ng-if="disableLocalCdp" style="margin-top: 3px" class="switch-no">—</div>
-                    </li>  
+                    </li> --> 
                   </div>
                   <div class="box-shadow-border"></div>
                   <div class="widgets-first-box">
@@ -70,11 +70,17 @@
                         <label for="inputPassword3" class="col-md-4 col-sm-2 col-xs-2 control-label">资源能力</label>
                         <div class="col-md-8 col-sm-10 col-xs-10">
                           <ul class="widgets-wrapper">
-                            <li class="form-row">
+							<li class="form-row">
+                                <label for="name" >主机部署模式</label>
+								<select id="hostDeploy" class="form-control task-todo" style="width: 110px;">
+									<option ng-repeat="hostDeployItem in HostDeploys" value="{{hostDeployItem.value}}" name="{{hostDeployItem.name}}">{{hostDeployItem.name}}</option>
+								  </select>
+                            </li> 
+                            <!--<li class="form-row">
                               <label for="name" >生产同城双活</label>
                               <switch id="DR_SameCitySwitch"ng-Class="currentClass" ng-if="showDrSameCity" color="primary" ng-model="DR_SameCity" ></switch>
 							  <div ng-if="disableSameCity" class="switch-no">—</div>
-                            </li> 
+                            </li>--> 
                             <li class="form-row">
                               <label for="input01">备份(NBU)</label>
 							  <switch id ="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup" ></switch>
@@ -129,7 +135,7 @@
 							  <button ng-if="specOption.showDrBackupTable" class="btn btn-success editable-table-button btn-xs" disabled>备份</button>
 							  <button ng-if="specOption.showAppVerificationSameCityTable" class="btn btn-warning editable-table-button btn-xs" disabled>同城应用校验</button>
 							  <button ng-if="specOption.showAppVerificationDiffCityTable" class="btn btn-danger editable-table-button btn-xs" disabled>异地应用校验</button>
-							  <button ng-if="specOption.showAppVerificationLocalCdpTable" class="btn btn-danger editable-table-button btn-xs" disabled>本地CDP+异地保护</button>
+							  <!--<button ng-if="specOption.showAppVerificationLocalCdpTable" class="btn btn-danger editable-table-button btn-xs" disabled>本地CDP+异地保护</button>-->
                             </td>
                             <td>
                               <div class="buttons">
@@ -157,11 +163,34 @@
                 <div class="box-shadow-border" style="margin-top: 20px;"></div>
                 <div class="box-shadow-content-box">
                   <section id="cd-timeline" class="cd-container cssanimations" ng-repeat="action in actionList">
-                    <div class="cd-timeline-block">
+                    <div ng-if="action.show!='false'" class="cd-timeline-block">
                       <div class="cd-timeline-img">
 							<div  class="kameleon-icon with-round-bg primary">{{$index}}</div>
                       </div>
                       <div class="cd-timeline-content warning">
+					    <p ng-if="action.hasOwnProperty('Step')">Step:{{action.Step}}</p>
+                        <p ng-if="action.hasOwnProperty('method')">Method:{{action.method}}</p>
+						<p ng-if="action.hasOwnProperty('DependOnAction')">DependOnAction:{{action.DependOnAction}}</p>
+						<p ng-if="action.hasOwnProperty('virtual_volume')">VirtualVolume:{{action.virtual_volume}}</p>
+						<p ng-if="action.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{action.virtualvolumes}}</p>
+						<p ng-if="action.hasOwnProperty('consistency_group')">ConsistencyGroup:{{action.consistency_group}}</p>
+						<p ng-if="action.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{action.StorageVolumeName}}</p>
+						<p ng-if="action.hasOwnProperty('devicename')">DeviceName:{{action.devicename}}</p>
+						<p ng-if="action.hasOwnProperty('devices')">Devices:{{action.devices}}</p>
+						<p ng-if="action.hasOwnProperty('sourcedevice')">SourceDevice:{{action.sourcedevice}}</p>
+						<p ng-if="action.hasOwnProperty('clustername')">ClusterName:{{action.clustername}}</p>
+						<p ng-if="action.hasOwnProperty('viewname')">ViewName:{{action.viewname}}</p>
+						<p ng-if="action.hasOwnProperty('geometry')">Geometry:{{action.geometry}}</p>
+						<p ng-if="action.hasOwnProperty('extents')">Extents:{{action.extents}}</p>
+						<p ng-if="action.hasOwnProperty('response')" ng-bind-html="action.response|trust2Html">Response:{{action.response}}</p>
+                      </div>
+                    </div>
+                    <div ng-if="action.show!='true'" class="cd-timeline-block">
+                      <div class="cd-timeline-img">
+							<div  class="kameleon-icon with-round-bg danger">{{$index}}</div>
+                      </div>
+                      <div class="cd-timeline-content danger">
+					    <p ng-if="action.hasOwnProperty('Step')">Step:{{action.Step}}</p>
                         <p ng-if="action.hasOwnProperty('method')">Method:{{action.method}}</p>
 						<p ng-if="action.hasOwnProperty('DependOnAction')">DependOnAction:{{action.DependOnAction}}</p>
 						<p ng-if="action.hasOwnProperty('virtual_volume')">VirtualVolume:{{action.virtual_volume}}</p>
@@ -196,6 +225,7 @@
                       </div>
 					  <div class="col-md-6">
 						  <div class="cd-timeline-content warning">
+						    <p ng-if="result.hasOwnProperty('Step')">Step:{{result.Step}}</p>
 							<p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
 							<p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}</p>
 							<p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
@@ -233,6 +263,7 @@
                       </div>
 					<div class="col-md-6">
                       <div class="cd-timeline-content danger">
+					        <p ng-if="result.hasOwnProperty('Step')">Step:{{result.Step}}</p>
 							<p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
 							<p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}</p>
 							<p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
