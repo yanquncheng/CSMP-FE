@@ -71,7 +71,7 @@
                         <div class="col-md-8 col-sm-10 col-xs-10">
                           <ul class="widgets-wrapper">
 							<li class="form-row">
-                                <label for="name" >主机部署模式</label>
+                                <label for="name" >{{HostDeployLabels}}</label>
 								<select id="hostDeploy" class="form-control task-todo" style="width: 110px;">
 									<option ng-repeat="hostDeployItem in HostDeploys" value="{{hostDeployItem.value}}" name="{{hostDeployItem.name}}">{{hostDeployItem.name}}</option>
 								  </select>
@@ -82,17 +82,17 @@
 							  <div ng-if="disableSameCity" class="switch-no">—</div>
                             </li>--> 
                             <li class="form-row">
-                              <label for="input01">备份(NBU)</label>
+                              <label for="input01">{{showDrBackupLabel}}</label>
 							  <switch id ="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup" ></switch>
                               <div ng-if="disableDrBackup" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
-                              <label for="input01">本地CDP验证</label>
+                              <label for="input01">{{showAppVerificationSameCityLabel}}</label>
                               <switch id ="AppVerification_SameCitySwitch" ng-if="showAppVerificationSameCity" color="primary" ng-model="AppVerification_SameCity"></switch>
 							  <div ng-if="disableAppVerificationSameCity" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
-                              <label for="input01">异地验证</label>
+                              <label for="input01">{{showAppVerificationDiffCityLabel}}</label>
                               <switch id ="AppVerification_DiffCitySwitch" ng-if="showAppVerificationDiffCity" color="primary" ng-model="AppVerification_DiffCity" ng-change="saveData('AppVerification_DiffCity',AppVerification_DiffCity)"></switch>
 							  <div ng-if="disableAppVerificationDiffCity" class="switch-no">—</div>
                             </li>
