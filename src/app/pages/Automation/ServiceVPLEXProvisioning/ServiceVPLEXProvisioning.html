@@ -11,12 +11,14 @@
                   <div class="todo-header-searchbox">
                     <label class="control-label col-md-2 col-sm-2 col-xs-2">应用代码/名称</label>
                     <div class="select-input-box col-md-3 col-sm-8 col-xs-8">
-                      <select id="select" class="form-control task-todo" style="width: 100%;" ng-model="aValue" ng-init="aValue='所有'"
-                              ng-change="change()" ng-click="ccc()">
-						<option ng-repeat="application in ApplicationList" value="{{application.name}}" name="{{application.name_ext}}">{{application.name}}</option>
+                      <select id="select" class="form-control task-todo" style="width: 100%;" ng-model="aValue"
+                        ng-init="aValue='所有'" ng-change="change()" ng-click="ccc()">
+                        <option ng-repeat="application in ApplicationList" value="{{application.name}}"
+                          name="{{application.name_ext}}">{{application.name}}</option>
                       </select>
-                      <input id="input" type="text" class="form-control task-todo" placeholder="Task to do.." style="border:0px;height: 80%;margin-top: 2px;border-radius: 6px;color:white;background-color:black"
-                             ng-model="bValue">
+                      <input id="input" type="text" class="form-control task-todo" placeholder="Task to do.."
+                        style="border:0px;height: 80%;margin-top: 2px;border-radius: 6px;color:white;background-color:black"
+                        ng-model="bValue">
                     </div>
                     <div class="col-md-1 col-sm-2 col-xs-2 text-right" style="padding-left: 0px;">
                       <button type="button" class="btn btn-primary">详情
@@ -26,7 +28,7 @@
                       <label for="name" style="margin-left: 100px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本地CDP+异地保护</label>
                       <switch id="Local_CdpSwitch" style="margin-top: 3px" ng-Class="currentClass" ng-if="showLocalCdp" color="primary" ng-model="Local_Cdp" ></switch>
                       <div ng-if="disableLocalCdp" style="margin-top: 3px" class="switch-no">—</div>
-                    </li> --> 
+                    </li> -->
                   </div>
                   <div class="box-shadow-border"></div>
                   <div class="widgets-first-box">
@@ -35,9 +37,10 @@
                       <div class="form-group">
                         <label for="inputEmail3" class="col-md-4 col-sm-2 col-xs-2 control-label">存储资源池</label>
                         <div class="col-md-6 col-sm-8 col-xs-8">
-                          <select class="form-control selectpicker" ng-model="selecedItemAppName" ng-init="selecedItemAppName='所有'"
-                                  ng-change="saveData('appname',selecedItemAppName,'json')">
-                            <option ng-repeat="appNameItem in AppNames" value="{{appNameItem}}">{{appNameItem.name}}</option>
+                          <select class="form-control selectpicker" ng-model="selecedItemAppName"
+                            ng-init="selecedItemAppName='所有'" ng-change="saveData('appname',selecedItemAppName,'json')">
+                            <option ng-repeat="appNameItem in AppNames" value="{{appNameItem}}">{{appNameItem.name}}
+                            </option>
                           </select>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2 text-right" style="padding-left: 0px;">
@@ -49,52 +52,61 @@
                         <label for="inputCapacity3" class="col-md-4 col-sm-2 col-xs-2 control-label">申请容量</label>
                         <div class="col-md-8 col-sm-10 col-xs-10">
                           <div class="input-group" style="margin-bottom: 0px;">
-                            <input id="capacityGb" type="text" class="form-control with-primary-addon" placeholder="请输入内容"
-                                   aria-describedby="basic-addonCapacityGb" ng-model="capacityGbModel" ng-init = "capacityGbModel=1" ng-keyup="clearNoNumCapacityGb()" >
-                            <span class="input-group-addon input-group-addon-other addon-right" id="basic-addonCapacityGb">&nbsp;&nbsp;&nbsp;&nbsp;GB&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input id="capacityGb" type="text" class="form-control with-primary-addon"
+                              placeholder="请输入内容" aria-describedby="basic-addonCapacityGb" ng-model="capacityGbModel"
+                              ng-init="capacityGbModel=1" ng-keyup="clearNoNumCapacityGb()">
+                            <span class="input-group-addon input-group-addon-other addon-right"
+                              id="basic-addonCapacityGb">&nbsp;&nbsp;&nbsp;&nbsp;GB&nbsp;&nbsp;&nbsp;&nbsp;</span>
                           </div>
                         </div>
-						
+
                       </div>
-					  <div class="form-group">
-					    <label for="inputCount3" class="col-md-4 col-sm-2 col-xs-2 control-label">申请数量</label>
+                      <div class="form-group">
+                        <label for="inputCount3" class="col-md-4 col-sm-2 col-xs-2 control-label">申请数量</label>
                         <div class="col-md-8 col-sm-10 col-xs-10">
                           <div class="input-group" style="margin-bottom: 0px;">
                             <input id="count" type="text" class="form-control with-primary-addon" placeholder="请输入内容"
-                                   aria-describedby="basic-addonCount" ng-model="countModel" ng-init = "countbModel=1" ng-keyup="clearNoNumCount()" >
-                            <span class="input-group-addon input-group-addon-other addon-right" id="basic-addonCount">&nbsp;&nbsp;&nbsp;&nbsp;个&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              aria-describedby="basic-addonCount" ng-model="countModel" ng-init="countbModel=1"
+                              ng-keyup="clearNoNumCount()">
+                            <span class="input-group-addon input-group-addon-other addon-right"
+                              id="basic-addonCount">&nbsp;&nbsp;&nbsp;&nbsp;个&nbsp;&nbsp;&nbsp;&nbsp;</span>
                           </div>
                         </div>
-					  </div>
+                      </div>
                       <div class="form-group">
                         <label for="inputPassword3" class="col-md-4 col-sm-2 col-xs-2 control-label">资源能力</label>
                         <div class="col-md-8 col-sm-10 col-xs-10">
                           <ul class="widgets-wrapper">
-							<li class="form-row">
-                                <label for="name" >{{HostDeployLabels}}</label>
-								<select id="hostDeploy" class="form-control task-todo" style="width: 110px;">
-									<option ng-repeat="hostDeployItem in HostDeploys" value="{{hostDeployItem.value}}" name="{{hostDeployItem.name}}">{{hostDeployItem.name}}</option>
-								  </select>
-                            </li> 
+                            <li class="form-row">
+                              <label for="name">{{HostDeployLabels}}</label>
+                              <select id="hostDeploy" class="form-control task-todo" style="width: 110px;">
+                                <option ng-repeat="hostDeployItem in HostDeploys" value="{{hostDeployItem.value}}"
+                                  name="{{hostDeployItem.name}}">{{hostDeployItem.name}}</option>
+                              </select>
+                            </li>
                             <!--<li class="form-row">
                               <label for="name" >生产同城双活</label>
                               <switch id="DR_SameCitySwitch"ng-Class="currentClass" ng-if="showDrSameCity" color="primary" ng-model="DR_SameCity" ></switch>
 							  <div ng-if="disableSameCity" class="switch-no">—</div>
-                            </li>--> 
+                            </li>-->
                             <li class="form-row">
                               <label for="input01">{{showDrBackupLabel}}</label>
-							  <switch id ="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup" ></switch>
+                              <switch id="DR_BackupSwitch" ng-if="showDrBackup" color="primary" ng-model="DR_Backup">
+                              </switch>
                               <div ng-if="disableDrBackup" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
                               <label for="input01">{{showAppVerificationSameCityLabel}}</label>
-                              <switch id ="AppVerification_SameCitySwitch" ng-if="showAppVerificationSameCity" color="primary" ng-model="AppVerification_SameCity"></switch>
-							  <div ng-if="disableAppVerificationSameCity" class="switch-no">—</div>
+                              <switch id="AppVerification_SameCitySwitch" ng-if="showAppVerificationSameCity"
+                                color="primary" ng-model="AppVerification_SameCity"></switch>
+                              <div ng-if="disableAppVerificationSameCity" class="switch-no">—</div>
                             </li>
                             <li class="form-row">
                               <label for="input01">{{showAppVerificationDiffCityLabel}}</label>
-                              <switch id ="AppVerification_DiffCitySwitch" ng-if="showAppVerificationDiffCity" color="primary" ng-model="AppVerification_DiffCity" ng-change="saveData('AppVerification_DiffCity',AppVerification_DiffCity)"></switch>
-							  <div ng-if="disableAppVerificationDiffCity" class="switch-no">—</div>
+                              <switch id="AppVerification_DiffCitySwitch" ng-if="showAppVerificationDiffCity"
+                                color="primary" ng-model="AppVerification_DiffCity"
+                                ng-change="saveData('AppVerification_DiffCity',AppVerification_DiffCity)"></switch>
+                              <div ng-if="disableAppVerificationDiffCity" class="switch-no">—</div>
                             </li>
                           </ul>
                         </div>
@@ -120,29 +132,35 @@
                           <tr>
                             <td>存储资源池</td>
                             <td>申请容量(GB)</td>
-							<td>申请数量</td>
+                            <td>申请数量</td>
                             <td>资源能力</td>
                             <td>操作</td>
                           </tr>
                           <tbody>
-                          <tr ng-repeat="specOption in SpecificationOptionList">
-                            <td>{{specOption.pool}}</td>
-                            <td>{{specOption.capacityGB}}</td>
-							<td>{{specOption.count}}</td>
-                            <td>
-                              <button ng-if="specOption.showDrSameCityTable" class="btn btn-info editable-table-button btn-xs" disabled>同城容灾</button>
-                              <button ng-if="specOption.showDrDiffCityTable" class="btn btn-primary editable-table-button btn-xs" disabled>异地容灾</button>
-							  <button ng-if="specOption.showDrBackupTable" class="btn btn-success editable-table-button btn-xs" disabled>备份</button>
-							  <button ng-if="specOption.showAppVerificationSameCityTable" class="btn btn-warning editable-table-button btn-xs" disabled>同城应用校验</button>
-							  <button ng-if="specOption.showAppVerificationDiffCityTable" class="btn btn-danger editable-table-button btn-xs" disabled>异地应用校验</button>
-							  <!--<button ng-if="specOption.showAppVerificationLocalCdpTable" class="btn btn-danger editable-table-button btn-xs" disabled>本地CDP+异地保护</button>-->
-                            </td>
-                            <td>
-                              <div class="buttons">
-                                <button class="btn btn-danger editable-table-button btn-xs" ng-click="resourceRowRemove(this)">删除</button>
-                              </div>
-                            </td>
-                          </tr>
+                            <tr ng-repeat="specOption in SpecificationOptionList">
+                              <td>{{specOption.pool}}</td>
+                              <td>{{specOption.capacityGB}}</td>
+                              <td>{{specOption.count}}</td>
+                              <td>
+                                <button ng-if="specOption.showDrSameCityTable"
+                                  class="btn btn-info editable-table-button btn-xs" disabled>同城容灾</button>
+                                <button ng-if="specOption.showDrDiffCityTable"
+                                  class="btn btn-primary editable-table-button btn-xs" disabled>异地容灾</button>
+                                <button ng-if="specOption.showDrBackupTable"
+                                  class="btn btn-success editable-table-button btn-xs" disabled>备份</button>
+                                <button ng-if="specOption.showAppVerificationSameCityTable"
+                                  class="btn btn-warning editable-table-button btn-xs" disabled>同城应用校验</button>
+                                <button ng-if="specOption.showAppVerificationDiffCityTable"
+                                  class="btn btn-danger editable-table-button btn-xs" disabled>异地应用校验</button>
+                                <!--<button ng-if="specOption.showAppVerificationLocalCdpTable" class="btn btn-danger editable-table-button btn-xs" disabled>本地CDP+异地保护</button>-->
+                              </td>
+                              <td>
+                                <div class="buttons">
+                                  <button class="btn btn-danger editable-table-button btn-xs"
+                                    ng-click="resourceRowRemove(this)">删除</button>
+                                </div>
+                              </td>
+                            </tr>
                           </tbody>
 
                         </table>
@@ -165,46 +183,52 @@
                   <section id="cd-timeline" class="cd-container cssanimations" ng-repeat="action in actionList">
                     <div ng-if="action.show!='false'" class="cd-timeline-block">
                       <div class="cd-timeline-img">
-							<div  class="kameleon-icon with-round-bg primary">{{$index}}</div>
+                        <div class="kameleon-icon with-round-bg primary">{{$index}}</div>
                       </div>
                       <div class="cd-timeline-content warning">
-					    <p ng-if="action.hasOwnProperty('Step')">Step:{{action.Step}}</p>
+                        <p ng-if="action.hasOwnProperty('Step')">Step:{{action.Step}}</p>
                         <p ng-if="action.hasOwnProperty('method')">Method:{{action.method}}</p>
-						<p ng-if="action.hasOwnProperty('DependOnAction')">DependOnAction:{{action.DependOnAction}}</p>
-						<p ng-if="action.hasOwnProperty('virtual_volume')">VirtualVolume:{{action.virtual_volume}}</p>
-						<p ng-if="action.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{action.virtualvolumes}}</p>
-						<p ng-if="action.hasOwnProperty('consistency_group')">ConsistencyGroup:{{action.consistency_group}}</p>
-						<p ng-if="action.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{action.StorageVolumeName}}</p>
-						<p ng-if="action.hasOwnProperty('devicename')">DeviceName:{{action.devicename}}</p>
-						<p ng-if="action.hasOwnProperty('devices')">Devices:{{action.devices}}</p>
-						<p ng-if="action.hasOwnProperty('sourcedevice')">SourceDevice:{{action.sourcedevice}}</p>
-						<p ng-if="action.hasOwnProperty('clustername')">ClusterName:{{action.clustername}}</p>
-						<p ng-if="action.hasOwnProperty('viewname')">ViewName:{{action.viewname}}</p>
-						<p ng-if="action.hasOwnProperty('geometry')">Geometry:{{action.geometry}}</p>
-						<p ng-if="action.hasOwnProperty('extents')">Extents:{{action.extents}}</p>
-						<p ng-if="action.hasOwnProperty('response')" ng-bind-html="action.response|trust2Html">Response:{{action.response}}</p>
+                        <p ng-if="action.hasOwnProperty('DependOnAction')">DependOnAction:{{action.DependOnAction}}</p>
+                        <p ng-if="action.hasOwnProperty('virtual_volume')">VirtualVolume:{{action.virtual_volume}}</p>
+                        <p ng-if="action.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{action.virtualvolumes}}</p>
+                        <p ng-if="action.hasOwnProperty('consistency_group')">
+                          ConsistencyGroup:{{action.consistency_group}}</p>
+                        <p ng-if="action.hasOwnProperty('StorageVolumeName')">
+                          StorageVolumeName:{{action.StorageVolumeName}}</p>
+                        <p ng-if="action.hasOwnProperty('devicename')">DeviceName:{{action.devicename}}</p>
+                        <p ng-if="action.hasOwnProperty('devices')">Devices:{{action.devices}}</p>
+                        <p ng-if="action.hasOwnProperty('sourcedevice')">SourceDevice:{{action.sourcedevice}}</p>
+                        <p ng-if="action.hasOwnProperty('clustername')">ClusterName:{{action.clustername}}</p>
+                        <p ng-if="action.hasOwnProperty('viewname')">ViewName:{{action.viewname}}</p>
+                        <p ng-if="action.hasOwnProperty('geometry')">Geometry:{{action.geometry}}</p>
+                        <p ng-if="action.hasOwnProperty('extents')">Extents:{{action.extents}}</p>
+                        <p ng-if="action.hasOwnProperty('response')" ng-bind-html="action.response|trust2Html">
+                          Response:{{action.response}}</p>
                       </div>
                     </div>
                     <div ng-if="action.show!='true'" class="cd-timeline-block">
                       <div class="cd-timeline-img">
-							<div  class="kameleon-icon with-round-bg danger">{{$index}}</div>
+                        <div class="kameleon-icon with-round-bg danger">{{$index}}</div>
                       </div>
                       <div class="cd-timeline-content danger">
-					    <p ng-if="action.hasOwnProperty('Step')">Step:{{action.Step}}</p>
+                        <p ng-if="action.hasOwnProperty('Step')">Step:{{action.Step}}</p>
                         <p ng-if="action.hasOwnProperty('method')">Method:{{action.method}}</p>
-						<p ng-if="action.hasOwnProperty('DependOnAction')">DependOnAction:{{action.DependOnAction}}</p>
-						<p ng-if="action.hasOwnProperty('virtual_volume')">VirtualVolume:{{action.virtual_volume}}</p>
-						<p ng-if="action.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{action.virtualvolumes}}</p>
-						<p ng-if="action.hasOwnProperty('consistency_group')">ConsistencyGroup:{{action.consistency_group}}</p>
-						<p ng-if="action.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{action.StorageVolumeName}}</p>
-						<p ng-if="action.hasOwnProperty('devicename')">DeviceName:{{action.devicename}}</p>
-						<p ng-if="action.hasOwnProperty('devices')">Devices:{{action.devices}}</p>
-						<p ng-if="action.hasOwnProperty('sourcedevice')">SourceDevice:{{action.sourcedevice}}</p>
-						<p ng-if="action.hasOwnProperty('clustername')">ClusterName:{{action.clustername}}</p>
-						<p ng-if="action.hasOwnProperty('viewname')">ViewName:{{action.viewname}}</p>
-						<p ng-if="action.hasOwnProperty('geometry')">Geometry:{{action.geometry}}</p>
-						<p ng-if="action.hasOwnProperty('extents')">Extents:{{action.extents}}</p>
-						<p ng-if="action.hasOwnProperty('response')" ng-bind-html="action.response|trust2Html">Response:{{action.response}}</p>
+                        <p ng-if="action.hasOwnProperty('DependOnAction')">DependOnAction:{{action.DependOnAction}}</p>
+                        <p ng-if="action.hasOwnProperty('virtual_volume')">VirtualVolume:{{action.virtual_volume}}</p>
+                        <p ng-if="action.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{action.virtualvolumes}}</p>
+                        <p ng-if="action.hasOwnProperty('consistency_group')">
+                          ConsistencyGroup:{{action.consistency_group}}</p>
+                        <p ng-if="action.hasOwnProperty('StorageVolumeName')">
+                          StorageVolumeName:{{action.StorageVolumeName}}</p>
+                        <p ng-if="action.hasOwnProperty('devicename')">DeviceName:{{action.devicename}}</p>
+                        <p ng-if="action.hasOwnProperty('devices')">Devices:{{action.devices}}</p>
+                        <p ng-if="action.hasOwnProperty('sourcedevice')">SourceDevice:{{action.sourcedevice}}</p>
+                        <p ng-if="action.hasOwnProperty('clustername')">ClusterName:{{action.clustername}}</p>
+                        <p ng-if="action.hasOwnProperty('viewname')">ViewName:{{action.viewname}}</p>
+                        <p ng-if="action.hasOwnProperty('geometry')">Geometry:{{action.geometry}}</p>
+                        <p ng-if="action.hasOwnProperty('extents')">Extents:{{action.extents}}</p>
+                        <p ng-if="action.hasOwnProperty('response')" ng-bind-html="action.response|trust2Html">
+                          Response:{{action.response}}</p>
                       </div>
                     </div>
                   </section>
@@ -219,87 +243,101 @@
                 <div class="box-shadow-border" style="margin-top: 20px;"></div>
                 <div class="box-shadow-content-box">
                   <section id="cd-timeline" class="cd-container cssanimations" ng-repeat="result in resultList">
-                    <div  ng-if="result.show!='false'" class="cd-timeline-block">
+                    <div ng-if="result.show!='false'" class="cd-timeline-block">
                       <div class="cd-timeline-img">
                         <div class="kameleon-icon with-round-bg warning">{{$index}}</div>
                       </div>
-					  <div class="col-md-6">
-						  <div class="cd-timeline-content warning">
-						    <p ng-if="result.hasOwnProperty('Step')">Step:{{result.Step}}</p>
-							<p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
-							<p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}</p>
-							<p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
-							<p ng-if="result.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{result.virtualvolumes}}</p>
-							<p ng-if="result.hasOwnProperty('consistency_group')">ConsistencyGroup:{{result.consistency_group}}</p>
-							<p ng-if="result.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{result.StorageVolumeName}}</p>
-							<p ng-if="result.hasOwnProperty('devicename')">DeviceName:{{result.devicename}}</p>
-							<p ng-if="result.hasOwnProperty('devices')">Devices:{{result.devices}}</p>
-							<p ng-if="result.hasOwnProperty('sourcedevice')">SourceDevice:{{result.sourcedevice}}</p>
-							<p ng-if="result.hasOwnProperty('clustername')">ClusterName:{{result.clustername}}</p>
-							<p ng-if="result.hasOwnProperty('viewname')">ViewName:{{result.viewname}}</p>
-							<p ng-if="result.hasOwnProperty('geometry')">Geometry:{{result.geometry}}</p>
-							<p ng-if="result.hasOwnProperty('extents')">Extents:{{result.extents}}</p>
-							<p ng-if="result.hasOwnProperty('response')">Response:{{result.response}}</p>
-							<span>
-							<div class="progress">
-							  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
-								   aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-								<span class="sr-only">100%</span>
-							  </div>
-							</div>
-						  </span>
-						  </div>
-					  </div>
-					  <div class="col-md-6">
-						  <div class="cd-timeline-content cd-timeline-content-info warning" style="margin-top:-1px">
-							<h5><i class="ion-checkmark"></i> 执行成功</h5>
-							<textarea style="width:520px;height:75px;color:black;border-radius:3px;font-size: 14px" >{{result.response}}</textarea>
-						  </div>
-					  </div>
+                      <div class="col-md-6">
+                        <div class="cd-timeline-content warning">
+                          <p ng-if="result.hasOwnProperty('Step')">Step:{{result.Step}}</p>
+                          <p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
+                          <p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}
+                          </p>
+                          <p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
+                          <p ng-if="result.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{result.virtualvolumes}}
+                          </p>
+                          <p ng-if="result.hasOwnProperty('consistency_group')">
+                            ConsistencyGroup:{{result.consistency_group}}</p>
+                          <p ng-if="result.hasOwnProperty('StorageVolumeName')">
+                            StorageVolumeName:{{result.StorageVolumeName}}</p>
+                          <p ng-if="result.hasOwnProperty('devicename')">DeviceName:{{result.devicename}}</p>
+                          <p ng-if="result.hasOwnProperty('devices')">Devices:{{result.devices}}</p>
+                          <p ng-if="result.hasOwnProperty('sourcedevice')">SourceDevice:{{result.sourcedevice}}</p>
+                          <p ng-if="result.hasOwnProperty('clustername')">ClusterName:{{result.clustername}}</p>
+                          <p ng-if="result.hasOwnProperty('viewname')">ViewName:{{result.viewname}}</p>
+                          <p ng-if="result.hasOwnProperty('geometry')">Geometry:{{result.geometry}}</p>
+                          <p ng-if="result.hasOwnProperty('extents')">Extents:{{result.extents}}</p>
+                          <p ng-if="result.hasOwnProperty('response')">Response:{{result.response}}</p>
+                          <span>
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-success progress-bar-striped active"
+                                role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                style="width: 100%">
+                                <span class="sr-only">100%</span>
+                              </div>
+                            </div>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="cd-timeline-content cd-timeline-content-info warning" style="margin-top:-1px">
+                          <h5><i class="ion-checkmark"></i> 执行成功</h5>
+                          <textarea
+                            style="width:520px;height:75px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
+                        </div>
+                      </div>
                     </div>
-					 <div ng-if="result.show!='true'" class="cd-timeline-block">
+                    <div ng-if="result.show!='true'" class="cd-timeline-block">
                       <div class="cd-timeline-img">
                         <div class="kameleon-icon with-round-bg danger">{{$index}}</div>
                       </div>
-					<div class="col-md-6">
-                      <div class="cd-timeline-content danger">
-					        <p ng-if="result.hasOwnProperty('Step')">Step:{{result.Step}}</p>
-							<p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
-							<p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}</p>
-							<p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
-							<p ng-if="result.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{result.virtualvolumes}}</p>
-							<p ng-if="result.hasOwnProperty('consistency_group')">ConsistencyGroup:{{result.consistency_group}}</p>
-							<p ng-if="result.hasOwnProperty('StorageVolumeName')">StorageVolumeName:{{result.StorageVolumeName}}</p>
-							<p ng-if="result.hasOwnProperty('devicename')">DeviceName:{{result.devicename}}</p>
-							<p ng-if="result.hasOwnProperty('devices')">Devices:{{result.devices}}</p>
-							<p ng-if="result.hasOwnProperty('sourcedevice')">SourceDevice:{{result.sourcedevice}}</p>
-							<p ng-if="result.hasOwnProperty('clustername')">ClusterName:{{result.clustername}}</p>
-							<p ng-if="result.hasOwnProperty('viewname')">ViewName:{{result.viewname}}</p>
-							<p ng-if="result.hasOwnProperty('geometry')">Geometry:{{result.geometry}}</p>
-							<p ng-if="result.hasOwnProperty('extents')">Extents:{{result.extents}}</p>
-							<p ng-if="result.hasOwnProperty('response')">Response:{{result.response}}</p>
-                        <span>
+                      <div class="col-md-6">
+                        <div class="cd-timeline-content danger">
+                          <p ng-if="result.hasOwnProperty('Step')">Step:{{result.Step}}</p>
+                          <p ng-if="result.hasOwnProperty('method')">Method:{{result.method}}</p>
+                          <p ng-if="result.hasOwnProperty('DependOnAction')">DependOnAction:{{result.DependOnAction}}
+                          </p>
+                          <p ng-if="result.hasOwnProperty('virtual_volume')">VirtualVolume:{{result.virtual_volume}}</p>
+                          <p ng-if="result.hasOwnProperty('virtualvolumes')">VirtualVolumes:{{result.virtualvolumes}}
+                          </p>
+                          <p ng-if="result.hasOwnProperty('consistency_group')">
+                            ConsistencyGroup:{{result.consistency_group}}</p>
+                          <p ng-if="result.hasOwnProperty('StorageVolumeName')">
+                            StorageVolumeName:{{result.StorageVolumeName}}</p>
+                          <p ng-if="result.hasOwnProperty('devicename')">DeviceName:{{result.devicename}}</p>
+                          <p ng-if="result.hasOwnProperty('devices')">Devices:{{result.devices}}</p>
+                          <p ng-if="result.hasOwnProperty('sourcedevice')">SourceDevice:{{result.sourcedevice}}</p>
+                          <p ng-if="result.hasOwnProperty('clustername')">ClusterName:{{result.clustername}}</p>
+                          <p ng-if="result.hasOwnProperty('viewname')">ViewName:{{result.viewname}}</p>
+                          <p ng-if="result.hasOwnProperty('geometry')">Geometry:{{result.geometry}}</p>
+                          <p ng-if="result.hasOwnProperty('extents')">Extents:{{result.extents}}</p>
+                          <p ng-if="result.hasOwnProperty('response')">Response:{{result.response}}</p>
+                          <span>
                             <div ng-switch on="result.response" class="progress">
-                              <div ng-switch-when='Failed!' class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
-                                   aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                              <div ng-switch-when='Failed!'
+                                class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar"
+                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                 <span class="sr-only">100%</span>
                               </div>
-							  <div ng-switch-default class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar"
-                                   aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                              <div ng-switch-default
+                                class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar"
+                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                                 <span class="sr-only">0%</span>
                               </div>
                             </div>
-                            
-                      </span>
-                     </div>
-                    </div>
-					<div class="col-md-6">
-                      <div ng-switch on="result.response" class="cd-timeline-content cd-timeline-content-info danger" style="margin-top:-1px">
-						<h5 ng-switch-when='Failed!'><i class="ion-alert"></i> 执行失败</h5>
-						<h5 ng-switch-default><i class="ion-alert"></i> 等待执行</h5>
-                        <textarea style="width:520px;height:110px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
+
+                          </span>
+                        </div>
                       </div>
-					  </div>
+                      <div class="col-md-6">
+                        <div ng-switch on="result.response" class="cd-timeline-content cd-timeline-content-info danger"
+                          style="margin-top:-1px">
+                          <h5 ng-switch-when='Failed!'><i class="ion-alert"></i> 执行失败</h5>
+                          <h5 ng-switch-default><i class="ion-alert"></i> 等待执行</h5>
+                          <textarea
+                            style="width:520px;height:110px;color:black;border-radius:3px;font-size: 14px">{{result.response}}</textarea>
+                        </div>
+                      </div>
                     </div>
                   </section>
                   <div class="box-shadow-border"></div>
@@ -381,7 +419,7 @@
     box-shadow: none !important;
   }
 
-  .mj-ba-panel .panel > .panel-body {
+  .mj-ba-panel .panel>.panel-body {
     padding: 0px;
     overflow: hidden;
   }
@@ -409,7 +447,8 @@
     border-radius: 5px;
   }
 
-  .widgets .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default, .widgets .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
+  .widgets .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default,
+  .widgets .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
     background: #e85656 !important;
     color: #FFFFFF !important;
   }
@@ -434,12 +473,12 @@
     font-size: 13px;
   }
 
-  .widgets-table-box .table > tbody > tr > td {
+  .widgets-table-box .table>tbody>tr>td {
     padding: 4px !important;
     text-align: center;
   }
 
-  .widgets-table-box .table > tbody > tr > td button.btn[disabled] {
+  .widgets-table-box .table>tbody>tr>td button.btn[disabled] {
     opacity: 1;
   }
 
@@ -458,9 +497,11 @@
     overflow: hidden;
     overflow-y: auto;
   }
-  .cssanimations{
+
+  .cssanimations {
     margin: 15px 0;
   }
+
   .cssanimations .cd-timeline-img {
     width: 40px;
     height: 40px;
